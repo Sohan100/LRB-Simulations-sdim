@@ -28,7 +28,8 @@ GATE_FUNCTIONS: dict[int, Callable] = {
     14: apply_measure, # Measure gate in computational basis
     15: apply_measure_x, # Measure gate in X basis
     16: apply_reset, # Reset gate
-    17: apply_I # Single qudit Pauli noise gate, implemented in Pauli frame, applied as I in noiseless reference tableau
+    17: apply_I, # Single qudit Pauli noise gate, implemented in Pauli frame, applied as I in noiseless reference tableau
+    18: apply_I # 2 qudit Pauli noise gate, implemented in Pauli frame, applied as I in noiseless ref.  Input is a distribution on Pauli operators, shape is (d, d, d, d)
 }
 
 MEASUREMENT_DTYPE = np.dtype([
@@ -156,11 +157,23 @@ def simulate_frame(ir_array: np.ndarray, reference_results: np.ndarray,
             z_frame[q] = np.random.randint(0, dimension, size=extra_shots)
             measurement_counts[q] += 1
             
-        elif gate_id == 17:  # Noise
+        elif gate_id == 17:  # 1 qudit noise
             x_frame[qudit_index] += noise_array[noise_counter, :, 0]
             z_frame[qudit_index] += noise_array[noise_counter, :, 1]
             noise_counter += 1
+
+        elif gate_id == 18: # 2 qudit noise
+            #print(f" {noise_array[noise_counter, :, 0]} \n {noise_array[noise_counter, :, 1]} \n {noise_array[noise_counter, :, 2]} \n {noise_array[noise_counter, :, 3]} \n\n")
+            x_frame[qudit_index] += noise_array[noise_counter, :, 0]
+            z_frame[qudit_index] += noise_array[noise_counter, :, 1]
+            x_frame[target_index] += noise_array[noise_counter, :, 2]
+            z_frame[target_index] += noise_array[noise_counter, :, 3]
+            noise_counter += 1
+
         gate_count += 1
+        
+        
+    
     
     return frame_results
 
@@ -506,8 +519,25 @@ class Program:
                     a[mask] = 0
                     b[mask] = 0
 
-                    pair = np.stack((a, b), axis=1)
+                    zero_vec = [0,] * extra_shots
+                    pair = np.stack((a, b, zero_vec, zero_vec), axis=1)
                     noise_list.append(pair)
+
+                if instruction.gate_id == 18:
+                    distribution = instruction.params['prob_dist']
+                    
+                    powers = list(np.ndindex((dimension, ) * 4))
+
+                    if len(distribution) == (dimension ** 4):
+                        powers = list(np.ndindex((dimension, ) * 4))
+                        noise_indices = np.random.choice(a=len(powers), size=extra_shots, p=distribution)
+                        noise = np.array( [powers[i] for i in noise_indices] )
+                        noise_list.append(noise)
+                    else: # If the list doesn't have a valid shape, then the channel acts as identity.
+                        zero_vec = [0,] * extra_shots
+                        noise = np.stack((zero_vec, ) * 4, axis=1)
+                        noise_list.append(noise)
+
 
         ir_dtype = np.dtype([
             ('gate_id', np.int64),
@@ -522,7 +552,7 @@ class Program:
         else:
             noise_array = np.empty((1, extra_shots, 2), dtype=np.int64)
 
-
+        #print(noise_array)
         return ir_array, noise_array
 
     def append_circuit(self, circuit: Circuit):

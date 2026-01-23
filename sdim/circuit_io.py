@@ -110,7 +110,7 @@ def write_circuit(circuit: Circuit, output_file: str = "random_circuit.chp", com
 
     for gate in circuit.operations:
         gate_str = gate.gate_name
-        print("Gate is " + gate_str)
+        #print("Gate is " + gate_str)
         if gate.target_index is not None:
             gate_str += f" {gate.qudit_index} {gate.target_index}"
         else:

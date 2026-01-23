@@ -83,8 +83,9 @@ class Circuit:
             target (int, List[int], or None, optional): The index or indices of the target qudit(s).
 
         Optional parameters:
-            channel (str): Channel type for noise.  Valid channels are "f", "p", and "d" for flip errors, phase errors, and depolarizing noise, respectively
-            prob (float): Probability associated with the noise channel.
+            channel (str): Channel type for a single qudit noise event.  Valid channels are "f", "p", and "d" for flip errors, phase errors, and depolarizing noise, respectively.
+            prob (float): Probability associated with the single qudit noise channel.
+            prob_dist (List[float]): Probability distribution associated with a general Pauli channel.  An n-qudit Pauli channel applies powers of Pauli X and Pauli Z to n distinct qudits, which can be written as a tuple of powers (x_1, z_1,   x_2, x_2,   ...,  x_n, z_n).  The j-th entry in the distribution is the probability that the channel applies an n-qudit Pauli corresponding to the j-th tuple in lexicographic order of n-qudit tuples of Pauli powers.
 
         Returns:
             Circuit: The current Circuit object with the added operation(s).
@@ -122,7 +123,7 @@ class Circuit:
 
         # Add instructions for all qubit pairs
         for c, t in qubit_pairs:
-            self.operations.append(CircuitInstruction(self.gate_data, gate_name.upper(), c, t))
+            self.operations.append(CircuitInstruction(self.gate_data, gate_name.upper(), c, t, params=kwargs))
         return
 
     def __mul__(self, repetitions:int):
