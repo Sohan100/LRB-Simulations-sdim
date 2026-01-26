@@ -103,7 +103,7 @@ class GateData:
 
         self.add_gate("N2", 2)
         self.add_gate_alias("N2", ["NOISE2"])
-        default_dist = np.ones(d ** 4) * (d ** 4)
+        default_dist = np.ones(d ** 4) / (d ** 4)
         self.gateMap["N2"].defaults = {"prob_dist": default_dist}
 
     def get_gate_id(self, gate_name):

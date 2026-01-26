@@ -163,7 +163,6 @@ def simulate_frame(ir_array: np.ndarray, reference_results: np.ndarray,
             noise_counter += 1
 
         elif gate_id == 18: # 2 qudit noise
-            #print(f" {noise_array[noise_counter, :, 0]} \n {noise_array[noise_counter, :, 1]} \n {noise_array[noise_counter, :, 2]} \n {noise_array[noise_counter, :, 3]} \n\n")
             x_frame[qudit_index] += noise_array[noise_counter, :, 0]
             z_frame[qudit_index] += noise_array[noise_counter, :, 1]
             x_frame[target_index] += noise_array[noise_counter, :, 2]
@@ -525,18 +524,14 @@ class Program:
 
                 if instruction.gate_id == 18:
                     distribution = instruction.params['prob_dist']
+
+                    if len(distribution) != (dimension ** 4):
+                        raise ValueError(f"Input distribution has length {len(distribution)} instead of the required {(dimension ** 4)}.")
                     
                     powers = list(np.ndindex((dimension, ) * 4))
-
-                    if len(distribution) == (dimension ** 4):
-                        powers = list(np.ndindex((dimension, ) * 4))
-                        noise_indices = np.random.choice(a=len(powers), size=extra_shots, p=distribution)
-                        noise = np.array( [powers[i] for i in noise_indices] )
-                        noise_list.append(noise)
-                    else: # If the list doesn't have a valid shape, then the channel acts as identity.
-                        zero_vec = [0,] * extra_shots
-                        noise = np.stack((zero_vec, ) * 4, axis=1)
-                        noise_list.append(noise)
+                    noise_indices = np.random.choice(a=len(powers), size=extra_shots, p=distribution)
+                    noise = np.array( [powers[i] for i in noise_indices] )
+                    noise_list.append(noise)
 
 
         ir_dtype = np.dtype([
