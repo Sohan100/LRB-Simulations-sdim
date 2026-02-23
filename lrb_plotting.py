@@ -50,7 +50,7 @@ class LRBPlotFitConfig:
     min_fit_points_lrb: int = 2
     min_fit_points_rb: int = 2
     f_min: float = 1e-8
-    f_max: float = 1.000000
+    f_max: float = 1.0000000000
 
 
 @dataclass(frozen=True)
@@ -128,6 +128,10 @@ class LRBResultsPlotter:
         plot_one_unif_check(check_num, show=True): Plot one uniform check.
         plot_one_const_check(check_num, show=True): Plot one constant check.
     """
+    _CODE_TITLE_BY_NAME: dict[str, str] = {
+        "qgrm_3_1_2": r"$[[3,1,2]]_3$",
+        "folded_qutrit": r"$[[5,1,2]]_3$",
+    }
 
     def __init__(
         self,
@@ -198,6 +202,52 @@ class LRBResultsPlotter:
             value = ExperimentSetupManager.fetch_single_param(d_path)
             if value not in ("", "0"):
                 self.d_dim = int(value)
+
+        code_name_path = os.path.join(self.working_folder, "code_name.txt")
+        self.code_name = "unknown_code"
+        if os.path.exists(code_name_path):
+            value = ExperimentSetupManager.fetch_single_param(code_name_path)
+            if value not in ("", "0"):
+                self.code_name = value
+        self.code_title = self._format_code_title(self.code_name)
+
+    @classmethod
+    def _format_code_title(cls, code_name: str) -> str:
+        """
+        Format the code-family fragment used in figure titles.
+
+        Args:
+            code_name (str): Run code identifier.
+
+        Returns:
+            str: Pretty title token, falling back to ``code_name``.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        return cls._CODE_TITLE_BY_NAME.get(code_name, code_name)
+
+    def _title_context(self, check_type: str, check_num: int) -> str:
+        """
+        Build shared title context with check type, q, and code family.
+
+        Args:
+            check_type (str): ``"unif"`` or ``"const"``.
+            check_num (int): Check policy value.
+
+        Returns:
+            str: Title-context fragment.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        if check_type == "unif":
+            check_label = "uniform interval check"
+        elif check_type == "const":
+            check_label = "constant check"
+        else:
+            check_label = "check"
+        return f"{check_label} = {check_num}, q={self.d_dim}, {self.code_title}"
 
     @staticmethod
     def _extract_series(
@@ -661,16 +711,23 @@ class LRBResultsPlotter:
         lrb_means = self._extract_series(lrb_f_stats, "mean", len(self.depths))
         lrb_errs = self._extract_series(lrb_f_stats, "std", len(self.depths))
         x_l, y_l, e_l = self._mask_invalid(self.depths, lrb_means, lrb_errs)
-        ax.errorbar(x_l, y_l, yerr=e_l, fmt="o", label="LRB")
+        ax.errorbar(x_l, y_l, yerr=e_l, fmt="-o", label="LRB")
+        y_candidates = list(y_l)
 
         if rb_f_stats is not None:
             rb_means = self._extract_series(
                 rb_f_stats, "mean", len(self.depths))
             rb_errs = self._extract_series(rb_f_stats, "std", len(self.depths))
             x_r, y_r, e_r = self._mask_invalid(self.depths, rb_means, rb_errs)
-            ax.errorbar(x_r, y_r, yerr=e_r, fmt="s", label="RB")
+            ax.errorbar(x_r, y_r, yerr=e_r, fmt="-s", label="RB")
+            y_candidates.extend(y_r)
 
-        ax.set_ylim(0, 1.05)
+        if y_candidates:
+            y_min = float(min(y_candidates)) - 0.2
+        else:
+            y_min = 0.0
+        y_max = max(1.05, y_min + 0.05)
+        ax.set_ylim(y_min, y_max)
         ax.set_ylabel("Expectation Value of Logical X")
         ax.legend(fontsize=8)
 
@@ -711,6 +768,9 @@ class LRBResultsPlotter:
                 linewidth=1,
                 color=lrb_data.lines[0].get_color(),
             )
+            y_candidates = list(y_l) + list(y_fit)
+        else:
+            y_candidates = list(y_l)
 
         if rb_f_stats is not None:
             rb_fit, (x_r, y_r, e_r) = self._fit_rb_from_stats(rb_f_stats)
@@ -731,8 +791,15 @@ class LRBResultsPlotter:
                     linewidth=1,
                     color=rb_data.lines[0].get_color(),
                 )
+                y_candidates.extend(list(y_fit))
+            y_candidates.extend(y_r)
 
-        ax.set_ylim(0, 1.05)
+        if y_candidates:
+            y_min = float(min(y_candidates)) - 0.2
+        else:
+            y_min = 0.0
+        y_max = max(1.05, y_min + 0.05)
+        ax.set_ylim(y_min, y_max)
         ax.set_ylabel("Expectation Value of Logical X")
         ax.legend(fontsize=8)
 
@@ -813,13 +880,12 @@ class LRBResultsPlotter:
         cell(n_rows - 1, 0).set_xlabel("Depth")
         cell(n_rows - 1, 1).set_xlabel("Depth")
 
-        mode = "Fit" if use_fits else "NoFit"
         fig.suptitle(
-            f"LRB vs RB ({check_type}={check_num}, q={self.d_dim}, {mode})",
+            f"LRB vs RB ({self._title_context(check_type, check_num)})",
             fontsize=14,
             y=1.01,
         )
-        fig.savefig(out_path, dpi=300)
+        self._save_pdf_overwrite(fig=fig, out_path=out_path, dpi=300)
         if show:
             plt.show()
         plt.close(fig)
@@ -1124,6 +1190,42 @@ class LRBResultsPlotter:
             current = np.isfinite(np.asarray(array, dtype=float))
             mask = current if mask is None else (mask & current)
         return mask
+
+    @staticmethod
+    def _save_pdf_overwrite(
+        fig: Any,
+        out_path: str,
+        dpi: int = 300,
+        bbox_inches: str | None = None,
+    ) -> None:
+        """
+        Save one PDF and explicitly replace any existing file at the same path.
+
+        Args:
+            fig (Any): Matplotlib figure object.
+            out_path (str): Destination PDF path.
+            dpi (int): DPI passed to ``savefig``.
+            bbox_inches (str | None): Optional bbox policy.
+
+        Returns:
+            None: Writes file to disk.
+
+        Raises:
+            PermissionError: If another application is locking the PDF.
+        """
+        os.makedirs(os.path.dirname(out_path), exist_ok=True)
+        try:
+            if os.path.exists(out_path):
+                os.remove(out_path)
+            save_kwargs: dict[str, Any] = {"dpi": dpi}
+            if bbox_inches is not None:
+                save_kwargs["bbox_inches"] = bbox_inches
+            fig.savefig(out_path, **save_kwargs)
+        except PermissionError as exc:
+            raise PermissionError(
+                f"Could not overwrite '{out_path}'. "
+                "Close any app locking the PDF and rerun."
+            ) from exc
 
     @staticmethod
     def _trim_garbage_tail_by_monotone_dip(
@@ -1453,7 +1555,11 @@ class LRBResultsPlotter:
         plt.ylim(ymin, ymax)
         plt.xlabel("physical noise parameter p")
         plt.ylabel("error rate (1 - fidelity)")
-        plt.title(f"unif={check_num}: error rates vs p (zoom near threshold)")
+        plt.title(
+            "LRB vs RB "
+            f"({self._title_context('unif', check_num)}): "
+            "error rates vs p"
+        )
         plt.grid(True)
         plt.legend()
         plt.tight_layout()
@@ -1462,7 +1568,12 @@ class LRBResultsPlotter:
             self.out_dir,
             f"unif-{check_num}-error-vs-p-threshold-monotone.pdf",
         )
-        plt.savefig(out_path, dpi=300, bbox_inches="tight")
+        self._save_pdf_overwrite(
+            fig=plt.gcf(),
+            out_path=out_path,
+            dpi=300,
+            bbox_inches="tight",
+        )
         if show:
             plt.show()
         plt.close()
@@ -1550,7 +1661,13 @@ class LRBResultsPlotter:
 
         plt.figure(figsize=(7.2, 6.2))
         # Plot the RB-vs-LRB trajectory in increasing-p order.
-        plt.plot(r_win, l_win, "-o", markersize=4, label="(RB(p), LRB(p))")
+        plt.plot(
+            r_win,
+            l_win,
+            "-o",
+            markersize=4,
+            label="(RB(p), LRB(p)) p-order",
+        )
         lo = max(xmin, ymin)
         hi = min(xmax, ymax)
         if hi > lo:
@@ -1571,7 +1688,10 @@ class LRBResultsPlotter:
         plt.ylim(ymin, ymax)
         plt.xlabel("RB error rate (1 - fidelity)")
         plt.ylabel("LRB error rate (1 - fidelity)")
-        plt.title(f"unif={check_num}: LRB vs RB (p-window near threshold)")
+        plt.title(
+            "LRB vs RB "
+            f"({self._title_context('unif', check_num)})"
+        )
         plt.grid(True)
         plt.legend()
         plt.tight_layout()
@@ -1580,7 +1700,12 @@ class LRBResultsPlotter:
             self.out_dir,
             f"unif-{check_num}-lrb-vs-rb-threshold-monotone.pdf",
         )
-        plt.savefig(out_path, dpi=300, bbox_inches="tight")
+        self._save_pdf_overwrite(
+            fig=plt.gcf(),
+            out_path=out_path,
+            dpi=300,
+            bbox_inches="tight",
+        )
         if show:
             plt.show()
         plt.close()
@@ -1775,3 +1900,211 @@ class LRBResultsPlotter:
         summary.to_csv(out_summary, index=False)
         print(f"[OK] wrote {out_summary}")
         return out_summary
+
+    def plot_unif_thresholds_monotone_worse_trim_tail_zoom_focus_pwindow(
+        self,
+        threshold_config: LRBThresholdConfig | None = None,
+        table_csv_path: str | None = None,
+        show: bool = True,
+    ) -> str:
+        """
+        Compatibility wrapper for the standalone monotone-threshold script flow.
+
+        This method keeps the same behavior and outputs as
+        ``plot_all_unif_threshold_graphs``:
+          - ``unif-<CHECK>-error-vs-p-threshold-monotone.pdf``
+          - ``unif-<CHECK>-lrb-vs-rb-threshold-monotone.pdf``
+          - ``unif_thresholds_summary_monotone_trim_zoom_pwindow.csv``
+        """
+        return self.plot_all_unif_threshold_graphs(
+            threshold_config=threshold_config,
+            table_csv_path=table_csv_path,
+            show=show,
+        )
+
+    def plot_unif_pseudo_thresholds_vs_interval_check(
+        self,
+        check_min: int = 1,
+        check_max: int = 4,
+        summary_csv_path: str | None = None,
+        do_fit: bool = True,
+        fit_model: str = "exp",
+        fit_degree: int = 1,
+        show: bool = True,
+    ) -> str:
+        """
+        Plot pseudo-threshold ``p`` versus uniform interval-check number.
+
+        The method reads the threshold summary CSV, keeps checks in
+        ``[check_min, check_max]``, and optionally overlays a fit model
+        (exponential by default, polynomial optional). If the threshold
+        summary does not exist yet, it is generated automatically.
+
+        Args:
+            check_min (int): Inclusive lower bound of unif check numbers.
+            check_max (int): Inclusive upper bound of unif check numbers.
+            summary_csv_path (str | None): Optional threshold summary CSV path.
+            do_fit (bool): Whether to overlay a polynomial fit.
+            fit_model (str): ``"exp"`` or ``"poly"`` fit model.
+            fit_degree (int): Requested polynomial degree for fitting.
+            show (bool): Whether to display the figure.
+
+        Returns:
+            str: Output PDF path for the pseudo-threshold fit plot.
+
+        Raises:
+            RuntimeError: If pandas is unavailable.
+            FileNotFoundError: If summary CSV is missing and cannot be built.
+            ValueError: If no finite thresholds exist in the selected range.
+        """
+        if pd is None:
+            raise RuntimeError("pandas is required for pseudo-threshold plots.")
+        if check_min > check_max:
+            raise ValueError("check_min must be <= check_max.")
+        fit_model = fit_model.strip().lower()
+        if fit_model not in ("exp", "poly"):
+            raise ValueError("fit_model must be 'exp' or 'poly'.")
+
+        if summary_csv_path is None:
+            summary_csv_path = os.path.join(
+                self.out_dir,
+                "unif_thresholds_summary_monotone_trim_zoom_pwindow.csv",
+            )
+        if not os.path.exists(summary_csv_path):
+            summary_csv_path = self.plot_all_unif_threshold_graphs(show=False)
+        if not os.path.exists(summary_csv_path):
+            raise FileNotFoundError(f"Missing summary CSV: {summary_csv_path}")
+
+        frame = pd.read_csv(summary_csv_path)
+        for col in ("check_num", "threshold_p"):
+            if col not in frame.columns:
+                raise KeyError(f"Missing column '{col}' in {summary_csv_path}")
+
+        sub = frame[
+            (frame["check_num"] >= int(check_min))
+            & (frame["check_num"] <= int(check_max))
+        ].copy()
+        sub = sub[np.isfinite(sub["threshold_p"])].copy()
+        sub = sub.sort_values("check_num").reset_index(drop=True)
+        if sub.empty:
+            raise ValueError(
+                "No finite pseudo-threshold points in the selected check range."
+            )
+
+        x = sub["check_num"].to_numpy(dtype=float)
+        y = sub["threshold_p"].to_numpy(dtype=float)
+
+        fig, ax = plt.subplots(figsize=(7.6, 5.2))
+        ax.set_axisbelow(True)
+        ax.scatter(
+            x,
+            y,
+            s=36,
+            zorder=3,
+            edgecolors="white",
+            linewidths=0.6,
+            label="pseudo-threshold data",
+        )
+
+        degree = max(0, int(fit_degree))
+        degree = min(degree, len(x) - 1)
+        if do_fit and len(x) >= 2:
+            x_fit = np.linspace(float(np.min(x)), float(np.max(x)), 200)
+            if fit_model == "exp":
+                positive = y > 0.0
+                if int(np.sum(positive)) < 2:
+                    print(
+                        "[FIT] skipped exponential fit: need at least two "
+                        "positive pseudo-threshold values."
+                    )
+                else:
+                    slope, intercept = np.polyfit(
+                        x[positive],
+                        np.log(y[positive]),
+                        1,
+                    )
+                    y_fit = np.exp(intercept + slope * x_fit)
+                    ax.plot(
+                        x_fit,
+                        y_fit,
+                        "--",
+                        linewidth=1.5,
+                        zorder=2,
+                        label="exp fit",
+                    )
+
+                    y_hat = np.exp(intercept + slope * x)
+                    ss_res = float(np.sum((y - y_hat) ** 2))
+                    ss_tot = float(np.sum((y - np.mean(y)) ** 2))
+                    r2 = np.nan if ss_tot <= 0 else 1.0 - (ss_res / ss_tot)
+                    print(
+                        "[FIT] exponential pseudo-threshold fit: "
+                        f"p ~= exp({intercept:.6g} + {slope:.6g}*k), "
+                        f"R^2={r2:.6g}"
+                    )
+            elif degree >= 1:
+                coeff = np.polyfit(x, y, degree)
+                poly = np.poly1d(coeff)
+                y_fit = poly(x_fit)
+                ax.plot(
+                    x_fit,
+                    y_fit,
+                    "--",
+                    linewidth=1.5,
+                    zorder=2,
+                    label="poly fit",
+                )
+
+                y_hat = poly(x)
+                ss_res = float(np.sum((y - y_hat) ** 2))
+                ss_tot = float(np.sum((y - np.mean(y)) ** 2))
+                r2 = np.nan if ss_tot <= 0 else 1.0 - (ss_res / ss_tot)
+                if degree == 1:
+                    slope = float(coeff[0])
+                    intercept = float(coeff[1])
+                    print(
+                        "[FIT] linear pseudo-threshold fit: "
+                        f"p ~= {slope:.6g}*k + {intercept:.6g}, R^2={r2:.6g}"
+                    )
+                else:
+                    print(
+                        "[FIT] polynomial pseudo-threshold fit: "
+                        f"degree={degree}, R^2={r2:.6g}"
+                    )
+            else:
+                print(
+                    "[FIT] skipped polynomial fit: "
+                    "insufficient points or degree=0."
+                )
+        else:
+            print("[FIT] fit disabled by do_fit=False.")
+
+        ax.set_xlabel("uniform interval check number")
+        ax.set_ylabel("pseudo-threshold p")
+        ax.set_title(
+            "Pseudo-threshold vs uniform interval check "
+            f"(q={self.d_dim}, {self.code_title})"
+        )
+        tick_start = int(np.floor(np.min(x)))
+        tick_end = int(np.ceil(np.max(x)))
+        ax.set_xticks(list(range(tick_start, tick_end + 1)))
+        ax.grid(True, zorder=0)
+        ax.legend()
+        fig.tight_layout()
+
+        out_path = os.path.join(
+            self.out_dir,
+            f"unif-{int(check_min)}-to-{int(check_max)}-"
+            "pseudo-threshold-vs-interval-check-fit.pdf",
+        )
+        self._save_pdf_overwrite(
+            fig=fig,
+            out_path=out_path,
+            dpi=300,
+            bbox_inches="tight",
+        )
+        if show:
+            plt.show()
+        plt.close(fig)
+        print(f"[OK] wrote {out_path}")
+        return out_path

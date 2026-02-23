@@ -1,0 +1,15 @@
+/pscratch/sd/s/sohan100/LRB_simulations_sdim/lrb_simulation.py:933: RuntimeWarning: invalid value encountered in scalar divide
+  tallies[i] / num_accepted_runs for i in range(dimension)
+We have to process 1000000 shots.
+Resuming experiments for error probability 0.0547144504
+Finished in 53597.81044626236 seconds!
+Progress saved, need to process 500000 more shots.
+Resuming experiments for error probability 0.0547144504
+Finished in 53938.60084152222 seconds!
+Progress saved, need to process 0 more shots.
+Wrote logical test data to the following directories:
+LRB-experiment-data-slurm/Run-2026-02-18-19-45-04-folded_qutrit/results/LRB/9/const_check_data/
+LRB-experiment-data-slurm/Run-2026-02-18-19-45-04-folded_qutrit/results/LRB/9/unif_check_data/
+Running physical circuit...
+Finished in 16.21880793571472 seconds!
+Wrote physical test results to LRB-experiment-data-slurm/Run-2026-02-18-19-45-04-folded_qutrit/results/RB/9.csv

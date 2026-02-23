@@ -1,0 +1,1597 @@
+Randomly-generated Clifford group quantum circuit
+#
+d 3
+H_INV 2
+H_INV 3
+H_INV 4
+CNOT_INV 2 1
+CNOT 1 0
+CNOT 3 0
+CNOT 4 2
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+X 0
+X 3
+X 0
+X 3
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+X 0
+X 3
+X 0
+X 3
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+Z 0
+Z 2
+Z 0
+Z 2
+X 0
+X 3
+X 0
+X 3
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+Z 0
+Z 2
+X 0
+X 3
+X 0
+X 3
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+X 0
+X 3
+X 0
+X 3
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+Z 0
+Z 2
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+X 0
+X 3
+X 0
+X 3
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+Z 0
+Z 2
+X 0
+X 3
+X 0
+X 3
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+Z 0
+Z 2
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+X 0
+X 3
+Z 0
+Z 2
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+P 0
+P 4
+P_INV 1
+CZ 2 3
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+Z 0
+Z 2
+Z 0
+Z 2
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+SWAP 2 3
+H 0
+H 2
+H 3
+H 4
+H_INV 1
+X 0
+X 3
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+RESET 5
+RESET 6
+RESET 7
+RESET 8
+X_INV 0
+X_INV 3
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+Z_INV 0
+Z_INV 2
+Z_INV 0
+Z_INV 2
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+Z_INV 0
+Z_INV 2
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+Z_INV 0
+Z_INV 2
+Z_INV 0
+Z_INV 2
+X_INV 0
+X_INV 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+Z_INV 0
+Z_INV 2
+Z_INV 0
+Z_INV 2
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+X_INV 0
+X_INV 3
+X_INV 0
+X_INV 3
+Z_INV 0
+Z_INV 2
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+Z_INV 0
+Z_INV 2
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+X_INV 0
+X_INV 3
+X_INV 0
+X_INV 3
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+Z_INV 0
+Z_INV 2
+Z_INV 0
+Z_INV 2
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+Z_INV 0
+Z_INV 2
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+X_INV 0
+X_INV 3
+X_INV 0
+X_INV 3
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+X_INV 0
+X_INV 3
+X_INV 0
+X_INV 3
+Z_INV 0
+Z_INV 2
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+X_INV 0
+X_INV 3
+X_INV 0
+X_INV 3
+Z_INV 0
+Z_INV 2
+Z_INV 0
+Z_INV 2
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+Z_INV 0
+Z_INV 2
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+X_INV 0
+X_INV 3
+X_INV 0
+X_INV 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+Z_INV 0
+Z_INV 2
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+X_INV 0
+X_INV 3
+X_INV 0
+X_INV 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+Z_INV 0
+Z_INV 2
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+CZ_INV 2 3
+P 1
+P_INV 0
+P_INV 4
+H 1
+H_INV 0
+H_INV 2
+H_INV 3
+H_INV 4
+SWAP 2 3
+N1 0 noise_channel=d prob=0.0362021775 channel=d
+N1 1 noise_channel=d prob=0.0362021775 channel=d
+N1 2 noise_channel=d prob=0.0362021775 channel=d
+N1 3 noise_channel=d prob=0.0362021775 channel=d
+N1 4 noise_channel=d prob=0.0362021775 channel=d
+CNOT 0 5
+N2 0 5 prob=0.0362021775
+CNOT_INV 1 5
+N2 1 5 prob=0.0362021775
+CNOT_INV 3 5
+N2 3 5 prob=0.0362021775
+M 5
+CNOT 1 6
+N2 1 6 prob=0.0362021775
+CNOT 2 6
+N2 2 6 prob=0.0362021775
+CNOT_INV 4 6
+N2 4 6 prob=0.0362021775
+M 6
+H 7
+N1 7 noise_channel=d prob=0.0362021775
+CNOT 7 0
+N2 7 0 prob=0.0362021775
+CNOT 7 1
+N2 7 1 prob=0.0362021775
+CNOT_INV 7 2
+N2 7 2 prob=0.0362021775
+H_INV 7
+N1 7 noise_channel=d prob=0.0362021775
+M 7
+H 8
+N1 8 noise_channel=d prob=0.0362021775
+CNOT 8 3
+N2 8 3 prob=0.0362021775
+CNOT_INV 8 1
+N2 8 1 prob=0.0362021775
+CNOT_INV 8 4
+N2 8 4 prob=0.0362021775
+H_INV 8
+N1 8 noise_channel=d prob=0.0362021775
+M 8
+H_INV 0
+H_INV 3
+M 0
+M 3

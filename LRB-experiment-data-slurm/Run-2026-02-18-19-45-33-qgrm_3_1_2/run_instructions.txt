@@ -1,0 +1,3 @@
+If you want to run a test for a specific probability, invoke the following:
+python3 run_lrb_experiment.py <experiment-folder-name> <error-probability-index>
+Though you likely want to use a slurm script to run all of these at once!

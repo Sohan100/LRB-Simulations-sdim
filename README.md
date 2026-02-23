@@ -102,8 +102,19 @@ profiles, while simulation and generation remain generic:
     - const no-fit plots
     - mixed-fit CSV tables
     - unif threshold/error-rate graphs
+    - pseudo-threshold vs unif-interval-check plots
 - `Visualize LRB Stab Check Results.ipynb`
-  - Output-only notebook that calls `lrb_plotting.py`.
+  - Notebook that runs the plotting pipeline for both:
+    - folded qutrit `[[5,1,2]]_3`
+    - qutrit QGRM `[[3,1,2]]_3`
+  - Includes unif-fit plots, const no-fit plots, threshold plots, and
+    pseudo-threshold-vs-interval-check fits.
+- `Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3/`
+  - Curated QGRM result-plot snapshot folder (copied plot outputs).
+- `Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/`
+  - Curated folded-code result-plot snapshot folder (copied plot outputs).
+- `Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3.zip`
+  - Archived copy of the QGRM plot snapshot folder.
 
 ## Prerequisites
 
@@ -164,10 +175,18 @@ Open and run notebook:
 
 The notebook currently does:
 
-1. Uniform-check summary plots (with fits).
-2. Constant-check summary plots (no fits).
-3. Mixed-fit unif LRB-vs-RB tables.
-4. Unif threshold/error-rate plots + summary CSV.
+1. Folded `[[5,1,2]]_3` section:
+   - Uniform interval-check summary plots (with fits).
+   - Constant-check summary plots (no fits).
+   - Mixed-fit unif LRB-vs-RB table build.
+   - Unif threshold/error-rate plots + summary CSV.
+   - Pseudo-threshold vs unif interval check plot (`unif 1..4`).
+2. QGRM `[[3,1,2]]_3` section:
+   - Uniform interval-check summary plots (with fits).
+   - Constant-check summary plots (no fits).
+   - Mixed-fit unif LRB-vs-RB table build.
+   - Unif threshold/error-rate plots + summary CSV.
+   - Pseudo-threshold vs unif interval check plot (`unif 1..4`).
 
 ## Working Folder Markers
 
@@ -281,6 +300,16 @@ summary_csv = plotter.plot_all_unif_threshold_graphs(
     table_csv_path=table_csv,
     show=True,
 )
+
+plotter.plot_unif_pseudo_thresholds_vs_interval_check(
+    check_min=1,
+    check_max=4,
+    summary_csv_path=summary_csv,
+    do_fit=True,
+    fit_model="exp",   # or "poly"
+    fit_degree=1,      # used when fit_model="poly"
+    show=True,
+)
 ```
 
 ### Plot outputs
@@ -299,6 +328,29 @@ Threshold plots:
 - `results/plots/unif-<CHECK>-error-vs-p-threshold-monotone.pdf`
 - `results/plots/unif-<CHECK>-lrb-vs-rb-threshold-monotone.pdf`
 - `results/plots/unif_thresholds_summary_monotone_trim_zoom_pwindow.csv`
+
+Pseudo-threshold plots:
+- `results/plots/unif-<MIN>-to-<MAX>-pseudo-threshold-vs-interval-check-fit.pdf`
+
+## Curated Result Folders
+
+In addition to run-local outputs under
+`LRB-experiment-data-slurm/Run-.../results/plots/`, this repo currently
+includes curated snapshot folders at the repository root:
+
+- `Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3/`
+- `Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/`
+
+These folders contain copied plot artifacts (PDFs and selected CSV summaries)
+for quick sharing/comparison outside the run-folder tree.
+Raw simulation data remains under:
+`LRB-experiment-data-slurm/Run-.../results/LRB/` and
+`LRB-experiment-data-slurm/Run-.../results/RB/`.
+
+The folded snapshot also contains:
+
+- `Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/old/`
+  (older plot versions kept for reference).
 
 ## Stats CSV Format
 

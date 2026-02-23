@@ -1,0 +1,261 @@
+Randomly-generated Clifford group quantum circuit
+#
+d 3
+P 0
+H 0
+P 0
+H 0
+H 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+H 0
+P 0
+H 0
+Z 0
+Z 0
+X 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+H 0
+P 0
+H 0
+H 0
+X 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+P 0
+H 0
+X 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+H 0
+H 0
+X 0
+Z 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+P 0
+H 0
+P 0
+Z 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+H 0
+P 0
+H 0
+Z 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+H 0
+P 0
+H 0
+Z 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+P 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+H 0
+P 0
+H 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+H 0
+P 0
+H 0
+P 0
+P 0
+Z 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+H 0
+P 0
+P 0
+X 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+X 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+H 0
+P 0
+H 0
+Z 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+H 0
+P 0
+Z 0
+X 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+H 0
+H 0
+H 0
+X 0
+Z 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+H 0
+H 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+X 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+P 0
+H 0
+P 0
+H 0
+X 0
+Z 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+H 0
+P 0
+X 0
+Z 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+P 0
+H 0
+Z 0
+Z 0
+X 0
+X 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+H 0
+P 0
+H 0
+H 0
+H 0
+Z 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+Z_INV 0
+H_INV 0
+H_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+X_INV 0
+X_INV 0
+Z_INV 0
+Z_INV 0
+H_INV 0
+P_INV 0
+Z_INV 0
+Z_INV 0
+X_INV 0
+P_INV 0
+H_INV 0
+P_INV 0
+Z_INV 0
+Z_INV 0
+X_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+P_INV 0
+P_INV 0
+X_INV 0
+X_INV 0
+P_INV 0
+X_INV 0
+H_INV 0
+H_INV 0
+P_INV 0
+Z_INV 0
+Z_INV 0
+X_INV 0
+H_INV 0
+H_INV 0
+H_INV 0
+X_INV 0
+X_INV 0
+Z_INV 0
+P_INV 0
+H_INV 0
+X_INV 0
+Z_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+X_INV 0
+X_INV 0
+X_INV 0
+X_INV 0
+P_INV 0
+P_INV 0
+H_INV 0
+X_INV 0
+Z_INV 0
+P_INV 0
+P_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+P_INV 0
+Z_INV 0
+P_INV 0
+P_INV 0
+Z_INV 0
+Z_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+Z_INV 0
+Z_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+P_INV 0
+Z_INV 0
+Z_INV 0
+P_INV 0
+H_INV 0
+P_INV 0
+P_INV 0
+Z_INV 0
+Z_INV 0
+X_INV 0
+H_INV 0
+H_INV 0
+X_INV 0
+X_INV 0
+H_INV 0
+P_INV 0
+P_INV 0
+X_INV 0
+X_INV 0
+H_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+X_INV 0
+X_INV 0
+Z_INV 0
+Z_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+P_INV 0
+Z_INV 0
+H_INV 0
+H_INV 0
+P_INV 0
+H_INV 0
+P_INV 0
+N1 0 noise_channel=d prob=0.000615848211 channel=d
+M 0

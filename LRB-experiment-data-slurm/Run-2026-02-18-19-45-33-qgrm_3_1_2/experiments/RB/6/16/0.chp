@@ -1,0 +1,5 @@
+Randomly-generated Clifford group quantum circuit
+#
+d 3
+N1 0 noise_channel=d prob=0.206913808 channel=d
+M 0

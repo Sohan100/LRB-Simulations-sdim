@@ -1,0 +1,13 @@
+We have to process 1000000 shots.
+Resuming experiments for error probability 0.000615848211
+Finished in 54591.34445095062 seconds!
+Progress saved, need to process 500000 more shots.
+Resuming experiments for error probability 0.000615848211
+Finished in 54917.26516032219 seconds!
+Progress saved, need to process 0 more shots.
+Wrote logical test data to the following directories:
+LRB-experiment-data-slurm/Run-2026-02-18-19-45-04-folded_qutrit/results/LRB/1/const_check_data/
+LRB-experiment-data-slurm/Run-2026-02-18-19-45-04-folded_qutrit/results/LRB/1/unif_check_data/
+Running physical circuit...
+Finished in 15.336185216903687 seconds!
+Wrote physical test results to LRB-experiment-data-slurm/Run-2026-02-18-19-45-04-folded_qutrit/results/RB/1.csv
