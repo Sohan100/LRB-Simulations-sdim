@@ -938,8 +938,9 @@ class LRBSimulationPipeline:
     
                 fidelities[k, ng] = fidelity
     
-            #rejected_runs /= shots
-            normalized_rejected_runs = rejected_runs / shots
+            # Normalize by total submitted shots so rejected proportion stays
+            # in [0, 1] even when trivial shots are folded into rejection.
+            normalized_rejected_runs = rejected_runs / num_unfiltered_shots
             # Calculate stats at given depth
             fidelity_stats.append({})
             rejected_stats.append({})
@@ -955,7 +956,8 @@ class LRBSimulationPipeline:
                 rejected_stats[-1]['std'] = None
             else:
                 fidelity_stats[-1]['std'] = np.std(fidelities[k], axis=(0))
-                rejected_stats[-1]['std'] = np.std(fidelities[k], axis=(0))
+                rejected_stats[-1]['std'] = np.std(
+                    normalized_rejected_runs[k], axis=(0))
     
         return fidelity_stats, fidelities, rejected_stats, rejected_runs
     

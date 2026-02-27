@@ -1,0 +1,20 @@
+noiseless,const=0,depth=0
+#
+d 3
+H_INV 2
+H_INV 3
+H_INV 4
+CNOT_INV 2 1
+CNOT 1 0
+CNOT 3 0
+CNOT 4 2
+H_INV 0
+H_INV 1
+H_INV 2
+H_INV 3
+H_INV 4
+M 0
+M 1
+M 2
+M 3
+M 4

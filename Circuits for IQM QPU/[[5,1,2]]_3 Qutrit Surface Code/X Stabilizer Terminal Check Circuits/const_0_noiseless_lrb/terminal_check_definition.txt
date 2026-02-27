@@ -1,0 +1,13 @@
+Noiseless const=0 folded-qutrit LRB circuits
+num_clifford_sequences=30
+depths=[0, 2, 4, 6, 10, 14, 18, 20, 22]
+random_seed=12345
+
+Terminal X-basis data measurements:
+  measured wires: 0,1,2,3,4
+  S1 = (x0 + x1 - x2) mod 3
+  S2 = (-x1 + x3 - x4) mod 3
+  Logical X = (x0 + x3) mod 3
+
+Output layout:
+  <output_root>/<clifford_index>/<depth_index>.chp

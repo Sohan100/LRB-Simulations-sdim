@@ -14,7 +14,9 @@ import os
 from dataclasses import dataclass
 from typing import Any
 
+import matplotlib as mpl
 import numpy as np
+from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib import pyplot as plt
 
 from experiment_setup import ExperimentSetupManager
@@ -77,6 +79,21 @@ class LRBThresholdConfig:
         p_window_after_points (int): Points after onset in parametric plot.
         min_points_in_view (int): Minimum samples shown in parametric view.
         view_pad_frac (float): Fractional axis padding in parametric view.
+        bootstrap_reps_error (int): Bootstrap replicates for point error bars.
+        bootstrap_reps_threshold (int): Bootstrap replicates for threshold bars.
+        bootstrap_ci_level (float): Central CI level (for example, ``0.68``).
+        bootstrap_use_sem (bool): Use SEM instead of std for bootstrap noise.
+        bootstrap_seed (int | None): Optional deterministic RNG seed.
+        paper_mode (bool): Render unif threshold error-vs-p plots in one grid.
+        paper_cols (int): Number of subplot columns in paper mode.
+        paper_panel_width_in (float): Width (in) allocated per subplot column.
+        paper_panel_height_in (float): Height (in) allocated per subplot row.
+        paper_title_fontsize (float): Subplot title font size in paper mode.
+        paper_axis_label_fontsize (float): Axis-label font size in paper mode.
+        paper_tick_fontsize (float): Tick-label font size in paper mode.
+        paper_legend_fontsize (float): Legend font size in paper mode.
+        paper_line_width (float): Default line width in paper mode.
+        paper_marker_size (float): Default marker size in paper mode.
 
     Methods:
         This dataclass is declarative and defines no custom methods.
@@ -100,6 +117,68 @@ class LRBThresholdConfig:
     p_window_after_points: int = 5
     min_points_in_view: int = 6
     view_pad_frac: float = 0.15
+    bootstrap_reps_error: int = 200
+    bootstrap_reps_threshold: int = 300
+    bootstrap_ci_level: float = 0.68
+    bootstrap_use_sem: bool = True
+    bootstrap_seed: int | None = 12345
+    paper_mode: bool = False
+    paper_cols: int = 3
+    paper_panel_width_in: float = 3.2
+    paper_panel_height_in: float = 2.5
+    paper_title_fontsize: float = 7.4
+    paper_axis_label_fontsize: float = 6.8
+    paper_tick_fontsize: float = 6.1
+    paper_legend_fontsize: float = 5.9
+    paper_line_width: float = 0.9
+    paper_marker_size: float = 3.0
+
+
+@dataclass(frozen=True)
+class LRBPaperPlotConfig:
+    """
+    Layout/style controls for paper-ready unif/const summary figures.
+
+    Attributes:
+        enabled (bool): Enable paper-mode rendering and pagination.
+        column_layout (str): ``"single"`` or ``"double"`` figure width.
+        rows_per_page (int): Number of probability rows per PDF page.
+        pairs_per_row (int): Number of (main,rejected) panel pairs per row.
+        num_prob_samples (int): Number of probability points to plot per check.
+        prob_sample_indices (tuple[int, ...]): Explicit probability row indices.
+        row_height_in (float): Height in inches allocated to one probability row.
+        panel_title_fontsize (float): Font size for per-panel titles.
+        axis_label_fontsize (float): Font size for axis labels.
+        tick_fontsize (float): Font size for tick labels.
+        legend_fontsize (float): Font size for legends.
+        line_width (float): Default line width in paper mode.
+        marker_size (float): Default marker size in paper mode.
+        errorbar_capsize (float): Default errorbar cap size in paper mode.
+        show_legend_first_row_only (bool): Keep legends only on first row/page.
+        compact_fit_legend (bool): Use short fit legend labels in paper mode.
+        legend_on_rejected_panel (bool): Draw LRB/RB legend on rejected panel.
+
+    Methods:
+        This dataclass is declarative and defines no custom methods.
+    """
+
+    enabled: bool = False
+    column_layout: str = "double"
+    rows_per_page: int = 5
+    pairs_per_row: int = 1
+    num_prob_samples: int = 0
+    prob_sample_indices: tuple[int, ...] = ()
+    row_height_in: float = 1.7
+    panel_title_fontsize: float = 7.5
+    axis_label_fontsize: float = 6.8
+    tick_fontsize: float = 6.2
+    legend_fontsize: float = 5.9
+    line_width: float = 0.9
+    marker_size: float = 2.8
+    errorbar_capsize: float = 1.4
+    show_legend_first_row_only: bool = True
+    compact_fit_legend: bool = True
+    legend_on_rejected_panel: bool = True
 
 
 class LRBResultsPlotter:
@@ -203,6 +282,14 @@ class LRBResultsPlotter:
             if value not in ("", "0"):
                 self.d_dim = int(value)
 
+        # Number of random circuits per depth; used for SEM-based bootstrap.
+        self.num_cliffs = 1
+        num_cliffs_path = os.path.join(self.working_folder, "num_cliffs.txt")
+        if os.path.exists(num_cliffs_path):
+            value = ExperimentSetupManager.fetch_single_param(num_cliffs_path)
+            if value not in ("", "0"):
+                self.num_cliffs = max(1, int(float(value)))
+
         code_name_path = os.path.join(self.working_folder, "code_name.txt")
         self.code_name = "unknown_code"
         if os.path.exists(code_name_path):
@@ -248,6 +335,36 @@ class LRBResultsPlotter:
         else:
             check_label = "check"
         return f"{check_label} = {check_num}, q={self.d_dim}, {self.code_title}"
+
+    @staticmethod
+    def _filter_checks_by_range(
+        checks: list[int],
+        check_min: int | None = None,
+        check_max: int | None = None,
+    ) -> list[int]:
+        """
+        Filter a check-number list by an optional inclusive range.
+
+        Args:
+            checks (list[int]): Check values to filter.
+            check_min (int | None): Optional inclusive lower bound.
+            check_max (int | None): Optional inclusive upper bound.
+
+        Returns:
+            list[int]: Sorted filtered check values.
+
+        Raises:
+            ValueError: If ``check_min > check_max``.
+        """
+        if check_min is not None and check_max is not None:
+            if int(check_min) > int(check_max):
+                raise ValueError("check_min must be <= check_max.")
+        out = sorted([int(v) for v in checks])
+        if check_min is not None:
+            out = [v for v in out if v >= int(check_min)]
+        if check_max is not None:
+            out = [v for v in out if v <= int(check_max)]
+        return out
 
     @staticmethod
     def _extract_series(
@@ -666,7 +783,7 @@ class LRBResultsPlotter:
         prob_value: float,
     ) -> None:
         """
-        Plot rejected-run counts for one probability row.
+        Plot rejected-run proportions for one probability row.
 
         Args:
             ax (Any): Matplotlib axis target.
@@ -682,17 +799,168 @@ class LRBResultsPlotter:
         means = self._extract_series(lrb_r_stats, "mean", len(self.depths))
         errs = self._extract_series(lrb_r_stats, "std", len(self.depths))
         x, y, e = self._mask_invalid(self.depths, means, errs)
-        ax.errorbar(x, y, yerr=e, fmt="-o")
-        y_max = (max(y) * 1.1) if y else 1.0
-        ax.set_ylim(0, y_max if y_max > 0 else 1.0)
+        y_arr = np.clip(np.asarray(y, dtype=float), 0.0, 1.0)
+        e_arr = np.asarray(e, dtype=float)
+
+        # CSV stores run-to-run std across random sequences; for uncertainty of
+        # the displayed mean proportion, use SEM.
+        n_seq = max(int(getattr(self, "num_cliffs", 1)), 1)
+        if n_seq > 1:
+            e_arr = e_arr / np.sqrt(float(n_seq))
+        e_arr = np.where(np.isfinite(e_arr), np.maximum(0.0, e_arr), 0.0)
+
+        low = np.maximum(0.0, y_arr - e_arr)
+        high = np.minimum(1.0, y_arr + e_arr)
+        yerr = np.vstack([y_arr - low, high - y_arr])
+
+        ax.errorbar(x, y_arr, yerr=yerr, fmt="-o", capsize=2)
+        # Use a data-adaptive range so local variation is visible while
+        # retaining physical bounds with slight display headroom.
+        if len(y_arr) > 0:
+            y_min_raw = float(np.nanmin(low))
+            y_max_raw = float(np.nanmax(high))
+            span = max(y_max_raw - y_min_raw, 0.02)
+            pad = max(0.05 * span, 0.01)
+            y_min = y_min_raw - pad
+            y_max = y_max_raw + pad
+            y_min = max(-0.03, y_min)
+            y_max = min(1.03, y_max)
+
+            # Snap to edges when data are near physical limits.
+            if y_min_raw <= 0.02:
+                y_min = -0.03
+            if y_max_raw >= 0.98:
+                y_max = 1.03
+            if y_max <= y_min:
+                y_min, y_max = -0.03, 1.03
+        else:
+            y_min, y_max = -0.03, 1.03
+        ax.set_ylim(y_min, y_max)
         ax.set_title(f"Rejected runs (p = {prob_value:.3g})")
-        ax.set_ylabel("# rejected runs")
+        ax.set_ylabel("Proportion of Rejected Runs")
+
+    @staticmethod
+    def _legend_loc_for_curve_band(
+        x_candidates: list[float],
+        y_candidates: list[float],
+        y_min: float,
+        y_max: float,
+    ) -> str:
+        """
+        Choose legend corner with minimal data occupancy.
+
+        Args:
+            x_candidates (list[float]): X coordinates of plotted data/fit points.
+            y_candidates (list[float]): Y coordinates of plotted data/fit points.
+            y_min (float): Current axis lower bound.
+            y_max (float): Current axis upper bound.
+
+        Returns:
+            str: Legend location string.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        if not x_candidates or not y_candidates:
+            return "best"
+        x_arr = np.asarray(x_candidates, dtype=float)
+        y_arr = np.asarray(y_candidates, dtype=float)
+        mask = np.isfinite(x_arr) & np.isfinite(y_arr)
+        x_arr = x_arr[mask]
+        y_arr = y_arr[mask]
+        if len(x_arr) == 0:
+            return "best"
+
+        x_mid = 0.5 * (float(np.min(x_arr)) + float(np.max(x_arr)))
+        y_mid = 0.5 * (float(y_min) + float(y_max))
+
+        scores = {
+            "upper right": int(np.sum((x_arr >= x_mid) & (y_arr >= y_mid))),
+            "upper left": int(np.sum((x_arr < x_mid) & (y_arr >= y_mid))),
+            "lower right": int(np.sum((x_arr >= x_mid) & (y_arr < y_mid))),
+            "lower left": int(np.sum((x_arr < x_mid) & (y_arr < y_mid))),
+        }
+        order = ["upper right", "upper left", "lower right", "lower left"]
+        return min(order, key=lambda loc: scores[loc])
+
+    @staticmethod
+    def _ensure_legend_above_curves(
+        ax: Any,
+        legend: Any,
+        x_top_candidates: list[float],
+        y_top_candidates: list[float],
+        y_max_cap: float = 1.5,
+    ) -> None:
+        """
+        Increase y-max so the legend box sits above plotted curve envelope.
+
+        Args:
+            ax (Any): Matplotlib axis target.
+            legend (Any): Legend object returned by ``ax.legend``.
+            x_top_candidates (list[float]): X positions of top envelope points.
+            y_top_candidates (list[float]): Top envelope y-values.
+            y_max_cap (float): Maximum allowed y-axis upper bound.
+
+        Returns:
+            None: Updates axis limits in place.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        if legend is None:
+            return
+        if not x_top_candidates or not y_top_candidates:
+            return
+
+        x_arr = np.asarray(x_top_candidates, dtype=float)
+        y_arr = np.asarray(y_top_candidates, dtype=float)
+        mask = np.isfinite(x_arr) & np.isfinite(y_arr)
+        x_arr = x_arr[mask]
+        y_arr = y_arr[mask]
+        if len(x_arr) == 0:
+            return
+
+        fig = ax.figure
+        for _ in range(3):
+            fig.canvas.draw()
+            renderer = fig.canvas.get_renderer()
+            bbox_disp = legend.get_window_extent(renderer=renderer)
+            bbox_axes = bbox_disp.transformed(ax.transAxes.inverted())
+            frac_bottom = float(bbox_axes.y0)
+            if frac_bottom <= 1e-6:
+                return
+
+            bbox_data = bbox_disp.transformed(ax.transData.inverted())
+            x0 = float(bbox_data.x0)
+            x1 = float(bbox_data.x1)
+            in_box_x = (x_arr >= min(x0, x1)) & (x_arr <= max(x0, x1))
+            if np.any(in_box_x):
+                y_curve_top = float(np.nanmax(y_arr[in_box_x]))
+            else:
+                y_curve_top = float(np.nanmax(y_arr))
+
+            y_min, y_max = ax.get_ylim()
+            span = max(float(y_max - y_min), 1e-9)
+            # Small positive gap so legend does not graze the curve envelope.
+            clearance = max(0.025 * span, 0.0015)
+            desired_bottom = y_curve_top + clearance
+            current_bottom = y_min + frac_bottom * span
+            if current_bottom >= desired_bottom:
+                return
+
+            required_span = (desired_bottom - y_min) / frac_bottom
+            new_ymax = min(y_min + max(span, required_span), y_max_cap)
+            if new_ymax <= y_max + 1e-12:
+                return
+            ax.set_ylim(y_min, new_ymax)
 
     def _plot_data_only_series(
         self,
         ax: Any,
         lrb_f_stats: list[dict[str, Any]] | None,
         rb_f_stats: list[dict[str, Any]] | None,
+        show_legend: bool = True,
+        legend_fontsize: float = 8.0,
     ) -> None:
         """
         Plot LRB and RB data points only, without any fitted curves.
@@ -701,6 +969,8 @@ class LRBResultsPlotter:
             ax (Any): Matplotlib axis target.
             lrb_f_stats (list[dict[str, Any]] | None): LRB fidelity stats.
             rb_f_stats (list[dict[str, Any]] | None): RB fidelity stats.
+            show_legend (bool): Whether to draw legend for this panel.
+            legend_fontsize (float): Legend font size.
 
         Returns:
             None: Draws directly on the axis.
@@ -711,31 +981,62 @@ class LRBResultsPlotter:
         lrb_means = self._extract_series(lrb_f_stats, "mean", len(self.depths))
         lrb_errs = self._extract_series(lrb_f_stats, "std", len(self.depths))
         x_l, y_l, e_l = self._mask_invalid(self.depths, lrb_means, lrb_errs)
+        x_top_candidates = [float(v) for v in x_l]
+        y_top_candidates = [float(yv + ev) for yv, ev in zip(y_l, e_l)]
         ax.errorbar(x_l, y_l, yerr=e_l, fmt="-o", label="LRB")
-        y_candidates = list(y_l)
+        y_low_candidates = [float(yv - ev) for yv, ev in zip(y_l, e_l)]
+        y_high_candidates = [float(yv + ev) for yv, ev in zip(y_l, e_l)]
 
         if rb_f_stats is not None:
             rb_means = self._extract_series(
                 rb_f_stats, "mean", len(self.depths))
             rb_errs = self._extract_series(rb_f_stats, "std", len(self.depths))
             x_r, y_r, e_r = self._mask_invalid(self.depths, rb_means, rb_errs)
+            x_top_candidates.extend(float(v) for v in x_r)
+            y_top_candidates.extend(float(yv + ev) for yv, ev in zip(y_r, e_r))
             ax.errorbar(x_r, y_r, yerr=e_r, fmt="-s", label="RB")
-            y_candidates.extend(y_r)
+            y_low_candidates.extend(float(yv - ev) for yv, ev in zip(y_r, e_r))
+            y_high_candidates.extend(
+                float(yv + ev) for yv, ev in zip(y_r, e_r))
 
-        if y_candidates:
-            y_min = float(min(y_candidates)) - 0.2
+        if y_low_candidates and y_high_candidates:
+            y_min_raw = float(np.nanmin(y_low_candidates))
+            y_max_raw = float(np.nanmax(y_high_candidates))
+            span = max(y_max_raw - y_min_raw, 0.05)
+            pad_bottom = max(0.05 * span, 0.006)
+            pad_top = max(0.03 * span, 0.002)
+            y_min = max(-0.03, y_min_raw - pad_bottom)
+            y_max = min(1.35, y_max_raw + pad_top)
+            if y_max <= y_min:
+                y_min, y_max = -0.03, 1.06
         else:
-            y_min = 0.0
-        y_max = max(1.05, y_min + 0.05)
+            y_min, y_max = -0.03, 1.06
         ax.set_ylim(y_min, y_max)
         ax.set_ylabel("Expectation Value of Logical X")
-        ax.legend(fontsize=8)
+        if show_legend:
+            legend = ax.legend(
+                fontsize=float(legend_fontsize),
+                loc="upper right",
+                framealpha=0.95,
+                facecolor="white",
+                edgecolor="0.7",
+                borderaxespad=0.3,
+            )
+            self._ensure_legend_above_curves(
+                ax=ax,
+                legend=legend,
+                x_top_candidates=x_top_candidates,
+                y_top_candidates=y_top_candidates,
+            )
 
     def _plot_fit_series(
         self,
         ax: Any,
         lrb_f_stats: list[dict[str, Any]] | None,
         rb_f_stats: list[dict[str, Any]] | None,
+        show_legend: bool = True,
+        legend_fontsize: float = 8.0,
+        compact_legend: bool = False,
     ) -> None:
         """
         Plot fitted LRB and RB decay curves with fidelity legend labels.
@@ -744,6 +1045,9 @@ class LRBResultsPlotter:
             ax (Any): Matplotlib axis target.
             lrb_f_stats (list[dict[str, Any]] | None): LRB fidelity stats.
             rb_f_stats (list[dict[str, Any]] | None): RB fidelity stats.
+            show_legend (bool): Whether to draw legend for this panel.
+            legend_fontsize (float): Legend font size.
+            compact_legend (bool): Use compact fit labels in legend.
 
         Returns:
             None: Draws directly on the axis.
@@ -752,12 +1056,19 @@ class LRBResultsPlotter:
             ValueError: Not raised directly by this method.
         """
         lrb_fit, (x_l, y_l, e_l) = self._fit_lrb_from_stats(lrb_f_stats)
+        x_top_candidates = [float(v) for v in x_l]
+        y_top_candidates = [float(yv + ev) for yv, ev in zip(y_l, e_l)]
+        y_low_candidates = [float(yv - ev) for yv, ev in zip(y_l, e_l)]
+        y_high_candidates = [float(yv + ev) for yv, ev in zip(y_l, e_l)]
         if lrb_fit is not None:
             f_l = lrb_fit["f"]
             fid_l = self._decay_to_fidelity(f_l)
-            lrb_label = f"LRB (f={f_l:.6f}, F={fid_l:.6f})"
+            if compact_legend:
+                lrb_label = f"LRB (F={fid_l:.4f})"
+            else:
+                lrb_label = f"LRB (f={f_l:.6f}, F={fid_l:.6f})"
         else:
-            lrb_label = "LRB (fit failed)"
+            lrb_label = "LRB"
         lrb_data = ax.errorbar(x_l, y_l, yerr=e_l, fmt="o", label=lrb_label)
         if lrb_fit is not None:
             x_fit = np.array(sorted(set(x_l)), dtype=float)
@@ -768,18 +1079,27 @@ class LRBResultsPlotter:
                 linewidth=1,
                 color=lrb_data.lines[0].get_color(),
             )
-            y_candidates = list(y_l) + list(y_fit)
-        else:
-            y_candidates = list(y_l)
+            x_top_candidates.extend(float(v) for v in x_fit)
+            y_top_candidates.extend(float(v) for v in y_fit)
+            y_low_candidates.extend(float(v) for v in y_fit)
+            y_high_candidates.extend(float(v) for v in y_fit)
 
         if rb_f_stats is not None:
             rb_fit, (x_r, y_r, e_r) = self._fit_rb_from_stats(rb_f_stats)
+            x_top_candidates.extend(float(v) for v in x_r)
+            y_top_candidates.extend(float(yv + ev) for yv, ev in zip(y_r, e_r))
+            y_low_candidates.extend(float(yv - ev) for yv, ev in zip(y_r, e_r))
+            y_high_candidates.extend(
+                float(yv + ev) for yv, ev in zip(y_r, e_r))
             if rb_fit is not None:
                 f_r = rb_fit["f"]
                 fid_r = self._decay_to_fidelity(f_r)
-                rb_label = f"RB (f={f_r:.6f}, F={fid_r:.6f})"
+                if compact_legend:
+                    rb_label = f"RB (F={fid_r:.4f})"
+                else:
+                    rb_label = f"RB (f={f_r:.6f}, F={fid_r:.6f})"
             else:
-                rb_label = "RB (fit failed)"
+                rb_label = "RB"
             rb_data = ax.errorbar(x_r, y_r, yerr=e_r, fmt="s", label=rb_label)
             if rb_fit is not None:
                 x_fit = np.array(sorted(set(x_r)), dtype=float)
@@ -791,17 +1111,40 @@ class LRBResultsPlotter:
                     linewidth=1,
                     color=rb_data.lines[0].get_color(),
                 )
-                y_candidates.extend(list(y_fit))
-            y_candidates.extend(y_r)
+                x_top_candidates.extend(float(v) for v in x_fit)
+                y_top_candidates.extend(float(v) for v in y_fit)
+                y_low_candidates.extend(float(v) for v in y_fit)
+                y_high_candidates.extend(float(v) for v in y_fit)
 
-        if y_candidates:
-            y_min = float(min(y_candidates)) - 0.2
+        if y_low_candidates and y_high_candidates:
+            y_min_raw = float(np.nanmin(y_low_candidates))
+            y_max_raw = float(np.nanmax(y_high_candidates))
+            span = max(y_max_raw - y_min_raw, 0.05)
+            pad_bottom = max(0.05 * span, 0.006)
+            pad_top = max(0.03 * span, 0.002)
+            y_min = max(-0.03, y_min_raw - pad_bottom)
+            y_max = min(1.35, y_max_raw + pad_top)
+            if y_max <= y_min:
+                y_min, y_max = -0.03, 1.06
         else:
-            y_min = 0.0
-        y_max = max(1.05, y_min + 0.05)
+            y_min, y_max = -0.03, 1.06
         ax.set_ylim(y_min, y_max)
         ax.set_ylabel("Expectation Value of Logical X")
-        ax.legend(fontsize=8)
+        if show_legend:
+            legend = ax.legend(
+                fontsize=float(legend_fontsize),
+                loc="upper right",
+                framealpha=0.95,
+                facecolor="white",
+                edgecolor="0.7",
+                borderaxespad=0.3,
+            )
+            self._ensure_legend_above_curves(
+                ax=ax,
+                legend=legend,
+                x_top_candidates=x_top_candidates,
+                y_top_candidates=y_top_candidates,
+            )
 
     def _plot_check_rows(
         self,
@@ -811,6 +1154,7 @@ class LRBResultsPlotter:
         out_path: str,
         use_fits: bool,
         show: bool,
+        paper_config: LRBPaperPlotConfig | None = None,
     ) -> str | None:
         """
         Render the full two-column summary plot for one check value.
@@ -822,6 +1166,7 @@ class LRBResultsPlotter:
             out_path (str): PDF output path.
             use_fits (bool): Whether to draw fitted curves.
             show (bool): Whether to display interactive figures.
+            paper_config (LRBPaperPlotConfig | None): Optional paper settings.
 
         Returns:
             str | None: Output path if created; otherwise ``None``.
@@ -836,59 +1181,253 @@ class LRBResultsPlotter:
             )
             return None
 
-        n_rows = len(rows)
-        # Column 0: logical signal curves. Column 1: rejected-run counts.
-        fig, axs = plt.subplots(
-            nrows=n_rows,
-            ncols=2,
-            figsize=(10, n_rows * 3),
-            sharex="col",
-            constrained_layout=True,
-        )
+        paper = paper_config or LRBPaperPlotConfig()
+        plot_rows = list(rows)
+        if paper.enabled and len(paper.prob_sample_indices) > 0:
+            n_total = len(plot_rows)
+            idx = []
+            for i in paper.prob_sample_indices:
+                ii = int(i)
+                if 0 <= ii < n_total and ii not in idx:
+                    idx.append(ii)
+            if idx:
+                plot_rows = [plot_rows[i] for i in idx]
+        elif paper.enabled and int(paper.num_prob_samples) > 0:
+            n_total = len(plot_rows)
+            n_keep = min(int(paper.num_prob_samples), n_total)
+            if n_keep < n_total:
+                idx = np.linspace(0, n_total - 1, n_keep, dtype=int)
+                idx = sorted(set(int(i) for i in idx))
+                while len(idx) < n_keep:
+                    idx.append(n_total - 1)
+                    idx = sorted(set(idx))
+                idx = idx[:n_keep]
+                plot_rows = [plot_rows[i] for i in idx]
 
-        def cell(row: int, col: int) -> Any:
-            if n_rows > 1:
-                return axs[row][col]
-            return axs[col]
+        pairs_per_row = 1 if not paper.enabled else max(
+            1, int(paper.pairs_per_row))
+        rows_per_page = len(plot_rows) if not paper.enabled else max(
+            1, int(paper.rows_per_page))
+        items_per_page = rows_per_page * pairs_per_row
+        page_chunks = [
+            plot_rows[i:i + items_per_page]
+            for i in range(0, len(plot_rows), items_per_page)
+        ]
 
-        for row_index, row in enumerate(rows):
-            prob_value = float(row["p"])
-            lrb_f = row["lrb_f"]
-            lrb_r = row["lrb_r"]
-            rb_f = row["rb_f"]
+        def figure_width() -> float:
+            if not paper.enabled:
+                return 10.0
+            layout = str(paper.column_layout).strip().lower()
+            if layout == "single":
+                return 3.35
+            if layout == "double":
+                return 7.0
+            return 10.0
 
-            ax_main = cell(row_index, 0)
-            if use_fits:
-                # Uniform plots use fitted overlays; const plots are data-only.
-                self._plot_fit_series(
-                    ax_main,
-                    lrb_f_stats=lrb_f,
-                    rb_f_stats=rb_f,
-                )
+        rc_updates: dict[str, float] = {}
+        if paper.enabled:
+            rc_updates = {
+                "font.size": float(paper.tick_fontsize),
+                "axes.labelsize": float(paper.axis_label_fontsize),
+                "xtick.labelsize": float(paper.tick_fontsize),
+                "ytick.labelsize": float(paper.tick_fontsize),
+                "legend.fontsize": float(paper.legend_fontsize),
+                "lines.linewidth": float(paper.line_width),
+                "lines.markersize": float(paper.marker_size),
+                "errorbar.capsize": float(paper.errorbar_capsize),
+            }
+
+        with mpl.rc_context(rc=rc_updates):
+            if paper.enabled:
+                if os.path.exists(out_path):
+                    os.remove(out_path)
+                with PdfPages(out_path) as pdf:
+                    for page_idx, page_rows in enumerate(page_chunks):
+                        n_items = len(page_rows)
+                        n_rows = int(np.ceil(n_items / float(pairs_per_row)))
+                        n_cols = 2 * pairs_per_row
+                        fig, axs = plt.subplots(
+                            nrows=n_rows,
+                            ncols=n_cols,
+                            figsize=(figure_width(),
+                                     max(2.4, float(paper.row_height_in) * n_rows)),
+                            sharex="col",
+                            constrained_layout=True,
+                        )
+
+                        def cell(row: int, col: int) -> Any:
+                            if n_rows == 1:
+                                return axs[col]
+                            return axs[row][col]
+
+                        for item_index, row in enumerate(page_rows):
+                            row_index = item_index // pairs_per_row
+                            pair_index = item_index % pairs_per_row
+                            prob_value = float(row["p"])
+                            lrb_f = row["lrb_f"]
+                            lrb_r = row["lrb_r"]
+                            rb_f = row["rb_f"]
+                            show_legend = True if use_fits else (
+                                not paper.show_legend_first_row_only
+                                or row_index == 0
+                            )
+                            legend_on_rejected = (
+                                bool(paper.legend_on_rejected_panel)
+                                and bool(show_legend)
+                            )
+                            main_show_legend = bool(show_legend) and not legend_on_rejected
+
+                            ax_main = cell(row_index, 2 * pair_index)
+                            if use_fits:
+                                self._plot_fit_series(
+                                    ax_main,
+                                    lrb_f_stats=lrb_f,
+                                    rb_f_stats=rb_f,
+                                    show_legend=main_show_legend,
+                                    legend_fontsize=float(paper.legend_fontsize),
+                                    compact_legend=bool(paper.compact_fit_legend),
+                                )
+                            else:
+                                self._plot_data_only_series(
+                                    ax_main,
+                                    lrb_f_stats=lrb_f,
+                                    rb_f_stats=rb_f,
+                                    show_legend=main_show_legend,
+                                    legend_fontsize=float(paper.legend_fontsize),
+                                )
+                            ax_main.set_title(
+                                f"p = {prob_value:.3g}",
+                                fontsize=float(paper.panel_title_fontsize),
+                            )
+                            ax_main.yaxis.label.set_size(
+                                float(paper.axis_label_fontsize))
+                            ax_main.tick_params(labelsize=float(paper.tick_fontsize))
+
+                            ax_rej = cell(row_index, 2 * pair_index + 1)
+                            self._plot_rejected_panel(
+                                ax=ax_rej,
+                                lrb_r_stats=lrb_r,
+                                prob_value=prob_value,
+                            )
+                            ax_rej.set_title(
+                                f"Rejected runs (p = {prob_value:.3g})",
+                                fontsize=float(paper.panel_title_fontsize),
+                            )
+                            ax_rej.yaxis.label.set_size(
+                                float(paper.axis_label_fontsize))
+                            ax_rej.tick_params(labelsize=float(paper.tick_fontsize))
+                            if legend_on_rejected:
+                                handles, labels = ax_main.get_legend_handles_labels()
+                                if handles:
+                                    rej_loc = "lower right"
+                                    if len(ax_rej.lines) > 0:
+                                        rej_line = ax_rej.lines[0]
+                                        rej_x = np.asarray(
+                                            rej_line.get_xdata(), dtype=float)
+                                        rej_y = np.asarray(
+                                            rej_line.get_ydata(), dtype=float)
+                                        rej_x_vals = [
+                                            float(v)
+                                            for v in rej_x[np.isfinite(rej_x)]
+                                        ]
+                                        rej_y_vals = [
+                                            float(v)
+                                            for v in rej_y[np.isfinite(rej_y)]
+                                        ]
+                                        if rej_x_vals and rej_y_vals:
+                                            y_rej_min, y_rej_max = ax_rej.get_ylim()
+                                            rej_loc = self._legend_loc_for_curve_band(
+                                                x_candidates=rej_x_vals,
+                                                y_candidates=rej_y_vals,
+                                                y_min=float(y_rej_min),
+                                                y_max=float(y_rej_max),
+                                            )
+                                    ax_rej.legend(
+                                        handles,
+                                        labels,
+                                        fontsize=float(paper.legend_fontsize),
+                                        loc=rej_loc,
+                                        framealpha=0.95,
+                                        facecolor="white",
+                                        edgecolor="0.7",
+                                        borderaxespad=0.25,
+                                        handlelength=1.35,
+                                        handletextpad=0.35,
+                                        labelspacing=0.25,
+                                    )
+
+                        # Hide unused trailing panel pairs on partial final row.
+                        total_pairs = n_rows * pairs_per_row
+                        for pair_slot in range(n_items, total_pairs):
+                            rr = pair_slot // pairs_per_row
+                            cc = pair_slot % pairs_per_row
+                            cell(rr, 2 * cc).set_visible(False)
+                            cell(rr, 2 * cc + 1).set_visible(False)
+
+                        for col in range(n_cols):
+                            cell(n_rows - 1, col).set_xlabel(
+                                "Depth",
+                                fontsize=float(paper.axis_label_fontsize),
+                            )
+
+                        # In paper mode keep the panel grid clean: no global header.
+                        pdf.savefig(fig, dpi=300, bbox_inches="tight")
+                        if show:
+                            plt.show()
+                        plt.close(fig)
             else:
-                self._plot_data_only_series(
-                    ax_main, lrb_f_stats=lrb_f, rb_f_stats=rb_f)
-            ax_main.set_title(f"p = {prob_value:.3g}")
+                n_rows = len(rows)
+                fig, axs = plt.subplots(
+                    nrows=n_rows,
+                    ncols=2,
+                    figsize=(10, n_rows * 3),
+                    sharex="col",
+                    constrained_layout=True,
+                )
 
-            ax_rej = cell(row_index, 1)
-            self._plot_rejected_panel(
-                ax=ax_rej,
-                lrb_r_stats=lrb_r,
-                prob_value=prob_value,
-            )
+                def cell(row: int, col: int) -> Any:
+                    if n_rows > 1:
+                        return axs[row][col]
+                    return axs[col]
 
-        cell(n_rows - 1, 0).set_xlabel("Depth")
-        cell(n_rows - 1, 1).set_xlabel("Depth")
+                for row_index, row in enumerate(rows):
+                    prob_value = float(row["p"])
+                    lrb_f = row["lrb_f"]
+                    lrb_r = row["lrb_r"]
+                    rb_f = row["rb_f"]
 
-        fig.suptitle(
-            f"LRB vs RB ({self._title_context(check_type, check_num)})",
-            fontsize=14,
-            y=1.01,
-        )
-        self._save_pdf_overwrite(fig=fig, out_path=out_path, dpi=300)
-        if show:
-            plt.show()
-        plt.close(fig)
+                    ax_main = cell(row_index, 0)
+                    if use_fits:
+                        self._plot_fit_series(
+                            ax_main,
+                            lrb_f_stats=lrb_f,
+                            rb_f_stats=rb_f,
+                            compact_legend=False,
+                        )
+                    else:
+                        self._plot_data_only_series(
+                            ax_main, lrb_f_stats=lrb_f, rb_f_stats=rb_f)
+                    ax_main.set_title(f"p = {prob_value:.3g}")
+
+                    ax_rej = cell(row_index, 1)
+                    self._plot_rejected_panel(
+                        ax=ax_rej,
+                        lrb_r_stats=lrb_r,
+                        prob_value=prob_value,
+                    )
+
+                cell(n_rows - 1, 0).set_xlabel("Depth")
+                cell(n_rows - 1, 1).set_xlabel("Depth")
+
+                fig.suptitle(
+                    f"LRB vs RB ({self._title_context(check_type, check_num)})",
+                    fontsize=14,
+                    y=1.01,
+                )
+                self._save_pdf_overwrite(fig=fig, out_path=out_path, dpi=300)
+                if show:
+                    plt.show()
+                plt.close(fig)
         print(f"[OK] wrote {out_path}")
         return out_path
 
@@ -896,6 +1435,7 @@ class LRBResultsPlotter:
         self,
         check_num: int,
         show: bool = True,
+        paper_config: LRBPaperPlotConfig | None = None,
     ) -> str | None:
         """
         Plot one uniform-check summary with LRB and RB fitted curves.
@@ -903,6 +1443,7 @@ class LRBResultsPlotter:
         Args:
             check_num (int): Uniform check interval.
             show (bool): Whether to display the figure.
+            paper_config (LRBPaperPlotConfig | None): Optional paper settings.
 
         Returns:
             str | None: Output path if created; otherwise ``None``.
@@ -925,12 +1466,14 @@ class LRBResultsPlotter:
             out_path=out_path,
             use_fits=True,
             show=show,
+            paper_config=paper_config,
         )
 
     def plot_one_const_check(
         self,
         check_num: int,
         show: bool = True,
+        paper_config: LRBPaperPlotConfig | None = None,
     ) -> str | None:
         """
         Plot one constant-check summary with data-only LRB/RB traces.
@@ -938,6 +1481,7 @@ class LRBResultsPlotter:
         Args:
             check_num (int): Constant number of stabilizer checks.
             show (bool): Whether to display the figure.
+            paper_config (LRBPaperPlotConfig | None): Optional paper settings.
 
         Returns:
             str | None: Output path if created; otherwise ``None``.
@@ -960,14 +1504,24 @@ class LRBResultsPlotter:
             out_path=out_path,
             use_fits=False,
             show=show,
+            paper_config=paper_config,
         )
 
-    def plot_all_unif_checks(self, show: bool = True) -> list[str]:
+    def plot_all_unif_checks(
+        self,
+        show: bool = True,
+        check_min: int | None = None,
+        check_max: int | None = None,
+        paper_config: LRBPaperPlotConfig | None = None,
+    ) -> list[str]:
         """
         Generate uniform-check summary plots for all configured values.
 
         Args:
             show (bool): Whether to display figures during generation.
+            check_min (int | None): Optional inclusive lower check bound.
+            check_max (int | None): Optional inclusive upper check bound.
+            paper_config (LRBPaperPlotConfig | None): Optional paper settings.
 
         Returns:
             list[str]: Output paths for plots that were generated.
@@ -976,19 +1530,37 @@ class LRBResultsPlotter:
             ValueError: Propagated from single-plot generation.
         """
         checks = self.stab_unif if self.stab_unif else list(range(1, 23))
+        checks = self._filter_checks_by_range(
+            checks=checks,
+            check_min=check_min,
+            check_max=check_max,
+        )
         outputs: list[str] = []
         for check_num in checks:
-            out_path = self.plot_one_unif_check(check_num=check_num, show=show)
+            out_path = self.plot_one_unif_check(
+                check_num=check_num,
+                show=show,
+                paper_config=paper_config,
+            )
             if out_path is not None:
                 outputs.append(out_path)
         return outputs
 
-    def plot_all_const_checks(self, show: bool = True) -> list[str]:
+    def plot_all_const_checks(
+        self,
+        show: bool = True,
+        check_min: int | None = None,
+        check_max: int | None = None,
+        paper_config: LRBPaperPlotConfig | None = None,
+    ) -> list[str]:
         """
         Generate constant-check summary plots for all configured values.
 
         Args:
             show (bool): Whether to display figures during generation.
+            check_min (int | None): Optional inclusive lower check bound.
+            check_max (int | None): Optional inclusive upper check bound.
+            paper_config (LRBPaperPlotConfig | None): Optional paper settings.
 
         Returns:
             list[str]: Output paths for plots that were generated.
@@ -997,11 +1569,17 @@ class LRBResultsPlotter:
             ValueError: Propagated from single-plot generation.
         """
         checks = self.stab_const if self.stab_const else list(range(0, 23))
+        checks = self._filter_checks_by_range(
+            checks=checks,
+            check_min=check_min,
+            check_max=check_max,
+        )
         outputs: list[str] = []
         for check_num in checks:
             out_path = self.plot_one_const_check(
                 check_num=check_num,
                 show=show,
+                paper_config=paper_config,
             )
             if out_path is not None:
                 outputs.append(out_path)
@@ -1067,6 +1645,12 @@ class LRBResultsPlotter:
     def build_unif_lrb_vs_rb_table_mixed_fits(
         self,
         write_per_check_tables: bool = True,
+        check_min: int | None = None,
+        check_max: int | None = None,
+        bootstrap_reps: int = 0,
+        bootstrap_ci_level: float = 0.68,
+        bootstrap_use_sem: bool = True,
+        bootstrap_seed: int | None = None,
     ) -> str:
         """
         Build a per-unif-check table with mixed fits and error-rate columns.
@@ -1075,6 +1659,12 @@ class LRBResultsPlotter:
 
         Args:
             write_per_check_tables (bool): Whether to write per-check CSVs.
+            check_min (int | None): Optional inclusive lower check bound.
+            check_max (int | None): Optional inclusive upper check bound.
+            bootstrap_reps (int): Bootstrap replicates for point CIs.
+            bootstrap_ci_level (float): Central CI level for point CIs.
+            bootstrap_use_sem (bool): Use SEM instead of std for bootstrap.
+            bootstrap_seed (int | None): Optional deterministic bootstrap seed.
 
         Returns:
             str: Output path of the all-check aggregate CSV.
@@ -1087,15 +1677,40 @@ class LRBResultsPlotter:
 
         # RB is check-independent, so fit once per probability for reuse.
         checks = self.stab_unif if self.stab_unif else list(range(1, 23))
+        checks = self._filter_checks_by_range(
+            checks=checks,
+            check_min=check_min,
+            check_max=check_max,
+        )
+        if not checks:
+            raise ValueError("No unif checks found in the requested range.")
+        ci_level = self._normalize_ci_level(bootstrap_ci_level)
+        rng = np.random.default_rng(bootstrap_seed)
         rb_cache: dict[int, dict[str, float]] = {}
         for prob_index, prob in enumerate(self.probabilities):
             rb_path = os.path.join(self.rb_root, f"{prob_index}.csv")
             rb_stats = self._read_fidelity_stats_file(rb_path)
             rb_fit = None
+            rb_xyz = ([], [], [])
             if rb_stats is not None:
-                rb_fit, _ = self._fit_rb_from_stats(rb_stats)
+                rb_fit, rb_xyz = self._fit_rb_from_stats(rb_stats)
             metrics = self._safe_metrics_from_fit(rb_fit)
+            rb_std, rb_lo, rb_hi = np.nan, np.nan, np.nan
+            if int(bootstrap_reps) > 0 and rb_stats is not None:
+                rb_std, rb_lo, rb_hi = self._bootstrap_error_rate_from_fit_series(
+                    depths=rb_xyz[0],
+                    means=rb_xyz[1],
+                    std_values=rb_xyz[2],
+                    fit_kind="rb",
+                    n_boot=int(bootstrap_reps),
+                    ci_level=ci_level,
+                    use_sem=bool(bootstrap_use_sem),
+                    rng=rng,
+                )
             metrics["p"] = float(prob)
+            metrics["error_rate_std_boot"] = float(rb_std)
+            metrics["error_rate_ci_low"] = float(rb_lo)
+            metrics["error_rate_ci_high"] = float(rb_hi)
             rb_cache[prob_index] = metrics
 
         rows: list[dict[str, float | int | str]] = []
@@ -1109,9 +1724,24 @@ class LRBResultsPlotter:
                 )
                 lrb_stats = self._read_fidelity_stats_file(lrb_path)
                 lrb_fit = None
+                lrb_xyz = ([], [], [])
                 if lrb_stats is not None:
-                    lrb_fit, _ = self._fit_lrb_from_stats(lrb_stats)
+                    lrb_fit, lrb_xyz = self._fit_lrb_from_stats(lrb_stats)
                 lrb_m = self._safe_metrics_from_fit(lrb_fit)
+                lrb_std, lrb_lo, lrb_hi = np.nan, np.nan, np.nan
+                if int(bootstrap_reps) > 0 and lrb_stats is not None:
+                    lrb_std, lrb_lo, lrb_hi = (
+                        self._bootstrap_error_rate_from_fit_series(
+                            depths=lrb_xyz[0],
+                            means=lrb_xyz[1],
+                            std_values=lrb_xyz[2],
+                            fit_kind="lrb",
+                            n_boot=int(bootstrap_reps),
+                            ci_level=ci_level,
+                            use_sem=bool(bootstrap_use_sem),
+                            rng=rng,
+                        )
+                    )
                 rb_m = rb_cache[prob_index]
 
                 rows.append(
@@ -1126,6 +1756,9 @@ class LRBResultsPlotter:
                         "lrb_b": lrb_m["b"],
                         "lrb_chi2": lrb_m["chi2"],
                         "lrb_n_points": int(lrb_m["n_points"]),
+                        "lrb_error_rate_std_boot": float(lrb_std),
+                        "lrb_error_rate_ci_low": float(lrb_lo),
+                        "lrb_error_rate_ci_high": float(lrb_hi),
                         "rb_f": rb_m["f"],
                         "rb_fidelity": rb_m["fid"],
                         "rb_error_rate": rb_m["err"],
@@ -1133,6 +1766,12 @@ class LRBResultsPlotter:
                         "rb_b": rb_m["b"],
                         "rb_chi2": rb_m["chi2"],
                         "rb_n_points": int(rb_m["n_points"]),
+                        "rb_error_rate_std_boot": float(
+                            rb_m["error_rate_std_boot"]),
+                        "rb_error_rate_ci_low": float(
+                            rb_m["error_rate_ci_low"]),
+                        "rb_error_rate_ci_high": float(
+                            rb_m["error_rate_ci_high"]),
                     }
                 )
 
@@ -1159,6 +1798,12 @@ class LRBResultsPlotter:
                 "rb_a",
                 "lrb_n_points",
                 "rb_n_points",
+                "lrb_error_rate_std_boot",
+                "lrb_error_rate_ci_low",
+                "lrb_error_rate_ci_high",
+                "rb_error_rate_std_boot",
+                "rb_error_rate_ci_low",
+                "rb_error_rate_ci_high",
             ]
             for check_num in checks:
                 sub = frame[frame["check_num"] == check_num][columns].copy()
@@ -1226,6 +1871,194 @@ class LRBResultsPlotter:
                 f"Could not overwrite '{out_path}'. "
                 "Close any app locking the PDF and rerun."
             ) from exc
+
+    @staticmethod
+    def _normalize_ci_level(ci_level: float) -> float:
+        """
+        Clamp CI level to a numerically safe open interval.
+
+        Args:
+            ci_level (float): Requested central confidence-interval level.
+
+        Returns:
+            float: Clamped CI level in ``(0, 1)``.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        return float(np.clip(float(ci_level), 1e-6, 1.0 - 1e-6))
+
+    @staticmethod
+    def _bootstrap_sigma(
+        std_values: np.ndarray,
+        n_sequences: int,
+        use_sem: bool,
+    ) -> np.ndarray:
+        """
+        Convert per-depth standard deviations into bootstrap noise scales.
+
+        Args:
+            std_values (np.ndarray): Per-depth standard deviation values.
+            n_sequences (int): Number of random sequences per depth.
+            use_sem (bool): Whether to scale std by ``sqrt(n_sequences)``.
+
+        Returns:
+            np.ndarray: Positive finite bootstrap sigma values.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        sigma = np.asarray(std_values, dtype=float).copy()
+        if use_sem and int(n_sequences) > 1:
+            sigma = sigma / np.sqrt(float(n_sequences))
+        finite_pos = sigma[np.isfinite(sigma) & (sigma > 0)]
+        floor = float(max(np.median(finite_pos) * 1e-3, 1e-12)) \
+            if len(finite_pos) else 1e-6
+        sigma = np.where(~np.isfinite(sigma) | (sigma <= 0.0), floor, sigma)
+        return sigma
+
+    @staticmethod
+    def _bootstrap_interval(
+        samples: np.ndarray,
+        ci_level: float,
+    ) -> tuple[float, float, float]:
+        """
+        Compute bootstrap std and central CI bounds from finite samples.
+
+        Args:
+            samples (np.ndarray): Bootstrap sample values.
+            ci_level (float): Central CI level.
+
+        Returns:
+            tuple[float, float, float]: ``(std, ci_low, ci_high)``.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        arr = np.asarray(samples, dtype=float)
+        arr = arr[np.isfinite(arr)]
+        if len(arr) == 0:
+            return np.nan, np.nan, np.nan
+        ci = LRBResultsPlotter._normalize_ci_level(ci_level)
+        alpha = (1.0 - ci) / 2.0
+        lo = float(np.quantile(arr, alpha))
+        hi = float(np.quantile(arr, 1.0 - alpha))
+        std = float(np.std(arr, ddof=1)) if len(arr) > 1 else 0.0
+        return std, lo, hi
+
+    @staticmethod
+    def _to_asymmetric_yerr(
+        y: np.ndarray,
+        low: np.ndarray,
+        high: np.ndarray,
+    ) -> np.ndarray:
+        """
+        Convert lower/upper CI arrays into Matplotlib ``yerr`` shape.
+
+        Args:
+            y (np.ndarray): Point estimates.
+            low (np.ndarray): Lower CI bounds.
+            high (np.ndarray): Upper CI bounds.
+
+        Returns:
+            np.ndarray: Array of shape ``(2, n)`` with nonnegative errors.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        y_arr = np.asarray(y, dtype=float)
+        lo = np.asarray(low, dtype=float)
+        hi = np.asarray(high, dtype=float)
+        lower = np.where(np.isfinite(lo), np.maximum(0.0, y_arr - lo), 0.0)
+        upper = np.where(np.isfinite(hi), np.maximum(0.0, hi - y_arr), 0.0)
+        return np.vstack([lower, upper])
+
+    def _bootstrap_error_rate_from_fit_series(
+        self,
+        depths: list[int] | np.ndarray,
+        means: list[float] | np.ndarray,
+        std_values: list[float] | np.ndarray,
+        fit_kind: str,
+        n_boot: int,
+        ci_level: float,
+        use_sem: bool,
+        rng: np.random.Generator,
+    ) -> tuple[float, float, float]:
+        """
+        Bootstrap error-rate uncertainty for one fitted LRB/RB point.
+
+        Args:
+            depths (list[int] | np.ndarray): Depth values used in fit.
+            means (list[float] | np.ndarray): Mean fidelities per depth.
+            std_values (list[float] | np.ndarray): Std values per depth.
+            fit_kind (str): ``"lrb"`` (fixed-a) or ``"rb"`` (free-a).
+            n_boot (int): Number of bootstrap replicates.
+            ci_level (float): Central CI level.
+            use_sem (bool): Whether to use SEM bootstrap noise.
+            rng (np.random.Generator): RNG used for reproducible resampling.
+
+        Returns:
+            tuple[float, float, float]: ``(std, ci_low, ci_high)``.
+
+        Raises:
+            ValueError: If ``fit_kind`` is unsupported.
+        """
+        if int(n_boot) <= 0:
+            return np.nan, np.nan, np.nan
+        x = np.asarray(depths, dtype=float)
+        y = np.asarray(means, dtype=float)
+        e = np.asarray(std_values, dtype=float)
+        finite = np.isfinite(x) & np.isfinite(y) & np.isfinite(e)
+        x, y, e = x[finite], y[finite], e[finite]
+        if fit_kind == "lrb" and self.fit_config.y_ceiling is not None:
+            keep = y <= float(self.fit_config.y_ceiling)
+            x, y, e = x[keep], y[keep], e[keep]
+
+        min_points = (
+            self.fit_config.min_fit_points_lrb
+            if fit_kind == "lrb"
+            else self.fit_config.min_fit_points_rb
+        )
+        if len(x) < int(min_points):
+            return np.nan, np.nan, np.nan
+
+        sigma = self._bootstrap_sigma(
+            std_values=e,
+            n_sequences=self.num_cliffs,
+            use_sem=use_sem,
+        )
+        fit_errors = sigma if use_sem else e
+        boot_err: list[float] = []
+        for _ in range(int(n_boot)):
+            y_boot = y + rng.normal(loc=0.0, scale=sigma, size=len(y))
+            y_boot = np.clip(y_boot, 0.0, 1.0)
+            if fit_kind == "lrb":
+                fit = self._fit_decay_parameter_fixed_a(
+                    depths=x,
+                    means=y_boot,
+                    errors=fit_errors,
+                )
+            elif fit_kind == "rb":
+                fit = self._fit_decay_parameter_free_a(
+                    depths=x,
+                    means=y_boot,
+                    errors=fit_errors,
+                )
+            else:
+                raise ValueError(f"Unsupported fit_kind: {fit_kind}")
+            if fit is None:
+                continue
+            decay = float(fit["f"])
+            if not np.isfinite(decay):
+                continue
+            err_val = 1.0 - self._decay_to_fidelity(decay)
+            if np.isfinite(err_val):
+                boot_err.append(float(err_val))
+
+        return self._bootstrap_interval(
+            samples=np.asarray(boot_err, dtype=float),
+            ci_level=ci_level,
+        )
 
     @staticmethod
     def _trim_garbage_tail_by_monotone_dip(
@@ -1475,30 +2308,199 @@ class LRBResultsPlotter:
         ymin = max(0.0, ymin)
         return xmin, xmax, ymin, ymax
 
-    def _plot_error_vs_p_threshold(
+    @staticmethod
+    def _fit_lrb_curve_global(
+        p: np.ndarray,
+        y: np.ndarray,
+    ) -> tuple[dict[str, float] | None, str]:
+        """
+        Fit a global exponential-with-offset model for LRB error-vs-p data.
+
+        Model:
+            ``y(p) = c + a * exp(b * p)``
+
+        The fit uses a small grid search over ``c`` and linear regression in
+        log-space for ``a`` and ``b`` at each ``c``. The best-SSE candidate is
+        returned.
+
+        Args:
+            p (np.ndarray): Probability values.
+            y (np.ndarray): LRB error-rate values.
+
+        Returns:
+            tuple[dict[str, float] | None, str]: Fitted model parameters and a
+                human-readable model label; ``None`` if no fit succeeds.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        p_arr = np.asarray(p, dtype=float)
+        y_arr = np.asarray(y, dtype=float)
+        mask = np.isfinite(p_arr) & np.isfinite(y_arr)
+        p_arr = p_arr[mask]
+        y_arr = y_arr[mask]
+        if len(p_arr) < 2:
+            return None, "fit unavailable"
+        y_min = float(np.min(y_arr))
+        y_max = float(np.max(y_arr))
+        span = max(y_max - y_min, 1e-9)
+
+        # Candidate offsets below the observed floor.
+        c_low = y_min - 0.5 * span
+        c_high = y_min - 1e-10
+        c_grid = np.linspace(c_low, c_high, 200)
+
+        best_sse = np.inf
+        best_params: dict[str, float] | None = None
+        for c in c_grid:
+            shifted = y_arr - c
+            if np.any(shifted <= 0):
+                continue
+            try:
+                b, log_a = np.polyfit(p_arr, np.log(shifted), 1)
+            except Exception:
+                continue
+            if not (np.isfinite(b) and np.isfinite(log_a)):
+                continue
+            a = float(np.exp(log_a))
+            y_hat = c + a * np.exp(b * p_arr)
+            if not np.all(np.isfinite(y_hat)):
+                continue
+            sse = float(np.sum((y_arr - y_hat) ** 2))
+            if sse < best_sse:
+                best_sse = sse
+                best_params = {
+                    "a": float(a),
+                    "b": float(b),
+                    "c": float(c),
+                }
+
+        if best_params is None:
+            return None, "fit unavailable"
+        return best_params, "LRB exponential fit"
+
+    def _bootstrap_threshold_p_interval(
         self,
         p: np.ndarray,
         lrb_err: np.ndarray,
         rb_err: np.ndarray,
-        check_num: int,
-        threshold: dict[str, float | str | int | None],
+        lrb_err_std: np.ndarray,
+        rb_err_std: np.ndarray,
         cfg: LRBThresholdConfig,
-        show: bool,
-    ) -> str:
+        n_boot: int,
+        ci_level: float,
+        rng: np.random.Generator,
+    ) -> tuple[float, float, float]:
         """
-        Plot error-rate curves versus p with threshold-focused zoom.
+        Bootstrap pseudo-threshold uncertainty from pointwise error-rate std.
 
         Args:
             p (np.ndarray): Sorted probability values.
+            lrb_err (np.ndarray): Baseline LRB error-rate series.
+            rb_err (np.ndarray): Baseline RB error-rate series.
+            lrb_err_std (np.ndarray): Pointwise LRB std proxy.
+            rb_err_std (np.ndarray): Pointwise RB std proxy.
+            cfg (LRBThresholdConfig): Threshold controls for each replicate.
+            n_boot (int): Number of bootstrap replicates.
+            ci_level (float): Central CI level.
+            rng (np.random.Generator): RNG used for reproducible resampling.
+
+        Returns:
+            tuple[float, float, float]: ``(std, ci_low, ci_high)`` in ``p``.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        if int(n_boot) <= 0:
+            return np.nan, np.nan, np.nan
+        p_arr = np.asarray(p, dtype=float)
+        l_arr = np.asarray(lrb_err, dtype=float)
+        r_arr = np.asarray(rb_err, dtype=float)
+        l_std = np.asarray(lrb_err_std, dtype=float)
+        r_std = np.asarray(rb_err_std, dtype=float)
+
+        l_std = self._bootstrap_sigma(
+            std_values=l_std,
+            n_sequences=1,
+            use_sem=False,
+        )
+        r_std = self._bootstrap_sigma(
+            std_values=r_std,
+            n_sequences=1,
+            use_sem=False,
+        )
+
+        p_samples: list[float] = []
+        for _ in range(int(n_boot)):
+            l_boot = np.clip(
+                l_arr + rng.normal(loc=0.0, scale=l_std, size=len(l_arr)),
+                0.0,
+                np.inf,
+            )
+            r_boot = np.clip(
+                r_arr + rng.normal(loc=0.0, scale=r_std, size=len(r_arr)),
+                0.0,
+                np.inf,
+            )
+            start_idx = self._first_threshold_start_index(
+                lrb_err=l_boot,
+                rb_err=r_boot,
+                ignore_first_n=cfg.ignore_first_n,
+                err_floor=cfg.err_floor,
+            )
+            threshold = self._estimate_monotone_threshold_in_p(
+                p=p_arr,
+                lrb_err=l_boot,
+                rb_err=r_boot,
+                tol=cfg.tol,
+                require_consecutive=cfg.require_consecutive,
+                start_idx=start_idx,
+            )
+            threshold_p = float(threshold.get("threshold_p", np.nan))
+            if np.isfinite(threshold_p):
+                p_samples.append(threshold_p)
+
+        return self._bootstrap_interval(
+            samples=np.asarray(p_samples, dtype=float),
+            ci_level=ci_level,
+        )
+
+    def _draw_error_vs_p_threshold_axis(
+        self,
+        ax: Any,
+        p: np.ndarray,
+        lrb_err: np.ndarray,
+        rb_err: np.ndarray,
+        lrb_err_ci_low: np.ndarray | None,
+        lrb_err_ci_high: np.ndarray | None,
+        rb_err_ci_low: np.ndarray | None,
+        rb_err_ci_high: np.ndarray | None,
+        check_num: int,
+        threshold: dict[str, float | str | int | None],
+        cfg: LRBThresholdConfig,
+        title: str | None = None,
+        show_legend: bool = True,
+    ) -> None:
+        """
+        Draw one threshold error-vs-p panel on an existing axis.
+
+        Args:
+            ax (Any): Matplotlib axis target.
+            p (np.ndarray): Sorted probability values.
             lrb_err (np.ndarray): LRB error-rate values.
             rb_err (np.ndarray): RB error-rate values.
+            lrb_err_ci_low (np.ndarray | None): Optional LRB lower CI bounds.
+            lrb_err_ci_high (np.ndarray | None): Optional LRB upper CI bounds.
+            rb_err_ci_low (np.ndarray | None): Optional RB lower CI bounds.
+            rb_err_ci_high (np.ndarray | None): Optional RB upper CI bounds.
             check_num (int): Uniform check value.
             threshold (dict[str, float | str | int | None]): Threshold record.
             cfg (LRBThresholdConfig): Plot and threshold controls.
-            show (bool): Whether to display the figure.
+            title (str | None): Optional axis title override.
+            show_legend (bool): Whether to draw a legend.
 
         Returns:
-            str: Generated output PDF path.
+            None: Draws directly on the axis.
 
         Raises:
             ValueError: Not raised directly by this method.
@@ -1506,32 +2508,94 @@ class LRBResultsPlotter:
         p_arr = np.asarray(p, dtype=float)
         l_arr = np.asarray(lrb_err, dtype=float)
         r_arr = np.asarray(rb_err, dtype=float)
-        plt.figure(figsize=(8.5, 5.5))
-        plt.plot(p_arr, l_arr, "-o", markersize=4, label="LRB error rate")
-        plt.plot(p_arr, r_arr, "-s", markersize=4, label="RB error rate")
+        ax.set_axisbelow(True)
+        has_lrb_ci = lrb_err_ci_low is not None and lrb_err_ci_high is not None
+        has_rb_ci = rb_err_ci_low is not None and rb_err_ci_high is not None
+        if has_lrb_ci:
+            lrb_yerr = self._to_asymmetric_yerr(
+                y=l_arr,
+                low=np.asarray(lrb_err_ci_low, dtype=float),
+                high=np.asarray(lrb_err_ci_high, dtype=float),
+            )
+            ax.errorbar(
+                p_arr,
+                l_arr,
+                yerr=lrb_yerr,
+                fmt="-o",
+                markersize=4,
+                capsize=2,
+                elinewidth=0.9,
+                label="LRB error rate",
+                zorder=2,
+            )
+        else:
+            ax.plot(
+                p_arr,
+                l_arr,
+                "-o",
+                markersize=4,
+                label="LRB error rate",
+                zorder=2,
+            )
+
+        if has_rb_ci:
+            rb_yerr = self._to_asymmetric_yerr(
+                y=r_arr,
+                low=np.asarray(rb_err_ci_low, dtype=float),
+                high=np.asarray(rb_err_ci_high, dtype=float),
+            )
+            ax.errorbar(
+                p_arr,
+                r_arr,
+                yerr=rb_yerr,
+                fmt="-s",
+                markersize=4,
+                capsize=2,
+                elinewidth=0.9,
+                label="RB error rate",
+                zorder=2,
+            )
+        else:
+            ax.plot(
+                p_arr,
+                r_arr,
+                "-s",
+                markersize=4,
+                label="RB error rate",
+                zorder=2,
+            )
 
         threshold_p = float(threshold["threshold_p"])
         onset = threshold.get("onset_index", None)
         if np.isfinite(threshold_p):
-            plt.axvline(
+            ax.axvline(
                 threshold_p,
                 linestyle="--",
                 alpha=0.7,
-                label=f"$p\\approx{threshold_p:.4g}$",
+                label=f"$p^*\\approx{threshold_p:.4g}$",
+                zorder=1.5,
             )
-            plt.plot(
+            ax.plot(
                 [threshold_p],
                 [threshold["threshold_lrb_error"]],
                 "o",
                 markersize=9,
                 alpha=0.7,
+                color="tab:blue",
+                markeredgecolor="white",
+                markeredgewidth=0.8,
+                zorder=8,
             )
-            plt.plot(
+            ax.plot(
                 [threshold_p],
                 [threshold["threshold_rb_error"]],
                 "o",
                 markersize=9,
                 alpha=0.7,
+                color="tab:red",
+                markeredgecolor="white",
+                markeredgewidth=0.8,
+                zorder=9,
             )
 
         if onset is None:
@@ -1551,32 +2615,183 @@ class LRBResultsPlotter:
             cfg.zoom_pad_frac,
             cfg.min_zoom_span,
         )
-        plt.xlim(xmin, xmax)
-        plt.ylim(ymin, ymax)
-        plt.xlabel("physical noise parameter p")
-        plt.ylabel("error rate (1 - fidelity)")
-        plt.title(
-            "LRB vs RB "
-            f"({self._title_context('unif', check_num)}): "
-            "error rates vs p"
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
+        ax.set_xlabel("Physical Noise Parameter p")
+        ax.set_ylabel("Error Rate (1 - Fidelity)")
+        if title is None:
+            title = (
+                "LRB vs RB "
+                f"({self._title_context('unif', check_num)}): "
+                "error rates vs p"
+            )
+        ax.set_title(title)
+        ax.grid(True, zorder=0)
+        if show_legend:
+            ax.legend()
+
+    def _plot_error_vs_p_threshold(
+        self,
+        p: np.ndarray,
+        lrb_err: np.ndarray,
+        rb_err: np.ndarray,
+        lrb_err_ci_low: np.ndarray | None,
+        lrb_err_ci_high: np.ndarray | None,
+        rb_err_ci_low: np.ndarray | None,
+        rb_err_ci_high: np.ndarray | None,
+        check_num: int,
+        threshold: dict[str, float | str | int | None],
+        cfg: LRBThresholdConfig,
+        show: bool,
+    ) -> str:
+        """
+        Plot error-rate curves versus p with threshold-focused zoom.
+
+        Args:
+            p (np.ndarray): Sorted probability values.
+            lrb_err (np.ndarray): LRB error-rate values.
+            rb_err (np.ndarray): RB error-rate values.
+            lrb_err_ci_low (np.ndarray | None): Optional LRB lower CI bounds.
+            lrb_err_ci_high (np.ndarray | None): Optional LRB upper CI bounds.
+            rb_err_ci_low (np.ndarray | None): Optional RB lower CI bounds.
+            rb_err_ci_high (np.ndarray | None): Optional RB upper CI bounds.
+            check_num (int): Uniform check value.
+            threshold (dict[str, float | str | int | None]): Threshold record.
+            cfg (LRBThresholdConfig): Plot and threshold controls.
+            show (bool): Whether to display the figure.
+
+        Returns:
+            str: Generated output PDF path.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        fig, ax = plt.subplots(figsize=(8.5, 5.5))
+        self._draw_error_vs_p_threshold_axis(
+            ax=ax,
+            p=p,
+            lrb_err=lrb_err,
+            rb_err=rb_err,
+            lrb_err_ci_low=lrb_err_ci_low,
+            lrb_err_ci_high=lrb_err_ci_high,
+            rb_err_ci_low=rb_err_ci_low,
+            rb_err_ci_high=rb_err_ci_high,
+            check_num=check_num,
+            threshold=threshold,
+            cfg=cfg,
+            title=None,
+            show_legend=True,
         )
-        plt.grid(True)
-        plt.legend()
-        plt.tight_layout()
+        fig.tight_layout()
 
         out_path = os.path.join(
             self.out_dir,
             f"unif-{check_num}-error-vs-p-threshold-monotone.pdf",
         )
         self._save_pdf_overwrite(
-            fig=plt.gcf(),
+            fig=fig,
             out_path=out_path,
             dpi=300,
             bbox_inches="tight",
         )
         if show:
             plt.show()
-        plt.close()
+        plt.close(fig)
+        print(f"[OK] wrote {out_path}")
+        return out_path
+
+    def _plot_error_vs_p_threshold_paper_grid(
+        self,
+        rows: list[dict[str, Any]],
+        cfg: LRBThresholdConfig,
+        show: bool,
+    ) -> str | None:
+        """
+        Render all unif threshold error-vs-p panels on one paper-style canvas.
+
+        Args:
+            rows (list[dict[str, Any]]): Per-check threshold plotting records.
+            cfg (LRBThresholdConfig): Threshold/paper controls.
+            show (bool): Whether to display the figure.
+
+        Returns:
+            str | None: Output PDF path, or ``None`` if no rows are available.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        if not rows:
+            return None
+        n_items = len(rows)
+        n_cols = max(1, int(cfg.paper_cols))
+        n_rows = int(np.ceil(n_items / float(n_cols)))
+        fig_w = max(5.5, float(cfg.paper_panel_width_in) * n_cols)
+        fig_h = max(3.2, float(cfg.paper_panel_height_in) * n_rows)
+
+        rc_updates: dict[str, float] = {
+            "font.size": float(cfg.paper_tick_fontsize),
+            "axes.labelsize": float(cfg.paper_axis_label_fontsize),
+            "xtick.labelsize": float(cfg.paper_tick_fontsize),
+            "ytick.labelsize": float(cfg.paper_tick_fontsize),
+            "legend.fontsize": float(cfg.paper_legend_fontsize),
+            "lines.linewidth": float(cfg.paper_line_width),
+            "lines.markersize": float(cfg.paper_marker_size),
+        }
+
+        with mpl.rc_context(rc=rc_updates):
+            fig, axs = plt.subplots(
+                nrows=n_rows,
+                ncols=n_cols,
+                figsize=(fig_w, fig_h),
+                constrained_layout=True,
+            )
+            axs_arr = np.atleast_2d(axs)
+            if n_rows == 1:
+                axs_arr = axs_arr.reshape(1, n_cols)
+            if n_cols == 1:
+                axs_arr = axs_arr.reshape(n_rows, 1)
+
+            for idx, row in enumerate(rows):
+                rr = idx // n_cols
+                cc = idx % n_cols
+                ax = axs_arr[rr, cc]
+                check_num = int(row["check_num"])
+                self._draw_error_vs_p_threshold_axis(
+                    ax=ax,
+                    p=np.asarray(row["p"], dtype=float),
+                    lrb_err=np.asarray(row["lrb_err"], dtype=float),
+                    rb_err=np.asarray(row["rb_err"], dtype=float),
+                    lrb_err_ci_low=row["lrb_err_ci_low"],
+                    lrb_err_ci_high=row["lrb_err_ci_high"],
+                    rb_err_ci_low=row["rb_err_ci_low"],
+                    rb_err_ci_high=row["rb_err_ci_high"],
+                    check_num=check_num,
+                    threshold=row["threshold"],
+                    cfg=cfg,
+                    title=f"Uniform Interval Check = {check_num}",
+                    show_legend=True,
+                )
+                ax.title.set_fontsize(float(cfg.paper_title_fontsize))
+
+            for idx in range(n_items, n_rows * n_cols):
+                rr = idx // n_cols
+                cc = idx % n_cols
+                axs_arr[rr, cc].set_visible(False)
+
+            out_path = os.path.join(
+                self.out_dir,
+                "unif-threshold-error-vs-p-paper-grid.pdf",
+            )
+            self._save_pdf_overwrite(
+                fig=fig,
+                out_path=out_path,
+                dpi=300,
+                bbox_inches="tight",
+            )
+            if show:
+                plt.show()
+            plt.close(fig)
+
         print(f"[OK] wrote {out_path}")
         return out_path
 
@@ -1686,8 +2901,8 @@ class LRBResultsPlotter:
 
         plt.xlim(xmin, xmax)
         plt.ylim(ymin, ymax)
-        plt.xlabel("RB error rate (1 - fidelity)")
-        plt.ylabel("LRB error rate (1 - fidelity)")
+        plt.xlabel("RB Error Rate (1 - Fidelity)")
+        plt.ylabel("LRB Error Rate (1 - Fidelity)")
         plt.title(
             "LRB vs RB "
             f"({self._title_context('unif', check_num)})"
@@ -1740,6 +2955,8 @@ class LRBResultsPlotter:
         threshold_config: LRBThresholdConfig | None = None,
         table_csv_path: str | None = None,
         show: bool = True,
+        check_min: int | None = None,
+        check_max: int | None = None,
     ) -> str:
         """
         Build threshold graphs and summary CSV for all uniform checks.
@@ -1748,6 +2965,13 @@ class LRBResultsPlotter:
             threshold_config (LRBThresholdConfig | None): Optional controls.
             table_csv_path (str | None): Optional input table path.
             show (bool): Whether to display generated figures.
+            check_min (int | None): Optional inclusive lower check bound.
+            check_max (int | None): Optional inclusive upper check bound.
+            Paper mode:
+            When ``threshold_config.paper_mode`` is true, this method skips
+            per-check threshold PDF outputs and writes one combined
+            error-vs-p grid:
+            ``unif-threshold-error-vs-p-paper-grid.pdf``.
 
         Returns:
             str: Path to the generated threshold summary CSV.
@@ -1760,12 +2984,29 @@ class LRBResultsPlotter:
             raise RuntimeError("pandas is required for threshold plotting.")
 
         cfg = threshold_config or LRBThresholdConfig()
+        ci_level = self._normalize_ci_level(cfg.bootstrap_ci_level)
+        rng = np.random.default_rng(cfg.bootstrap_seed)
+        point_ci_cols = [
+            "lrb_error_rate_std_boot",
+            "lrb_error_rate_ci_low",
+            "lrb_error_rate_ci_high",
+            "rb_error_rate_std_boot",
+            "rb_error_rate_ci_low",
+            "rb_error_rate_ci_high",
+        ]
         if table_csv_path is None:
             table_csv_path = self._find_unif_table_csv()
         if table_csv_path is None:
             # Auto-build the table when the notebook has not generated it yet.
             table_csv_path = self.build_unif_lrb_vs_rb_table_mixed_fits(
-                write_per_check_tables=False)
+                write_per_check_tables=False,
+                check_min=check_min,
+                check_max=check_max,
+                bootstrap_reps=cfg.bootstrap_reps_error,
+                bootstrap_ci_level=ci_level,
+                bootstrap_use_sem=cfg.bootstrap_use_sem,
+                bootstrap_seed=cfg.bootstrap_seed,
+            )
         if not os.path.exists(table_csv_path):
             raise FileNotFoundError(f"Missing table CSV: {table_csv_path}")
 
@@ -1774,12 +3015,33 @@ class LRBResultsPlotter:
         for col in required_cols:
             if col not in frame.columns:
                 raise KeyError(f"Missing column '{col}' in {table_csv_path}")
+        has_point_ci = all(col in frame.columns for col in point_ci_cols)
+        if cfg.bootstrap_reps_error > 0 and not has_point_ci:
+            table_csv_path = self.build_unif_lrb_vs_rb_table_mixed_fits(
+                write_per_check_tables=False,
+                check_min=check_min,
+                check_max=check_max,
+                bootstrap_reps=cfg.bootstrap_reps_error,
+                bootstrap_ci_level=ci_level,
+                bootstrap_use_sem=cfg.bootstrap_use_sem,
+                bootstrap_seed=cfg.bootstrap_seed,
+            )
+            frame = pd.read_csv(table_csv_path)
+            has_point_ci = all(col in frame.columns for col in point_ci_cols)
 
         has_lrb_n = "lrb_n_points" in frame.columns
         has_rb_n = "rb_n_points" in frame.columns
         checks = sorted([int(v) for v in frame["check_num"].dropna().unique()])
+        checks = self._filter_checks_by_range(
+            checks=checks,
+            check_min=check_min,
+            check_max=check_max,
+        )
+        if not checks:
+            raise ValueError("No unif checks found in the requested range.")
 
         summary_rows: list[dict[str, float | int | str]] = []
+        paper_rows: list[dict[str, Any]] = []
         for check_num in checks:
             sub = frame[frame["check_num"] == check_num].copy()
             if cfg.p_min is not None:
@@ -1794,13 +3056,41 @@ class LRBResultsPlotter:
             p = sub["p"].to_numpy(dtype=float)
             lrb_err = sub["lrb_error_rate"].to_numpy(dtype=float)
             rb_err = sub["rb_error_rate"].to_numpy(dtype=float)
+            if has_point_ci:
+                lrb_ci_low = sub["lrb_error_rate_ci_low"].to_numpy(dtype=float)
+                lrb_ci_high = sub["lrb_error_rate_ci_high"].to_numpy(
+                    dtype=float)
+                rb_ci_low = sub["rb_error_rate_ci_low"].to_numpy(dtype=float)
+                rb_ci_high = sub["rb_error_rate_ci_high"].to_numpy(dtype=float)
+                lrb_std_boot = sub["lrb_error_rate_std_boot"].to_numpy(
+                    dtype=float)
+                rb_std_boot = sub["rb_error_rate_std_boot"].to_numpy(
+                    dtype=float)
+            else:
+                lrb_ci_low = np.full_like(lrb_err, np.nan, dtype=float)
+                lrb_ci_high = np.full_like(lrb_err, np.nan, dtype=float)
+                rb_ci_low = np.full_like(rb_err, np.nan, dtype=float)
+                rb_ci_high = np.full_like(rb_err, np.nan, dtype=float)
+                lrb_std_boot = np.full_like(lrb_err, np.nan, dtype=float)
+                rb_std_boot = np.full_like(rb_err, np.nan, dtype=float)
             finite = self._finite_mask(p, lrb_err, rb_err)
-            p, lrb_err, rb_err = p[finite], lrb_err[finite], rb_err[finite]
+            p = p[finite]
+            lrb_err = lrb_err[finite]
+            rb_err = rb_err[finite]
+            lrb_ci_low = lrb_ci_low[finite]
+            lrb_ci_high = lrb_ci_high[finite]
+            rb_ci_low = rb_ci_low[finite]
+            rb_ci_high = rb_ci_high[finite]
+            lrb_std_boot = lrb_std_boot[finite]
+            rb_std_boot = rb_std_boot[finite]
             if len(p) < 2:
                 summary_rows.append(
                     {
                         "check_num": int(check_num),
                         "threshold_p": np.nan,
+                        "threshold_p_std_boot": np.nan,
+                        "threshold_p_ci_low": np.nan,
+                        "threshold_p_ci_high": np.nan,
                         "threshold_rb_error_rate": np.nan,
                         "threshold_lrb_error_rate": np.nan,
                         "method": "insufficient_points",
@@ -1810,7 +3100,15 @@ class LRBResultsPlotter:
                 continue
 
             order = np.argsort(p)
-            p, lrb_err, rb_err = p[order], lrb_err[order], rb_err[order]
+            p = p[order]
+            lrb_err = lrb_err[order]
+            rb_err = rb_err[order]
+            lrb_ci_low = lrb_ci_low[order]
+            lrb_ci_high = lrb_ci_high[order]
+            rb_ci_low = rb_ci_low[order]
+            rb_ci_high = rb_ci_high[order]
+            lrb_std_boot = lrb_std_boot[order]
+            rb_std_boot = rb_std_boot[order]
 
             cut_l = self._trim_garbage_tail_by_monotone_dip(
                 p,
@@ -1830,11 +3128,20 @@ class LRBResultsPlotter:
             p_trim = p[:cut_idx]
             lrb_trim = lrb_err[:cut_idx]
             rb_trim = rb_err[:cut_idx]
+            lrb_ci_low_trim = lrb_ci_low[:cut_idx]
+            lrb_ci_high_trim = lrb_ci_high[:cut_idx]
+            rb_ci_low_trim = rb_ci_low[:cut_idx]
+            rb_ci_high_trim = rb_ci_high[:cut_idx]
+            lrb_std_trim = lrb_std_boot[:cut_idx]
+            rb_std_trim = rb_std_boot[:cut_idx]
             if len(p_trim) < 2:
                 summary_rows.append(
                     {
                         "check_num": int(check_num),
                         "threshold_p": np.nan,
+                        "threshold_p_std_boot": np.nan,
+                        "threshold_p_ci_low": np.nan,
+                        "threshold_p_ci_high": np.nan,
                         "threshold_rb_error_rate": np.nan,
                         "threshold_lrb_error_rate": np.nan,
                         "method": "insufficient_points_after_tail_trim",
@@ -1857,11 +3164,29 @@ class LRBResultsPlotter:
                 require_consecutive=cfg.require_consecutive,
                 start_idx=start_idx,
             )
+            threshold_std, threshold_lo, threshold_hi = np.nan, np.nan, np.nan
+            if has_point_ci and cfg.bootstrap_reps_threshold > 0:
+                threshold_std, threshold_lo, threshold_hi = (
+                    self._bootstrap_threshold_p_interval(
+                        p=p_trim,
+                        lrb_err=lrb_trim,
+                        rb_err=rb_trim,
+                        lrb_err_std=lrb_std_trim,
+                        rb_err_std=rb_std_trim,
+                        cfg=cfg,
+                        n_boot=cfg.bootstrap_reps_threshold,
+                        ci_level=ci_level,
+                        rng=rng,
+                    )
+                )
 
             summary_rows.append(
                 {
                     "check_num": int(check_num),
                     "threshold_p": float(thr["threshold_p"]),
+                    "threshold_p_std_boot": float(threshold_std),
+                    "threshold_p_ci_low": float(threshold_lo),
+                    "threshold_p_ci_high": float(threshold_hi),
                     "threshold_rb_error_rate": float(
                         thr["threshold_rb_error"]),
                     "threshold_lrb_error_rate": float(
@@ -1872,27 +3197,93 @@ class LRBResultsPlotter:
                     "n_points_used": int(len(p_trim)),
                 }
             )
-            self._plot_error_vs_p_threshold(
-                p=p_trim,
-                lrb_err=lrb_trim,
-                rb_err=rb_trim,
-                check_num=check_num,
-                threshold=thr,
-                cfg=cfg,
-                show=show,
-            )
-            self._plot_lrb_vs_rb_parametric_threshold(
-                p=p_trim,
-                lrb_err=lrb_trim,
-                rb_err=rb_trim,
-                check_num=check_num,
-                threshold=thr,
+            if cfg.paper_mode:
+                paper_rows.append(
+                    {
+                        "check_num": int(check_num),
+                        "p": np.asarray(p_trim, dtype=float),
+                        "lrb_err": np.asarray(lrb_trim, dtype=float),
+                        "rb_err": np.asarray(rb_trim, dtype=float),
+                        "lrb_err_ci_low": (
+                            np.asarray(lrb_ci_low_trim, dtype=float)
+                            if has_point_ci
+                            else None
+                        ),
+                        "lrb_err_ci_high": (
+                            np.asarray(lrb_ci_high_trim, dtype=float)
+                            if has_point_ci
+                            else None
+                        ),
+                        "rb_err_ci_low": (
+                            np.asarray(rb_ci_low_trim, dtype=float)
+                            if has_point_ci
+                            else None
+                        ),
+                        "rb_err_ci_high": (
+                            np.asarray(rb_ci_high_trim, dtype=float)
+                            if has_point_ci
+                            else None
+                        ),
+                        "threshold": thr,
+                    }
+                )
+            else:
+                self._plot_error_vs_p_threshold(
+                    p=p_trim,
+                    lrb_err=lrb_trim,
+                    rb_err=rb_trim,
+                    lrb_err_ci_low=lrb_ci_low_trim if has_point_ci else None,
+                    lrb_err_ci_high=lrb_ci_high_trim if has_point_ci else None,
+                    rb_err_ci_low=rb_ci_low_trim if has_point_ci else None,
+                    rb_err_ci_high=rb_ci_high_trim if has_point_ci else None,
+                    check_num=check_num,
+                    threshold=thr,
+                    cfg=cfg,
+                    show=show,
+                )
+                self._plot_lrb_vs_rb_parametric_threshold(
+                    p=p_trim,
+                    lrb_err=lrb_trim,
+                    rb_err=rb_trim,
+                    check_num=check_num,
+                    threshold=thr,
+                    cfg=cfg,
+                    show=show,
+                )
+
+        if cfg.paper_mode:
+            self._plot_error_vs_p_threshold_paper_grid(
+                rows=paper_rows,
                 cfg=cfg,
                 show=show,
             )
 
         summary = pd.DataFrame(summary_rows).sort_values(
             "check_num").reset_index(drop=True)
+        for _, row in summary.iterrows():
+            p_star = float(row.get("threshold_p", np.nan))
+            if not np.isfinite(p_star):
+                continue
+            std_boot = float(row.get("threshold_p_std_boot", np.nan))
+            ci_low = float(row.get("threshold_p_ci_low", np.nan))
+            ci_high = float(row.get("threshold_p_ci_high", np.nan))
+            if np.isfinite(std_boot):
+                unc = std_boot
+            elif np.isfinite(ci_low) and np.isfinite(ci_high):
+                unc = 0.5 * abs(ci_high - ci_low)
+            else:
+                unc = np.nan
+            check_num = int(row.get("check_num", -1))
+            if np.isfinite(unc):
+                print(
+                    f"[THRESHOLD] Uniform Interval Check = {check_num}: "
+                    f"p* = {p_star:.6g} +- {unc:.3g}"
+                )
+            else:
+                print(
+                    f"[THRESHOLD] Uniform Interval Check = {check_num}: "
+                    f"p* = {p_star:.6g} +- NaN"
+                )
         out_summary = os.path.join(
             self.out_dir,
             "unif_thresholds_summary_monotone_trim_zoom_pwindow.csv",
@@ -1906,6 +3297,8 @@ class LRBResultsPlotter:
         threshold_config: LRBThresholdConfig | None = None,
         table_csv_path: str | None = None,
         show: bool = True,
+        check_min: int | None = None,
+        check_max: int | None = None,
     ) -> str:
         """
         Compatibility wrapper for the standalone monotone-threshold script flow.
@@ -1920,6 +3313,8 @@ class LRBResultsPlotter:
             threshold_config=threshold_config,
             table_csv_path=table_csv_path,
             show=show,
+            check_min=check_min,
+            check_max=check_max,
         )
 
     def plot_unif_pseudo_thresholds_vs_interval_check(
@@ -1930,6 +3325,7 @@ class LRBResultsPlotter:
         do_fit: bool = True,
         fit_model: str = "exp",
         fit_degree: int = 1,
+        paper_mode: bool = False,
         show: bool = True,
     ) -> str:
         """
@@ -1947,6 +3343,7 @@ class LRBResultsPlotter:
             do_fit (bool): Whether to overlay a polynomial fit.
             fit_model (str): ``"exp"`` or ``"poly"`` fit model.
             fit_degree (int): Requested polynomial degree for fitting.
+            paper_mode (bool): If true, suppress the plot title/header.
             show (bool): Whether to display the figure.
 
         Returns:
@@ -1993,18 +3390,64 @@ class LRBResultsPlotter:
 
         x = sub["check_num"].to_numpy(dtype=float)
         y = sub["threshold_p"].to_numpy(dtype=float)
+        has_threshold_ci = (
+            "threshold_p_ci_low" in sub.columns
+            and "threshold_p_ci_high" in sub.columns
+        )
 
         fig, ax = plt.subplots(figsize=(7.6, 5.2))
         ax.set_axisbelow(True)
-        ax.scatter(
-            x,
-            y,
-            s=36,
-            zorder=3,
-            edgecolors="white",
-            linewidths=0.6,
-            label="pseudo-threshold data",
-        )
+        if has_threshold_ci:
+            yerr = self._to_asymmetric_yerr(
+                y=y,
+                low=sub["threshold_p_ci_low"].to_numpy(dtype=float),
+                high=sub["threshold_p_ci_high"].to_numpy(dtype=float),
+            )
+            ax.errorbar(
+                x,
+                y,
+                yerr=yerr,
+                fmt="o",
+                markersize=6,
+                capsize=3,
+                elinewidth=1.0,
+                alpha=0.9,
+                markeredgecolor="white",
+                markeredgewidth=0.6,
+                zorder=3,
+                label=r"Pseudo-threshold $p^*$ data",
+            )
+        else:
+            ax.scatter(
+                x,
+                y,
+                s=36,
+                zorder=3,
+                edgecolors="white",
+                linewidths=0.6,
+                label=r"Pseudo-threshold $p^*$ data",
+            )
+
+        # Print check-wise pseudo-threshold statements in "# +- #" form.
+        if "threshold_p_std_boot" in sub.columns:
+            unc_arr = sub["threshold_p_std_boot"].to_numpy(dtype=float)
+        elif has_threshold_ci:
+            lo_arr = sub["threshold_p_ci_low"].to_numpy(dtype=float)
+            hi_arr = sub["threshold_p_ci_high"].to_numpy(dtype=float)
+            unc_arr = 0.5 * np.abs(hi_arr - lo_arr)
+        else:
+            unc_arr = np.full_like(y, np.nan, dtype=float)
+        for k, yv, uv in zip(x, y, unc_arr):
+            if np.isfinite(uv):
+                print(
+                    f"[PSEUDO] Uniform Interval Check = {int(k)}: "
+                    f"p* = {float(yv):.6g} +- {float(uv):.3g}"
+                )
+            else:
+                print(
+                    f"[PSEUDO] Uniform Interval Check = {int(k)}: "
+                    f"p* = {float(yv):.6g} +- NaN"
+                )
 
         degree = max(0, int(fit_degree))
         degree = min(degree, len(x) - 1)
@@ -2079,12 +3522,13 @@ class LRBResultsPlotter:
         else:
             print("[FIT] fit disabled by do_fit=False.")
 
-        ax.set_xlabel("uniform interval check number")
-        ax.set_ylabel("pseudo-threshold p")
-        ax.set_title(
-            "Pseudo-threshold vs uniform interval check "
-            f"(q={self.d_dim}, {self.code_title})"
-        )
+        ax.set_xlabel("Uniform Interval Check Number")
+        ax.set_ylabel(r"Pseudo-threshold $p^*$")
+        if not paper_mode:
+            ax.set_title(
+                r"Pseudo-threshold $p^*$ vs Uniform Interval Check "
+                f"(q={self.d_dim}, {self.code_title})"
+            )
         tick_start = int(np.floor(np.min(x)))
         tick_end = int(np.ceil(np.max(x)))
         ax.set_xticks(list(range(tick_start, tick_end + 1)))
