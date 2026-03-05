@@ -51,52 +51,64 @@ The project is organized so code-specific logic lives in definitions and
 profiles, while simulation and generation remain generic:
 
 1. Code-specific circuits and logical operators:
-   `code_definitions.py`
+   `src/lrb/code_definitions.py`
 2. Mapping from `code_name` to generic hooks:
-   `code_simulation_profiles.py`
+   `src/lrb/code_simulation_profiles.py`
 3. Generic RB/LRB circuit generation engine:
-   `circuit_generator.py`
+   `src/lrb/circuit_generator.py`
 4. Run setup (folders, metadata, circuit export):
-   `experiment_setup.py`
+   `src/lrb/experiment_setup.py`
 5. Runtime simulation executor for one probability index:
-   `run_lrb_experiment.py`
+   `scripts/run_lrb_experiment.py`
 6. Simulation and postselection backend:
-   `lrb_simulation.py`
+   `src/lrb/lrb_simulation.py`
 7. Plotting and analysis class API:
-   `lrb_plotting.py`
+   `src/lrb/lrb_plotting.py`
+
+## Strict Layout
+
+Repository root is intentionally minimal. Main project content is organized as:
+
+1. `src/`: Package source code (`lrb`).
+2. `scripts/`: Python entrypoints for setup and simulation runs.
+3. `slurm/`: Batch launch scripts.
+4. `external/`: External/non-core assets (for example IQM circuit bundles).
+5. `artifacts/`: Snapshots and archived outputs.
+6. `legacy/`: Archived compatibility files (not part of active workflow).
+7. Root notebook: `Visualize LRB Stab Check Results.ipynb`
 
 ## Repository Files
 
-- `code_definitions.py`
+- `src/lrb/code_definitions.py`
   - Qutrit Clifford library.
   - `[[5,1,2]]_3` folded surface-code circuit templates.
   - QGRM `[[3,1,2]]_3` circuit templates.
-- `code_simulation_profiles.py`
+- `src/lrb/code_simulation_profiles.py`
   - Registry that resolves `code_name` to:
     - `LRBCodeDefinition`
     - logical dimension
     - unpack function
-- `circuit_generator.py`
+- `src/lrb/circuit_generator.py`
   - Generic `LRBCircuitGenerator`.
   - Generates depth-indexed RB/LRB circuits.
   - Injects N1/N2 depolarizing noise placeholders.
-- `experiment_setup.py`
+- `src/lrb/experiment_setup.py`
   - Creates run folders and parameter files.
   - Generates all circuit files for all probabilities.
   - Writes working-folder markers.
-- `generate_circuits_folded.py`
+- `scripts/generate_circuits_folded.py`
   - One-command folded-code setup generation.
-- `generate_circuits_qgrm.py`
+- `scripts/generate_circuits_qgrm.py`
   - One-command QGRM setup generation.
-- `run_lrb_experiment.py`
+- `scripts/run_lrb_experiment.py`
   - Runs one probability-index simulation round.
-- `run_lrb_slurm_folded.sh`
+- `slurm/run_lrb_slurm_folded.sh`
   - SLURM launcher for all folded probabilities.
-- `run_lrb_slurm_qgrm.sh`
+- `slurm/run_lrb_slurm_qgrm.sh`
   - SLURM launcher for all QGRM probabilities.
-- `lrb_simulation.py`
+- `src/lrb/lrb_simulation.py`
   - Core simulation, postselection, stats read/write.
-- `lrb_plotting.py`
+- `src/lrb/lrb_plotting.py`
   - Plotting class with:
     - unif-fit plots
     - const no-fit plots
@@ -109,12 +121,16 @@ profiles, while simulation and generation remain generic:
     - qutrit QGRM `[[3,1,2]]_3`
   - Includes unif-fit plots, const no-fit plots, threshold plots, and
     pseudo-threshold-vs-interval-check fits.
-- `Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3/`
+- `external/iqm_qpu_circuits/`
+  - IQM-specific circuit generation and conversion assets.
+- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3/`
   - Curated QGRM result-plot snapshot folder (copied plot outputs).
-- `Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/`
+- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/`
   - Curated folded-code result-plot snapshot folder (copied plot outputs).
-- `Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3.zip`
+- `artifacts/archives/Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3.zip`
   - Archived copy of the QGRM plot snapshot folder.
+- `legacy/compat/`
+  - Archived legacy compatibility entrypoints/modules.
 
 ## Prerequisites
 
@@ -138,13 +154,13 @@ Cluster scripts also expect:
 Folded:
 
 ```bash
-python generate_circuits_folded.py
+python scripts/generate_circuits_folded.py
 ```
 
 QGRM:
 
 ```bash
-python generate_circuits_qgrm.py
+python scripts/generate_circuits_qgrm.py
 ```
 
 Each command creates a new run folder under:
@@ -158,14 +174,14 @@ Run name format:
 Single probability index (local or manual):
 
 ```bash
-python run_lrb_experiment.py <RUN_NAME> <PROB_INDEX>
+python scripts/run_lrb_experiment.py <RUN_NAME> <PROB_INDEX>
 ```
 
 Full probability sweep on SLURM:
 
 ```bash
-sbatch run_lrb_slurm_folded.sh
-sbatch run_lrb_slurm_qgrm.sh
+sbatch slurm/run_lrb_slurm_folded.sh
+sbatch slurm/run_lrb_slurm_qgrm.sh
 ```
 
 ### 3. Plot and analyze
@@ -242,7 +258,7 @@ Both generation scripts expose the same CLI args:
 Example:
 
 ```bash
-python generate_circuits_folded.py \
+python scripts/generate_circuits_folded.py \
   --custom-name testA \
   --n-cliff 40 \
   --depths 0,2,4,8,12 \
@@ -254,7 +270,7 @@ python generate_circuits_folded.py \
 - Logical LRB shots come from run metadata (`shots.txt`), which is overwritten
   by `NUM_SHOTS` in SLURM scripts.
 - Physical RB shots are currently fixed by:
-  `NORMAL_RB_SHOTS = 10000` in `lrb_simulation.py`.
+  `NORMAL_RB_SHOTS = 10000` in `src/lrb/lrb_simulation.py`.
 
 ### SLURM controls
 
@@ -269,7 +285,7 @@ In each SLURM script:
 Note:
 `PROBABILITIES` in SLURM should match the run's `probs.txt` ordering.
 
-## Plotting API (`lrb_plotting.py`)
+## Plotting API (`src/lrb/lrb_plotting.py`)
 
 ### Main classes
 
@@ -280,7 +296,12 @@ Note:
 ### Typical usage (Python)
 
 ```python
-from lrb_plotting import (
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path("src").resolve()))
+
+from lrb.lrb_plotting import (
     LRBPlotFitConfig,
     LRBThresholdConfig,
     LRBResultsPlotter,
@@ -336,10 +357,10 @@ Pseudo-threshold plots:
 
 In addition to run-local outputs under
 `LRB-experiment-data-slurm/Run-.../results/plots/`, this repo currently
-includes curated snapshot folders at the repository root:
+includes curated snapshot folders under `artifacts/plot_snapshots/`:
 
-- `Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3/`
-- `Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/`
+- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3/`
+- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/`
 
 These folders contain copied plot artifacts (PDFs and selected CSV summaries)
 for quick sharing/comparison outside the run-folder tree.
@@ -349,7 +370,7 @@ Raw simulation data remains under:
 
 The folded snapshot also contains:
 
-- `Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/old/`
+- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/old/`
   (older plot versions kept for reference).
 
 ## Stats CSV Format
@@ -368,7 +389,7 @@ The folded snapshot also contains:
 
 ### Step 1: Define code circuits
 
-In `code_definitions.py`, add a code class with methods analogous to existing
+In `src/lrb/code_definitions.py`, add a code class with methods analogous to existing
 code classes:
 
 1. `logical_plus_initial_state()`
@@ -381,7 +402,7 @@ code classes:
 
 ### Step 2: Register profile
 
-In `code_simulation_profiles.py`, add entries for your `code_name` in:
+In `src/lrb/code_simulation_profiles.py`, add entries for your `code_name` in:
 
 1. `_CODE_DEFINITION_SPECS`
 2. `_UNPACK_SPECS`
@@ -434,7 +455,7 @@ Try running remaining probability indices and then rerun plotting.
 
 ### Probability index confusion
 
-`run_lrb_experiment.py` expects `<PROB_INDEX>` using `probs.txt` order.
+`scripts/run_lrb_experiment.py` expects `<PROB_INDEX>` using `probs.txt` order.
 Indexing is zero-based.
 
 ## Reproducibility Notes
