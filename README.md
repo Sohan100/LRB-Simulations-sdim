@@ -1,4 +1,8 @@
-# Logical Randomized Benchmarking (LRB) Framework
+# Logical Randomized Benchmarking - Detection Only (LRB-D) Framework
+
+Uniform interval postselection LRB-D (folded qutrit `[[5,1,2]]_3`):
+
+![unif-interval-sweep-pidx04-p2.34e-02.gif (folded [[5,1,2]]_3)](LRB-experiment-data-slurm/Run-2026-02-18-19-45-04-folded_qutrit/results/plots/gifs/unif-interval-sweep-pidx04-p2.34e-02.gif)
 
 Logical Randomized Benchmarking (LRB) extends standard Randomized
 Benchmarking (RB) from physical gates to encoded logical operations.
