@@ -1,261 +1,132 @@
-# Logical Randomized Benchmarking - Detection Only (LRB-D) Framework
+# Logical Randomized Benchmarking - Detection Only (LRB-D)
 
-Uniform interval postselection LRB-D (folded qutrit `[[5,1,2]]_3`):
+This repository contains the active LRB-D simulation code and saved result
+outputs for qutrit error-detection benchmarks built on `sdim`.
 
-![unif-interval-sweep-pidx04-p2.34e-02.gif (folded [[5,1,2]]_3)](LRB-experiment-data-slurm/Run-2026-02-18-19-45-04-folded_qutrit/results/plots/gifs/unif-interval-sweep-pidx04-p2.34e-02.gif)
+The public repository is intentionally scoped to the parts needed to understand,
+rerun, and inspect the LRB-D project:
 
-Logical Randomized Benchmarking (LRB) extends standard Randomized
-Benchmarking (RB) from physical gates to encoded logical operations.
+- core Python source under `src/lrb/`
+- runnable entrypoints under `scripts/`
+- SLURM launch scripts under `slurm/`
+- saved run metadata and result outputs under `LRB-experiment-data-slurm/`
+- the plotting notebook `Visualize LRB Stab Check Results.ipynb`
 
-In standard RB, you sample random Clifford sequences of length `m`, append a
-Clifford inverse that should return the state to its start, measure an
-observable, and fit decay versus depth. The fit is usually modeled as
-`A * f^m + B`, where `A` and `B` absorb state-preparation and measurement
-(SPAM) effects, and `f` is the decay parameter of interest.
+Large generated circuit inputs, progress checkpoints, cluster logs, external IQM
+viewer material, zip archives, and legacy compatibility files are kept locally
+and ignored by Git.
 
-LRB follows the same idea but includes the full logical stack inside each
-sequence element:
+## Project Summary
 
-1. Encode into the code space (into a specific code word).
-2. Apply logical Clifford gates.
-3. Run stabilizer checks (optionally with postselection).
-4. Perform terminal logical measurement.
+Logical Randomized Benchmarking (LRB) extends standard randomized benchmarking
+from physical qutrit gates to encoded logical operations. In this project, the
+main workflow is detection-only LRB (`LRB-D`): stabilizer checks are inserted
+during logical benchmark sequences, rejected runs are tracked explicitly, and
+logical decay is compared against physical RB.
 
-That makes LRB a direct measure of encoded logical performance, not just
-physical gate quality. In this repository, the workflow focuses on a
-postselection-forward LRB style (`LRB-D` style), where rejected-run statistics
-are tracked explicitly and logical decay is compared against physical RB.
+The current code profiles are:
 
-For qutrits (`d = 3`), the plotting pipeline reports decay `f` and converts it
-to average fidelity using:
-`F = (1 + (d - 1) * f) / d`.
+- `folded_qutrit`: `[[5,1,2]]_3` folded surface error-detection code
+- `qgrm_3_1_2`: `[[3,1,2]]_3` QGRM detection code
 
-This project is in the qutrit (`q = 3`) setting and compares:
+For qutrits (`d = 3`), fitted decay `f` is converted to average fidelity by:
 
-1. `RB`: physical-level Clifford performance.
-2. `LRB`: logical-level performance under a chosen code/check strategy.
+```text
+F = (1 + (d - 1) * f) / d
+```
 
-The primary built-in logical benchmark target is the
-`[[5,1,2]]_3` folded surface error-detection code.
+## Repository Layout
 
-This repository provides a code-configurable framework for:
+```text
+src/lrb/
+  code_definitions.py          Code circuits, qutrit Clifford gates, checks
+  code_simulation_profiles.py  Registry from code_name to code hooks
+  circuit_generator.py         Generic RB/LRB circuit generation
+  experiment_setup.py          Run-folder setup and circuit export
+  lrb_simulation.py            Simulation, postselection, result writing
+  lrb_plotting.py              Plotting, fits, threshold summaries
 
-1. Generating RB and LRB circuit datasets for qutrit codes.
-2. Running large simulation sweeps over physical error probabilities.
-3. Post-processing and plotting logical/physical benchmarking results.
+scripts/
+  generate_circuits_folded.py  Generate folded-code circuit inputs locally
+  generate_circuits_qgrm.py    Generate QGRM circuit inputs locally
+  run_lrb_experiment.py        Run one probability index for one run
 
-The current built-in code profiles are:
+slurm/
+  run_lrb_slurm_folded.sh      Cluster launcher for folded runs
+  run_lrb_slurm_qgrm.sh        Cluster launcher for QGRM runs
 
-1. `folded_qutrit` (`[[5,1,2]]_3` folded surface error-detection code).
-2. `qgrm_3_1_2` (`[[3,1,2]]_3` QGRM detection code).
+LRB-experiment-data-slurm/
+  Run-.../                     Saved metadata and result outputs
+```
 
-## Design Overview
+## Saved Results
 
-The project is organized so code-specific logic lives in definitions and
-profiles, while simulation and generation remain generic:
+The repository keeps result outputs and run metadata for the current LRB-D
+experiments. In each committed run folder, the important public files are:
 
-1. Code-specific circuits and logical operators:
-   `src/lrb/code_definitions.py`
-2. Mapping from `code_name` to generic hooks:
-   `src/lrb/code_simulation_profiles.py`
-3. Generic RB/LRB circuit generation engine:
-   `src/lrb/circuit_generator.py`
-4. Run setup (folders, metadata, circuit export):
-   `src/lrb/experiment_setup.py`
-5. Runtime simulation executor for one probability index:
-   `scripts/run_lrb_experiment.py`
-6. Simulation and postselection backend:
-   `src/lrb/lrb_simulation.py`
-7. Plotting and analysis class API:
-   `src/lrb/lrb_plotting.py`
+- `code_name.txt`
+- `depths.txt`
+- `probs.txt`
+- `shots.txt`
+- `num_cliffs.txt`
+- `check_const.txt`
+- `check_unif.txt`
+- `run_instructions.txt`
+- `results/RB/*.csv`
+- `results/LRB/*/*.csv`
+- `results/plots/*`
 
-## Strict Layout
+Generated circuit files under `experiments/`, partial progress arrays under
+`progress/`, and cluster logs under `logs_job_*/` are local working data. They
+are not committed.
 
-Repository root is intentionally minimal. Main project content is organized as:
-
-1. `src/`: Package source code (`lrb`).
-2. `scripts/`: Python entrypoints for setup and simulation runs.
-3. `slurm/`: Batch launch scripts.
-4. `external/`: External/non-core assets (for example IQM circuit bundles).
-5. `artifacts/`: Snapshots and archived outputs.
-6. `legacy/`: Archived compatibility files (not part of active workflow).
-7. Root notebook: `Visualize LRB Stab Check Results.ipynb`
-
-## Repository Files
-
-- `src/lrb/code_definitions.py`
-  - Qutrit Clifford library.
-  - `[[5,1,2]]_3` folded surface-code circuit templates.
-  - QGRM `[[3,1,2]]_3` circuit templates.
-- `src/lrb/code_simulation_profiles.py`
-  - Registry that resolves `code_name` to:
-    - `LRBCodeDefinition`
-    - logical dimension
-    - unpack function
-- `src/lrb/circuit_generator.py`
-  - Generic `LRBCircuitGenerator`.
-  - Generates depth-indexed RB/LRB circuits.
-  - Injects N1/N2 depolarizing noise placeholders.
-- `src/lrb/experiment_setup.py`
-  - Creates run folders and parameter files.
-  - Generates all circuit files for all probabilities.
-  - Writes working-folder markers.
-- `scripts/generate_circuits_folded.py`
-  - One-command folded-code setup generation.
-- `scripts/generate_circuits_qgrm.py`
-  - One-command QGRM setup generation.
-- `scripts/run_lrb_experiment.py`
-  - Runs one probability-index simulation round.
-- `slurm/run_lrb_slurm_folded.sh`
-  - SLURM launcher for all folded probabilities.
-- `slurm/run_lrb_slurm_qgrm.sh`
-  - SLURM launcher for all QGRM probabilities.
-- `src/lrb/lrb_simulation.py`
-  - Core simulation, postselection, stats read/write.
-- `src/lrb/lrb_plotting.py`
-  - Plotting class with:
-    - unif-fit plots
-    - const no-fit plots
-    - mixed-fit CSV tables
-    - unif threshold/error-rate graphs
-    - pseudo-threshold vs unif-interval-check plots
-- `Visualize LRB Stab Check Results.ipynb`
-  - Notebook that runs the plotting pipeline for both:
-    - folded qutrit `[[5,1,2]]_3`
-    - qutrit QGRM `[[3,1,2]]_3`
-  - Includes unif-fit plots, const no-fit plots, threshold plots, and
-    pseudo-threshold-vs-interval-check fits.
-- `external/iqm_qpu_circuits/`
-  - IQM-specific circuit generation and conversion assets.
-- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3/`
-  - Curated QGRM result-plot snapshot folder (copied plot outputs).
-- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/`
-  - Curated folded-code result-plot snapshot folder (copied plot outputs).
-- `artifacts/archives/Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3.zip`
-  - Archived copy of the QGRM plot snapshot folder.
-- `legacy/compat/`
-  - Archived legacy compatibility entrypoints/modules.
-
-## Prerequisites
+## Environment
 
 Recommended runtime:
 
-1. Python `3.11`.
-2. Installed `sdim` package and dependencies.
-3. `numpy`, `matplotlib`, and `pandas` for plotting/table workflows.
-4. `jupyter` for notebook execution (optional).
+- Python 3.11
+- `sdim`
+- `numpy`
+- `matplotlib`
+- `pandas`
+- `jupyter` for notebook plotting
 
-Cluster scripts also expect:
+Cluster scripts additionally expect a Bash shell, SLURM, and a Python module
+compatible with the local environment.
 
-1. Bash shell.
-2. SLURM scheduler.
-3. `module load python/3.11` available.
+## Reproducing Runs
 
-## End-to-End Workflow
-
-### 1. Generate circuits for a code
-
-Folded:
+Generate circuit inputs locally before running fresh simulations:
 
 ```bash
 python scripts/generate_circuits_folded.py
-```
-
-QGRM:
-
-```bash
 python scripts/generate_circuits_qgrm.py
 ```
 
-Each command creates a new run folder under:
-`./LRB-experiment-data-slurm/`
+Each command creates a run folder under `LRB-experiment-data-slurm/`.
 
-Run name format:
-`Run-YYYY-MM-DD-HH-MM-SS-<code_name>[-custom-name]`
-
-### 2. Run simulations
-
-Single probability index (local or manual):
+Run a single probability index:
 
 ```bash
 python scripts/run_lrb_experiment.py <RUN_NAME> <PROB_INDEX>
 ```
 
-Full probability sweep on SLURM:
+Launch full sweeps on SLURM:
 
 ```bash
 sbatch slurm/run_lrb_slurm_folded.sh
 sbatch slurm/run_lrb_slurm_qgrm.sh
 ```
 
-### 3. Plot and analyze
-
-Open and run notebook:
-`Visualize LRB Stab Check Results.ipynb`
-
-The notebook currently does:
-
-1. Folded `[[5,1,2]]_3` section:
-   - Uniform interval-check summary plots (with fits).
-   - Constant-check summary plots (no fits).
-   - Mixed-fit unif LRB-vs-RB table build.
-   - Unif threshold/error-rate plots + summary CSV.
-   - Pseudo-threshold vs unif interval check plot (`unif 1..4`).
-2. QGRM `[[3,1,2]]_3` section:
-   - Uniform interval-check summary plots (with fits).
-   - Constant-check summary plots (no fits).
-   - Mixed-fit unif LRB-vs-RB table build.
-   - Unif threshold/error-rate plots + summary CSV.
-   - Pseudo-threshold vs unif interval check plot (`unif 1..4`).
-
-## Working Folder Markers
-
-Setup writes:
-
-1. Legacy marker: `working-folder.txt`
-2. Per-code marker:
-   - `working-folder-folded_qutrit.txt`
-   - `working-folder-qgrm_3_1_2.txt`
-
-SLURM scripts resolve run name in this order:
-
-1. `RUN_NAME_OVERRIDE` (if set).
-2. Code-specific marker file.
-3. Legacy marker file.
-4. Latest `Run-*` fallback.
-
-This allows running different codes back-to-back without marker collision.
-
-## Run Folder Structure
-
-For a run:
-`LRB-experiment-data-slurm/Run-...-<code_name>/`
-
-Key contents:
-
-- `depths.txt`, `probs.txt`, `shots.txt`, `num_cliffs.txt`
-- `check_const.txt`, `check_unif.txt`, `code_name.txt`
-- `experiments/LRB/<cliff_idx>/<prob_idx>/<depth_idx>.chp`
-- `experiments/RB/<cliff_idx>/<prob_idx>/<depth_idx>.chp`
-- `progress/<prob_idx>/done.txt`
-- `results/LRB/<prob_idx>/const_check_data/<check>.csv`
-- `results/LRB/<prob_idx>/unif_check_data/<check>.csv`
-- `results/RB/<prob_idx>.csv`
-- `results/plots/*` (generated by plotting pipeline)
-
-## Configuration Guide
-
-### Circuit generation (Python scripts)
-
-Both generation scripts expose the same CLI args:
+The generation scripts support:
 
 - `--custom-name`
 - `--n-cliff`
-- `--depths` (CSV)
+- `--depths`
 - `--n-shots`
-- `--probabilities` (CSV)
-- `--stab-checks-const` (CSV)
-- `--stab-checks-unif` (CSV)
+- `--probabilities`
+- `--stab-checks-const`
+- `--stab-checks-unif`
 - `--home-folder`
 - `--lrb-folder-name`
 
@@ -269,35 +140,23 @@ python scripts/generate_circuits_folded.py \
   --n-shots 1000000
 ```
 
-### Runtime shot controls
+## Plotting
 
-- Logical LRB shots come from run metadata (`shots.txt`), which is overwritten
-  by `NUM_SHOTS` in SLURM scripts.
-- Physical RB shots are currently fixed by:
-  `NORMAL_RB_SHOTS = 10000` in `src/lrb/lrb_simulation.py`.
+Open and run:
 
-### SLURM controls
+```text
+Visualize LRB Stab Check Results.ipynb
+```
 
-In each SLURM script:
+The notebook uses `LRBResultsPlotter` from `src/lrb/lrb_plotting.py` to build:
 
-- `RUN_NAME_OVERRIDE` sets a specific run.
-- `NUM_SHOTS` overrides `shots.txt` before execution.
-- `SCRIPTS_DIR` points to script location.
-- `EXPECTED_CODE_NAME` guards against wrong run/code pairing.
-- `PROBABILITIES` array controls how many tasks launch.
+- uniform-check summary plots with fits
+- constant-check summary plots without fits
+- mixed-fit LRB-vs-RB CSV tables
+- LRB/RB threshold plots
+- pseudo-threshold vs interval-check plots
 
-Note:
-`PROBABILITIES` in SLURM should match the run's `probs.txt` ordering.
-
-## Plotting API (`src/lrb/lrb_plotting.py`)
-
-### Main classes
-
-1. `LRBPlotFitConfig`
-2. `LRBThresholdConfig`
-3. `LRBResultsPlotter`
-
-### Typical usage (Python)
+Typical Python usage:
 
 ```python
 from pathlib import Path
@@ -316,8 +175,8 @@ plotter = LRBResultsPlotter(
     fit_config=LRBPlotFitConfig(),
 )
 
-plotter.plot_all_unif_checks(show=True)      # with fits
-plotter.plot_all_const_checks(show=True)     # no fits
+plotter.plot_all_unif_checks(show=True)
+plotter.plot_all_const_checks(show=True)
 
 table_csv = plotter.build_unif_lrb_vs_rb_table_mixed_fits()
 summary_csv = plotter.plot_all_unif_threshold_graphs(
@@ -331,55 +190,14 @@ plotter.plot_unif_pseudo_thresholds_vs_interval_check(
     check_max=4,
     summary_csv_path=summary_csv,
     do_fit=True,
-    fit_model="exp",   # or "poly"
-    fit_degree=1,      # used when fit_model="poly"
+    fit_model="exp",
     show=True,
 )
 ```
 
-### Plot outputs
+## Result CSV Format
 
-Uniform fit summary:
-- `results/plots/unif-<CHECK>-Summary-Graph-Fit.pdf`
-
-Constant no-fit summary:
-- `results/plots/const-<CHECK>-Summary-Graph-NoFit.pdf`
-
-Mixed-fit tables:
-- `results/plots/unif_lrb_vs_rb_table_all_mixed_fits.csv`
-- `results/plots/unif-<CHECK>-lrb-vs-rb-table-mixed-fits.csv`
-
-Threshold plots:
-- `results/plots/unif-<CHECK>-error-vs-p-threshold-monotone.pdf`
-- `results/plots/unif-<CHECK>-lrb-vs-rb-threshold-monotone.pdf`
-- `results/plots/unif_thresholds_summary_monotone_trim_zoom_pwindow.csv`
-
-Pseudo-threshold plots:
-- `results/plots/unif-<MIN>-to-<MAX>-pseudo-threshold-vs-interval-check-fit.pdf`
-
-## Curated Result Folders
-
-In addition to run-local outputs under
-`LRB-experiment-data-slurm/Run-.../results/plots/`, this repo currently
-includes curated snapshot folders under `artifacts/plot_snapshots/`:
-
-- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[3,1,2]]_3/`
-- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/`
-
-These folders contain copied plot artifacts (PDFs and selected CSV summaries)
-for quick sharing/comparison outside the run-folder tree.
-Raw simulation data remains under:
-`LRB-experiment-data-slurm/Run-.../results/LRB/` and
-`LRB-experiment-data-slurm/Run-.../results/RB/`.
-
-The folded snapshot also contains:
-
-- `artifacts/plot_snapshots/Constant and Uniform Interval Check LRB vs RB Graphs [[5,1,2]]_3/old/`
-  (older plot versions kept for reference).
-
-## Stats CSV Format
-
-`LRBSimulationPipeline.write_stats()` writes 5 rows:
+`LRBSimulationPipeline.write_stats()` writes five rows:
 
 1. `Probability,<p>`
 2. `Fidelity averages,<d0>,<d1>,...`
@@ -387,87 +205,25 @@ The folded snapshot also contains:
 4. `Rejected Runs,<d0>,<d1>,...`
 5. `Rejected Standard Deviations,<d0>,<d1>,...`
 
-`LRBSimulationPipeline.read_stats()` expects exactly that layout.
+`LRBSimulationPipeline.read_stats()` expects this same layout.
 
-## Adding a New Code
+## Local-Only Material
 
-### Step 1: Define code circuits
+These paths may exist on a development machine but are intentionally excluded
+from Git:
 
-In `src/lrb/code_definitions.py`, add a code class with methods analogous to existing
-code classes:
+- `LRB-experiment-data-slurm/**/experiments/`
+- `LRB-experiment-data-slurm/**/progress/`
+- `LRB-experiment-data-slurm/**/logs_job_*/`
+- `LRB-experiment-data-slurm/working-folder*.txt`
+- `external/`
+- `legacy/`
+- `artifacts/`
+- `.tmp/`
+- Python caches and notebook checkpoints
 
-1. `logical_plus_initial_state()`
-2. `single_qudit_logical_gate_circuit(operator)`
-3. `affected_wires(cliff)`
-4. stabilizer measurement circuit builders
-5. `reset_measurement_wires()` (or `None` via profile)
-6. `terminal_logical_x_measurement_circuit()`
-7. optional codespace-check helpers
-
-### Step 2: Register profile
-
-In `src/lrb/code_simulation_profiles.py`, add entries for your `code_name` in:
-
-1. `_CODE_DEFINITION_SPECS`
-2. `_UNPACK_SPECS`
-3. `_LOGICAL_DIMENSIONS`
-
-### Step 3: Add generation entrypoint (optional but recommended)
-
-Copy one generation script and set:
-
-1. `CODE_NAME`
-2. default knobs if needed
-
-### Step 4: Add SLURM launcher (optional)
-
-Copy a SLURM script and set:
-
-1. `EXPECTED_CODE_NAME`
-2. `WORKING_FOLDER_FILE` suffix
-3. resource requests
-
-## Troubleshooting
-
-### `ModuleNotFoundError: No module named 'sdim'`
-
-Install and activate the environment that provides `sdim` before running any
-generation/simulation/plotting command.
-
-### SLURM script says code mismatch
-
-The run folder `code_name.txt` does not match script
-`EXPECTED_CODE_NAME`. Use:
-
-1. the matching script, or
-2. set `RUN_NAME_OVERRIDE` to the correct run.
-
-### No run found
-
-If markers are missing, SLURM falls back to latest `Run-*`. Confirm your run
-exists under `LRB-experiment-data-slurm`.
-
-### Empty plots or insufficient threshold points
-
-Common causes:
-
-1. missing CSVs for some checks/probabilities,
-2. overly strict threshold filters,
-3. partial run completion.
-
-Try running remaining probability indices and then rerun plotting.
-
-### Probability index confusion
-
-`scripts/run_lrb_experiment.py` expects `<PROB_INDEX>` using `probs.txt` order.
-Indexing is zero-based.
-
-## Reproducibility Notes
-
-1. Record full generation command line used.
-2. Keep `probs.txt`, `depths.txt`, and check lists unchanged per run.
-3. Keep SLURM `PROBABILITIES` array aligned with the run metadata.
-4. Use `--custom-name` for traceable run IDs.
+Use `git status --ignored --short` if you need to confirm that local-only files
+are being ignored rather than deleted.
 
 ## License
 

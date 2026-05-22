@@ -1,0 +1,25 @@
+# Python and notebook local state
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Virtual environments and local configuration
+.venv/
+venv/
+env/
+.env
+
+# Local scratch space
+.tmp/
+XPS17/
+
+# Local-only generated LRB-D working material
+LRB-experiment-data-slurm/**/experiments/
+LRB-experiment-data-slurm/**/progress/
+LRB-experiment-data-slurm/**/logs_job_*/
+LRB-experiment-data-slurm/working-folder*.txt
+
+# Non-core local material kept off GitHub
+external/
+legacy/
+artifacts/
