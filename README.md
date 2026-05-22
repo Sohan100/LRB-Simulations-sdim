@@ -3,6 +3,11 @@
 This repository contains the active LRB-D simulation code and saved result
 outputs for qutrit error-detection benchmarks built on `sdim`.
 
+Featured folded-qutrit result, showing a uniform interval-check sweep for
+postselection LRB-D on the `[[5,1,2]]_3` folded surface error-detection code:
+
+![Uniform interval postselection LRB-D result for folded [[5,1,2]]_3](LRB-experiment-data-slurm/Run-2026-02-18-19-45-04-folded_qutrit/results/plots/gifs/unif-interval-sweep-pidx04-p2.34e-02.gif)
+
 The public repository is intentionally scoped to the parts needed to understand,
 rerun, and inspect the LRB-D project:
 
@@ -19,10 +24,47 @@ and ignored by Git.
 ## Project Summary
 
 Logical Randomized Benchmarking (LRB) extends standard randomized benchmarking
-from physical qutrit gates to encoded logical operations. In this project, the
-main workflow is detection-only LRB (`LRB-D`): stabilizer checks are inserted
-during logical benchmark sequences, rejected runs are tracked explicitly, and
-logical decay is compared against physical RB.
+from physical qutrit gates to encoded logical operations.
+
+In standard randomized benchmarking, one samples random Clifford sequences of
+depth `m`, appends a Clifford inverse that should return the system to its
+starting state, measures an observable, and fits the decay versus sequence
+depth. A typical fit model is:
+
+```text
+A * f^m + B
+```
+
+Here `A` and `B` absorb state-preparation and measurement effects, while `f` is
+the decay parameter used to infer the benchmarked average fidelity.
+
+LRB uses the same decay-fitting idea, but each sequence element is lifted to the
+logical-code setting. A logical benchmark sequence includes:
+
+1. preparation of an encoded code state,
+2. logical Clifford gates,
+3. stabilizer-check layers,
+4. optional rejection/postselection based on check outcomes,
+5. terminal logical measurement.
+
+That makes the measured decay a property of the encoded logical workflow, not
+just the underlying physical Clifford gates. The physical RB data in this
+repository is kept alongside the logical LRB data so the same physical error
+probability sweep can be compared at both levels.
+
+This project focuses on detection-only LRB (`LRB-D`). In this setting, the
+stabilizer checks are used to detect faults and reject runs rather than to apply
+active correction. The plotting pipeline therefore tracks two coupled pieces of
+information:
+
+- logical/physical fidelity decay versus benchmark depth,
+- rejected-run statistics versus stabilizer-check strategy and physical error
+  probability.
+
+The main check strategies are:
+
+- `const`: a fixed number of stabilizer checks,
+- `unif`: uniformly spaced interval checks throughout the sequence.
 
 The current code profiles are:
 
@@ -75,6 +117,16 @@ experiments. In each committed run folder, the important public files are:
 - `results/RB/*.csv`
 - `results/LRB/*/*.csv`
 - `results/plots/*`
+
+Representative committed plot outputs include:
+
+- `results/plots/gifs/unif-interval-sweep-pidx*.gif`
+- `results/plots/gifs/const-0-rb-lrb-vs-p.gif`
+- `results/plots/unif-<CHECK>-Summary-Graph-Fit.pdf`
+- `results/plots/const-<CHECK>-Summary-Graph-NoFit.pdf`
+- `results/plots/unif-<CHECK>-error-vs-p-threshold-monotone.pdf`
+- `results/plots/unif-<CHECK>-lrb-vs-rb-threshold-monotone.pdf`
+- `results/plots/unif-<MIN>-to-<MAX>-pseudo-threshold-vs-interval-check-fit.pdf`
 
 Generated circuit files under `experiments/`, partial progress arrays under
 `progress/`, and cluster logs under `logs_job_*/` are local working data. They
