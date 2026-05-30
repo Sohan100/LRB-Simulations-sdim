@@ -107,6 +107,7 @@ The repository keeps result outputs and run metadata for the current LRB-D
 experiments. In each committed run folder, the important public files are:
 
 - `code_name.txt`
+- `noise_model.txt`
 - `depths.txt`
 - `probs.txt`
 - `shots.txt`
@@ -181,6 +182,14 @@ The generation scripts support:
 - `--stab-checks-unif`
 - `--home-folder`
 - `--lrb-folder-name`
+- `--noise-model`
+
+The default noise model is the historical `depolarizing` generator model.
+Use `--noise-model si1000` to generate generalized SI1000 circuit-level noise.
+For LRB-D, the non-fault-tolerant encoded state-preparation circuit is kept
+ideal so the generated noise isolates the protocol after preparation.
+Because SI1000 uses measurement-result noise at rate `5p`, choose a probability
+sweep with `p <= 0.2`.
 
 Example:
 

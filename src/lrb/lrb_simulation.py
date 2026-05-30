@@ -136,6 +136,10 @@ class LRBUnpackSpec:
             readout.
         logical_outcome_fn (Callable[[list[int], int], int]): Function mapping
             logical measurements and depth to an integer logical outcome.
+        terminal_x_measurement_wires (tuple[int, ...]): Data wires measured
+            by the direct terminal X readout for ``const=0``.
+        x_stabilizer_check_fn (Callable[[list[int]], bool]): Function that
+            evaluates the X-stabilizer filter from direct X measurements.
         check_stride (int): Round-to-round stride in measurement records.
         check_round_start (int): First check round index to inspect.
         check_rounds_offset (int): Offset applied to depth for round count.
@@ -148,6 +152,8 @@ class LRBUnpackSpec:
     stabilizer_wires: tuple[int, ...]
     logical_measurement_wires: tuple[int, ...]
     logical_outcome_fn: Callable[[list[int], int], int]
+    terminal_x_measurement_wires: tuple[int, ...]
+    x_stabilizer_check_fn: Callable[[list[int]], bool]
     check_stride: int = 2
     check_round_start: int = 0
     check_rounds_offset: int = 1
@@ -337,7 +343,9 @@ class LRBSimulationEngine:
         rb_results_folder_path: str,
         partial_progress_folder_path: str,
         unpack_func: Callable | None = None,
+        const0_unpack_func: Callable | None = None,
         logical_dimension: int = 3,
+        lrb_const0_experiment_folder_path: str | None = None,
     ) -> int:
         """
         Run round.
@@ -385,7 +393,10 @@ class LRBSimulationEngine:
             RB_results_folder_path=rb_results_folder_path,
             partial_progress_folder_path=partial_progress_folder_path,
             unpack_func=unpack_func,
+            const0_unpack_func=const0_unpack_func,
             logical_dimension=logical_dimension,
+            LRB_const0_experiment_folder_path=(
+                lrb_const0_experiment_folder_path),
         )
 
 
@@ -458,6 +469,51 @@ class LRBSimulationPipeline:
                 int(spec.logical_outcome_fn(logical_measurements, depth)))
             accept_decisions.append(shot_checks)
     
+        return accept_decisions, measurement_values
+
+    @staticmethod
+    def unpack_const0_direct_x_results_from_spec(
+        results,
+        depth: int,
+        shots: int,
+        spec: LRBUnpackSpec,
+    ) -> tuple[list[list[int]], list[int]]:
+        """
+        Unpack direct terminal X-data measurements for ``const=0`` runs.
+
+        Args:
+            results (Any): Raw simulator measurement tensor.
+            depth (int): Benchmark depth for the current circuit.
+            shots (int): Number of simulated shots.
+            spec (LRBUnpackSpec): Wire and decoding specification.
+
+        Returns:
+            tuple[list[list[int]], list[int]]: Stabilizer-pass vectors with
+            only the terminal slot populated, and logical outcomes per shot.
+        """
+        accept_decisions: list[list[int]] = []
+        measurement_values: list[int] = []
+
+        for shot_idx in range(shots):
+            x_measurements = [
+                results[wire][0][shot_idx].measurement_value
+                for wire in spec.terminal_x_measurement_wires
+            ]
+            measurement_by_wire = dict(
+                zip(spec.terminal_x_measurement_wires, x_measurements)
+            )
+            logical_measurements = [
+                measurement_by_wire[wire]
+                for wire in spec.logical_measurement_wires
+            ]
+
+            shot_checks = [0] * (depth + 1)
+            shot_checks[depth] = int(
+                spec.x_stabilizer_check_fn(x_measurements))
+            accept_decisions.append(shot_checks)
+            measurement_values.append(
+                int(spec.logical_outcome_fn(logical_measurements, depth)))
+
         return accept_decisions, measurement_values
     @staticmethod
     def LRB(
@@ -1210,7 +1266,9 @@ class LRBSimulationPipeline:
         RB_results_folder_path,
         partial_progress_folder_path,
         unpack_func=None,
+        const0_unpack_func=None,
         logical_dimension: int = 3,
+        LRB_const0_experiment_folder_path: str | None = None,
     ):
         """
         Run LRB round.
@@ -1245,8 +1303,28 @@ class LRBSimulationPipeline:
             raise ValueError("run_LRB_round requires an explicit unpack_func.")
 
         LRB_experiments = []
+        LRB_const0_experiments = []
         RB_experiments = []
         num_depths = len(depths)
+        const0_requested = 0 in stab_checks_const
+        main_const_checks = [
+            check for check in stab_checks_const if check != 0
+        ]
+        need_main_lrb = bool(main_const_checks or stab_checks_unif)
+        if const0_requested and const0_unpack_func is None:
+            raise ValueError(
+                "const=0 processing requires an explicit const0_unpack_func."
+            )
+        if const0_requested and LRB_const0_experiment_folder_path is None:
+            raise ValueError(
+                "const=0 processing requires generated LRB_const0 circuits."
+            )
+        if (const0_requested
+                and not os.path.exists(LRB_const0_experiment_folder_path)):
+            raise ValueError(
+                "const=0 processing requires generated LRB_const0 circuits "
+                f"at {LRB_const0_experiment_folder_path}."
+            )
     
         # Create progress if not found
         if not os.path.exists(partial_progress_folder_path +
@@ -1265,23 +1343,44 @@ class LRBSimulationPipeline:
         # Determine whether experiment is done
         if shots_to_process > 0:
     
-            # Otherwise read in all LRB experiment data
-            for i in range(num_cliff_seq):
-                # make new list
-                LRB_experiments_from_single_sequence = []
-                LRB_cliff_path = LRB_experiment_folder_path + \
-                    str(i) + '/' + str(error_prob_ind) + '/'
-    
-                # iterate through depths
-                for j in range(num_depths):
-                    LRB_single_experiment_path = (
-                        LRB_cliff_path + str(j) + ".chp"
+            if need_main_lrb:
+                # Otherwise read in all LRB experiment data
+                for i in range(num_cliff_seq):
+                    # make new list
+                    LRB_experiments_from_single_sequence = []
+                    LRB_cliff_path = LRB_experiment_folder_path + \
+                        str(i) + '/' + str(error_prob_ind) + '/'
+
+                    # iterate through depths
+                    for j in range(num_depths):
+                        LRB_single_experiment_path = (
+                            LRB_cliff_path + str(j) + ".chp"
+                        )
+                        LRB_c = read_circuit(
+                            os.path.abspath(LRB_single_experiment_path))
+                        LRB_experiments_from_single_sequence.append(LRB_c)
+
+                    LRB_experiments.append(LRB_experiments_from_single_sequence)
+
+            if const0_requested:
+                for i in range(num_cliff_seq):
+                    const0_from_single_sequence = []
+                    const0_cliff_path = (
+                        LRB_const0_experiment_folder_path
+                        + str(i) + '/' + str(error_prob_ind) + '/'
                     )
-                    LRB_c = read_circuit(
-                        os.path.abspath(LRB_single_experiment_path))
-                    LRB_experiments_from_single_sequence.append(LRB_c)
-    
-                LRB_experiments.append(LRB_experiments_from_single_sequence)
+
+                    for j in range(num_depths):
+                        const0_single_experiment_path = (
+                            const0_cliff_path + str(j) + ".chp"
+                        )
+                        const0_c = read_circuit(
+                            os.path.abspath(
+                                const0_single_experiment_path))
+                        const0_from_single_sequence.append(const0_c)
+
+                    LRB_const0_experiments.append(
+                        const0_from_single_sequence)
     
             # Read in stabilizer check parameters
             # stab_checks_const = fetch_list(
@@ -1305,34 +1404,58 @@ class LRBSimulationPipeline:
                     f"Resuming experiments for error probability {error_prob}"
                 )
                 start_time = time.time()
-                LRB_experiment_results = LRBSimulationPipeline.LRB(
-                    experiments=LRB_experiments,
-                    depths=depths,
-                    shots=batch,
-                    unpack_func=unpack_func,
-                    partial_progress_folder=partial_progress_folder_path)
+                if need_main_lrb:
+                    LRB_experiment_results = LRBSimulationPipeline.LRB(
+                        experiments=LRB_experiments,
+                        depths=depths,
+                        shots=batch,
+                        unpack_func=unpack_func,
+                        partial_progress_folder=partial_progress_folder_path)
+                else:
+                    LRB_experiment_results = None
                 end_time = time.time()
                 print(f"Finished in {str(end_time - start_time)} seconds!")
     
-                # Process partial results into progress files
-                # Constant checks
-                LRBSimulationPipeline.process_lrb_counts(
-                    measurement_results=LRB_experiment_results[0],
-                    stabilizer_record=LRB_experiment_results[1],
-                    depths=depths,
-                    stab_check_array=stab_checks_const,
-                    stab_checks_are_const=True,
-                    folder=partial_progress_folder_path,
-                    dimension=logical_dimension)
-                # Uniform checks
-                LRBSimulationPipeline.process_lrb_counts(
-                    measurement_results=LRB_experiment_results[0],
-                    stabilizer_record=LRB_experiment_results[1],
-                    depths=depths,
-                    stab_check_array=stab_checks_unif,
-                    stab_checks_are_const=False,
-                    folder=partial_progress_folder_path,
-                    dimension=logical_dimension)
+                # Process partial results into progress files.
+                if need_main_lrb:
+                    # Constant checks other than const=0 use the regular LRB
+                    # circuits with noisy/intermediate check structure.
+                    if main_const_checks:
+                        LRBSimulationPipeline.process_lrb_counts(
+                            measurement_results=LRB_experiment_results[0],
+                            stabilizer_record=LRB_experiment_results[1],
+                            depths=depths,
+                            stab_check_array=main_const_checks,
+                            stab_checks_are_const=True,
+                            folder=partial_progress_folder_path,
+                            dimension=logical_dimension)
+                    # Uniform checks retain the regular LRB circuits.
+                    if stab_checks_unif:
+                        LRBSimulationPipeline.process_lrb_counts(
+                            measurement_results=LRB_experiment_results[0],
+                            stabilizer_record=LRB_experiment_results[1],
+                            depths=depths,
+                            stab_check_array=stab_checks_unif,
+                            stab_checks_are_const=False,
+                            folder=partial_progress_folder_path,
+                            dimension=logical_dimension)
+
+                if const0_requested:
+                    print("Running const=0 direct terminal X check...")
+                    const0_results = LRBSimulationPipeline.LRB(
+                        experiments=LRB_const0_experiments,
+                        depths=depths,
+                        shots=batch,
+                        unpack_func=const0_unpack_func,
+                        partial_progress_folder=partial_progress_folder_path)
+                    LRBSimulationPipeline.process_lrb_counts(
+                        measurement_results=const0_results[0],
+                        stabilizer_record=const0_results[1],
+                        depths=depths,
+                        stab_check_array=[0],
+                        stab_checks_are_const=True,
+                        folder=partial_progress_folder_path,
+                        dimension=logical_dimension)
     
                 # Update shots processed
                 shots_to_process -= batch

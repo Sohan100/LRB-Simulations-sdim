@@ -17,7 +17,12 @@ from .code_simulation_profiles import (
     DEFAULT_CODE_NAME,
     CodeSimulationProfileRegistry,
 )
-from .circuit_generator import LRBCodeDefinition, LRBCircuitGenerator
+from .circuit_generator import (
+    DEPOLARIZING_NOISE_MODEL,
+    LRBCodeDefinition,
+    LRBCircuitGenerator,
+    normalize_noise_model,
+)
 from .project_paths import PROJECT_ROOT
 
 
@@ -40,6 +45,7 @@ class ExperimentSetupConfig:
             postselection check settings.
         home_folder (str): Root directory containing all run folders.
         lrb_folder_name (str): Name of the top-level experiment directory.
+        noise_model (str): Circuit-level noise model used during generation.
 
     Methods:
         This class is declarative and intentionally defines no custom methods.
@@ -75,6 +81,11 @@ class ExperimentSetupConfig:
     home_folder: str = str(PROJECT_ROOT)
     lrb_folder_name: str = "LRB-experiment-data-slurm"
     code_name: str = DEFAULT_CODE_NAME
+    noise_model: str = DEPOLARIZING_NOISE_MODEL
+
+    def __post_init__(self) -> None:
+        """Normalize setup-time noise-model aliases."""
+        self.noise_model = normalize_noise_model(self.noise_model)
 
 
 class ExperimentSetupManager:
@@ -129,15 +140,20 @@ class ExperimentSetupManager:
                 "Pass either generator or code_definition, not both.")
         if generator is not None:
             self.generator = generator
+            self.config.noise_model = self.generator.noise_model
         elif code_definition is not None:
             self.generator = LRBCircuitGenerator(
-                code_definition=code_definition)
+                code_definition=code_definition,
+                noise_model=self.config.noise_model,
+            )
         else:
             # Resolve default generator hooks from the configured code name.
             profile = CodeSimulationProfileRegistry.resolve_code_profile(
                 self.config.code_name)
             self.generator = LRBCircuitGenerator(
-                code_definition=profile.code_definition)
+                code_definition=profile.code_definition,
+                noise_model=self.config.noise_model,
+            )
 
     @staticmethod
     def get_working_folder(working_folder_filepath: str,
@@ -306,6 +322,8 @@ class ExperimentSetupManager:
             "run_path": run_path,
             "experiments": os.path.join(run_path, "experiments"),
             "experiments_lrb": os.path.join(run_path, "experiments", "LRB"),
+            "experiments_lrb_const0": os.path.join(
+                run_path, "experiments", "LRB_const0"),
             "experiments_rb": os.path.join(run_path, "experiments", "RB"),
             "results": os.path.join(run_path, "results"),
             "results_lrb": os.path.join(run_path, "results", "LRB"),
@@ -316,6 +334,7 @@ class ExperimentSetupManager:
         for key in (
                 "experiments",
                 "experiments_lrb",
+                "experiments_lrb_const0",
                 "experiments_rb",
                 "results",
                 "results_lrb",
@@ -382,6 +401,8 @@ class ExperimentSetupManager:
                         os.path.join(run_path, "check_unif.txt"))
         self.write_single_param(self.config.code_name,
                                 os.path.join(run_path, "code_name.txt"))
+        self.write_single_param(self.config.noise_model,
+                                os.path.join(run_path, "noise_model.txt"))
 
     @staticmethod
     def _write_instructions(run_path: str) -> None:
@@ -435,6 +456,11 @@ class ExperimentSetupManager:
             rb_experiment_folder_path=paths["experiments_rb"],
             depths=self.config.depths,
             probabilities=self.config.probabilities,
+            lrb_const0_experiment_folder_path=(
+                paths["experiments_lrb_const0"]
+                if 0 in self.config.stab_checks_constant_numbers
+                else None
+            ),
         )
         print("Finished test generation.")
 

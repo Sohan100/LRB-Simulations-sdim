@@ -48,6 +48,8 @@ class LRBRunConfig:
             logical-code statistics.
         unpack_func (Callable | None): Optional unpack callback for
             code-specific measurement decoding.
+        const0_unpack_func (Callable | None): Optional unpack callback for the
+            special direct terminal X-data ``const=0`` protocol.
 
     Methods:
         This class is declarative and intentionally defines no custom methods.
@@ -56,6 +58,7 @@ class LRBRunConfig:
     filter_trivial_shots: bool = True
     logical_dimension: int = 3
     unpack_func: Callable | None = None
+    const0_unpack_func: Callable | None = None
 
 
 class LRBRunCoordinator:
@@ -110,6 +113,7 @@ class LRBRunCoordinator:
         depths,
         num_shots,
         lrb_experiment_folder_path,
+        lrb_const0_experiment_folder_path,
         rb_experiment_folder_path,
         lrb_results_folder_path,
         rb_results_folder_path,
@@ -130,6 +134,8 @@ class LRBRunCoordinator:
             num_shots (int): Total encoded-shot budget.
             lrb_experiment_folder_path (str): Input folder for encoded
                 circuits.
+            lrb_const0_experiment_folder_path (str): Input folder for special
+                direct terminal X-data ``const=0`` circuits.
             rb_experiment_folder_path (str): Input folder for physical
                 circuits.
             lrb_results_folder_path (str): Output folder for encoded results.
@@ -177,11 +183,14 @@ class LRBRunCoordinator:
             num_shots=num_shots,
             filter_trivial_shots=self.config.filter_trivial_shots,
             lrb_experiment_folder_path=lrb_experiment_folder_path,
+            lrb_const0_experiment_folder_path=(
+                lrb_const0_experiment_folder_path),
             rb_experiment_folder_path=rb_experiment_folder_path,
             lrb_results_folder_path=lrb_results_folder_path,
             rb_results_folder_path=rb_results_folder_path,
             partial_progress_folder_path=partial_progress_folder_path,
             unpack_func=self.config.unpack_func,
+            const0_unpack_func=self.config.const0_unpack_func,
             logical_dimension=self.config.logical_dimension,
         )
 
@@ -218,6 +227,11 @@ class LRBRunCoordinator:
 
         lrb_experiment_folder_path = os.path.join(working_folder_path,
                                                   "experiments", "LRB") + "/"
+        lrb_const0_experiment_folder_path = os.path.join(
+            working_folder_path,
+            "experiments",
+            "LRB_const0",
+        ) + "/"
         rb_experiment_folder_path = os.path.join(working_folder_path,
                                                  "experiments", "RB") + "/"
 
@@ -270,6 +284,8 @@ class LRBRunCoordinator:
             "num_shots": num_shots,
             "code_name": code_name,
             "lrb_experiment_folder_path": lrb_experiment_folder_path,
+            "lrb_const0_experiment_folder_path": (
+                lrb_const0_experiment_folder_path),
             "rb_experiment_folder_path": rb_experiment_folder_path,
             "lrb_results_folder_path": lrb_results_folder_path,
             "rb_results_folder_path": rb_results_folder_path,
@@ -295,6 +311,7 @@ class LRBRunCoordinator:
         return LRBRunConfig(
             logical_dimension=profile.logical_dimension,
             unpack_func=profile.unpack_func,
+            const0_unpack_func=profile.const0_unpack_func,
         )
 
 
@@ -326,6 +343,8 @@ if __name__ == "__main__":
         depths=inputs["depths"],
         num_shots=inputs["num_shots"],
         lrb_experiment_folder_path=inputs["lrb_experiment_folder_path"],
+        lrb_const0_experiment_folder_path=inputs[
+            "lrb_const0_experiment_folder_path"],
         rb_experiment_folder_path=inputs["rb_experiment_folder_path"],
         lrb_results_folder_path=inputs["lrb_results_folder_path"],
         rb_results_folder_path=inputs["rb_results_folder_path"],

@@ -26,6 +26,8 @@ class _UnpackSpec:
     stabilizer_wires: tuple[int, ...]
     logical_measurement_wires: tuple[int, ...]
     logical_outcome_fn: Callable[[list[int], int], int]
+    terminal_x_measurement_wires: tuple[int, ...]
+    x_stabilizer_check_fn: Callable[[list[int]], bool]
     check_stride: int = 2
     check_round_start: int = 0
     check_rounds_offset: int = 1
@@ -43,6 +45,8 @@ class CodeSimulationProfile:
             consumed by the generic generator.
         logical_dimension (int): Number of logical outcomes for statistics.
         unpack_func (Callable): Measurement unpack callback for this code.
+        const0_unpack_func (Callable): Direct terminal X-data unpack callback
+            for the special ``const=0`` protocol.
 
     Methods:
         This dataclass is declarative and defines no custom methods.
@@ -52,6 +56,7 @@ class CodeSimulationProfile:
     code_definition: LRBCodeDefinition
     logical_dimension: int
     unpack_func: Callable
+    const0_unpack_func: Callable
 
 
 class CodeSimulationProfileRegistry:
@@ -115,6 +120,10 @@ class CodeSimulationProfileRegistry:
                 defns.FoldedQutritDetectionCode.
                 terminal_logical_x_measurement_circuit
             ),
+            "terminal_const0_measurement": (
+                defns.FoldedQutritDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
             "depth_zero_noise_wires": (0, 1, 2, 3, 4),
         },
         "qgrm_3_1_2": {
@@ -162,6 +171,10 @@ class CodeSimulationProfileRegistry:
                 defns.QGRMThreeQutritDetectionCode.
                 terminal_logical_x_measurement_circuit
             ),
+            "terminal_const0_measurement": (
+                defns.QGRMThreeQutritDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
             "depth_zero_noise_wires": (0, 1, 2),
         },
     }
@@ -174,12 +187,20 @@ class CodeSimulationProfileRegistry:
             logical_outcome_fn=(
                 lambda measurements, _: (measurements[0] + measurements[1]) % 3
             ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQutritDetectionCode.codespace_X_stabilizer_check
+            ),
         ),
         "qgrm_3_1_2": _UnpackSpec(
             stabilizer_wires=(3, 4),
             logical_measurement_wires=(0, 1),
             logical_outcome_fn=(
                 lambda measurements, _: (measurements[0] - measurements[1]) % 3
+            ),
+            terminal_x_measurement_wires=(0, 1, 2),
+            x_stabilizer_check_fn=(
+                defns.QGRMThreeQutritDetectionCode.codespace_X_stabilizer_check
             ),
         ),
     }
@@ -221,6 +242,8 @@ class CodeSimulationProfileRegistry:
             stabilizer_check_blocks=spec["stabilizer_check_blocks"],
             reset_measurement_wires=spec["reset_measurement_wires"],
             terminal_measurement=spec["terminal_measurement"],
+            terminal_const0_measurement=spec[
+                "terminal_const0_measurement"],
             depth_zero_noise_wires=spec["depth_zero_noise_wires"],
         )
 
@@ -264,6 +287,30 @@ class CodeSimulationProfileRegistry:
 
         return _unpack
 
+    @staticmethod
+    def _make_const0_unpacker(spec: _UnpackSpec) -> Callable:
+        """
+        Build an unpack function for direct terminal X-data ``const=0`` runs.
+
+        Args:
+            spec (_UnpackSpec): Code-specific direct terminal readout layout.
+
+        Returns:
+            Callable: Unpack function compatible with ``LRB``.
+        """
+        def _unpack(results, depth, shots):
+            # Import locally to avoid circular import issues at module load.
+            from .lrb_simulation import LRBSimulationPipeline
+
+            return (
+                LRBSimulationPipeline.
+                unpack_const0_direct_x_results_from_spec(
+                    results, depth, shots, spec
+                )
+            )
+
+        return _unpack
+
     @classmethod
     def resolve_code_profile(cls, code_name: str) -> CodeSimulationProfile:
         """
@@ -287,4 +334,6 @@ class CodeSimulationProfileRegistry:
             code_definition=cls._build_code_definition(code_name),
             logical_dimension=cls._LOGICAL_DIMENSIONS[code_name],
             unpack_func=cls._make_unpacker(cls._UNPACK_SPECS[code_name]),
+            const0_unpack_func=cls._make_const0_unpacker(
+                cls._UNPACK_SPECS[code_name]),
         )

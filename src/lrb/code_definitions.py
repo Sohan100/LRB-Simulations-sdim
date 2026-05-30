@@ -363,6 +363,8 @@ class FoldedQutritDetectionCode:
             checks.
         x_stabilizer_measurement_ancillae_circuit(): Build X checks.
         reset_measurement_wires(): Build ancilla reset block.
+        terminal_const0_logical_x_measurement_circuit(): Build direct
+            terminal X-data readout for the special ``const=0`` protocol.
         affected_wires(cliff): Report all touched data wires for a sequence.
         codespace_check(z_measurements, x_measurements): Evaluate full
             stabilizer constraints from measurements.
@@ -670,6 +672,23 @@ class FoldedQutritDetectionCode:
         return c
 
     @classmethod
+    def terminal_const0_logical_x_measurement_circuit(cls) -> Circuit:
+        """
+        Build the folded-code direct terminal X-data readout for ``const=0``.
+
+        The measured data wires are exactly those needed to evaluate the two
+        X stabilizers and the logical-X observable. This block is appended
+        without noise by the const=0 circuit generator.
+
+        Returns:
+            Circuit: Error-free direct X-basis data measurement subcircuit.
+        """
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        c.add_gate("H_INV", [0, 1, 2, 3, 4])
+        c.add_gate("M", [0, 1, 2, 3, 4])
+        return c
+
+    @classmethod
     def affected_wires(cls, cliff: Iterable[str]) -> list[int]:
         """
         Return all unique data wires touched by a logical gate sequence.
@@ -752,6 +771,8 @@ class QGRMThreeQutritDetectionCode:
         z_stabilizer_measurement_ancillae_circuit: Measure ``Z0 Z1 Z2``.
         x_stabilizer_measurement_ancillae_circuit: Measure ``X0 X1 X2``.
         reset_measurement_wires: Reset both ancilla wires.
+        terminal_const0_logical_x_measurement_circuit: Build direct terminal
+            X-data readout for the special ``const=0`` protocol.
         affected_wires: Return touched data wires for a gate sequence.
         codespace_check: Evaluate both QGRM stabilizer constraints.
         codespace_X_stabilizer_check: Evaluate only the X stabilizer.
@@ -938,6 +959,23 @@ class QGRMThreeQutritDetectionCode:
         c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
         c.add_gate("H_INV", [0, 1])
         c.add_gate("M", [0, 1])
+        return c
+
+    @classmethod
+    def terminal_const0_logical_x_measurement_circuit(cls) -> Circuit:
+        """
+        Build the QGRM direct terminal X-data readout for ``const=0``.
+
+        The measured data wires are exactly those needed to evaluate the X
+        stabilizer and the logical-X observable. This block is appended
+        without noise by the const=0 circuit generator.
+
+        Returns:
+            Circuit: Error-free direct X-basis data measurement subcircuit.
+        """
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        c.add_gate("H_INV", [0, 1, 2])
+        c.add_gate("M", [0, 1, 2])
         return c
 
     @classmethod

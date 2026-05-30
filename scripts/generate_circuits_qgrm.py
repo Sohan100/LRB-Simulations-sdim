@@ -12,6 +12,10 @@ if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
 from lrb.experiment_setup import ExperimentSetupConfig, ExperimentSetupManager
+from lrb.circuit_generator import (
+    DEPOLARIZING_NOISE_MODEL,
+    SUPPORTED_NOISE_MODELS,
+)
 
 
 class QGRMCircuitGenerationScript:
@@ -28,6 +32,7 @@ class QGRMCircuitGenerationScript:
         DEFAULT_STAB_CHECKS_UNIF (list[int]): Default uniform-check settings.
         DEFAULT_HOME_FOLDER (str): Default run-root parent folder.
         DEFAULT_LRB_FOLDER_NAME (str): Default experiment folder name.
+        DEFAULT_NOISE_MODEL (str): Default circuit-level noise model.
 
     Methods:
         parse_int_csv(csv_text): Parse integer CSV strings.
@@ -65,6 +70,7 @@ class QGRMCircuitGenerationScript:
     DEFAULT_STAB_CHECKS_UNIF = list(range(1, 23))
     DEFAULT_HOME_FOLDER = str(PROJECT_ROOT)
     DEFAULT_LRB_FOLDER_NAME = "LRB-experiment-data-slurm"
+    DEFAULT_NOISE_MODEL = DEPOLARIZING_NOISE_MODEL
 
     @staticmethod
     def parse_int_csv(csv_text: str) -> list[int]:
@@ -146,6 +152,15 @@ class QGRMCircuitGenerationScript:
             "--lrb-folder-name",
             default=cls.DEFAULT_LRB_FOLDER_NAME,
         )
+        parser.add_argument(
+            "--noise-model",
+            choices=SUPPORTED_NOISE_MODELS,
+            default=cls.DEFAULT_NOISE_MODEL,
+            help=(
+                "Circuit-level noise model. Use 'si1000' for the generalized "
+                "SI1000 placement and rate assignments."
+            ),
+        )
         return parser
 
     @classmethod
@@ -160,6 +175,7 @@ class QGRMCircuitGenerationScript:
         stab_checks_unif: list[int],
         home_folder: str,
         lrb_folder_name: str,
+        noise_model: str,
     ) -> str:
         """
         Generate QGRM-code circuits for one setup run.
@@ -174,6 +190,7 @@ class QGRMCircuitGenerationScript:
             stab_checks_unif (list[int]): Uniform-check policy list.
             home_folder (str): Root folder where runs are created.
             lrb_folder_name (str): Experiment folder name under home_folder.
+            noise_model (str): Circuit-level noise model.
 
         Returns:
             str: Absolute path to the created run directory.
@@ -193,6 +210,7 @@ class QGRMCircuitGenerationScript:
             home_folder=home_folder,
             lrb_folder_name=lrb_folder_name,
             code_name=cls.CODE_NAME,
+            noise_model=noise_model,
         )
         # Delegate filesystem setup and circuit generation to the manager.
         manager = ExperimentSetupManager(config=config)
@@ -226,6 +244,7 @@ class QGRMCircuitGenerationScript:
             stab_checks_unif=cls.parse_int_csv(args.stab_checks_unif),
             home_folder=args.home_folder,
             lrb_folder_name=args.lrb_folder_name,
+            noise_model=args.noise_model,
         )
         print(f"Created QGRM-code circuits at: {created_path}")
 
