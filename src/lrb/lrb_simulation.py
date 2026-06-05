@@ -7,7 +7,7 @@ import csv
 import os
 import time
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any, Callable, Sequence
 
 import numpy as np
 try:
@@ -23,6 +23,13 @@ except Exception as sdim_exc:  # pragma: no cover - environment dependent.
     _SDIM_IMPORT_ERROR = sdim_exc
 
 from .experiment_setup import ExperimentSetupManager
+from .detector_events import (
+    LRB_CONST0_LOGICAL_OBSERVABLE_LABEL,
+    LRB_LOGICAL_OBSERVABLE_LABEL,
+    RB_LOGICAL_OBSERVABLE_LABEL,
+    lrb_const0_stabilizer_detector_label,
+    lrb_stabilizer_detector_label,
+)
 
 
 NORMAL_RB_SHOTS = 10000
@@ -140,10 +147,23 @@ class LRBUnpackSpec:
             by the direct terminal X readout for ``const=0``.
         x_stabilizer_check_fn (Callable[[list[int]], bool]): Function that
             evaluates the X-stabilizer filter from direct X measurements.
+        logical_observable_terms (tuple[tuple[int, int], ...]): Terminal
+            logical observable as ``(wire, coefficient)`` terms. Detector
+            unpacking uses the matching generated SDIM logical observable and
+            falls back to this term list for the reference shot.
+        terminal_x_stabilizer_terms (tuple[tuple[tuple[int, int], ...], ...]):
+            Direct terminal X-stabilizer expressions used to reconstruct the
+            reference shot for detector-backed ``const=0`` unpacking.
+        stabilizer_pass_fn (Callable[[list[int]], bool] | None): Optional
+            function that maps one stabilizer-check layer's ancilla readouts to
+            a full pass/fail decision. ``None`` keeps the legacy behavior where
+            every listed ancilla result must be zero modulo the code dimension.
         check_stride (int): Round-to-round stride in measurement records.
         check_round_start (int): First check round index to inspect.
         check_rounds_offset (int): Offset applied to depth for round count.
         logical_measurement_round (int): Round index used for logical readout.
+        dimension (int): Local qudit dimension used for detector/logical
+            modulo arithmetic.
 
     Methods:
         This dataclass is declarative and defines no custom methods.
@@ -154,10 +174,14 @@ class LRBUnpackSpec:
     logical_outcome_fn: Callable[[list[int], int], int]
     terminal_x_measurement_wires: tuple[int, ...]
     x_stabilizer_check_fn: Callable[[list[int]], bool]
+    logical_observable_terms: tuple[tuple[int, int], ...]
+    terminal_x_stabilizer_terms: tuple[tuple[tuple[int, int], ...], ...]
+    stabilizer_pass_fn: Callable[[list[int]], bool] | None = None
     check_stride: int = 2
     check_round_start: int = 0
     check_rounds_offset: int = 1
     logical_measurement_round: int = 0
+    dimension: int = 3
 
 
 @dataclass
@@ -418,12 +442,326 @@ class LRBSimulationPipeline:
         run_LRB_round(...): Execute one full resumable LRB/RB round.
     """
     @staticmethod
+    def default_stabilizer_pass_check(
+            stabilizer_measurements: list[int]) -> bool:
+        """
+        Evaluate the legacy one-readout-per-stabilizer pass condition.
+
+        The original folded and QGRM profiles store one qutrit-valued ancilla
+        result for each stabilizer generator in a check layer. A check layer
+        passes exactly when every listed stabilizer syndrome is zero in
+        ``Z_3``. Older code used a direct ``value == 0`` comparison; this helper
+        keeps the same behavior for valid SDIM qutrit measurement values while
+        making the modulo-three syndrome convention explicit.
+
+        Args:
+            stabilizer_measurements (list[int]): Stabilizer ancilla readouts
+                from one check layer.
+
+        Returns:
+            bool: ``True`` when every readout is zero modulo three.
+
+        Raises:
+            ValueError: Not raised directly by this helper.
+        """
+        return all((value % 3) == 0 for value in stabilizer_measurements)
+
+    @staticmethod
+    def detector_values_from_reference(
+        reference_value: int,
+        detector_shifts: Sequence[int] | np.ndarray,
+        shots: int,
+        dimension: int,
+    ) -> np.ndarray:
+        """
+        Reconstruct absolute qutrit values from an SDIM detector-shift vector.
+
+        In SDIM frame simulation, detector and logical-observable arrays store
+        the ``shots - 1`` Pauli-frame shifts relative to the single reference
+        tableau shot. The older LRB post-processing code consumes absolute
+        qutrit-valued outcomes for all requested shots. This helper bridges
+        those representations by placing the reference value in slot zero and
+        adding SDIM's shift vector modulo the local dimension for the remaining
+        shots.
+
+        Args:
+            reference_value (int): Absolute qutrit value from the reference
+                shot.
+            detector_shifts (Sequence[int] | np.ndarray): SDIM detector or
+                logical-observable shift data for shots ``1..shots-1``.
+            shots (int): Total requested shot count.
+            dimension (int): Local qudit dimension.
+
+        Returns:
+            np.ndarray: One-dimensional integer array of length ``shots``.
+
+        Raises:
+            ValueError: If the detector shift length is incompatible with the
+                requested shot count.
+        """
+        shift_array = np.asarray(detector_shifts, dtype=np.int64)
+        expected_extra_shots = max(int(shots) - 1, 0)
+        if shift_array.size != expected_extra_shots:
+            raise ValueError(
+                "Detector shift vector length does not match the requested "
+                f"shot count: got {shift_array.size}, expected "
+                f"{expected_extra_shots}."
+            )
+
+        values = np.empty(shots, dtype=np.int64)
+        values[0] = int(reference_value) % int(dimension)
+        if shots > 1:
+            values[1:] = (
+                int(reference_value) + shift_array
+            ) % int(dimension)
+        return values
+
+    @staticmethod
+    def reference_linear_value_from_results(
+        results,
+        wire_terms: Sequence[tuple[int, int]],
+        measurement_round: int,
+        dimension: int,
+    ) -> int:
+        """
+        Evaluate a linear qutrit expression on the reference raw result shot.
+
+        Detector arrays provide only frame shifts for the vectorized shots.
+        The reference shot is still taken from SDIM's ordinary measurement
+        records. This helper evaluates the same linear expression used by a
+        generated detector or logical observable on shot zero, so the detector
+        shift vector can be converted back into absolute qutrit values.
+
+        Args:
+            results (Any): Raw SDIM measurement-result tensor.
+            wire_terms (Sequence[tuple[int, int]]): ``(wire, coefficient)``
+                terms defining the linear expression.
+            measurement_round (int): Per-wire raw measurement-result round.
+            dimension (int): Local qudit dimension.
+
+        Returns:
+            int: Expression value on reference shot zero, reduced modulo
+            ``dimension``.
+
+        Raises:
+            IndexError: If a required wire or measurement round is missing.
+        """
+        value = 0
+        for wire, coefficient in wire_terms:
+            value += (
+                int(coefficient)
+                * int(results[int(wire)][measurement_round][0]
+                      .measurement_value)
+            )
+        return value % int(dimension)
+
+    @staticmethod
+    def try_unpack_detector_results_from_spec(
+        simulation_output,
+        depth: int,
+        shots: int,
+        spec: LRBUnpackSpec,
+    ) -> tuple[np.ndarray, np.ndarray] | None:
+        """
+        Try to unpack ordinary LRB data from SDIM detector/logical arrays.
+
+        This is the detector-backed counterpart to the raw measurement unpack
+        path. It returns ``None`` when the expected labels are absent, which
+        lets older generated circuits and custom tests continue through the
+        legacy raw-measurement logic.
+
+        Args:
+            simulation_output (Any): Direct return from
+                ``Program(...).simulate(...)``.
+            depth (int): Benchmark depth for the circuit.
+            shots (int): Number of simulated shots.
+            spec (LRBUnpackSpec): Code-specific unpack and detector layout.
+
+        Returns:
+            tuple[np.ndarray, np.ndarray] | None: Stabilizer decisions with
+            shape ``(shots, depth + check_rounds_offset)`` and logical values
+            with shape ``(shots,)`` when detector data is usable; otherwise
+            ``None``.
+
+        Raises:
+            ValueError: If present detector arrays have incompatible lengths.
+        """
+        compact_results = (
+            LRBSimulationPipeline.
+            compact_detector_results_from_sdim_output(simulation_output)
+        )
+        check_round_limit = depth + spec.check_rounds_offset
+        required_detector_labels = [
+            lrb_stabilizer_detector_label(check_round, wire)
+            for check_round in range(
+                spec.check_round_start, check_round_limit)
+            for wire in spec.stabilizer_wires
+        ]
+        if any(
+            label not in compact_results["detectors"]
+            for label in required_detector_labels
+        ):
+            return None
+        if LRB_LOGICAL_OBSERVABLE_LABEL not in compact_results["logicals"]:
+            return None
+
+        results = LRBSimulationPipeline.measurement_results_from_sdim_output(
+            simulation_output)
+        stabilizer_check_record = np.zeros(
+            (shots, check_round_limit - spec.check_round_start),
+            dtype=np.int64,
+        )
+
+        for output_round, check_round in enumerate(
+                range(spec.check_round_start, check_round_limit)):
+            reconstructed_values: list[np.ndarray] = []
+            check_offset = check_round * spec.check_stride
+            for wire in spec.stabilizer_wires:
+                reference_value = int(
+                    results[wire][check_offset][0].measurement_value)
+                label = lrb_stabilizer_detector_label(check_round, wire)
+                reconstructed_values.append(
+                    LRBSimulationPipeline.detector_values_from_reference(
+                        reference_value=reference_value,
+                        detector_shifts=compact_results["detectors"][label],
+                        shots=shots,
+                        dimension=spec.dimension,
+                    )
+                )
+
+            values_by_wire = np.stack(reconstructed_values, axis=1)
+            stabilizer_check_record[:, output_round] = (
+                np.all((values_by_wire % spec.dimension) == 0, axis=1)
+                .astype(np.int64)
+            )
+
+        reference_logical_value = (
+            LRBSimulationPipeline.reference_linear_value_from_results(
+                results=results,
+                wire_terms=spec.logical_observable_terms,
+                measurement_round=spec.logical_measurement_round,
+                dimension=spec.dimension,
+            )
+        )
+        logical_values = LRBSimulationPipeline.detector_values_from_reference(
+            reference_value=reference_logical_value,
+            detector_shifts=(
+                compact_results["logicals"][LRB_LOGICAL_OBSERVABLE_LABEL]),
+            shots=shots,
+            dimension=spec.dimension,
+        )
+        return stabilizer_check_record, logical_values
+
+    @staticmethod
+    def try_unpack_const0_detector_results_from_spec(
+        simulation_output,
+        depth: int,
+        shots: int,
+        spec: LRBUnpackSpec,
+    ) -> tuple[np.ndarray, np.ndarray] | None:
+        """
+        Try to unpack ``const=0`` direct-X data from detector/logical arrays.
+
+        ``const=0`` circuits have no intermediate ancilla checks. The only
+        postselection decision is placed in slot ``depth`` and is computed from
+        direct X-basis data measurements at the end of the circuit. This method
+        reconstructs those terminal X-stabilizer values from compact detector
+        arrays and preserves the legacy table shape.
+
+        Args:
+            simulation_output (Any): Direct return from
+                ``Program(...).simulate(...)``.
+            depth (int): Benchmark depth for the current circuit.
+            shots (int): Number of simulated shots.
+            spec (LRBUnpackSpec): Code-specific direct-X readout layout.
+
+        Returns:
+            tuple[np.ndarray, np.ndarray] | None: Stabilizer decisions with
+            shape ``(shots, depth + 1)`` and logical values with shape
+            ``(shots,)`` when detector data is usable; otherwise ``None``.
+
+        Raises:
+            ValueError: If present detector arrays have incompatible lengths.
+        """
+        compact_results = (
+            LRBSimulationPipeline.
+            compact_detector_results_from_sdim_output(simulation_output)
+        )
+        required_detector_labels = [
+            lrb_const0_stabilizer_detector_label(stabilizer_index)
+            for stabilizer_index in range(
+                len(spec.terminal_x_stabilizer_terms))
+        ]
+        if any(
+            label not in compact_results["detectors"]
+            for label in required_detector_labels
+        ):
+            return None
+        if (LRB_CONST0_LOGICAL_OBSERVABLE_LABEL
+                not in compact_results["logicals"]):
+            return None
+
+        results = LRBSimulationPipeline.measurement_results_from_sdim_output(
+            simulation_output)
+        reconstructed_stabilizers: list[np.ndarray] = []
+        for stabilizer_index, stabilizer_terms in enumerate(
+                spec.terminal_x_stabilizer_terms):
+            reference_value = (
+                LRBSimulationPipeline.reference_linear_value_from_results(
+                    results=results,
+                    wire_terms=stabilizer_terms,
+                    measurement_round=0,
+                    dimension=spec.dimension,
+                )
+            )
+            label = lrb_const0_stabilizer_detector_label(stabilizer_index)
+            reconstructed_stabilizers.append(
+                LRBSimulationPipeline.detector_values_from_reference(
+                    reference_value=reference_value,
+                    detector_shifts=compact_results["detectors"][label],
+                    shots=shots,
+                    dimension=spec.dimension,
+                )
+            )
+
+        stabilizer_check_record = np.zeros(
+            (shots, depth + 1),
+            dtype=np.int64,
+        )
+        values_by_stabilizer = np.stack(
+            reconstructed_stabilizers, axis=1)
+        stabilizer_check_record[:, depth] = (
+            np.all(
+                (values_by_stabilizer % spec.dimension) == 0,
+                axis=1,
+            ).astype(np.int64)
+        )
+
+        reference_logical_value = (
+            LRBSimulationPipeline.reference_linear_value_from_results(
+                results=results,
+                wire_terms=spec.logical_observable_terms,
+                measurement_round=0,
+                dimension=spec.dimension,
+            )
+        )
+        logical_values = LRBSimulationPipeline.detector_values_from_reference(
+            reference_value=reference_logical_value,
+            detector_shifts=(
+                compact_results["logicals"][
+                    LRB_CONST0_LOGICAL_OBSERVABLE_LABEL]),
+            shots=shots,
+            dimension=spec.dimension,
+        )
+        return stabilizer_check_record, logical_values
+
+    @staticmethod
     def unpack_measurement_results_from_spec(
         results,
         depth: int,
         shots: int,
         spec: LRBUnpackSpec,
-    ) -> tuple[list[list[int]], list[int]]:
+    ) -> tuple[list[list[int]] | np.ndarray, list[int] | np.ndarray]:
         """
         Unpack stabilizer checks and logical outcomes from simulator results.
 
@@ -442,9 +780,24 @@ class LRBSimulationPipeline:
             IndexError: If unpack indices are incompatible with result shape.
             ValueError: If logical outcome mapping cannot produce integers.
         """
+        detector_unpack = (
+            LRBSimulationPipeline.try_unpack_detector_results_from_spec(
+                results, depth, shots, spec
+            )
+        )
+        if detector_unpack is not None:
+            return detector_unpack
+
+        results = LRBSimulationPipeline.measurement_results_from_sdim_output(
+            results)
         accept_decisions: list[list[int]] = []
         measurement_values: list[int] = []
         check_round_limit = depth + spec.check_rounds_offset
+        stabilizer_pass_fn = (
+            spec.stabilizer_pass_fn
+            if spec.stabilizer_pass_fn is not None
+            else LRBSimulationPipeline.default_stabilizer_pass_check
+        )
     
         for shot_idx in range(shots):
             shot_checks: list[int] = []
@@ -457,9 +810,7 @@ class LRBSimulationPipeline:
                     results[wire][check_offset][shot_idx].measurement_value
                     for wire in spec.stabilizer_wires
                 ]
-                shot_checks.append(
-                    int(all(value == 0 for value in stab_values))
-                )
+                shot_checks.append(int(stabilizer_pass_fn(stab_values)))
     
             logical_measurements = [
                 results[wire][spec.logical_measurement_round][shot_idx]
@@ -477,7 +828,7 @@ class LRBSimulationPipeline:
         depth: int,
         shots: int,
         spec: LRBUnpackSpec,
-    ) -> tuple[list[list[int]], list[int]]:
+    ) -> tuple[list[list[int]] | np.ndarray, list[int] | np.ndarray]:
         """
         Unpack direct terminal X-data measurements for ``const=0`` runs.
 
@@ -491,6 +842,17 @@ class LRBSimulationPipeline:
             tuple[list[list[int]], list[int]]: Stabilizer-pass vectors with
             only the terminal slot populated, and logical outcomes per shot.
         """
+        detector_unpack = (
+            LRBSimulationPipeline.
+            try_unpack_const0_detector_results_from_spec(
+                results, depth, shots, spec
+            )
+        )
+        if detector_unpack is not None:
+            return detector_unpack
+
+        results = LRBSimulationPipeline.measurement_results_from_sdim_output(
+            results)
         accept_decisions: list[list[int]] = []
         measurement_values: list[int] = []
 
@@ -515,6 +877,90 @@ class LRBSimulationPipeline:
                 int(spec.logical_outcome_fn(logical_measurements, depth)))
 
         return accept_decisions, measurement_values
+
+    @staticmethod
+    def measurement_results_from_sdim_output(simulation_output):
+        """
+        Return the measurement-record portion of an SDIM simulation result.
+
+        SDIM 1.3.4 returns ``(measurements, detector_results)`` for
+        multi-shot frame simulations, even when the circuit has no detectors.
+        Older SDIM versions returned the measurement records directly. The
+        LRB/RB statistics path consumes only measurements for now.
+        """
+        if isinstance(simulation_output, tuple):
+            return simulation_output[0]
+        return simulation_output
+
+    @staticmethod
+    def compact_detector_results_from_sdim_output(
+            simulation_output) -> dict[str, dict[str, np.ndarray]]:
+        """
+        Return SDIM detector/logical event arrays in a label-indexed layout.
+
+        SDIM frame simulation can return a two-part object,
+        ``(measurements, detector_results)``, when a circuit contains
+        ``DETECTOR`` or ``LOGICAL_OBSERVABLE`` operations. The second entry is
+        already vectorized internally, but its native shape is a pair of lists:
+        one list for detector channels and one list for logical-observable
+        channels. Each item in those lists stores a human label and a NumPy
+        array of qutrit-valued event data. This helper converts that structure
+        into dictionaries keyed by label so experiments can ask directly for
+        ``compact["detectors"]["some_label"]`` or
+        ``compact["logicals"]["logical_x"]`` without scanning the native event
+        lists on every post-processing pass.
+
+        The helper deliberately preserves SDIM's raw frame-simulation shot
+        convention. In SDIM 1.3.4, detector/logical arrays observed in
+        multi-shot frame simulation contain the extra frame shots and therefore
+        have length ``shots - 1``; the reference tableau shot remains in the
+        ordinary measurement records. Keeping that convention visible is safer
+        than padding or silently inventing a reference-shot detector value at
+        this layer.
+
+        Args:
+            simulation_output (Any): Direct return value from
+                ``Program(circuit).simulate(...)``.
+
+        Returns:
+            dict[str, dict[str, np.ndarray]]: A compact result with two top
+            level keys, ``"detectors"`` and ``"logicals"``. Each maps stable
+            event labels to one-dimensional NumPy arrays. When SDIM returns no
+            detector payload, both dictionaries are empty.
+
+        Raises:
+            TypeError: If SDIM returns a detector payload in an unexpected
+                non-dictionary shape.
+        """
+        compact_results: dict[str, dict[str, np.ndarray]] = {
+            "detectors": {},
+            "logicals": {},
+        }
+        if not isinstance(simulation_output, tuple):
+            return compact_results
+
+        detector_payload = simulation_output[1]
+        if detector_payload is None:
+            return compact_results
+        if not isinstance(detector_payload, dict):
+            raise TypeError(
+                "Expected SDIM detector payload to be a dictionary with "
+                "'detectors' and 'logicals' entries."
+            )
+
+        for result_kind in ("detectors", "logicals"):
+            for event_index, event in enumerate(
+                    detector_payload.get(result_kind, [])):
+                label = str(event.get("label", f"{result_kind}_{event_index}"))
+                if label in compact_results[result_kind]:
+                    label = f"{label}#{event_index}"
+                compact_results[result_kind][label] = np.asarray(
+                    event.get("data", []),
+                    dtype=np.int64,
+                )
+
+        return compact_results
+
     @staticmethod
     def LRB(
             experiments,
@@ -568,21 +1014,36 @@ class LRBSimulationPipeline:
                 # Run the circuits over many shots
                 NoiseModelUtils.ensure_noise_params(c)
     
-                results = Program(c).simulate(shots=shots)
+                simulation_output = Program(c).simulate(shots=shots)
+                unpack_payload = (
+                    simulation_output
+                    if getattr(unpack_func, "accepts_sdim_output", False)
+                    else (
+                        LRBSimulationPipeline.
+                        measurement_results_from_sdim_output(
+                            simulation_output)
+                    )
+                )
     
                 #print("Cliff sequence is " + str(ng))
                 #print("Depth / file is " + str(k))
                 # Unpack the measurements
                 #print(f"From LRB, we're passing current depth as {depths[k]}")
-                stab_checks, m_values = unpack_func(results, depths[k], shots)
-    
-                # Record in table
-                for s in range(shots):
-                    measurement_record[ng, k, s] = m_values[s]
-                    for d in range(len(stab_checks[s])):
-                        stabilizer_check_record[
-                            ng, k, s, d
-                        ] = stab_checks[s][d]
+                stab_checks, m_values = unpack_func(
+                    unpack_payload, depths[k], shots)
+
+                # Record in table. Detector-backed unpackers return NumPy
+                # arrays and legacy unpackers return lists; np.asarray keeps
+                # both paths compatible while allowing vectorized assignment.
+                m_values_array = np.asarray(m_values, dtype=np.int64)
+                stab_checks_array = np.asarray(stab_checks, dtype=np.int64)
+                measurement_record[ng, k, :shots] = m_values_array
+                stabilizer_check_record[
+                    ng,
+                    k,
+                    :shots,
+                    :stab_checks_array.shape[1],
+                ] = stab_checks_array
     
         return measurement_record, stabilizer_check_record
     
@@ -753,11 +1214,39 @@ class LRBSimulationPipeline:
                 # Run the circuits over many shots
                 NoiseModelUtils.ensure_noise_params(c)
     
-                results = Program(c).simulate(shots=shots)
-                # Record in table
-                for s in range(shots):
-                    measurement_record[ng, k,
-                                       s] = results[0][0][s].measurement_value
+                simulation_output = Program(c).simulate(shots=shots)
+                compact_results = (
+                    LRBSimulationPipeline.
+                    compact_detector_results_from_sdim_output(
+                        simulation_output)
+                )
+                results = (
+                    LRBSimulationPipeline.
+                    measurement_results_from_sdim_output(simulation_output)
+                )
+
+                # New generated RB circuits contain one logical observable for
+                # the terminal wire-zero measurement. Reconstruct all shots
+                # from the reference shot plus SDIM's vectorized frame shifts
+                # when that compact payload is present; older circuits still
+                # fall back to the raw measurement tensor.
+                if RB_LOGICAL_OBSERVABLE_LABEL in compact_results["logicals"]:
+                    reference_value = int(results[0][0][0].measurement_value)
+                    measurement_record[ng, k, :shots] = (
+                        LRBSimulationPipeline.
+                        detector_values_from_reference(
+                            reference_value=reference_value,
+                            detector_shifts=(
+                                compact_results["logicals"][
+                                    RB_LOGICAL_OBSERVABLE_LABEL]),
+                            shots=shots,
+                            dimension=c.dimension,
+                        )
+                    )
+                else:
+                    for s in range(shots):
+                        measurement_record[ng, k, s] = (
+                            results[0][0][s].measurement_value)
     
         return measurement_record
     
@@ -1416,10 +1905,14 @@ class LRBSimulationPipeline:
                 end_time = time.time()
                 print(f"Finished in {str(end_time - start_time)} seconds!")
     
-                # Process partial results into progress files.
+                # Process partial results into progress files. Constant
+                # checks with value > 0 are not terminal direct-data checks:
+                # they are postselection views of the ordinary LRB stabilizer
+                # record. For split-ancilla profiles, this means those const
+                # checks use the split syndrome/relay ancilla convention.
                 if need_main_lrb:
-                    # Constant checks other than const=0 use the regular LRB
-                    # circuits with noisy/intermediate check structure.
+                    # const=0 is intentionally excluded from this list and is
+                    # handled below with the direct terminal X-data circuit.
                     if main_const_checks:
                         LRBSimulationPipeline.process_lrb_counts(
                             measurement_results=LRB_experiment_results[0],

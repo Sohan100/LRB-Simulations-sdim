@@ -1,4 +1,12 @@
-"""Code-specific LRB profiles wired into generic setup and runtime engines."""
+"""Code-specific LRB profiles wired into generic setup and runtime engines.
+
+This module is the single registry that connects human-facing ``code_name``
+metadata in a generated run folder to the construction and unpacking behavior
+needed by setup and simulation scripts. It deliberately keeps circuit-building
+callbacks, stabilizer readout wire layouts, logical readout rules, and logical
+alphabet sizes together so a generated run remains reproducible from the
+``code_name.txt`` file written during setup.
+"""
 
 from __future__ import annotations
 
@@ -9,29 +17,76 @@ from . import code_definitions as defns
 from .circuit_generator import LRBCodeDefinition, LRBCodeDefinitionFactory
 
 DEFAULT_CODE_NAME = "folded_qutrit"
+SPLIT_UNIFORM_FOLDED_CODE_NAME = "folded_qutrit_split_unif"
 
 
 @dataclass(frozen=True)
 class _UnpackSpec:
     """
-    UnpackSpec.
-    
+    Declarative measurement-unpack layout for one runtime code profile.
+
+    The LRB simulation engine receives SDIM measurement records indexed by
+    physical wire, measurement round, and shot. This dataclass tells the generic
+    unpacker which wires to read for stabilizer postselection, which wires to
+    read for terminal logical outcomes, and how to convert those raw qutrit
+    values into pass/fail or logical-outcome data used by the plotting and
+    statistics pipeline.
+
+    The optional ``stabilizer_pass_fn`` is the hook used by the split-ancilla
+    folded mode. Conventional profiles leave it unset, which means every
+    stabilizer ancilla listed in ``stabilizer_wires`` must be zero modulo three.
+    Split-mode profiles provide a function that interprets the boundary
+    readouts as coherent syndrome-and-relay outputs rather than independent
+    partial stabilizer measurements.
+
     Attributes:
-        None: This class stores no persistent attributes unless
-            documented by concrete fields.
-    
+        stabilizer_wires (tuple[int, ...]): Physical wires containing
+            stabilizer readouts for one check layer, in the exact order expected
+            by ``stabilizer_pass_fn``.
+        logical_measurement_wires (tuple[int, ...]): Physical wires used to
+            compute the terminal logical outcome.
+        logical_outcome_fn (Callable[[list[int], int], int]): Function that
+            maps terminal logical measurement values and benchmark depth to a
+            logical qutrit outcome.
+        terminal_x_measurement_wires (tuple[int, ...]): Data wires measured by
+            the direct terminal X-basis ``const=0`` protocol.
+        x_stabilizer_check_fn (Callable[[list[int]], bool]): Direct-data
+            X-stabilizer pass function for the ``const=0`` protocol.
+        logical_observable_terms (tuple[tuple[int, int], ...]): Terminal
+            logical observable as ``(wire, coefficient)`` terms, used by both
+            detector generation and detector-backed unpacking.
+        terminal_x_stabilizer_terms (tuple[tuple[tuple[int, int], ...], ...]):
+            Direct terminal X-stabilizer expressions for detector generation
+            and detector-backed ``const=0`` unpacking.
+        stabilizer_pass_fn (Callable[[list[int]], bool] | None): Optional
+            ancilla-readout pass function for ordinary LRB check layers.
+        check_stride (int): Number of measurement-result entries between
+            successive stabilizer-check rounds on the same ancilla wire.
+        check_round_start (int): First stabilizer-check round inspected by the
+            unpacker.
+        check_rounds_offset (int): Offset added to depth to include the
+            terminal stabilizer-check slot after the inverse.
+        logical_measurement_round (int): Measurement-result round used for
+            terminal logical readout.
+        dimension (int): Local qudit dimension used for modulo arithmetic in
+            detector-backed unpacking.
+
     Methods:
-        See class method definitions for the supported API.
+        This dataclass is declarative and defines no custom methods.
     """
     stabilizer_wires: tuple[int, ...]
     logical_measurement_wires: tuple[int, ...]
     logical_outcome_fn: Callable[[list[int], int], int]
     terminal_x_measurement_wires: tuple[int, ...]
     x_stabilizer_check_fn: Callable[[list[int]], bool]
+    logical_observable_terms: tuple[tuple[int, int], ...]
+    terminal_x_stabilizer_terms: tuple[tuple[tuple[int, int], ...], ...]
+    stabilizer_pass_fn: Callable[[list[int]], bool] | None = None
     check_stride: int = 2
     check_round_start: int = 0
     check_rounds_offset: int = 1
     logical_measurement_round: int = 0
+    dimension: int = 3
 
 
 @dataclass(frozen=True)
@@ -66,7 +121,10 @@ class CodeSimulationProfileRegistry:
     Attributes:
         _CODE_DEFINITION_SPECS (dict): Per-code construction config consumed by
             ``_build_code_definition``.
-        _UNPACK_SPECS (dict): Per-code unpack specs for runtime decoding.
+        _UNPACK_SPECS (dict): Per-code unpack specs for runtime decoding. The
+            split-ancilla folded entry uses a custom stabilizer pass function
+            because two boundary stabilizers have an extra relay-cleanliness
+            readout in addition to their reconstructed syndrome readout.
         _LOGICAL_DIMENSIONS (dict): Per-code logical dimensions for statistics.
 
     Methods:
@@ -122,6 +180,70 @@ class CodeSimulationProfileRegistry:
             ),
             "terminal_const0_measurement": (
                 defns.FoldedQutritDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
+        SPLIT_UNIFORM_FOLDED_CODE_NAME: {
+            "dimension": 3,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 11,
+            "clifford_strings": (
+                defns.single_qutrit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QutritCliffordLibrary.qutrit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QutritCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": (
+                defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                affected_wires
+            ),
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                    z_boundary_split_stabilizer_measurement_ancillae_circuit,
+                    {5, 9},
+                ),
+                (
+                    defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                    z_middle_stabilizer_measurement_ancillae_circuit,
+                    {6},
+                ),
+                (
+                    defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                    x_middle_stabilizer_measurement_ancillae_circuit,
+                    {7},
+                ),
+                (
+                    defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                    x_boundary_split_stabilizer_measurement_ancillae_circuit,
+                    {8, 10},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQutritSplitAncillaUniformDetectionCode.
                 terminal_const0_logical_x_measurement_circuit
             ),
             "depth_zero_noise_wires": (0, 1, 2, 3, 4),
@@ -191,6 +313,32 @@ class CodeSimulationProfileRegistry:
             x_stabilizer_check_fn=(
                 defns.FoldedQutritDetectionCode.codespace_X_stabilizer_check
             ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, -1)),
+                ((3, 1), (1, -1), (4, -1)),
+            ),
+        ),
+        SPLIT_UNIFORM_FOLDED_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(5, 6, 7, 8, 9, 10),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 3
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, -1)),
+                ((3, 1), (1, -1), (4, -1)),
+            ),
+            stabilizer_pass_fn=(
+                defns.FoldedQutritSplitAncillaUniformDetectionCode.
+                split_ancilla_stabilizer_check
+            ),
         ),
         "qgrm_3_1_2": _UnpackSpec(
             stabilizer_wires=(3, 4),
@@ -202,12 +350,17 @@ class CodeSimulationProfileRegistry:
             x_stabilizer_check_fn=(
                 defns.QGRMThreeQutritDetectionCode.codespace_X_stabilizer_check
             ),
+            logical_observable_terms=((0, 1), (1, -1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, 1)),
+            ),
         ),
     }
 
     # Logical alphabet size used when extracting logical statistics.
     _LOGICAL_DIMENSIONS = {
         "folded_qutrit": 3,
+        SPLIT_UNIFORM_FOLDED_CODE_NAME: 3,
         "qgrm_3_1_2": 3,
     }
 
@@ -244,6 +397,12 @@ class CodeSimulationProfileRegistry:
             terminal_measurement=spec["terminal_measurement"],
             terminal_const0_measurement=spec[
                 "terminal_const0_measurement"],
+            stabilizer_detector_wires=(
+                cls._UNPACK_SPECS[code_name].stabilizer_wires),
+            logical_observable_terms=(
+                cls._UNPACK_SPECS[code_name].logical_observable_terms),
+            terminal_x_stabilizer_terms=(
+                cls._UNPACK_SPECS[code_name].terminal_x_stabilizer_terms),
             depth_zero_noise_wires=spec["depth_zero_noise_wires"],
         )
 
@@ -285,6 +444,7 @@ class CodeSimulationProfileRegistry:
                 results, depth, shots, spec
             )
 
+        _unpack.accepts_sdim_output = True
         return _unpack
 
     @staticmethod
@@ -309,6 +469,7 @@ class CodeSimulationProfileRegistry:
                 )
             )
 
+        _unpack.accepts_sdim_output = True
         return _unpack
 
     @classmethod

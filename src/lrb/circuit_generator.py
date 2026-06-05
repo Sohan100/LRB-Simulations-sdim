@@ -13,6 +13,17 @@ import random
 from dataclasses import dataclass
 from typing import Any, Callable, Sequence
 
+from .detector_events import (
+    LRB_CONST0_LOGICAL_OBSERVABLE_LABEL,
+    LRB_LOGICAL_OBSERVABLE_LABEL,
+    RB_LOGICAL_OBSERVABLE_LABEL,
+    expression_from_measurement_indices,
+    indices_and_coefficients_from_wire_terms,
+    lrb_const0_stabilizer_detector_label,
+    lrb_stabilizer_detector_label,
+    measurement_indices_by_wire,
+)
+
 try:
     from sdim.circuit import Circuit
     from sdim.circuit_io import write_circuit
@@ -127,6 +138,12 @@ class LRBCodeDefinition:
             block.
         terminal_const0_measurement (Callable[[], Circuit]): Error-free
             terminal direct data readout used only for ``const=0``.
+        stabilizer_detector_wires (Sequence[int]): Ancilla wires whose
+            check-round measurements should be exposed as SDIM detectors.
+        logical_observable_terms (Sequence[tuple[int, int]]): Terminal
+            logical-observable expression as ``(wire, coefficient)`` terms.
+        terminal_x_stabilizer_terms (Sequence[Sequence[tuple[int, int]]]):
+            Direct terminal X-stabilizer expressions for ``const=0`` circuits.
         depth_zero_noise_wires (Sequence[int]): Wires that receive the
             depth-zero noise model.
 
@@ -147,6 +164,9 @@ class LRBCodeDefinition:
     reset_measurement_wires: Callable[[], Circuit] | None
     terminal_measurement: Callable[[], Circuit]
     terminal_const0_measurement: Callable[[], Circuit]
+    stabilizer_detector_wires: Sequence[int] = ()
+    logical_observable_terms: Sequence[tuple[int, int]] = ()
+    terminal_x_stabilizer_terms: Sequence[Sequence[tuple[int, int]]] = ()
     depth_zero_noise_wires: Sequence[int] = ()
 
 
@@ -206,6 +226,12 @@ class LRBCircuitGenerator:
             families.
         generate_lrb_const0_clifford_sequence: Build encoded circuits for the
             ``const=0`` direct terminal X-stabilizer protocol.
+        append_lrb_detector_events: Add compact SDIM detector/logical payloads
+            to ordinary encoded LRB circuits.
+        append_lrb_const0_detector_events: Add compact SDIM detector/logical
+            payloads to special direct terminal X-data circuits.
+        append_rb_detector_events: Add compact SDIM logical payloads to
+            physical RB circuits.
         update_noise_param: Rewrite noise probabilities on generated circuits.
         generate_tests: Export all circuits for all Clifford seeds and
             probabilities.
@@ -547,6 +573,158 @@ class LRBCircuitGenerator:
 
         return output
 
+    def append_lrb_detector_events(self, circuit: Circuit, depth: int) -> None:
+        """
+            Append ordinary LRB stabilizer detectors and logical observable.
+
+        The detector operations are added after all stabilizer and terminal
+        logical measurements have already been appended. They do not alter the
+        simulated quantum state; they ask SDIM to return compact vectorized
+        Pauli-frame event arrays for the measurements the legacy unpacker was
+        already reading from the raw measurement-result tensor.
+
+        For ordinary LRB circuits, every check-round detector references one
+        true ancilla measurement. The profile-level
+        ``stabilizer_detector_wires`` ordering is the same ordering consumed by
+        the runtime postselection spec, so the generated labels line up with
+        the detector-aware unpack path. Reset operations are deliberately
+        ignored because SDIM detector expressions count only ``M`` and ``M_X``
+        operations as ``rec`` targets.
+
+        Args:
+            circuit (Circuit): Fully assembled encoded LRB circuit.
+            depth (int): Benchmark depth. The circuit contains ``depth + 1``
+                stabilizer-check layers, including the final post-inverse
+                check.
+
+        Returns:
+            None: Mutates ``circuit`` by appending SDIM event annotations.
+
+        Raises:
+            KeyError: If a required detector wire was not measured enough
+                times for the requested depth.
+            ValueError: If detector-expression construction fails.
+        """
+        code_definition = self._require_code_definition()
+        measurement_indices = measurement_indices_by_wire(circuit)
+
+        for check_round in range(depth + 1):
+            for wire in code_definition.stabilizer_detector_wires:
+                measurement_index = measurement_indices[int(wire)][
+                    check_round]
+                circuit.add_gate(
+                    "DETECTOR",
+                    expr=expression_from_measurement_indices(
+                        [measurement_index]),
+                    label=lrb_stabilizer_detector_label(
+                        check_round, int(wire)),
+                )
+
+        logical_indices, logical_coefficients = (
+            indices_and_coefficients_from_wire_terms(
+                measurement_indices,
+                code_definition.logical_observable_terms,
+                use_last_measurement=True,
+            )
+        )
+        circuit.add_gate(
+            "LOGICAL_OBSERVABLE",
+            expr=expression_from_measurement_indices(
+                logical_indices, logical_coefficients),
+            label=LRB_LOGICAL_OBSERVABLE_LABEL,
+        )
+
+    def append_lrb_const0_detector_events(
+        self,
+        circuit: Circuit,
+        depth: int,
+    ) -> None:
+        """
+            Append detectors for the direct terminal-X ``const=0`` protocol.
+
+        ``const=0`` circuits have no intermediate ancilla checks. The only
+        postselection decision is placed in slot ``depth`` and is computed from
+        direct X-basis data measurements at the end of the circuit. This method
+        exposes each terminal X-stabilizer as a separate SDIM detector and the
+        logical X readout as one SDIM logical observable, allowing runtime code
+        to reconstruct the old pass/logical arrays from compact vectorized
+        event data.
+
+        Args:
+            circuit (Circuit): Fully assembled encoded ``const=0`` circuit.
+            depth (int): Benchmark depth. The value is accepted for API
+                symmetry with ordinary LRB detector annotation; the detector
+                labels themselves do not need the depth because there is only
+                one terminal direct-X check layer.
+
+        Returns:
+            None: Mutates ``circuit`` by appending SDIM event annotations.
+
+        Raises:
+            KeyError: If a terminal data wire needed by the profile was not
+                measured.
+            ValueError: If detector-expression construction fails.
+        """
+        _ = depth
+        code_definition = self._require_code_definition()
+        measurement_indices = measurement_indices_by_wire(circuit)
+
+        for stabilizer_index, stabilizer_terms in enumerate(
+                code_definition.terminal_x_stabilizer_terms):
+            indices, coefficients = indices_and_coefficients_from_wire_terms(
+                measurement_indices,
+                stabilizer_terms,
+                use_last_measurement=True,
+            )
+            circuit.add_gate(
+                "DETECTOR",
+                expr=expression_from_measurement_indices(
+                    indices, coefficients),
+                label=lrb_const0_stabilizer_detector_label(
+                    stabilizer_index),
+            )
+
+        logical_indices, logical_coefficients = (
+            indices_and_coefficients_from_wire_terms(
+                measurement_indices,
+                code_definition.logical_observable_terms,
+                use_last_measurement=True,
+            )
+        )
+        circuit.add_gate(
+            "LOGICAL_OBSERVABLE",
+            expr=expression_from_measurement_indices(
+                logical_indices, logical_coefficients),
+            label=LRB_CONST0_LOGICAL_OBSERVABLE_LABEL,
+        )
+
+    @staticmethod
+    def append_rb_detector_events(circuit: Circuit) -> None:
+        """
+            Append a physical-RB logical observable for wire-zero readout.
+
+        Physical RB records only the terminal measurement of wire ``0``. Adding
+        a single logical observable lets the runtime consume SDIM's compact
+        vectorized event array when available while preserving the raw
+        measurement fallback for older circuits.
+
+        Args:
+            circuit (Circuit): Fully assembled physical RB circuit.
+
+        Returns:
+            None: Mutates ``circuit`` by appending one logical observable.
+
+        Raises:
+            KeyError: If wire ``0`` was not measured before annotation.
+        """
+        measurement_indices = measurement_indices_by_wire(circuit)
+        measurement_index = measurement_indices[0][-1]
+        circuit.add_gate(
+            "LOGICAL_OBSERVABLE",
+            expr=expression_from_measurement_indices([measurement_index]),
+            label=RB_LOGICAL_OBSERVABLE_LABEL,
+        )
+
     def generate_random_clifford_strings(self, depth: int) -> list[str]:
         """
             Sample random single-qutrit Clifford descriptors from the
@@ -693,6 +871,7 @@ class LRBCircuitGenerator:
                                  noise_channel=self.with_default_noise_channel,
                                  prob=0.0)
             circuit.add_gate("M", 0)
+            self.append_rb_detector_events(circuit)
             subcircuits.append(circuit)
 
         return subcircuits
@@ -871,6 +1050,7 @@ class LRBCircuitGenerator:
                     circuit = circuit + stab_factory()
 
             circuit = circuit + code_definition.terminal_measurement()
+            self.append_lrb_detector_events(circuit, depth)
             subcircuits.append(circuit)
 
         return subcircuits
@@ -986,6 +1166,7 @@ class LRBCircuitGenerator:
                         prob=0.0)
 
             circuit = circuit + code_definition.terminal_const0_measurement()
+            self.append_lrb_const0_detector_events(circuit, depth)
             subcircuits.append(circuit)
 
         return subcircuits

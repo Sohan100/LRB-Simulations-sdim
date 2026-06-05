@@ -13,7 +13,13 @@ This module provides primary class abstractions used by the LRB workflow:
    that build full ``sdim`` ``Circuit`` objects for initialization, logical
    operations, stabilizer measurements, and measurement-wire reset steps.
 
-3. ``QGRMThreeQutritDetectionCode``
+3. ``FoldedQutritSplitAncillaUniformDetectionCode``
+   Encodes the split-boundary variant of the folded qutrit code in which the
+   two geometrically nonlocal boundary stabilizers use a second local relay
+   ancilla. The logical code and stabilizers are unchanged; only the
+   stabilizer-measurement layout and syndrome/readout arithmetic differ.
+
+4. ``QGRMThreeQutritDetectionCode``
    Encodes the circuit templates for the [[3,1,2]]_3 QGRM qutrit detection
    code, including initialization, logical operators, and stabilizer checks.
 """
@@ -753,6 +759,306 @@ class FoldedQutritDetectionCode:
             (x_measurements[3] - x_measurements[1] - x_measurements[4]) % 3,
         ]
         return all(stabilizer == 0 for stabilizer in stabilizer_measurements)
+
+
+@dataclass(frozen=True)
+class FoldedQutritSplitAncillaUniformDetectionCode(
+        FoldedQutritDetectionCode):
+    """
+    Split-ancilla folded-code circuit templates for uniform-interval checks.
+
+    This class describes a measurement-layout variant of the same
+    ``[[5,1,2]]_3`` folded qutrit surface-code detector used by
+    ``FoldedQutritDetectionCode``. The five data wires, logical operators, and
+    stabilizer generators are unchanged:
+
+    ``S_Z1 = Z0 Z1^-1 Z3^-1``
+        Boundary Z-type stabilizer. In the conventional folded-code geometry,
+        one ancilla cannot locally touch all three participating data qutrits,
+        so this mode uses a nearby relay ancilla to collect the distant
+        contribution coherently, transfers that contribution into the main
+        syndrome ancilla, uncomputes the relay, and then measures both
+        ancillas.
+
+    ``S_Z2 = Z1 Z2 Z4^-1``
+        Interior Z-type stabilizer. This remains a one-ancilla stabilizer
+        because a single local ancilla can reach all data qutrits in the
+        stabilizer support.
+
+    ``S_X1 = X0 X1 X2^-1``
+        Interior X-type stabilizer. This also remains a one-ancilla
+        stabilizer for the same local-connectivity reason.
+
+    ``S_X2 = X3 X1^-1 X4^-1``
+        Boundary X-type stabilizer. This mirrors ``S_Z1`` and is split across
+        the same coherent relay strategy used for ``S_Z1``.
+
+    The class intentionally inherits the initialization, logical-gate, logical
+    readout, affected-wire, and direct terminal-X routines from
+    ``FoldedQutritDetectionCode``. Those inherited routines use ``cls`` for the
+    circuit width, so this subclass can keep the same data-wire behavior while
+    increasing the total wire count from nine to eleven.
+
+    Attributes:
+        dimension (int): Local qutrit dimension. This remains three.
+        num_qudits (int): Total circuit width. Wires ``0..4`` are data qutrits;
+            wires ``5..10`` are stabilizer-measurement ancillas.
+
+    Methods:
+        z_boundary_split_stabilizer_measurement_ancillae_circuit: Measure
+            ``S_Z1`` with main syndrome ancilla ``5`` and relay ancilla ``9``.
+        z_middle_stabilizer_measurement_ancillae_circuit: Measure ``S_Z2`` on
+            ancilla ``6``.
+        x_middle_stabilizer_measurement_ancillae_circuit: Measure ``S_X1`` on
+            ancilla ``7``.
+        x_boundary_split_stabilizer_measurement_ancillae_circuit: Measure
+            ``S_X2`` with main syndrome ancilla ``8`` and relay ancilla ``10``.
+        reset_measurement_wires: Reset all six split-mode ancilla wires after
+            each stabilizer-check round.
+        split_ancilla_stabilizer_check: Interpret the six ancilla results as
+            four stabilizer syndromes plus two relay-cleanliness checks and
+            return the full pass/fail decision.
+    """
+
+    dimension: int = 3
+    num_qudits: int = 11
+
+    @classmethod
+    def z_boundary_split_stabilizer_measurement_ancillae_circuit(
+            cls) -> Circuit:
+        """
+        Build the split measurement circuit for boundary stabilizer ``S_Z1``.
+
+        The original stabilizer is ``S_Z1 = Z0 Z1^-1 Z3^-1``. In the
+        single-ancilla circuit this is one qutrit-valued syndrome
+        ``z0 - z1 - z3``. A tempting two-ancilla implementation is to measure
+        ``z0 - z1`` and ``-z3`` separately and add the two classical outcomes,
+        but that exposes non-stabilizer partial information. The coherent
+        circuit below instead uses ancilla ``9`` only as a relay: it collects
+        the distant ``-z3`` contribution, transfers that contribution into
+        syndrome ancilla ``5`` with ``CNOT 9 5``, and then uncomputes the relay
+        by applying the inverse data-relay coupling. At the end, ancilla ``5``
+        carries the reconstructed ``S_Z1`` syndrome and ancilla ``9`` should
+        read zero when the relay was clean.
+
+        Args:
+            None: The method uses fixed folded-code data and ancilla wires.
+
+        Returns:
+            Circuit: Two-part Z-boundary stabilizer readout circuit on the
+            eleven-wire split-ancilla folded code.
+
+        Raises:
+            ValueError: If SDIM rejects a gate placement during construction.
+        """
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+
+        c.add_gate("CNOT", 0, 5)
+        c.add_gate("CNOT_INV", 1, 5)
+        c.add_gate("CNOT_INV", 3, 9)
+        c.add_gate("CNOT", 9, 5)
+        c.add_gate("CNOT", 3, 9)
+        c.add_gate("M", 5)
+        c.add_gate("M", 9)
+
+        return c
+
+    @classmethod
+    def z_middle_stabilizer_measurement_ancillae_circuit(cls) -> Circuit:
+        """
+        Build the one-ancilla measurement circuit for interior stabilizer ``S_Z2``.
+
+        The stabilizer is ``S_Z2 = Z1 Z2 Z4^-1``. It is geometrically local in
+        this folded-code layout, so this split-ancilla mode intentionally keeps
+        the same one-ancilla syndrome extraction used by the normal folded
+        profile: ancilla ``6`` stores ``z1 + z2 - z4`` and must be zero modulo
+        three for the check to pass.
+
+        Args:
+            None: The method uses fixed folded-code data and ancilla wires.
+
+        Returns:
+            Circuit: One-ancilla Z-interior stabilizer readout circuit.
+
+        Raises:
+            ValueError: If SDIM rejects a gate placement during construction.
+        """
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+
+        c.add_gate("CNOT", 1, 6)
+        c.add_gate("CNOT", 2, 6)
+        c.add_gate("CNOT_INV", 4, 6)
+        c.add_gate("M", 6)
+
+        return c
+
+    @classmethod
+    def x_middle_stabilizer_measurement_ancillae_circuit(cls) -> Circuit:
+        """
+        Build the one-ancilla measurement circuit for interior stabilizer ``S_X1``.
+
+        The stabilizer is ``S_X1 = X0 X1 X2^-1``. This check remains local to a
+        single conventional ancilla, so ancilla ``7`` measures the whole
+        qutrit-valued syndrome ``x0 + x1 - x2``. The leading and trailing
+        Hadamard basis changes convert the ancilla-mediated controlled-X style
+        couplings into the X-basis stabilizer readout used by this repository.
+
+        Args:
+            None: The method uses fixed folded-code data and ancilla wires.
+
+        Returns:
+            Circuit: One-ancilla X-interior stabilizer readout circuit.
+
+        Raises:
+            ValueError: If SDIM rejects a gate placement during construction.
+        """
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+
+        c.add_gate("H", 7)
+        c.add_gate("CNOT", 7, 0)
+        c.add_gate("CNOT", 7, 1)
+        c.add_gate("CNOT_INV", 7, 2)
+        c.add_gate("H_INV", 7)
+        c.add_gate("M", 7)
+
+        return c
+
+    @classmethod
+    def x_boundary_split_stabilizer_measurement_ancillae_circuit(
+            cls) -> Circuit:
+        """
+        Build the split measurement circuit for boundary stabilizer ``S_X2``.
+
+        The original stabilizer is ``S_X2 = X3 X1^-1 X4^-1``. As with ``S_Z1``,
+        this circuit avoids separately measuring non-stabilizer partials.
+        Ancilla ``8`` is the main X-basis syndrome ancilla for the nearby
+        ``x3 - x1`` contribution. Ancilla ``10`` is a relay for the distant
+        ``-x4`` contribution. The ``CNOT_INV 8 10`` relay-combination step and
+        the subsequent inverse data-relay coupling make the final readout
+        deterministic at zero noise: ancilla ``8`` carries the reconstructed
+        ``S_X2`` syndrome and ancilla ``10`` should read zero when the relay
+        was clean.
+
+        Args:
+            None: The method uses fixed folded-code data and ancilla wires.
+
+        Returns:
+            Circuit: Two-part X-boundary stabilizer readout circuit on the
+            eleven-wire split-ancilla folded code.
+
+        Raises:
+            ValueError: If SDIM rejects a gate placement during construction.
+        """
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+
+        c.add_gate("H", 8)
+        c.add_gate("H", 10)
+        c.add_gate("CNOT", 8, 3)
+        c.add_gate("CNOT_INV", 8, 1)
+        c.add_gate("CNOT_INV", 10, 4)
+        c.add_gate("CNOT_INV", 8, 10)
+        c.add_gate("CNOT", 10, 4)
+        c.add_gate("H_INV", 8)
+        c.add_gate("H_INV", 10)
+        c.add_gate("M", 8)
+        c.add_gate("M", 10)
+
+        return c
+
+    @classmethod
+    def reset_measurement_wires(cls) -> Circuit:
+        """
+        Build the split-mode ancilla reset block.
+
+        This variant resets all six stabilizer-measurement ancillas after each
+        check round: ``5`` and ``9`` for split ``S_Z1``, ``6`` for ``S_Z2``,
+        ``7`` for ``S_X1``, and ``8`` and ``10`` for split ``S_X2``. The reset
+        block is intentionally separate from the stabilizer-measurement blocks
+        so the generic generator can insert SI1000 reset noise around it in
+        the same place where the normal folded profile resets ancillas.
+
+        Args:
+            None: The method uses fixed split-mode ancilla-wire indices.
+
+        Returns:
+            Circuit: Reset subcircuit on wires ``5`` through ``10``.
+
+        Raises:
+            ValueError: If SDIM rejects a reset gate placement.
+        """
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        c.add_gate("RESET", 5)
+        c.add_gate("RESET", 6)
+        c.add_gate("RESET", 7)
+        c.add_gate("RESET", 8)
+        c.add_gate("RESET", 9)
+        c.add_gate("RESET", 10)
+        return c
+
+    @staticmethod
+    def split_ancilla_stabilizer_check(
+            stabilizer_measurements: Sequence[int]) -> bool:
+        """
+        Evaluate the full split-ancilla stabilizer layer modulo three.
+
+        The measurement order is fixed by the corresponding split-mode runtime
+        profile. The boundary entries are not independent partial stabilizer
+        readouts; they are coherent syndrome-and-relay readouts:
+
+        ``m5``
+            Reconstructed syndrome for ``S_Z1`` after the ``9 -> 5`` relay
+            combination.
+        ``m6``
+            Full one-ancilla syndrome for ``S_Z2``, equal to ``z1 + z2 - z4``.
+        ``m7``
+            Full one-ancilla syndrome for ``S_X1``, equal to ``x0 + x1 - x2``.
+        ``m8``
+            Reconstructed syndrome for ``S_X2`` after the ``8 -> 10`` relay
+            combination and relay uncompute.
+        ``m9``
+            Relay-cleanliness readout for the ``S_Z1`` relay ancilla. In an
+            ideal stabilizer measurement this is zero; nonzero values indicate
+            that the relay did not uncompute cleanly and should reject the
+            check layer.
+        ``m10``
+            Relay-cleanliness readout for the ``S_X2`` relay ancilla.
+
+        All six values are qutrit-valued and therefore checked modulo three.
+        The four stabilizer-syndrome entries ``m5``, ``m6``, ``m7``, and ``m8``
+        must vanish, and the two relay-cleanliness entries ``m9`` and ``m10``
+        must also vanish. Requiring the relay outputs to be zero is stricter
+        than adding them classically to the syndrome outputs; it prevents a
+        noisy relay from accidentally canceling a real syndrome value.
+
+        Args:
+            stabilizer_measurements (Sequence[int]): Six qutrit-valued ancilla
+                measurement outcomes ordered as ``(m5, m6, m7, m8, m9, m10)``.
+
+        Returns:
+            bool: ``True`` only when all four reconstructed stabilizer
+            syndromes and both relay-cleanliness readouts vanish modulo three.
+
+        Raises:
+            ValueError: If the caller supplies anything other than six
+                split-mode stabilizer readouts.
+        """
+        if len(stabilizer_measurements) != 6:
+            raise ValueError(
+                "Split-ancilla folded checks require exactly six "
+                "stabilizer measurement values ordered as "
+                "(m5, m6, m7, m8, m9, m10)."
+            )
+
+        m5, m6, m7, m8, m9, m10 = stabilizer_measurements
+        stabilizer_syndromes = [
+            m5 % 3,
+            m6 % 3,
+            m7 % 3,
+            m8 % 3,
+            m9 % 3,
+            m10 % 3,
+        ]
+        return all(syndrome == 0 for syndrome in stabilizer_syndromes)
 
 
 @dataclass(frozen=True)
