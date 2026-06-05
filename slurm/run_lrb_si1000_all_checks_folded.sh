@@ -7,13 +7,17 @@
 #SBATCH -t 47:30:00
 #SBATCH --nodes=16
 #SBATCH --ntasks=16
-#SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=256
 
-set -euo pipefail
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+SUBMIT_DIR="${SLURM_SUBMIT_DIR:-}"
+if [[ -n "${SUBMIT_DIR}" && -d "${SUBMIT_DIR}/src" && -d "${SUBMIT_DIR}/scripts" ]]; then
+    PROJECT_ROOT="${SUBMIT_DIR}"
+elif [[ -d "${SCRIPT_DIR}/src" && -d "${SCRIPT_DIR}/scripts" ]]; then
+    PROJECT_ROOT="${SCRIPT_DIR}"
+else
+    PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+fi
 
 # Generate circuits before submitting this file, for example:
 # python3 scripts/generate_circuits_folded.py --noise-model si1000 \
@@ -25,26 +29,22 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 # generated experiments/LRB_const0 circuits for that special direct-X check.
 
 # --- BEGIN USER CONFIGURABLE SECTION ---
-RUN_NAME_OVERRIDE="${RUN_NAME_OVERRIDE:-}"
-NUM_SHOTS="${NUM_SHOTS:-1000000}"
-ROOT_DIR="${LRB_RUNS_ROOT:-${PROJECT_ROOT}/LRB-experiment-data-slurm}"
+RUN_NAME_OVERRIDE=""
+NUM_SHOTS=1000000
 SCRIPTS_DIR="${PROJECT_ROOT}/scripts"
-PYTHON_BIN="${LRB_PYTHON:-python3}"
 # --- END USER CONFIGURABLE SECTION ---
 
 EXPECTED_CODE_NAME="folded_qutrit"
+ROOT_DIR="${PROJECT_ROOT}/LRB-experiment-data-slurm"
+
+module load python/3.11
+
+export OMP_NUM_THREADS=128
+export OMP_PLACES=threads
+export OMP_PROC_BIND=spread
+
 WORKING_FOLDER_FILE="${ROOT_DIR}/working-folder-${EXPECTED_CODE_NAME}.txt"
 LEGACY_WORKING_FOLDER_FILE="${ROOT_DIR}/working-folder.txt"
-
-if command -v module >/dev/null 2>&1; then
-    module load python/3.11
-fi
-
-export PYTHONPATH="${PROJECT_ROOT}/src:${PYTHONPATH:-}"
-export OMP_NUM_THREADS="${OMP_NUM_THREADS:-128}"
-export OMP_PLACES="${OMP_PLACES:-threads}"
-export OMP_PROC_BIND="${OMP_PROC_BIND:-spread}"
-SRUN_CPUS_PER_TASK="${SLURM_CPUS_PER_TASK:-256}"
 
 if [[ -n "${RUN_NAME_OVERRIDE}" ]]; then
     RUN_NAME="${RUN_NAME_OVERRIDE}"
@@ -63,7 +63,7 @@ if [[ -z "${RUN_NAME}" ]]; then
 fi
 
 WORKDIR="${ROOT_DIR}/${RUN_NAME}"
-LOG_DIR="${WORKDIR}/logs_job_${SLURM_JOB_ID:-local}"
+LOG_DIR="${WORKDIR}/logs_job_${SLURM_JOB_ID}"
 CODE_NAME_FILE="${WORKDIR}/code_name.txt"
 SHOTS_FILE="${WORKDIR}/shots.txt"
 PROBS_FILE="${WORKDIR}/probs.txt"
@@ -89,7 +89,14 @@ if [[ ! -f "${PROBS_FILE}" ]]; then
     exit 1
 fi
 
-IFS=',' read -r -a PROBABILITIES < "${PROBS_FILE}"
+IFS=',' read -r -a RAW_PROBABILITIES < "${PROBS_FILE}"
+PROBABILITIES=()
+for p in "${RAW_PROBABILITIES[@]}"; do
+    p="$(echo "${p}" | tr -d '[:space:]')"
+    if [[ -n "${p}" ]]; then
+        PROBABILITIES+=("${p}")
+    fi
+done
 NUM_PROBS="${#PROBABILITIES[@]}"
 if [[ "${NUM_PROBS}" -eq 0 ]]; then
     echo "No probabilities found in ${PROBS_FILE}"
@@ -114,9 +121,15 @@ for p in "${PROBABILITIES[@]}"; do
 done
 
 if [[ -f "${CHECK_CONST_FILE}" ]]; then
-    IFS=',' read -r -a CONST_CHECKS < "${CHECK_CONST_FILE}"
-    for check in "${CONST_CHECKS[@]}"; do
+    IFS=',' read -r -a RAW_CONST_CHECKS < "${CHECK_CONST_FILE}"
+    CONST_CHECKS=()
+    for check in "${RAW_CONST_CHECKS[@]}"; do
         check="$(echo "${check}" | tr -d '[:space:]')"
+        if [[ -n "${check}" ]]; then
+            CONST_CHECKS+=("${check}")
+        fi
+    done
+    for check in "${CONST_CHECKS[@]}"; do
         if [[ "${check}" == "0" ]]; then
             CONST0_SENTINEL="${WORKDIR}/experiments/LRB_const0/0/0/0.chp"
             if [[ ! -f "${CONST0_SENTINEL}" ]]; then
@@ -145,8 +158,8 @@ for idx in $(seq 0 $((NUM_PROBS - 1))); do
     safe_prob_label="$(echo "${prob_val_for_log}" | tr '+.-' 'p__')"
     echo "Launching idx ${idx} (p=${prob_val_for_log})"
     srun --exclusive --nodes=1 --ntasks=1 \
-        --cpus-per-task="${SRUN_CPUS_PER_TASK}" \
-        "${PYTHON_BIN}" "${SCRIPTS_DIR}/run_lrb_experiment.py" \
+        --cpus-per-task=${SLURM_CPUS_PER_TASK} \
+        python3 "${SCRIPTS_DIR}/run_lrb_experiment.py" \
         "${RUN_NAME}" "${idx}" \
         > "${LOG_DIR}/run_p_idx${idx}_p${safe_prob_label}.log" 2>&1 &
     PIDS+=("$!")
