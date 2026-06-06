@@ -32,6 +32,8 @@ fi
 RUN_NAME_OVERRIDE=""
 NUM_SHOTS=1000000
 SCRIPTS_DIR="${PROJECT_ROOT}/scripts"
+PYTHON_BIN="${LRB_PYTHON:-python3}"
+SIMULATION_BACKEND="${LRB_SIMULATION_BACKEND:-dem}"
 # --- END USER CONFIGURABLE SECTION ---
 
 EXPECTED_CODE_NAME="folded_qutrit"
@@ -69,6 +71,9 @@ SHOTS_FILE="${WORKDIR}/shots.txt"
 PROBS_FILE="${WORKDIR}/probs.txt"
 CHECK_CONST_FILE="${WORKDIR}/check_const.txt"
 NOISE_MODEL_FILE="${WORKDIR}/noise_model.txt"
+LRB_SENTINEL="${WORKDIR}/experiments/LRB/0/0/0.chp"
+LRB_CONST0_SENTINEL="${WORKDIR}/experiments/LRB_const0/0/0/0.chp"
+RB_SENTINEL="${WORKDIR}/experiments/RB/0/0/0.chp"
 
 mkdir -p "${LOG_DIR}"
 
@@ -131,14 +136,54 @@ if [[ -f "${CHECK_CONST_FILE}" ]]; then
     done
     for check in "${CONST_CHECKS[@]}"; do
         if [[ "${check}" == "0" ]]; then
-            CONST0_SENTINEL="${WORKDIR}/experiments/LRB_const0/0/0/0.chp"
-            if [[ ! -f "${CONST0_SENTINEL}" ]]; then
-                echo "check_const.txt requests const=0 but ${CONST0_SENTINEL} is missing."
+            if [[ ! -f "${LRB_CONST0_SENTINEL}" ]]; then
+                echo "check_const.txt requests const=0 but ${LRB_CONST0_SENTINEL} is missing."
                 echo "Regenerate circuits with the current generator before submitting."
                 exit 1
             fi
         fi
     done
+fi
+
+if [[ "${SIMULATION_BACKEND}" == "dem" ]]; then
+    if [[ ! -f "${LRB_SENTINEL}" ]]; then
+        echo "Missing ${LRB_SENTINEL}"
+        echo "Regenerate circuits before submitting this launcher."
+        exit 1
+    fi
+    if [[ ! -f "${RB_SENTINEL}" ]]; then
+        echo "Missing ${RB_SENTINEL}"
+        echo "Regenerate circuits before submitting this launcher."
+        exit 1
+    fi
+    if ! grep -q 'DETECTOR .*label="lrb_stab_r0_w5"' "${LRB_SENTINEL}"; then
+        echo "${LRB_SENTINEL} does not contain folded LRB detector labels."
+        echo "Regenerate circuits with the detector-enabled generator before submitting."
+        exit 1
+    fi
+    if ! grep -q 'LOGICAL_OBSERVABLE .*label="lrb_logical"' "${LRB_SENTINEL}"; then
+        echo "${LRB_SENTINEL} does not contain the LRB logical observable label."
+        echo "Regenerate circuits with the detector-enabled generator before submitting."
+        exit 1
+    fi
+    if [[ -f "${CHECK_CONST_FILE}" ]] \
+            && printf '%s\n' "${CONST_CHECKS[@]}" | grep -qx '0'; then
+        if ! grep -q 'DETECTOR .*label="lrb_const0_xstab_0"' "${LRB_CONST0_SENTINEL}"; then
+            echo "${LRB_CONST0_SENTINEL} does not contain const0 detector labels."
+            echo "Regenerate circuits with the detector-enabled generator before submitting."
+            exit 1
+        fi
+        if ! grep -q 'LOGICAL_OBSERVABLE .*label="lrb_const0_logical"' "${LRB_CONST0_SENTINEL}"; then
+            echo "${LRB_CONST0_SENTINEL} does not contain the const0 logical observable label."
+            echo "Regenerate circuits with the detector-enabled generator before submitting."
+            exit 1
+        fi
+    fi
+    if ! grep -q 'LOGICAL_OBSERVABLE .*label="rb_logical"' "${RB_SENTINEL}"; then
+        echo "${RB_SENTINEL} does not contain the RB logical observable label."
+        echo "Regenerate circuits with the detector-enabled generator before submitting."
+        exit 1
+    fi
 fi
 
 echo "${NUM_SHOTS}" > "${SHOTS_FILE}"
@@ -148,6 +193,7 @@ echo "Run name: ${RUN_NAME}"
 echo "Code name: ${ACTUAL_CODE_NAME}"
 echo "Noise model: ${NOISE_MODEL}"
 echo "Shots: ${NUM_SHOTS}"
+echo "Simulation backend: ${SIMULATION_BACKEND}"
 echo "Number of probabilities: ${NUM_PROBS}"
 echo "Allocated tasks: ${SLURM_NTASKS:-unknown}"
 echo "Logs: ${LOG_DIR}"
@@ -159,8 +205,9 @@ for idx in $(seq 0 $((NUM_PROBS - 1))); do
     echo "Launching idx ${idx} (p=${prob_val_for_log})"
     srun --exclusive --nodes=1 --ntasks=1 \
         --cpus-per-task=${SLURM_CPUS_PER_TASK} \
-        python3 "${SCRIPTS_DIR}/run_lrb_experiment.py" \
+        "${PYTHON_BIN}" "${SCRIPTS_DIR}/run_lrb_experiment.py" \
         "${RUN_NAME}" "${idx}" \
+        --simulation-backend "${SIMULATION_BACKEND}" \
         > "${LOG_DIR}/run_p_idx${idx}_p${safe_prob_label}.log" 2>&1 &
     PIDS+=("$!")
 done

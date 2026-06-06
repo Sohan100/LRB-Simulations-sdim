@@ -47,6 +47,7 @@ SCRIPTS_DIR="${PROJECT_ROOT}/scripts"
 PYTHON_BIN="${LRB_PYTHON:-python3}"
 REQUIRE_DETECTORS="${REQUIRE_DETECTORS:-1}"
 REQUIRE_SPLIT_SI1000_PARAMETERS="${REQUIRE_SPLIT_SI1000_PARAMETERS:-${REQUIRE_OLD_SI1000_PARAMETERS:-1}}"
+SIMULATION_BACKEND="${LRB_SIMULATION_BACKEND:-dem}"
 DRY_RUN="${DRY_RUN:-0}"
 # --- END USER CONFIGURABLE SECTION ---
 
@@ -330,7 +331,7 @@ if [[ ! -f "${RB_SENTINEL}" ]]; then
     exit 1
 fi
 
-if [[ "${REQUIRE_DETECTORS}" == "1" ]]; then
+if [[ "${REQUIRE_DETECTORS}" == "1" || "${SIMULATION_BACKEND}" == "dem" ]]; then
     if ! grep -q 'DETECTOR .*label="lrb_stab_r0_w5"' "${LRB_SENTINEL}"; then
         echo "${LRB_SENTINEL} does not contain split LRB detector labels."
         echo "Regenerate circuits with the detector-enabled generator before submitting."
@@ -371,6 +372,7 @@ echo "Depths: ${DEPTHS[*]}"
 echo "Constant checks: ${CONST_CHECKS[*]}"
 echo "Uniform checks: ${UNIF_CHECKS[*]}"
 echo "Detector annotations required: ${REQUIRE_DETECTORS}"
+echo "Simulation backend: ${SIMULATION_BACKEND}"
 echo "Strict split SI1000 parameter grid required: ${REQUIRE_SPLIT_SI1000_PARAMETERS}"
 echo "Number of probabilities: ${NUM_PROBS}"
 echo "Allocated tasks: ${SLURM_NTASKS:-unknown}"
@@ -390,6 +392,7 @@ for idx in $(seq 0 $((NUM_PROBS - 1))); do
         --cpus-per-task="${SRUN_CPUS_PER_TASK}" \
         "${PYTHON_BIN}" "${SCRIPTS_DIR}/run_lrb_experiment.py" \
         "${RUN_NAME}" "${idx}" \
+        --simulation-backend "${SIMULATION_BACKEND}" \
         > "${LOG_DIR}/run_p_idx${idx}_p${safe_prob_label}.log" 2>&1 &
     PIDS+=("$!")
 done

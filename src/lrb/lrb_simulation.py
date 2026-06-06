@@ -33,6 +33,34 @@ from .detector_events import (
 
 
 NORMAL_RB_SHOTS = 10000
+SIMULATION_BACKEND_ENV = "LRB_SIMULATION_BACKEND"
+DEM_RESPONSE_BATCH_SIZE_ENV = "LRB_DEM_RESPONSE_BATCH_SIZE"
+SUPPORTED_SIMULATION_BACKENDS = ("sdim", "dem")
+
+
+def _resolve_simulation_backend(
+        simulation_backend: str | None = None) -> str:
+    """Return the selected circuit-sampling backend."""
+    backend = simulation_backend or os.environ.get(SIMULATION_BACKEND_ENV)
+    if backend is None:
+        use_dem = os.environ.get("LRB_USE_DEM", "").strip().lower()
+        backend = "dem" if use_dem in {"1", "true", "yes", "on"} else "sdim"
+
+    backend = backend.strip().lower()
+    if backend not in SUPPORTED_SIMULATION_BACKENDS:
+        supported = ", ".join(SUPPORTED_SIMULATION_BACKENDS)
+        raise ValueError(
+            f"Unsupported simulation backend '{backend}'. "
+            f"Supported backends are: {supported}."
+        )
+    return backend
+
+
+def _dem_response_batch_size() -> int:
+    value = int(os.environ.get(DEM_RESPONSE_BATCH_SIZE_ENV, "256"))
+    if value < 1:
+        raise ValueError(f"{DEM_RESPONSE_BATCH_SIZE_ENV} must be at least 1.")
+    return value
 
 
 def _require_sdim_runtime() -> None:
@@ -233,7 +261,8 @@ class LRBSimulationEngine:
                 depths: list[int],
                 shots: int,
                 unpack_func: Callable | None = None,
-                partial_progress_folder: str = "./prog"):
+                partial_progress_folder: str = "./prog",
+                simulation_backend: str | None = None):
         """
         Run lrb.
         
@@ -259,12 +288,14 @@ class LRBSimulationEngine:
             shots=shots,
             unpack_func=unpack_func,
             partial_progress_folder=partial_progress_folder,
+            simulation_backend=simulation_backend,
         )
 
     def run_rb(self,
                experiments,
                depths: list[int],
-               shots: int | None = None) -> np.ndarray:
+               shots: int | None = None,
+               simulation_backend: str | None = None) -> np.ndarray:
         """
         Run rb.
         
@@ -283,7 +314,8 @@ class LRBSimulationEngine:
         actual_shots = self.normal_rb_shots if shots is None else shots
         return LRBSimulationPipeline.RB(experiments=experiments,
                                         depths=depths,
-                                        shots=actual_shots)
+                                        shots=actual_shots,
+                                        simulation_backend=simulation_backend)
 
     def evaluate_uniform_postselection(
         self,
@@ -370,6 +402,7 @@ class LRBSimulationEngine:
         const0_unpack_func: Callable | None = None,
         logical_dimension: int = 3,
         lrb_const0_experiment_folder_path: str | None = None,
+        simulation_backend: str | None = None,
     ) -> int:
         """
         Run round.
@@ -421,6 +454,7 @@ class LRBSimulationEngine:
             logical_dimension=logical_dimension,
             LRB_const0_experiment_folder_path=(
                 lrb_const0_experiment_folder_path),
+            simulation_backend=simulation_backend,
         )
 
 
@@ -962,12 +996,38 @@ class LRBSimulationPipeline:
         return compact_results
 
     @staticmethod
+    def simulate_circuit(
+        circuit,
+        shots: int,
+        simulation_backend: str | None = None,
+    ):
+        """
+        Simulate one SDIM circuit with the selected backend.
+
+        The ``dem`` backend returns the same high-level tuple shape as SDIM's
+        Pauli-frame path: reference measurements plus detector/logical frame
+        shifts for the remaining shots.
+        """
+        backend = _resolve_simulation_backend(simulation_backend)
+        if backend == "sdim":
+            return Program(circuit).simulate(shots=shots)
+
+        from .dem_simulation import simulate_circuit_with_dem
+
+        return simulate_circuit_with_dem(
+            circuit,
+            shots,
+            response_batch_size=_dem_response_batch_size(),
+        )
+
+    @staticmethod
     def LRB(
             experiments,
             depths: list[int],
             shots: int,
             unpack_func: Callable,
-            partial_progress_folder='./prog'):
+            partial_progress_folder='./prog',
+            simulation_backend: str | None = None):
         # 2D circuit table: first index is Clifford index, second is
         # experiment index, and entry i uses depth depths[i].
     
@@ -989,6 +1049,7 @@ class LRBSimulationPipeline:
                 assumptions.
         """
         _require_sdim_runtime()
+        backend = _resolve_simulation_backend(simulation_backend)
         depths.sort()
     
         max_depth = depths[-1]
@@ -1014,7 +1075,11 @@ class LRBSimulationPipeline:
                 # Run the circuits over many shots
                 NoiseModelUtils.ensure_noise_params(c)
     
-                simulation_output = Program(c).simulate(shots=shots)
+                simulation_output = LRBSimulationPipeline.simulate_circuit(
+                    c,
+                    shots=shots,
+                    simulation_backend=backend,
+                )
                 unpack_payload = (
                     simulation_output
                     if getattr(unpack_func, "accepts_sdim_output", False)
@@ -1182,7 +1247,8 @@ class LRBSimulationPipeline:
     def RB(
             experiments,
             depths: list[int],
-            shots: int):
+            shots: int,
+            simulation_backend: str | None = None):
         # 2D circuit table: first index is Clifford index, second is
         # experiment index, and entry i uses depth depths[i].
     
@@ -1202,6 +1268,7 @@ class LRBSimulationPipeline:
                 assumptions.
         """
         _require_sdim_runtime()
+        backend = _resolve_simulation_backend(simulation_backend)
         depths.sort()
         num_depths = len(depths)
         num_cliff = len(experiments)
@@ -1214,7 +1281,11 @@ class LRBSimulationPipeline:
                 # Run the circuits over many shots
                 NoiseModelUtils.ensure_noise_params(c)
     
-                simulation_output = Program(c).simulate(shots=shots)
+                simulation_output = LRBSimulationPipeline.simulate_circuit(
+                    c,
+                    shots=shots,
+                    simulation_backend=backend,
+                )
                 compact_results = (
                     LRBSimulationPipeline.
                     compact_detector_results_from_sdim_output(
@@ -1758,6 +1829,7 @@ class LRBSimulationPipeline:
         const0_unpack_func=None,
         logical_dimension: int = 3,
         LRB_const0_experiment_folder_path: str | None = None,
+        simulation_backend: str | None = None,
     ):
         """
         Run LRB round.
@@ -1788,6 +1860,7 @@ class LRBSimulationPipeline:
                 assumptions.
         """
         _require_sdim_runtime()
+        backend = _resolve_simulation_backend(simulation_backend)
         if unpack_func is None:
             raise ValueError("run_LRB_round requires an explicit unpack_func.")
 
@@ -1828,6 +1901,7 @@ class LRBSimulationPipeline:
             ExperimentSetupManager.fetch_single_param(
                 partial_progress_folder_path + "shots_processed.txt"))
         print(f"We have to process {shots_to_process} shots.")
+        print(f"Simulation backend: {backend}")
     
         # Determine whether experiment is done
         if shots_to_process > 0:
@@ -1899,7 +1973,8 @@ class LRBSimulationPipeline:
                         depths=depths,
                         shots=batch,
                         unpack_func=unpack_func,
-                        partial_progress_folder=partial_progress_folder_path)
+                        partial_progress_folder=partial_progress_folder_path,
+                        simulation_backend=backend)
                 else:
                     LRB_experiment_results = None
                 end_time = time.time()
@@ -1940,7 +2015,8 @@ class LRBSimulationPipeline:
                         depths=depths,
                         shots=batch,
                         unpack_func=const0_unpack_func,
-                        partial_progress_folder=partial_progress_folder_path)
+                        partial_progress_folder=partial_progress_folder_path,
+                        simulation_backend=backend)
                     LRBSimulationPipeline.process_lrb_counts(
                         measurement_results=const0_results[0],
                         stabilizer_record=const0_results[1],
@@ -2022,6 +2098,7 @@ class LRBSimulationPipeline:
             experiments=RB_experiments,
             depths=depths,
             shots=NORMAL_RB_SHOTS,
+            simulation_backend=backend,
         )
         end_time = time.time()
         print(f"Finished in {str(end_time - start_time)} seconds!")

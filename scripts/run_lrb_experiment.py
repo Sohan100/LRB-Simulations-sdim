@@ -50,6 +50,7 @@ class LRBRunConfig:
             code-specific measurement decoding.
         const0_unpack_func (Callable | None): Optional unpack callback for the
             special direct terminal X-data ``const=0`` protocol.
+        simulation_backend (str | None): Optional circuit-sampling backend.
 
     Methods:
         This class is declarative and intentionally defines no custom methods.
@@ -59,6 +60,7 @@ class LRBRunConfig:
     logical_dimension: int = 3
     unpack_func: Callable | None = None
     const0_unpack_func: Callable | None = None
+    simulation_backend: str | None = None
 
 
 class LRBRunCoordinator:
@@ -192,6 +194,7 @@ class LRBRunCoordinator:
             unpack_func=self.config.unpack_func,
             const0_unpack_func=self.config.const0_unpack_func,
             logical_dimension=self.config.logical_dimension,
+            simulation_backend=self.config.simulation_backend,
         )
 
         with open(progress_file_path, "w") as progress_writer:
@@ -320,11 +323,24 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         raise Exception(
             "Not enough parameters! Usage: python scripts/run_lrb_experiment.py "
-            "<run-folder-name> <error-probability-index>"
+            "<run-folder-name> <error-probability-index> "
+            "[--simulation-backend sdim|dem]"
         )
 
-    _, working_folder_name, error_prob_ind_arg = sys.argv
+    _, working_folder_name, error_prob_ind_arg, *extra_args = sys.argv
     error_prob_ind = int(error_prob_ind_arg)
+    simulation_backend = None
+    if extra_args:
+        if (len(extra_args) == 2
+                and extra_args[0] == "--simulation-backend"):
+            simulation_backend = extra_args[1]
+        else:
+            raise Exception(
+                "Unexpected arguments. Usage: python "
+                "scripts/run_lrb_experiment.py <run-folder-name> "
+                "<error-probability-index> "
+                "[--simulation-backend sdim|dem]"
+            )
 
     inputs = LRBRunCoordinator.load_run_inputs(working_folder_name,
                                                error_prob_ind)
@@ -332,6 +348,7 @@ if __name__ == "__main__":
     # Resolve code-specific runtime unpack behavior from the run metadata.
     runtime_cfg = LRBRunCoordinator.resolve_code_runtime_config(
         inputs["code_name"])
+    runtime_cfg.simulation_backend = simulation_backend
     coordinator = LRBRunCoordinator(simulation_engine=DEFAULT_SIM_ENGINE,
                                     config=runtime_cfg)
     coordinator.compute_lrb(
