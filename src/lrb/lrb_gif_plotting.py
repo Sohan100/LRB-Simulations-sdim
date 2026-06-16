@@ -68,6 +68,7 @@ class LRBGifAnimator:
     """
     _CODE_BRACKET_BY_NAME: dict[str, str] = {
         "folded_qutrit": "[[5,1,2]]",
+        "folded_qutrit_split_unif": "[[5,1,2]]",
         "qgrm_3_1_2": "[[3,1,2]]",
     }
 

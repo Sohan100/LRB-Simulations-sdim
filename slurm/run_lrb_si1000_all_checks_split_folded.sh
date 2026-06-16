@@ -3,12 +3,13 @@
 #SBATCH --output=lrb_split_unif_si1000_%j.out
 #SBATCH --error=lrb_split_unif_si1000_%j.err
 #SBATCH -C cpu
-#SBATCH -q regular
+#SBATCH -q preempt
 #SBATCH -t 47:30:00
 #SBATCH --nodes=15
 #SBATCH --ntasks=15
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=256
+#SBATCH --signal=B:USR1@600
 
 set -euo pipefail
 
@@ -47,7 +48,10 @@ SCRIPTS_DIR="${PROJECT_ROOT}/scripts"
 PYTHON_BIN="${LRB_PYTHON:-python3}"
 REQUIRE_DETECTORS="${REQUIRE_DETECTORS:-1}"
 REQUIRE_SPLIT_SI1000_PARAMETERS="${REQUIRE_SPLIT_SI1000_PARAMETERS:-${REQUIRE_OLD_SI1000_PARAMETERS:-1}}"
-SIMULATION_BACKEND="${LRB_SIMULATION_BACKEND:-dem}"
+SIMULATION_BACKEND="${LRB_SIMULATION_BACKEND:-sdim}"
+BATCH_SIZE="${LRB_BATCH_SIZE:-100000}"
+AUTO_RESUBMIT="${LRB_AUTO_RESUBMIT:-1}"
+RESUBMIT_SCRIPT="${LRB_RESUBMIT_SCRIPT:-${PROJECT_ROOT}/slurm/run_lrb_si1000_all_checks_split_folded.sh}"
 DRY_RUN="${DRY_RUN:-0}"
 # --- END USER CONFIGURABLE SECTION ---
 
@@ -97,6 +101,7 @@ export PYTHONPATH="${PROJECT_ROOT}/src:${PYTHONPATH:-}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-128}"
 export OMP_PLACES="${OMP_PLACES:-threads}"
 export OMP_PROC_BIND="${OMP_PROC_BIND:-spread}"
+export LRB_BATCH_SIZE="${BATCH_SIZE}"
 SRUN_CPUS_PER_TASK="${SLURM_CPUS_PER_TASK:-256}"
 
 if [[ -n "${RUN_NAME_OVERRIDE}" ]]; then
@@ -130,6 +135,49 @@ LRB_CONST0_SENTINEL="${WORKDIR}/experiments/LRB_const0/0/0/0.chp"
 RB_SENTINEL="${WORKDIR}/experiments/RB/0/0/0.chp"
 
 mkdir -p "${LOG_DIR}"
+
+AUTO_RESUBMIT_DONE=0
+
+progress_complete() {
+    local done_file
+    shopt -s nullglob
+    local done_files=("${WORKDIR}"/progress/*/done.txt)
+    shopt -u nullglob
+    if [[ "${#done_files[@]}" -eq 0 ]]; then
+        return 1
+    fi
+    for done_file in "${done_files[@]}"; do
+        if [[ "$(tr -d '[:space:]' < "${done_file}")" != "1" ]]; then
+            return 1
+        fi
+    done
+    return 0
+}
+
+submit_resume_job() {
+    local reason="$1"
+    if [[ "${AUTO_RESUBMIT}" != "1" || "${AUTO_RESUBMIT_DONE}" == "1" ]]; then
+        return
+    fi
+    if progress_complete; then
+        echo "Run is complete; not auto-resubmitting."
+        return
+    fi
+    AUTO_RESUBMIT_DONE=1
+    local sbatch_args=(--export="ALL,RUN_NAME_OVERRIDE=${RUN_NAME}")
+    if [[ -n "${SLURM_JOB_ID:-}" ]]; then
+        sbatch_args+=(--dependency="afterany:${SLURM_JOB_ID}")
+    fi
+    echo "Auto-resubmitting ${RUN_NAME} after ${reason} with ${RESUBMIT_SCRIPT}"
+    sbatch "${sbatch_args[@]}" "${RESUBMIT_SCRIPT}"
+}
+
+handle_pretimeout_signal() {
+    echo "Received pre-timeout signal; scheduling an automatic resume."
+    submit_resume_job "pre-timeout signal"
+}
+
+trap handle_pretimeout_signal USR1
 
 if [[ ! -f "${CODE_NAME_FILE}" ]]; then
     echo "Missing ${CODE_NAME_FILE}"
@@ -372,9 +420,11 @@ echo "Depths: ${DEPTHS[*]}"
 echo "Constant checks: ${CONST_CHECKS[*]}"
 echo "Uniform checks: ${UNIF_CHECKS[*]}"
 echo "Detector annotations required: ${REQUIRE_DETECTORS}"
-echo "Simulation backend: ${SIMULATION_BACKEND}"
 echo "Strict split SI1000 parameter grid required: ${REQUIRE_SPLIT_SI1000_PARAMETERS}"
 echo "Number of probabilities: ${NUM_PROBS}"
+echo "Simulation backend: ${SIMULATION_BACKEND}"
+echo "Checkpoint batch size: ${BATCH_SIZE}"
+echo "Auto-resubmit enabled: ${AUTO_RESUBMIT}"
 echo "Allocated tasks: ${SLURM_NTASKS:-unknown}"
 echo "Logs: ${LOG_DIR}"
 
@@ -406,7 +456,12 @@ done
 
 if [[ "${status}" -ne 0 ]]; then
     echo "One or more probability jobs failed. Check ${LOG_DIR}."
+    submit_resume_job "worker failure"
     exit "${status}"
+fi
+
+if ! progress_complete; then
+    submit_resume_job "incomplete run"
 fi
 
 echo "Job ${SLURM_JOB_ID:-local} completed successfully."

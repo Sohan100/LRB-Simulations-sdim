@@ -1,0 +1,2 @@
+probability_count,simulate_depth_rows,sampled_circuit_shots,dem_cache_miss_rows,dem_cache_hit_rows,simulator_seconds,dem_compile_seconds,dem_sample_seconds,unpack_seconds,record_seconds,total_seconds
+15,85050,8140500000,12150,72900,133747.42026795098,11276.352364057,122468.54200638398,4040.748410846,196.22896716399998,137988.185757665

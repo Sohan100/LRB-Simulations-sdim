@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ast
+import time
 from dataclasses import dataclass
 from typing import Any
 
@@ -90,6 +91,7 @@ def simulate_circuit_with_dem(
     shots: int,
     *,
     response_batch_size: int = 256,
+    return_metrics: bool = False,
 ) -> tuple[Any, dict[str, list[dict[str, str | np.ndarray]]]]:
     """
     Return an SDIM-compatible ``(measurements, detector_payload)`` tuple.
@@ -102,30 +104,53 @@ def simulate_circuit_with_dem(
     if shots < 1:
         raise ValueError("DEM simulation requires at least one shot.")
 
-    model = cached_compact_detector_error_model(
+    compile_start = time.perf_counter()
+    model, cache_hit = cached_compact_detector_error_model(
         circuit,
         response_batch_size=response_batch_size,
+        return_cache_hit=True,
     )
+    compile_seconds = time.perf_counter() - compile_start
+
+    sample_start = time.perf_counter()
     detector_payload = sample_detector_error_model(
         model,
         extra_shots=shots - 1,
     )
-    return model.reference_results, detector_payload
+    sample_seconds = time.perf_counter() - sample_start
+
+    simulation_output = (model.reference_results, detector_payload)
+    if not return_metrics:
+        return simulation_output
+
+    return simulation_output, {
+        "dem_compile_seconds": compile_seconds,
+        "dem_sample_seconds": sample_seconds,
+        "dem_cache_hit": cache_hit,
+        "dem_total_noise_locations": model.all_noise_locations,
+        "dem_active_noise_locations": len(model.locations),
+        "dem_detectors": model.num_detectors,
+        "dem_logicals": model.num_logical_observables,
+    }
 
 
 def cached_compact_detector_error_model(
     circuit,
     *,
     response_batch_size: int = 256,
-) -> CompactDetectorErrorModel:
+    return_cache_hit: bool = False,
+) -> CompactDetectorErrorModel | tuple[CompactDetectorErrorModel, bool]:
     cache_key = (id(circuit), max(1, int(response_batch_size)))
     model = _MODEL_CACHE.get(cache_key)
-    if model is None:
+    cache_hit = model is not None
+    if not cache_hit:
         model = build_compact_detector_error_model(
             circuit,
             response_batch_size=response_batch_size,
         )
         _MODEL_CACHE[cache_key] = model
+    if return_cache_hit:
+        return model, cache_hit
     return model
 
 

@@ -42,6 +42,14 @@ class LRBPlotFitConfig:
         min_fit_points_rb (int): Minimum samples required for RB fitting.
         f_min (float): Lower decay-parameter bound used in fit scans.
         f_max (float): Upper decay-parameter bound used in fit scans.
+        rb_a_fixed (float | None): Optional fixed RB offset. ``None`` keeps
+            the legacy free-offset RB fit.
+        p_axis_scale (float): Multiplier applied to raw probability values
+            for plot/table display.
+        p_axis_label (str): Label for displayed probability/noise axis.
+        p_axis_symbol (str): Short symbol used in per-panel titles.
+        p_axis_column (str | None): Optional alias column for displayed
+            probability/noise values in generated CSV tables.
 
     Methods:
         This dataclass is declarative and defines no custom methods.
@@ -53,6 +61,11 @@ class LRBPlotFitConfig:
     min_fit_points_rb: int = 2
     f_min: float = 1e-8
     f_max: float = 1.0000000000
+    rb_a_fixed: float | None = None
+    p_axis_scale: float = 1.0
+    p_axis_label: str = "Physical Noise Parameter p"
+    p_axis_symbol: str = "p"
+    p_axis_column: str | None = None
 
 
 @dataclass(frozen=True)
@@ -253,9 +266,12 @@ class LRBResultsPlotter:
             int(v) for v in ExperimentSetupManager.fetch_list(
                 os.path.join(self.working_folder, "depths.txt"))
         ]
-        self.probabilities = [
+        self.raw_probabilities = [
             float(v) for v in ExperimentSetupManager.fetch_list(
                 os.path.join(self.working_folder, "probs.txt"))
+        ]
+        self.probabilities = [
+            self._display_probability_value(v) for v in self.raw_probabilities
         ]
 
         # Check arrays are optional in legacy runs, so handle empty files.
@@ -271,6 +287,17 @@ class LRBResultsPlotter:
 
         self.lrb_root = os.path.join(self.working_folder, "results", "LRB")
         self.rb_root = os.path.join(self.working_folder, "results", "RB")
+        self.rb_comparison_root = os.path.join(
+            self.working_folder, "results", "RB_comparison")
+        self.rb_comparison_probabilities: list[float] = []
+        rb_comparison_probs_path = os.path.join(
+            self.working_folder, "rb_comparison_probs.txt")
+        if (os.path.isdir(self.rb_comparison_root)
+                and os.path.exists(rb_comparison_probs_path)):
+            self.rb_comparison_probabilities = [
+                float(v) for v in ExperimentSetupManager.fetch_list(
+                    rb_comparison_probs_path)
+            ]
         self.out_dir = os.path.join(self.working_folder, "results", "plots")
         os.makedirs(self.out_dir, exist_ok=True)
 
@@ -313,6 +340,92 @@ class LRBResultsPlotter:
             ValueError: Not raised directly by this method.
         """
         return cls._CODE_TITLE_BY_NAME.get(code_name, code_name)
+
+    def _display_probability_value(self, raw_probability: float) -> float:
+        """
+        Convert a raw run probability into the configured display coordinate.
+
+        Args:
+            raw_probability (float): Probability value stored in run metadata.
+
+        Returns:
+            float: Display-axis probability/noise value.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        return float(raw_probability) * float(self.fit_config.p_axis_scale)
+
+    def _probability_title(self, value: float) -> str:
+        """
+        Format the configured probability/noise coordinate for panel titles.
+
+        Args:
+            value (float): Display-axis probability/noise value.
+
+        Returns:
+            str: Short title fragment.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        symbol = str(self.fit_config.p_axis_symbol).strip() or "p"
+        return f"{symbol} = {float(value):.3g}"
+
+    def _p_axis_column_name(self) -> str | None:
+        """
+        Return the optional generated-table alias for the display coordinate.
+
+        Args:
+            None.
+
+        Returns:
+            str | None: Clean column name, or ``None`` when no alias is set.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+        column = self.fit_config.p_axis_column
+        if column is None:
+            return None
+        column = str(column).strip()
+        return column or None
+
+    def _rb_table_source(self) -> tuple[str, list[float]]:
+        """
+        Resolve the RB result grid used in LRB-vs-RB comparison tables.
+
+        Args:
+            None.
+
+        Returns:
+            tuple[str, list[float]]: Result folder and RB p-values. An
+                additive comparison grid is preferred over the original raw
+                run grid when present.
+
+        Raises:
+            ValueError: If the comparison grid cannot be paired by probability
+                index with the LRB grid.
+        """
+        if self.rb_comparison_probabilities:
+            if len(self.rb_comparison_probabilities) != len(self.probabilities):
+                raise ValueError(
+                    "rb_comparison_probs.txt must have the same number of "
+                    "entries as probs.txt so each LRB lambda has one RB p."
+                )
+            missing = [
+                str(i) for i in range(len(self.rb_comparison_probabilities))
+                if not os.path.exists(
+                    os.path.join(self.rb_comparison_root, f"{i}.csv"))
+            ]
+            if missing:
+                print(
+                    "RB comparison grid is present but incomplete; using "
+                    f"raw RB grid until indices {', '.join(missing)} exist."
+                )
+                return self.rb_root, self.raw_probabilities
+            return self.rb_comparison_root, self.rb_comparison_probabilities
+        return self.rb_root, self.raw_probabilities
 
     def _title_context(self, check_type: str, check_num: int) -> str:
         """
@@ -490,6 +603,7 @@ class LRBResultsPlotter:
         depths: list[int],
         means: list[float],
         errors: list[float],
+        a_fixed: float | None = None,
     ) -> dict[str, float] | None:
         """
         Fit ``y = a_fixed + b * f^depth`` using a weighted f-grid scan.
@@ -516,7 +630,8 @@ class LRBResultsPlotter:
             return None
 
         w = self._safe_weights(e)
-        y0 = y - float(self.fit_config.a_fixed)
+        fixed_a = self.fit_config.a_fixed if a_fixed is None else a_fixed
+        y0 = y - float(fixed_a)
         low = float(self.fit_config.f_min)
         high = float(self.fit_config.f_max)
         best: dict[str, float] | None = None
@@ -537,7 +652,7 @@ class LRBResultsPlotter:
             f_best = float(f_grid[idx])
             best = {
                 "f": f_best,
-                "a": float(self.fit_config.a_fixed),
+                "a": float(fixed_a),
                 "b": float(b[idx]),
                 "chi2": float(chi2[idx]),
                 "n_points": float(len(x)),
@@ -663,7 +778,15 @@ class LRBResultsPlotter:
         means = self._extract_series(stats_list, "mean", len(self.depths))
         errs = self._extract_series(stats_list, "std", len(self.depths))
         x, y, e = self._mask_invalid(self.depths, means, errs)
-        fit = self._fit_decay_parameter_free_a(x, y, e)
+        if self.fit_config.rb_a_fixed is None:
+            fit = self._fit_decay_parameter_free_a(x, y, e)
+        else:
+            fit = self._fit_decay_parameter_fixed_a(
+                x,
+                y,
+                e,
+                a_fixed=self.fit_config.rb_a_fixed,
+            )
         return fit, (x, y, e)
 
     def _decay_to_fidelity(self, decay: float) -> float:
@@ -756,6 +879,7 @@ class LRBResultsPlotter:
         """
         rows: list[dict[str, Any]] = []
         for prob_index, prob in enumerate(self.probabilities):
+            raw_prob = self.raw_probabilities[prob_index]
             ok_lrb, lrb, ok_rb, rb = self._read_pair(
                 check_type=check_type,
                 check_num=check_num,
@@ -769,6 +893,7 @@ class LRBResultsPlotter:
             rows.append(
                 {
                     "p": prob,
+                    "p_raw": raw_prob,
                     "lrb_f": lrb_f,
                     "lrb_r": lrb_r,
                     "rb_f": rb_f,
@@ -836,7 +961,7 @@ class LRBResultsPlotter:
         else:
             y_min, y_max = -0.03, 1.03
         ax.set_ylim(y_min, y_max)
-        ax.set_title(f"Rejected runs (p = {prob_value:.3g})")
+        ax.set_title(f"Rejected runs ({self._probability_title(prob_value)})")
         ax.set_ylabel("Proportion of Rejected Runs")
 
     @staticmethod
@@ -1296,7 +1421,7 @@ class LRBResultsPlotter:
                                     legend_fontsize=float(paper.legend_fontsize),
                                 )
                             ax_main.set_title(
-                                f"p = {prob_value:.3g}",
+                                self._probability_title(prob_value),
                                 fontsize=float(paper.panel_title_fontsize),
                             )
                             ax_main.yaxis.label.set_size(
@@ -1310,7 +1435,8 @@ class LRBResultsPlotter:
                                 prob_value=prob_value,
                             )
                             ax_rej.set_title(
-                                f"Rejected runs (p = {prob_value:.3g})",
+                                "Rejected runs "
+                                f"({self._probability_title(prob_value)})",
                                 fontsize=float(paper.panel_title_fontsize),
                             )
                             ax_rej.yaxis.label.set_size(
@@ -1407,7 +1533,7 @@ class LRBResultsPlotter:
                     else:
                         self._plot_data_only_series(
                             ax_main, lrb_f_stats=lrb_f, rb_f_stats=rb_f)
-                    ax_main.set_title(f"p = {prob_value:.3g}")
+                    ax_main.set_title(self._probability_title(prob_value))
 
                     ax_rej = cell(row_index, 1)
                     self._plot_rejected_panel(
@@ -1684,11 +1810,15 @@ class LRBResultsPlotter:
         )
         if not checks:
             raise ValueError("No unif checks found in the requested range.")
+        axis_column = self._p_axis_column_name()
         ci_level = self._normalize_ci_level(bootstrap_ci_level)
         rng = np.random.default_rng(bootstrap_seed)
+        rb_results_root, rb_probabilities = self._rb_table_source()
         rb_cache: dict[int, dict[str, float]] = {}
         for prob_index, prob in enumerate(self.probabilities):
-            rb_path = os.path.join(self.rb_root, f"{prob_index}.csv")
+            raw_prob = self.raw_probabilities[prob_index]
+            rb_prob = rb_probabilities[prob_index]
+            rb_path = os.path.join(rb_results_root, f"{prob_index}.csv")
             rb_stats = self._read_fidelity_stats_file(rb_path)
             rb_fit = None
             rb_xyz = ([], [], [])
@@ -1706,8 +1836,10 @@ class LRBResultsPlotter:
                     ci_level=ci_level,
                     use_sem=bool(bootstrap_use_sem),
                     rng=rng,
-                )
+            )
             metrics["p"] = float(prob)
+            metrics["p_raw"] = float(raw_prob)
+            metrics["rb_p"] = float(rb_prob)
             metrics["error_rate_std_boot"] = float(rb_std)
             metrics["error_rate_ci_low"] = float(rb_lo)
             metrics["error_rate_ci_high"] = float(rb_hi)
@@ -1716,6 +1848,7 @@ class LRBResultsPlotter:
         rows: list[dict[str, float | int | str]] = []
         for check_num in checks:
             for prob_index, prob in enumerate(self.probabilities):
+                raw_prob = self.raw_probabilities[prob_index]
                 lrb_path = os.path.join(
                     self.lrb_root,
                     str(prob_index),
@@ -1744,36 +1877,40 @@ class LRBResultsPlotter:
                     )
                 rb_m = rb_cache[prob_index]
 
-                rows.append(
-                    {
-                        "check_num": int(check_num),
-                        "p_index": int(prob_index),
-                        "p": float(prob),
-                        "lrb_f": lrb_m["f"],
-                        "lrb_fidelity": lrb_m["fid"],
-                        "lrb_error_rate": lrb_m["err"],
-                        "lrb_a": lrb_m["a"],
-                        "lrb_b": lrb_m["b"],
-                        "lrb_chi2": lrb_m["chi2"],
-                        "lrb_n_points": int(lrb_m["n_points"]),
-                        "lrb_error_rate_std_boot": float(lrb_std),
-                        "lrb_error_rate_ci_low": float(lrb_lo),
-                        "lrb_error_rate_ci_high": float(lrb_hi),
-                        "rb_f": rb_m["f"],
-                        "rb_fidelity": rb_m["fid"],
-                        "rb_error_rate": rb_m["err"],
-                        "rb_a": rb_m["a"],
-                        "rb_b": rb_m["b"],
-                        "rb_chi2": rb_m["chi2"],
-                        "rb_n_points": int(rb_m["n_points"]),
-                        "rb_error_rate_std_boot": float(
-                            rb_m["error_rate_std_boot"]),
-                        "rb_error_rate_ci_low": float(
-                            rb_m["error_rate_ci_low"]),
-                        "rb_error_rate_ci_high": float(
-                            rb_m["error_rate_ci_high"]),
-                    }
-                )
+                row = {
+                    "check_num": int(check_num),
+                    "p_index": int(prob_index),
+                    "p": float(prob),
+                    "p_raw": float(raw_prob),
+                    "lrb_lambda": float(prob),
+                    "rb_p": float(rb_m["rb_p"]),
+                    "lrb_f": lrb_m["f"],
+                    "lrb_fidelity": lrb_m["fid"],
+                    "lrb_error_rate": lrb_m["err"],
+                    "lrb_a": lrb_m["a"],
+                    "lrb_b": lrb_m["b"],
+                    "lrb_chi2": lrb_m["chi2"],
+                    "lrb_n_points": int(lrb_m["n_points"]),
+                    "lrb_error_rate_std_boot": float(lrb_std),
+                    "lrb_error_rate_ci_low": float(lrb_lo),
+                    "lrb_error_rate_ci_high": float(lrb_hi),
+                    "rb_f": rb_m["f"],
+                    "rb_fidelity": rb_m["fid"],
+                    "rb_error_rate": rb_m["err"],
+                    "rb_a": rb_m["a"],
+                    "rb_b": rb_m["b"],
+                    "rb_chi2": rb_m["chi2"],
+                    "rb_n_points": int(rb_m["n_points"]),
+                    "rb_error_rate_std_boot": float(
+                        rb_m["error_rate_std_boot"]),
+                    "rb_error_rate_ci_low": float(
+                        rb_m["error_rate_ci_low"]),
+                    "rb_error_rate_ci_high": float(
+                        rb_m["error_rate_ci_high"]),
+                }
+                if axis_column and axis_column not in row:
+                    row[axis_column] = float(prob)
+                rows.append(row)
 
         # Persist one all-check table plus optional per-check views.
         frame = pd.DataFrame(rows).sort_values(
@@ -1788,6 +1925,9 @@ class LRBResultsPlotter:
         if write_per_check_tables:
             columns = [
                 "p",
+                "lrb_lambda",
+                "rb_p",
+                "p_raw",
                 "lrb_fidelity",
                 "lrb_error_rate",
                 "rb_fidelity",
@@ -1805,6 +1945,8 @@ class LRBResultsPlotter:
                 "rb_error_rate_ci_low",
                 "rb_error_rate_ci_high",
             ]
+            if axis_column and axis_column in frame.columns:
+                columns.insert(1, axis_column)
             for check_num in checks:
                 sub = frame[frame["check_num"] == check_num][columns].copy()
                 out_one = os.path.join(
@@ -1969,8 +2111,22 @@ class LRBResultsPlotter:
         y_arr = np.asarray(y, dtype=float)
         lo = np.asarray(low, dtype=float)
         hi = np.asarray(high, dtype=float)
-        lower = np.where(np.isfinite(lo), np.maximum(0.0, y_arr - lo), 0.0)
-        upper = np.where(np.isfinite(hi), np.maximum(0.0, hi - y_arr), 0.0)
+        finite_lo = np.isfinite(lo)
+        finite_hi = np.isfinite(hi)
+        lower_bound = np.where(finite_lo, lo, y_arr)
+        upper_bound = np.where(finite_hi, hi, y_arr)
+        draw_low = np.minimum.reduce([y_arr, lower_bound, upper_bound])
+        draw_high = np.maximum.reduce([y_arr, lower_bound, upper_bound])
+        lower = np.where(
+            np.isfinite(draw_low),
+            np.maximum(0.0, y_arr - draw_low),
+            0.0,
+        )
+        upper = np.where(
+            np.isfinite(draw_high),
+            np.maximum(0.0, draw_high - y_arr),
+            0.0,
+        )
         return np.vstack([lower, upper])
 
     def _bootstrap_error_rate_from_fit_series(
@@ -2266,6 +2422,89 @@ class LRBResultsPlotter:
         }
 
     @staticmethod
+    def _interpolate_lrb_rb_on_overlap(
+        lrb_x: np.ndarray,
+        lrb_err: np.ndarray,
+        rb_x: np.ndarray,
+        rb_err: np.ndarray,
+        lrb_extra: tuple[np.ndarray, ...] = (),
+        rb_extra: tuple[np.ndarray, ...] = (),
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, list[np.ndarray], list[np.ndarray]]:
+        """
+        Interpolate LRB(lambda) and RB(p) onto their shared x-domain.
+
+        Args:
+            lrb_x (np.ndarray): LRB x-coordinate values, e.g. ``lambda``.
+            lrb_err (np.ndarray): LRB error-rate values.
+            rb_x (np.ndarray): RB x-coordinate values, e.g. raw ``p``.
+            rb_err (np.ndarray): RB error-rate values.
+            lrb_extra (tuple[np.ndarray, ...]): Optional LRB arrays to
+                interpolate onto the same grid.
+            rb_extra (tuple[np.ndarray, ...]): Optional RB arrays to
+                interpolate onto the same grid.
+
+        Returns:
+            tuple: ``(x_common, lrb_common, rb_common, lrb_extra_common,
+                rb_extra_common)``. Arrays are empty when the domains do not
+                overlap.
+
+        Raises:
+            ValueError: Not raised directly by this method.
+        """
+
+        def clean_curve(
+            x_values: np.ndarray,
+            y_values: np.ndarray,
+            extras: tuple[np.ndarray, ...],
+        ) -> tuple[np.ndarray, np.ndarray, list[np.ndarray]]:
+            x_arr = np.asarray(x_values, dtype=float)
+            y_arr = np.asarray(y_values, dtype=float)
+            extra_arrs = [np.asarray(v, dtype=float) for v in extras]
+            mask = np.isfinite(x_arr) & np.isfinite(y_arr)
+            x_arr = x_arr[mask]
+            y_arr = y_arr[mask]
+            extra_arrs = [v[mask] for v in extra_arrs]
+            if len(x_arr) == 0:
+                return x_arr, y_arr, extra_arrs
+
+            order = np.argsort(x_arr)
+            x_arr = x_arr[order]
+            y_arr = y_arr[order]
+            extra_arrs = [v[order] for v in extra_arrs]
+            unique_x, unique_idx = np.unique(x_arr, return_index=True)
+            return (
+                unique_x,
+                y_arr[unique_idx],
+                [v[unique_idx] for v in extra_arrs],
+            )
+
+        l_x, l_y, l_extra = clean_curve(lrb_x, lrb_err, lrb_extra)
+        r_x, r_y, r_extra = clean_curve(rb_x, rb_err, rb_extra)
+        if len(l_x) < 2 or len(r_x) < 2:
+            empty = np.asarray([], dtype=float)
+            return empty, empty, empty, [], []
+
+        x_min = max(float(l_x[0]), float(r_x[0]))
+        x_max = min(float(l_x[-1]), float(r_x[-1]))
+        if x_max <= x_min:
+            empty = np.asarray([], dtype=float)
+            return empty, empty, empty, [], []
+
+        grid = np.union1d(
+            l_x[(l_x >= x_min) & (l_x <= x_max)],
+            r_x[(r_x >= x_min) & (r_x <= x_max)],
+        )
+        grid = grid[(grid >= x_min) & (grid <= x_max)]
+        if len(grid) < 2:
+            grid = np.asarray([x_min, x_max], dtype=float)
+
+        l_common = np.interp(grid, l_x, l_y)
+        r_common = np.interp(grid, r_x, r_y)
+        l_extra_common = [np.interp(grid, l_x, v) for v in l_extra]
+        r_extra_common = [np.interp(grid, r_x, v) for v in r_extra]
+        return grid, l_common, r_common, l_extra_common, r_extra_common
+
+    @staticmethod
     def _zoom_bounds_from_indices(
         x: np.ndarray,
         y_list: list[np.ndarray],
@@ -2382,6 +2621,7 @@ class LRBResultsPlotter:
     def _bootstrap_threshold_p_interval(
         self,
         p: np.ndarray,
+        rb_p: np.ndarray | None,
         lrb_err: np.ndarray,
         rb_err: np.ndarray,
         lrb_err_std: np.ndarray,
@@ -2478,6 +2718,7 @@ class LRBResultsPlotter:
         check_num: int,
         threshold: dict[str, float | str | int | None],
         cfg: LRBThresholdConfig,
+        rb_p: np.ndarray | None = None,
         title: str | None = None,
         show_legend: bool = True,
     ) -> None:
@@ -2496,6 +2737,8 @@ class LRBResultsPlotter:
             check_num (int): Uniform check value.
             threshold (dict[str, float | str | int | None]): Threshold record.
             cfg (LRBThresholdConfig): Plot and threshold controls.
+            rb_p (np.ndarray | None): Optional RB x-coordinate values. When
+                omitted, RB is drawn against ``p`` for legacy behavior.
             title (str | None): Optional axis title override.
             show_legend (bool): Whether to draw a legend.
 
@@ -2506,8 +2749,10 @@ class LRBResultsPlotter:
             ValueError: Not raised directly by this method.
         """
         p_arr = np.asarray(p, dtype=float)
+        rb_p_arr = p_arr if rb_p is None else np.asarray(rb_p, dtype=float)
         l_arr = np.asarray(lrb_err, dtype=float)
         r_arr = np.asarray(rb_err, dtype=float)
+        lrb_symbol = str(self.fit_config.p_axis_symbol).strip() or "lambda"
         ax.set_axisbelow(True)
         has_lrb_ci = lrb_err_ci_low is not None and lrb_err_ci_high is not None
         has_rb_ci = rb_err_ci_low is not None and rb_err_ci_high is not None
@@ -2525,7 +2770,7 @@ class LRBResultsPlotter:
                 markersize=4,
                 capsize=2,
                 elinewidth=0.9,
-                label="LRB error rate",
+                label=f"LRB error rate ({lrb_symbol})",
                 zorder=2,
             )
         else:
@@ -2534,7 +2779,7 @@ class LRBResultsPlotter:
                 l_arr,
                 "-o",
                 markersize=4,
-                label="LRB error rate",
+                label=f"LRB error rate ({lrb_symbol})",
                 zorder=2,
             )
 
@@ -2545,23 +2790,23 @@ class LRBResultsPlotter:
                 high=np.asarray(rb_err_ci_high, dtype=float),
             )
             ax.errorbar(
-                p_arr,
+                rb_p_arr,
                 r_arr,
                 yerr=rb_yerr,
                 fmt="-s",
                 markersize=4,
                 capsize=2,
                 elinewidth=0.9,
-                label="RB error rate",
+                label="RB error rate (p)",
                 zorder=2,
             )
         else:
             ax.plot(
-                p_arr,
+                rb_p_arr,
                 r_arr,
                 "-s",
                 markersize=4,
-                label="RB error rate",
+                label="RB error rate (p)",
                 zorder=2,
             )
 
@@ -2572,7 +2817,10 @@ class LRBResultsPlotter:
                 threshold_p,
                 linestyle="--",
                 alpha=0.7,
-                label=f"$p^*\\approx{threshold_p:.4g}$",
+                label=(
+                    f"{lrb_symbol}_LRB = p_RB "
+                    f"~= {threshold_p:.4g}"
+                ),
                 zorder=1.5,
             )
             ax.plot(
@@ -2599,31 +2847,42 @@ class LRBResultsPlotter:
             )
 
         if onset is None:
-            # Use nearest threshold-p sample as a zoom anchor.
-            if np.isfinite(threshold_p):
-                onset = int(np.argmin(np.abs(p_arr - threshold_p)))
-            else:
-                onset = len(p_arr) // 2
+            onset = len(p_arr) // 2
+        if np.isfinite(threshold_p) and len(p_arr) > 0:
+            # The threshold onset is computed on an interpolated common grid,
+            # so use the nearest original LRB sample as the display anchor.
+            onset = int(np.argmin(np.abs(p_arr - threshold_p)))
 
         i0 = max(0, int(onset) - int(cfg.zoom_half_window_points))
         i1 = min(len(p_arr), int(onset) + int(cfg.zoom_half_window_points) + 1)
-        xmin, xmax, ymin, ymax = self._zoom_bounds_from_indices(
-            p_arr,
-            [l_arr, r_arr],
-            i0,
-            i1,
-            cfg.zoom_pad_frac,
-            cfg.min_zoom_span,
-        )
+        xw = np.concatenate([p_arr[i0:i1], rb_p_arr[i0:i1]])
+        yw = np.concatenate([l_arr[i0:i1], r_arr[i0:i1]])
+        finite_x = xw[np.isfinite(xw)]
+        finite_y = yw[np.isfinite(yw)]
+        if len(finite_x) == 0 or len(finite_y) == 0:
+            finite_x = np.concatenate([p_arr[np.isfinite(p_arr)],
+                                       rb_p_arr[np.isfinite(rb_p_arr)]])
+            finite_y = np.concatenate([l_arr[np.isfinite(l_arr)],
+                                       r_arr[np.isfinite(r_arr)]])
+        xmin = float(np.nanmin(finite_x))
+        xmax = float(np.nanmax(finite_x))
+        ymin = float(np.nanmin(finite_y))
+        ymax = float(np.nanmax(finite_y))
+        x_span = max(xmax - xmin, float(cfg.min_zoom_span))
+        y_span = max(ymax - ymin, float(cfg.min_zoom_span))
+        xmin = max(0.0, xmin - cfg.zoom_pad_frac * x_span)
+        xmax = xmax + cfg.zoom_pad_frac * x_span
+        ymin = max(0.0, ymin - cfg.zoom_pad_frac * y_span)
+        ymax = ymax + cfg.zoom_pad_frac * y_span
         ax.set_xlim(xmin, xmax)
         ax.set_ylim(ymin, ymax)
-        ax.set_xlabel("Physical Noise Parameter p")
+        ax.set_xlabel(f"Noise coordinate (LRB {lrb_symbol}; RB p)")
         ax.set_ylabel("Error Rate (1 - Fidelity)")
         if title is None:
             title = (
                 "LRB vs RB "
                 f"({self._title_context('unif', check_num)}): "
-                "error rates vs p"
+                f"error rates vs LRB {lrb_symbol} / RB p"
             )
         ax.set_title(title)
         ax.grid(True, zorder=0)
@@ -2645,10 +2904,11 @@ class LRBResultsPlotter:
         show: bool,
     ) -> str:
         """
-        Plot error-rate curves versus p with threshold-focused zoom.
+        Plot LRB(lambda) and RB(p) error curves with threshold-focused zoom.
 
         Args:
-            p (np.ndarray): Sorted probability values.
+            p (np.ndarray): Sorted LRB x-coordinate values.
+            rb_p (np.ndarray | None): Sorted RB x-coordinate values.
             lrb_err (np.ndarray): LRB error-rate values.
             rb_err (np.ndarray): RB error-rate values.
             lrb_err_ci_low (np.ndarray | None): Optional LRB lower CI bounds.
@@ -2679,6 +2939,7 @@ class LRBResultsPlotter:
             check_num=check_num,
             threshold=threshold,
             cfg=cfg,
+            rb_p=rb_p,
             title=None,
             show_legend=True,
         )
@@ -2759,6 +3020,7 @@ class LRBResultsPlotter:
                 self._draw_error_vs_p_threshold_axis(
                     ax=ax,
                     p=np.asarray(row["p"], dtype=float),
+                    rb_p=np.asarray(row.get("rb_p", row["p"]), dtype=float),
                     lrb_err=np.asarray(row["lrb_err"], dtype=float),
                     rb_err=np.asarray(row["rb_err"], dtype=float),
                     lrb_err_ci_low=row["lrb_err_ci_low"],
@@ -2881,7 +3143,9 @@ class LRBResultsPlotter:
             l_win,
             "-o",
             markersize=4,
-            label="(RB(p), LRB(p)) p-order",
+            label=(
+                f"(RB(p), LRB({self.fit_config.p_axis_symbol})) order"
+            ),
         )
         lo = max(xmin, ymin)
         hi = min(xmax, ymax)
@@ -3011,7 +3275,28 @@ class LRBResultsPlotter:
             raise FileNotFoundError(f"Missing table CSV: {table_csv_path}")
 
         frame = pd.read_csv(table_csv_path)
-        required_cols = ["check_num", "p", "lrb_error_rate", "rb_error_rate"]
+        axis_column = self._p_axis_column_name()
+        lrb_x_col = (
+            "lrb_lambda"
+            if "lrb_lambda" in frame.columns
+            else axis_column
+            if axis_column and axis_column in frame.columns
+            else "p"
+        )
+        rb_x_col = (
+            "rb_p"
+            if "rb_p" in frame.columns
+            else "p_raw"
+            if "p_raw" in frame.columns
+            else "p"
+        )
+        required_cols = [
+            "check_num",
+            lrb_x_col,
+            rb_x_col,
+            "lrb_error_rate",
+            "rb_error_rate",
+        ]
         for col in required_cols:
             if col not in frame.columns:
                 raise KeyError(f"Missing column '{col}' in {table_csv_path}")
@@ -3045,15 +3330,22 @@ class LRBResultsPlotter:
         for check_num in checks:
             sub = frame[frame["check_num"] == check_num].copy()
             if cfg.p_min is not None:
-                sub = sub[sub["p"] >= cfg.p_min]
+                sub = sub[
+                    (sub[lrb_x_col] >= cfg.p_min)
+                    & (sub[rb_x_col] >= cfg.p_min)
+                ]
             if cfg.p_max is not None:
-                sub = sub[sub["p"] <= cfg.p_max]
+                sub = sub[
+                    (sub[lrb_x_col] <= cfg.p_max)
+                    & (sub[rb_x_col] <= cfg.p_max)
+                ]
             if has_lrb_n and cfg.min_lrb_n_points_keep > 0:
                 sub = sub[sub["lrb_n_points"] >= cfg.min_lrb_n_points_keep]
             if has_rb_n and cfg.min_rb_n_points_keep > 0:
                 sub = sub[sub["rb_n_points"] >= cfg.min_rb_n_points_keep]
 
-            p = sub["p"].to_numpy(dtype=float)
+            lrb_x = sub[lrb_x_col].to_numpy(dtype=float)
+            rb_x = sub[rb_x_col].to_numpy(dtype=float)
             lrb_err = sub["lrb_error_rate"].to_numpy(dtype=float)
             rb_err = sub["rb_error_rate"].to_numpy(dtype=float)
             if has_point_ci:
@@ -3073,8 +3365,9 @@ class LRBResultsPlotter:
                 rb_ci_high = np.full_like(rb_err, np.nan, dtype=float)
                 lrb_std_boot = np.full_like(lrb_err, np.nan, dtype=float)
                 rb_std_boot = np.full_like(rb_err, np.nan, dtype=float)
-            finite = self._finite_mask(p, lrb_err, rb_err)
-            p = p[finite]
+            finite = self._finite_mask(lrb_x, rb_x, lrb_err, rb_err)
+            lrb_x = lrb_x[finite]
+            rb_x = rb_x[finite]
             lrb_err = lrb_err[finite]
             rb_err = rb_err[finite]
             lrb_ci_low = lrb_ci_low[finite]
@@ -3083,7 +3376,7 @@ class LRBResultsPlotter:
             rb_ci_high = rb_ci_high[finite]
             lrb_std_boot = lrb_std_boot[finite]
             rb_std_boot = rb_std_boot[finite]
-            if len(p) < 2:
+            if len(lrb_x) < 2:
                 summary_rows.append(
                     {
                         "check_num": int(check_num),
@@ -3091,16 +3384,19 @@ class LRBResultsPlotter:
                         "threshold_p_std_boot": np.nan,
                         "threshold_p_ci_low": np.nan,
                         "threshold_p_ci_high": np.nan,
+                        "threshold_lrb_lambda": np.nan,
+                        "threshold_rb_p": np.nan,
                         "threshold_rb_error_rate": np.nan,
                         "threshold_lrb_error_rate": np.nan,
                         "method": "insufficient_points",
-                        "n_points_used": int(len(p)),
+                        "n_points_used": int(len(lrb_x)),
                     }
                 )
                 continue
 
-            order = np.argsort(p)
-            p = p[order]
+            order = np.argsort(lrb_x)
+            lrb_x = lrb_x[order]
+            rb_x = rb_x[order]
             lrb_err = lrb_err[order]
             rb_err = rb_err[order]
             lrb_ci_low = lrb_ci_low[order]
@@ -3111,21 +3407,22 @@ class LRBResultsPlotter:
             rb_std_boot = rb_std_boot[order]
 
             cut_l = self._trim_garbage_tail_by_monotone_dip(
-                p,
+                lrb_x,
                 lrb_err,
                 cfg.tail_min_prefix,
                 cfg.tail_drop_tol_abs,
                 cfg.tail_drop_tol_rel,
             )
             cut_r = self._trim_garbage_tail_by_monotone_dip(
-                p,
+                rb_x,
                 rb_err,
                 cfg.tail_min_prefix,
                 cfg.tail_drop_tol_abs,
                 cfg.tail_drop_tol_rel,
             )
             cut_idx = int(min(cut_l, cut_r))
-            p_trim = p[:cut_idx]
+            lrb_x_trim = lrb_x[:cut_idx]
+            rb_x_trim = rb_x[:cut_idx]
             lrb_trim = lrb_err[:cut_idx]
             rb_trim = rb_err[:cut_idx]
             lrb_ci_low_trim = lrb_ci_low[:cut_idx]
@@ -3134,7 +3431,31 @@ class LRBResultsPlotter:
             rb_ci_high_trim = rb_ci_high[:cut_idx]
             lrb_std_trim = lrb_std_boot[:cut_idx]
             rb_std_trim = rb_std_boot[:cut_idx]
-            if len(p_trim) < 2:
+            (
+                common_x,
+                lrb_common,
+                rb_common,
+                lrb_extra_common,
+                rb_extra_common,
+            ) = self._interpolate_lrb_rb_on_overlap(
+                lrb_x=lrb_x_trim,
+                lrb_err=lrb_trim,
+                rb_x=rb_x_trim,
+                rb_err=rb_trim,
+                lrb_extra=(lrb_std_trim,),
+                rb_extra=(rb_std_trim,),
+            )
+            lrb_std_common = (
+                lrb_extra_common[0]
+                if lrb_extra_common
+                else np.full_like(common_x, np.nan, dtype=float)
+            )
+            rb_std_common = (
+                rb_extra_common[0]
+                if rb_extra_common
+                else np.full_like(common_x, np.nan, dtype=float)
+            )
+            if len(common_x) < 2:
                 summary_rows.append(
                     {
                         "check_num": int(check_num),
@@ -3142,24 +3463,26 @@ class LRBResultsPlotter:
                         "threshold_p_std_boot": np.nan,
                         "threshold_p_ci_low": np.nan,
                         "threshold_p_ci_high": np.nan,
+                        "threshold_lrb_lambda": np.nan,
+                        "threshold_rb_p": np.nan,
                         "threshold_rb_error_rate": np.nan,
                         "threshold_lrb_error_rate": np.nan,
-                        "method": "insufficient_points_after_tail_trim",
-                        "n_points_used": int(len(p_trim)),
+                        "method": "insufficient_overlap_after_tail_trim",
+                        "n_points_used": int(len(common_x)),
                     }
                 )
                 continue
 
             start_idx = self._first_threshold_start_index(
-                lrb_trim,
-                rb_trim,
+                lrb_common,
+                rb_common,
                 cfg.ignore_first_n,
                 cfg.err_floor,
             )
             thr = self._estimate_monotone_threshold_in_p(
-                p_trim,
-                lrb_trim,
-                rb_trim,
+                common_x,
+                lrb_common,
+                rb_common,
                 tol=cfg.tol,
                 require_consecutive=cfg.require_consecutive,
                 start_idx=start_idx,
@@ -3168,11 +3491,12 @@ class LRBResultsPlotter:
             if has_point_ci and cfg.bootstrap_reps_threshold > 0:
                 threshold_std, threshold_lo, threshold_hi = (
                     self._bootstrap_threshold_p_interval(
-                        p=p_trim,
-                        lrb_err=lrb_trim,
-                        rb_err=rb_trim,
-                        lrb_err_std=lrb_std_trim,
-                        rb_err_std=rb_std_trim,
+                        p=common_x,
+                        rb_p=common_x,
+                        lrb_err=lrb_common,
+                        rb_err=rb_common,
+                        lrb_err_std=lrb_std_common,
+                        rb_err_std=rb_std_common,
                         cfg=cfg,
                         n_boot=cfg.bootstrap_reps_threshold,
                         ci_level=ci_level,
@@ -3187,6 +3511,8 @@ class LRBResultsPlotter:
                     "threshold_p_std_boot": float(threshold_std),
                     "threshold_p_ci_low": float(threshold_lo),
                     "threshold_p_ci_high": float(threshold_hi),
+                    "threshold_lrb_lambda": float(thr["threshold_p"]),
+                    "threshold_rb_p": float(thr["threshold_p"]),
                     "threshold_rb_error_rate": float(
                         thr["threshold_rb_error"]),
                     "threshold_lrb_error_rate": float(
@@ -3194,14 +3520,15 @@ class LRBResultsPlotter:
                     "method": str(thr["method"]),
                     "start_idx_used": int(start_idx),
                     "tail_cut_idx": int(cut_idx),
-                    "n_points_used": int(len(p_trim)),
+                    "n_points_used": int(len(common_x)),
                 }
             )
             if cfg.paper_mode:
                 paper_rows.append(
                     {
                         "check_num": int(check_num),
-                        "p": np.asarray(p_trim, dtype=float),
+                        "p": np.asarray(lrb_x_trim, dtype=float),
+                        "rb_p": np.asarray(rb_x_trim, dtype=float),
                         "lrb_err": np.asarray(lrb_trim, dtype=float),
                         "rb_err": np.asarray(rb_trim, dtype=float),
                         "lrb_err_ci_low": (
@@ -3229,7 +3556,8 @@ class LRBResultsPlotter:
                 )
             else:
                 self._plot_error_vs_p_threshold(
-                    p=p_trim,
+                    p=lrb_x_trim,
+                    rb_p=rb_x_trim,
                     lrb_err=lrb_trim,
                     rb_err=rb_trim,
                     lrb_err_ci_low=lrb_ci_low_trim if has_point_ci else None,
@@ -3242,9 +3570,9 @@ class LRBResultsPlotter:
                     show=show,
                 )
                 self._plot_lrb_vs_rb_parametric_threshold(
-                    p=p_trim,
-                    lrb_err=lrb_trim,
-                    rb_err=rb_trim,
+                    p=common_x,
+                    lrb_err=lrb_common,
+                    rb_err=rb_common,
                     check_num=check_num,
                     threshold=thr,
                     cfg=cfg,
@@ -3260,6 +3588,26 @@ class LRBResultsPlotter:
 
         summary = pd.DataFrame(summary_rows).sort_values(
             "check_num").reset_index(drop=True)
+        axis_column = self._p_axis_column_name()
+        if axis_column and axis_column != "p":
+            summary[f"threshold_{axis_column}"] = summary["threshold_p"]
+            summary[f"threshold_{axis_column}_std_boot"] = (
+                summary["threshold_p_std_boot"])
+            summary[f"threshold_{axis_column}_ci_low"] = (
+                summary["threshold_p_ci_low"])
+            summary[f"threshold_{axis_column}_ci_high"] = (
+                summary["threshold_p_ci_high"])
+        if "threshold_lrb_lambda" in summary.columns:
+            summary["threshold_lrb_lambda_std_boot"] = (
+                summary["threshold_p_std_boot"])
+            summary["threshold_lrb_lambda_ci_low"] = (
+                summary["threshold_p_ci_low"])
+            summary["threshold_lrb_lambda_ci_high"] = (
+                summary["threshold_p_ci_high"])
+        if "threshold_rb_p" in summary.columns:
+            summary["threshold_rb_p_std_boot"] = summary["threshold_p_std_boot"]
+            summary["threshold_rb_p_ci_low"] = summary["threshold_p_ci_low"]
+            summary["threshold_rb_p_ci_high"] = summary["threshold_p_ci_high"]
         for _, row in summary.iterrows():
             p_star = float(row.get("threshold_p", np.nan))
             if not np.isfinite(p_star):
@@ -3274,15 +3622,17 @@ class LRBResultsPlotter:
             else:
                 unc = np.nan
             check_num = int(row.get("check_num", -1))
+            axis_symbol = str(self.fit_config.p_axis_symbol).strip() or "p"
+            threshold_label = f"{axis_symbol}_LRB = p_RB"
             if np.isfinite(unc):
                 print(
                     f"[THRESHOLD] Uniform Interval Check = {check_num}: "
-                    f"p* = {p_star:.6g} +- {unc:.3g}"
+                    f"{threshold_label} = {p_star:.6g} +- {unc:.3g}"
                 )
             else:
                 print(
                     f"[THRESHOLD] Uniform Interval Check = {check_num}: "
-                    f"p* = {p_star:.6g} +- NaN"
+                    f"{threshold_label} = {p_star:.6g} +- NaN"
                 )
         out_summary = os.path.join(
             self.out_dir,
@@ -3329,7 +3679,7 @@ class LRBResultsPlotter:
         show: bool = True,
     ) -> str:
         """
-        Plot pseudo-threshold ``p`` versus uniform interval-check number.
+        Plot pseudo-threshold versus uniform interval-check number.
 
         The method reads the threshold summary CSV, keeps checks in
         ``[check_min, check_max]``, and optionally overlays a fit model
@@ -3373,7 +3723,25 @@ class LRBResultsPlotter:
             raise FileNotFoundError(f"Missing summary CSV: {summary_csv_path}")
 
         frame = pd.read_csv(summary_csv_path)
-        for col in ("check_num", "threshold_p"):
+        axis_column = self._p_axis_column_name()
+        threshold_column = (
+            "threshold_lrb_lambda"
+            if "threshold_lrb_lambda" in frame.columns
+            else f"threshold_{axis_column}"
+            if axis_column and f"threshold_{axis_column}" in frame.columns
+            else "threshold_p"
+        )
+        axis_symbol = str(self.fit_config.p_axis_symbol).strip() or "p"
+        threshold_label = (
+            f"{axis_symbol}_LRB = p_RB"
+            if threshold_column == "threshold_lrb_lambda"
+            else axis_symbol
+        )
+        threshold_std_column = f"{threshold_column}_std_boot"
+        threshold_ci_low_column = f"{threshold_column}_ci_low"
+        threshold_ci_high_column = f"{threshold_column}_ci_high"
+
+        for col in ("check_num", threshold_column):
             if col not in frame.columns:
                 raise KeyError(f"Missing column '{col}' in {summary_csv_path}")
 
@@ -3381,7 +3749,7 @@ class LRBResultsPlotter:
             (frame["check_num"] >= int(check_min))
             & (frame["check_num"] <= int(check_max))
         ].copy()
-        sub = sub[np.isfinite(sub["threshold_p"])].copy()
+        sub = sub[np.isfinite(sub[threshold_column])].copy()
         sub = sub.sort_values("check_num").reset_index(drop=True)
         if sub.empty:
             raise ValueError(
@@ -3389,10 +3757,10 @@ class LRBResultsPlotter:
             )
 
         x = sub["check_num"].to_numpy(dtype=float)
-        y = sub["threshold_p"].to_numpy(dtype=float)
+        y = sub[threshold_column].to_numpy(dtype=float)
         has_threshold_ci = (
-            "threshold_p_ci_low" in sub.columns
-            and "threshold_p_ci_high" in sub.columns
+            threshold_ci_low_column in sub.columns
+            and threshold_ci_high_column in sub.columns
         )
 
         fig, ax = plt.subplots(figsize=(7.6, 5.2))
@@ -3400,8 +3768,8 @@ class LRBResultsPlotter:
         if has_threshold_ci:
             yerr = self._to_asymmetric_yerr(
                 y=y,
-                low=sub["threshold_p_ci_low"].to_numpy(dtype=float),
-                high=sub["threshold_p_ci_high"].to_numpy(dtype=float),
+                low=sub[threshold_ci_low_column].to_numpy(dtype=float),
+                high=sub[threshold_ci_high_column].to_numpy(dtype=float),
             )
             ax.errorbar(
                 x,
@@ -3415,7 +3783,7 @@ class LRBResultsPlotter:
                 markeredgecolor="white",
                 markeredgewidth=0.6,
                 zorder=3,
-                label=r"Pseudo-threshold $p^*$ data",
+                label=f"Pseudo-threshold {threshold_label} data",
             )
         else:
             ax.scatter(
@@ -3425,15 +3793,15 @@ class LRBResultsPlotter:
                 zorder=3,
                 edgecolors="white",
                 linewidths=0.6,
-                label=r"Pseudo-threshold $p^*$ data",
+                label=f"Pseudo-threshold {threshold_label} data",
             )
 
         # Print check-wise pseudo-threshold statements in "# +- #" form.
-        if "threshold_p_std_boot" in sub.columns:
-            unc_arr = sub["threshold_p_std_boot"].to_numpy(dtype=float)
+        if threshold_std_column in sub.columns:
+            unc_arr = sub[threshold_std_column].to_numpy(dtype=float)
         elif has_threshold_ci:
-            lo_arr = sub["threshold_p_ci_low"].to_numpy(dtype=float)
-            hi_arr = sub["threshold_p_ci_high"].to_numpy(dtype=float)
+            lo_arr = sub[threshold_ci_low_column].to_numpy(dtype=float)
+            hi_arr = sub[threshold_ci_high_column].to_numpy(dtype=float)
             unc_arr = 0.5 * np.abs(hi_arr - lo_arr)
         else:
             unc_arr = np.full_like(y, np.nan, dtype=float)
@@ -3441,12 +3809,12 @@ class LRBResultsPlotter:
             if np.isfinite(uv):
                 print(
                     f"[PSEUDO] Uniform Interval Check = {int(k)}: "
-                    f"p* = {float(yv):.6g} +- {float(uv):.3g}"
+                    f"{threshold_label} = {float(yv):.6g} +- {float(uv):.3g}"
                 )
             else:
                 print(
                     f"[PSEUDO] Uniform Interval Check = {int(k)}: "
-                    f"p* = {float(yv):.6g} +- NaN"
+                    f"{threshold_label} = {float(yv):.6g} +- NaN"
                 )
 
         degree = max(0, int(fit_degree))
@@ -3482,7 +3850,8 @@ class LRBResultsPlotter:
                     r2 = np.nan if ss_tot <= 0 else 1.0 - (ss_res / ss_tot)
                     print(
                         "[FIT] exponential pseudo-threshold fit: "
-                        f"p ~= exp({intercept:.6g} + {slope:.6g}*k), "
+                        f"{threshold_label} ~= "
+                        f"exp({intercept:.6g} + {slope:.6g}*k), "
                         f"R^2={r2:.6g}"
                     )
             elif degree >= 1:
@@ -3507,7 +3876,8 @@ class LRBResultsPlotter:
                     intercept = float(coeff[1])
                     print(
                         "[FIT] linear pseudo-threshold fit: "
-                        f"p ~= {slope:.6g}*k + {intercept:.6g}, R^2={r2:.6g}"
+                        f"{threshold_label} ~= "
+                        f"{slope:.6g}*k + {intercept:.6g}, R^2={r2:.6g}"
                     )
                 else:
                     print(
@@ -3523,10 +3893,10 @@ class LRBResultsPlotter:
             print("[FIT] fit disabled by do_fit=False.")
 
         ax.set_xlabel("Uniform Interval Check Number")
-        ax.set_ylabel(r"Pseudo-threshold $p^*$")
+        ax.set_ylabel(f"Pseudo-threshold {threshold_label}")
         if not paper_mode:
             ax.set_title(
-                r"Pseudo-threshold $p^*$ vs Uniform Interval Check "
+                f"Pseudo-threshold {threshold_label} vs Uniform Interval Check "
                 f"(q={self.d_dim}, {self.code_title})"
             )
         tick_start = int(np.floor(np.min(x)))

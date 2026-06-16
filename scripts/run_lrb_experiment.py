@@ -19,6 +19,8 @@ SRC_PATH = PROJECT_ROOT / "src"
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
+LRB_BATCH_SIZE_ENV = "LRB_BATCH_SIZE"
+
 from lrb.code_simulation_profiles import (
     DEFAULT_CODE_NAME,
     CodeSimulationProfileRegistry,
@@ -56,7 +58,7 @@ class LRBRunConfig:
         This class is declarative and intentionally defines no custom methods.
     """
     batch_size: int = 500000
-    filter_trivial_shots: bool = True
+    filter_trivial_shots: bool = False
     logical_dimension: int = 3
     unpack_func: Callable | None = None
     const0_unpack_func: Callable | None = None
@@ -349,6 +351,11 @@ if __name__ == "__main__":
     runtime_cfg = LRBRunCoordinator.resolve_code_runtime_config(
         inputs["code_name"])
     runtime_cfg.simulation_backend = simulation_backend
+    batch_size_env = os.environ.get(LRB_BATCH_SIZE_ENV)
+    if batch_size_env is not None:
+        runtime_cfg.batch_size = int(batch_size_env)
+        if runtime_cfg.batch_size < 1:
+            raise ValueError(f"{LRB_BATCH_SIZE_ENV} must be at least 1.")
     coordinator = LRBRunCoordinator(simulation_engine=DEFAULT_SIM_ENGINE,
                                     config=runtime_cfg)
     coordinator.compute_lrb(
@@ -368,6 +375,4 @@ if __name__ == "__main__":
         progress_file_path=inputs["progress_file_path"],
         partial_progress_folder_path=inputs["partial_progress_folder_path"],
     )
-
-
 

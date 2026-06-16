@@ -36,6 +36,41 @@ NORMAL_RB_SHOTS = 10000
 SIMULATION_BACKEND_ENV = "LRB_SIMULATION_BACKEND"
 DEM_RESPONSE_BATCH_SIZE_ENV = "LRB_DEM_RESPONSE_BATCH_SIZE"
 SUPPORTED_SIMULATION_BACKENDS = ("sdim", "dem")
+TIMING_METRIC_FILENAME = "timing_metrics.csv"
+TIMING_METRIC_FIELDS = (
+    "timestamp_utc",
+    "backend",
+    "phase",
+    "event",
+    "probability_index",
+    "probability",
+    "batch_index",
+    "batch_shots",
+    "shots_remaining_before",
+    "shots_remaining_after",
+    "clifford_index",
+    "depth_index",
+    "depth",
+    "shots",
+    "circuit_dimension",
+    "circuit_qudits",
+    "circuit_operations",
+    "simulator_seconds",
+    "dem_compile_seconds",
+    "dem_sample_seconds",
+    "dem_cache_hit",
+    "dem_total_noise_locations",
+    "dem_active_noise_locations",
+    "dem_detectors",
+    "dem_logicals",
+    "unpack_seconds",
+    "record_seconds",
+    "process_seconds",
+    "load_seconds",
+    "write_seconds",
+    "total_seconds",
+    "notes",
+)
 
 
 def _resolve_simulation_backend(
@@ -61,6 +96,71 @@ def _dem_response_batch_size() -> int:
     if value < 1:
         raise ValueError(f"{DEM_RESPONSE_BATCH_SIZE_ENV} must be at least 1.")
     return value
+
+
+def _format_timing_metric_value(value: Any) -> Any:
+    if value is None:
+        return ""
+    if isinstance(value, bool):
+        return int(value)
+    if isinstance(value, float):
+        return f"{value:.9f}"
+    if isinstance(value, np.generic):
+        return value.item()
+    return value
+
+
+def _append_timing_metric(
+    partial_progress_folder: str | None,
+    metrics: dict[str, Any],
+) -> None:
+    if not partial_progress_folder:
+        return
+
+    os.makedirs(partial_progress_folder, exist_ok=True)
+    metrics_path = os.path.join(
+        partial_progress_folder,
+        TIMING_METRIC_FILENAME,
+    )
+    row = {field: "" for field in TIMING_METRIC_FIELDS}
+    row["timestamp_utc"] = time.strftime(
+        "%Y-%m-%dT%H:%M:%SZ",
+        time.gmtime(),
+    )
+    for field in TIMING_METRIC_FIELDS:
+        if field in metrics:
+            row[field] = _format_timing_metric_value(metrics[field])
+
+    should_write_header = (
+        not os.path.exists(metrics_path)
+        or os.path.getsize(metrics_path) == 0
+    )
+    with open(metrics_path, "a", newline="") as metrics_file:
+        writer = csv.DictWriter(metrics_file, fieldnames=TIMING_METRIC_FIELDS)
+        if should_write_header:
+            writer.writeheader()
+        writer.writerow(row)
+
+
+def _circuit_timing_context(circuit) -> dict[str, Any]:
+    operations = tuple(getattr(circuit, "operations", ()))
+    circuit_qudits = getattr(circuit, "num_qudits", None)
+    if callable(circuit_qudits):
+        circuit_qudits = circuit_qudits()
+    if circuit_qudits is None:
+        max_qudit = -1
+        for operation in operations:
+            for attr in ("qudit_index", "target_index"):
+                index = getattr(operation, attr, None)
+                if index is not None:
+                    max_qudit = max(max_qudit, int(index))
+        circuit_qudits = max_qudit + 1 if max_qudit >= 0 else ""
+
+    return {
+        "circuit_dimension": getattr(circuit, "dimension", ""),
+        "circuit_qudits": circuit_qudits,
+        "circuit_operations": len(operations),
+    }
 
 
 def _require_sdim_runtime() -> None:
@@ -1000,6 +1100,7 @@ class LRBSimulationPipeline:
         circuit,
         shots: int,
         simulation_backend: str | None = None,
+        return_metrics: bool = False,
     ):
         """
         Simulate one SDIM circuit with the selected backend.
@@ -1009,16 +1110,34 @@ class LRBSimulationPipeline:
         shifts for the remaining shots.
         """
         backend = _resolve_simulation_backend(simulation_backend)
+        start_time = time.perf_counter()
         if backend == "sdim":
-            return Program(circuit).simulate(shots=shots)
+            simulation_output = Program(circuit).simulate(shots=shots)
+            if not return_metrics:
+                return simulation_output
+            return simulation_output, {
+                "backend": backend,
+                "simulator_seconds": time.perf_counter() - start_time,
+            }
 
         from .dem_simulation import simulate_circuit_with_dem
 
-        return simulate_circuit_with_dem(
+        if not return_metrics:
+            return simulate_circuit_with_dem(
+                circuit,
+                shots,
+                response_batch_size=_dem_response_batch_size(),
+            )
+
+        simulation_output, metrics = simulate_circuit_with_dem(
             circuit,
             shots,
             response_batch_size=_dem_response_batch_size(),
+            return_metrics=True,
         )
+        metrics["backend"] = backend
+        metrics["simulator_seconds"] = time.perf_counter() - start_time
+        return simulation_output, metrics
 
     @staticmethod
     def LRB(
@@ -1027,7 +1146,11 @@ class LRBSimulationPipeline:
             shots: int,
             unpack_func: Callable,
             partial_progress_folder='./prog',
-            simulation_backend: str | None = None):
+            simulation_backend: str | None = None,
+            timing_phase: str = "LRB",
+            probability_index: int | None = None,
+            probability: float | None = None,
+            batch_index: int | None = None):
         # 2D circuit table: first index is Clifford index, second is
         # experiment index, and entry i uses depth depths[i].
     
@@ -1071,15 +1194,22 @@ class LRBSimulationPipeline:
             for k in range(start_k, num_depths):
     
                 c = experiments[ng][k]
+                simulated_shots = shots + 1
     
                 # Run the circuits over many shots
                 NoiseModelUtils.ensure_noise_params(c)
     
-                simulation_output = LRBSimulationPipeline.simulate_circuit(
-                    c,
-                    shots=shots,
-                    simulation_backend=backend,
+                total_start = time.perf_counter()
+                simulation_output, timing_metrics = (
+                    LRBSimulationPipeline.simulate_circuit(
+                        c,
+                        shots=simulated_shots,
+                        simulation_backend=backend,
+                        return_metrics=True,
+                    )
                 )
+
+                unpack_start = time.perf_counter()
                 unpack_payload = (
                     simulation_output
                     if getattr(unpack_func, "accepts_sdim_output", False)
@@ -1095,13 +1225,21 @@ class LRBSimulationPipeline:
                 # Unpack the measurements
                 #print(f"From LRB, we're passing current depth as {depths[k]}")
                 stab_checks, m_values = unpack_func(
-                    unpack_payload, depths[k], shots)
+                    unpack_payload, depths[k], simulated_shots)
+                unpack_seconds = time.perf_counter() - unpack_start
 
                 # Record in table. Detector-backed unpackers return NumPy
                 # arrays and legacy unpackers return lists; np.asarray keeps
                 # both paths compatible while allowing vectorized assignment.
-                m_values_array = np.asarray(m_values, dtype=np.int64)
-                stab_checks_array = np.asarray(stab_checks, dtype=np.int64)
+                # SDIM/DEM frame simulation uses shot zero as a noiseless
+                # reference; discard it so each checkpoint contributes only
+                # noisy sampled shots to the statistics.
+                record_start = time.perf_counter()
+                m_values_array = np.asarray(m_values, dtype=np.int64)[1:]
+                stab_checks_array = np.asarray(
+                    stab_checks,
+                    dtype=np.int64,
+                )[1:]
                 measurement_record[ng, k, :shots] = m_values_array
                 stabilizer_check_record[
                     ng,
@@ -1109,6 +1247,32 @@ class LRBSimulationPipeline:
                     :shots,
                     :stab_checks_array.shape[1],
                 ] = stab_checks_array
+                record_seconds = time.perf_counter() - record_start
+
+                timing_metrics.update(_circuit_timing_context(c))
+                timing_metrics.update({
+                    "phase": timing_phase,
+                    "event": "simulate_depth",
+                    "probability_index": probability_index,
+                    "probability": probability,
+                    "batch_index": batch_index,
+                    "batch_shots": shots,
+                    "clifford_index": ng,
+                    "depth_index": k,
+                    "depth": depths[k],
+                    "shots": shots,
+                    "unpack_seconds": unpack_seconds,
+                    "record_seconds": record_seconds,
+                    "total_seconds": time.perf_counter() - total_start,
+                    "notes": (
+                        f"simulated_shots={simulated_shots};"
+                        "reference_shot_dropped=1"
+                    ),
+                })
+                _append_timing_metric(
+                    partial_progress_folder,
+                    timing_metrics,
+                )
     
         return measurement_record, stabilizer_check_record
     
@@ -1248,7 +1412,12 @@ class LRBSimulationPipeline:
             experiments,
             depths: list[int],
             shots: int,
-            simulation_backend: str | None = None):
+            simulation_backend: str | None = None,
+            partial_progress_folder: str | None = None,
+            timing_phase: str = "RB",
+            probability_index: int | None = None,
+            probability: float | None = None,
+            batch_index: int | None = None):
         # 2D circuit table: first index is Clifford index, second is
         # experiment index, and entry i uses depth depths[i].
     
@@ -1278,14 +1447,20 @@ class LRBSimulationPipeline:
         for ng in range(num_cliff):
             for k in range(num_depths):
                 c = experiments[ng][k]
+                simulated_shots = shots + 1
                 # Run the circuits over many shots
                 NoiseModelUtils.ensure_noise_params(c)
     
-                simulation_output = LRBSimulationPipeline.simulate_circuit(
-                    c,
-                    shots=shots,
-                    simulation_backend=backend,
+                total_start = time.perf_counter()
+                simulation_output, timing_metrics = (
+                    LRBSimulationPipeline.simulate_circuit(
+                        c,
+                        shots=simulated_shots,
+                        simulation_backend=backend,
+                        return_metrics=True,
+                    )
                 )
+                process_start = time.perf_counter()
                 compact_results = (
                     LRBSimulationPipeline.
                     compact_detector_results_from_sdim_output(
@@ -1310,14 +1485,39 @@ class LRBSimulationPipeline:
                             detector_shifts=(
                                 compact_results["logicals"][
                                     RB_LOGICAL_OBSERVABLE_LABEL]),
-                            shots=shots,
+                            shots=simulated_shots,
                             dimension=c.dimension,
-                        )
+                        )[1:]
                     )
                 else:
                     for s in range(shots):
                         measurement_record[ng, k, s] = (
-                            results[0][0][s].measurement_value)
+                            results[0][0][s + 1].measurement_value)
+                process_seconds = time.perf_counter() - process_start
+
+                timing_metrics.update(_circuit_timing_context(c))
+                timing_metrics.update({
+                    "phase": timing_phase,
+                    "event": "simulate_depth",
+                    "probability_index": probability_index,
+                    "probability": probability,
+                    "batch_index": batch_index,
+                    "batch_shots": shots,
+                    "clifford_index": ng,
+                    "depth_index": k,
+                    "depth": depths[k],
+                    "shots": shots,
+                    "process_seconds": process_seconds,
+                    "total_seconds": time.perf_counter() - total_start,
+                    "notes": (
+                        f"simulated_shots={simulated_shots};"
+                        "reference_shot_dropped=1"
+                    ),
+                })
+                _append_timing_metric(
+                    partial_progress_folder,
+                    timing_metrics,
+                )
     
         return measurement_record
     
@@ -1907,6 +2107,7 @@ class LRBSimulationPipeline:
         if shots_to_process > 0:
     
             if need_main_lrb:
+                load_start = time.perf_counter()
                 # Otherwise read in all LRB experiment data
                 for i in range(num_cliff_seq):
                     # make new list
@@ -1924,8 +2125,24 @@ class LRBSimulationPipeline:
                         LRB_experiments_from_single_sequence.append(LRB_c)
 
                     LRB_experiments.append(LRB_experiments_from_single_sequence)
+                load_seconds = time.perf_counter() - load_start
+                _append_timing_metric(
+                    partial_progress_folder_path,
+                    {
+                        "backend": backend,
+                        "phase": "setup",
+                        "event": "load_lrb_circuits",
+                        "probability_index": error_prob_ind,
+                        "probability": error_prob,
+                        "load_seconds": load_seconds,
+                        "total_seconds": load_seconds,
+                        "notes": f"num_cliff={num_cliff_seq};"
+                        f"num_depths={num_depths}",
+                    },
+                )
 
             if const0_requested:
+                load_start = time.perf_counter()
                 for i in range(num_cliff_seq):
                     const0_from_single_sequence = []
                     const0_cliff_path = (
@@ -1944,6 +2161,21 @@ class LRBSimulationPipeline:
 
                     LRB_const0_experiments.append(
                         const0_from_single_sequence)
+                load_seconds = time.perf_counter() - load_start
+                _append_timing_metric(
+                    partial_progress_folder_path,
+                    {
+                        "backend": backend,
+                        "phase": "setup",
+                        "event": "load_lrb_const0_circuits",
+                        "probability_index": error_prob_ind,
+                        "probability": error_prob,
+                        "load_seconds": load_seconds,
+                        "total_seconds": load_seconds,
+                        "notes": f"num_cliff={num_cliff_seq};"
+                        f"num_depths={num_depths}",
+                    },
+                )
     
             # Read in stabilizer check parameters
             # stab_checks_const = fetch_list(
@@ -1954,6 +2186,7 @@ class LRBSimulationPipeline:
             # )
     
             # Run shots in batches of size BATCH_SIZE
+            batch_index = 0
             while shots_to_process > 0:
     
                 # Determine how many shots to run
@@ -1961,12 +2194,15 @@ class LRBSimulationPipeline:
                     BATCH_SIZE if shots_to_process > BATCH_SIZE else
                     shots_to_process
                 )
+                batch_index += 1
+                shots_remaining_before = shots_to_process
     
                 # Run experiment
                 print(
                     f"Resuming experiments for error probability {error_prob}"
                 )
                 start_time = time.time()
+                batch_start = time.perf_counter()
                 if need_main_lrb:
                     LRB_experiment_results = LRBSimulationPipeline.LRB(
                         experiments=LRB_experiments,
@@ -1974,11 +2210,32 @@ class LRBSimulationPipeline:
                         shots=batch,
                         unpack_func=unpack_func,
                         partial_progress_folder=partial_progress_folder_path,
-                        simulation_backend=backend)
+                        simulation_backend=backend,
+                        timing_phase="LRB",
+                        probability_index=error_prob_ind,
+                        probability=error_prob,
+                        batch_index=batch_index)
                 else:
                     LRB_experiment_results = None
                 end_time = time.time()
+                batch_seconds = time.perf_counter() - batch_start
                 print(f"Finished in {str(end_time - start_time)} seconds!")
+                if need_main_lrb:
+                    _append_timing_metric(
+                        partial_progress_folder_path,
+                        {
+                            "backend": backend,
+                            "phase": "LRB",
+                            "event": "batch_total",
+                            "probability_index": error_prob_ind,
+                            "probability": error_prob,
+                            "batch_index": batch_index,
+                            "batch_shots": batch,
+                            "shots_remaining_before": (
+                                shots_remaining_before),
+                            "total_seconds": batch_seconds,
+                        },
+                    )
     
                 # Process partial results into progress files. Constant
                 # checks with value > 0 are not terminal direct-data checks:
@@ -1989,6 +2246,7 @@ class LRBSimulationPipeline:
                     # const=0 is intentionally excluded from this list and is
                     # handled below with the direct terminal X-data circuit.
                     if main_const_checks:
+                        process_start = time.perf_counter()
                         LRBSimulationPipeline.process_lrb_counts(
                             measurement_results=LRB_experiment_results[0],
                             stabilizer_record=LRB_experiment_results[1],
@@ -1997,8 +2255,27 @@ class LRBSimulationPipeline:
                             stab_checks_are_const=True,
                             folder=partial_progress_folder_path,
                             dimension=logical_dimension)
+                        process_seconds = time.perf_counter() - process_start
+                        _append_timing_metric(
+                            partial_progress_folder_path,
+                            {
+                                "backend": backend,
+                                "phase": "LRB",
+                                "event": "process_const_checks",
+                                "probability_index": error_prob_ind,
+                                "probability": error_prob,
+                                "batch_index": batch_index,
+                                "batch_shots": batch,
+                                "shots_remaining_before": (
+                                    shots_remaining_before),
+                                "process_seconds": process_seconds,
+                                "total_seconds": process_seconds,
+                                "notes": f"checks={main_const_checks}",
+                            },
+                        )
                     # Uniform checks retain the regular LRB circuits.
                     if stab_checks_unif:
+                        process_start = time.perf_counter()
                         LRBSimulationPipeline.process_lrb_counts(
                             measurement_results=LRB_experiment_results[0],
                             stabilizer_record=LRB_experiment_results[1],
@@ -2007,16 +2284,56 @@ class LRBSimulationPipeline:
                             stab_checks_are_const=False,
                             folder=partial_progress_folder_path,
                             dimension=logical_dimension)
+                        process_seconds = time.perf_counter() - process_start
+                        _append_timing_metric(
+                            partial_progress_folder_path,
+                            {
+                                "backend": backend,
+                                "phase": "LRB",
+                                "event": "process_unif_checks",
+                                "probability_index": error_prob_ind,
+                                "probability": error_prob,
+                                "batch_index": batch_index,
+                                "batch_shots": batch,
+                                "shots_remaining_before": (
+                                    shots_remaining_before),
+                                "process_seconds": process_seconds,
+                                "total_seconds": process_seconds,
+                                "notes": f"checks={stab_checks_unif}",
+                            },
+                        )
 
                 if const0_requested:
                     print("Running const=0 direct terminal X check...")
+                    const0_start = time.perf_counter()
                     const0_results = LRBSimulationPipeline.LRB(
                         experiments=LRB_const0_experiments,
                         depths=depths,
                         shots=batch,
                         unpack_func=const0_unpack_func,
                         partial_progress_folder=partial_progress_folder_path,
-                        simulation_backend=backend)
+                        simulation_backend=backend,
+                        timing_phase="LRB_const0",
+                        probability_index=error_prob_ind,
+                        probability=error_prob,
+                        batch_index=batch_index)
+                    const0_seconds = time.perf_counter() - const0_start
+                    _append_timing_metric(
+                        partial_progress_folder_path,
+                        {
+                            "backend": backend,
+                            "phase": "LRB_const0",
+                            "event": "batch_total",
+                            "probability_index": error_prob_ind,
+                            "probability": error_prob,
+                            "batch_index": batch_index,
+                            "batch_shots": batch,
+                            "shots_remaining_before": (
+                                shots_remaining_before),
+                            "total_seconds": const0_seconds,
+                        },
+                    )
+                    process_start = time.perf_counter()
                     LRBSimulationPipeline.process_lrb_counts(
                         measurement_results=const0_results[0],
                         stabilizer_record=const0_results[1],
@@ -2025,10 +2342,29 @@ class LRBSimulationPipeline:
                         stab_checks_are_const=True,
                         folder=partial_progress_folder_path,
                         dimension=logical_dimension)
+                    process_seconds = time.perf_counter() - process_start
+                    _append_timing_metric(
+                        partial_progress_folder_path,
+                        {
+                            "backend": backend,
+                            "phase": "LRB_const0",
+                            "event": "process_const0_check",
+                            "probability_index": error_prob_ind,
+                            "probability": error_prob,
+                            "batch_index": batch_index,
+                            "batch_shots": batch,
+                            "shots_remaining_before": (
+                                shots_remaining_before),
+                            "process_seconds": process_seconds,
+                            "total_seconds": process_seconds,
+                            "notes": "checks=[0]",
+                        },
+                    )
     
                 # Update shots processed
                 shots_to_process -= batch
     
+                write_start = time.perf_counter()
                 with open(partial_progress_folder_path + "shots_processed.txt",
                           "w") as progress_file:
                     progress_file.write(str(shots_to_process))
@@ -2036,6 +2372,23 @@ class LRBSimulationPipeline:
                         f"Progress saved, need to process "
                         f"{shots_to_process} more shots."
                     )
+                write_seconds = time.perf_counter() - write_start
+                _append_timing_metric(
+                    partial_progress_folder_path,
+                    {
+                        "backend": backend,
+                        "phase": "progress",
+                        "event": "write_shots_processed",
+                        "probability_index": error_prob_ind,
+                        "probability": error_prob,
+                        "batch_index": batch_index,
+                        "batch_shots": batch,
+                        "shots_remaining_before": shots_remaining_before,
+                        "shots_remaining_after": shots_to_process,
+                        "write_seconds": write_seconds,
+                        "total_seconds": write_seconds,
+                    },
+                )
     
         # Calculate and write LRB stats
         const_save_dir = LRB_results_folder_path + \
@@ -2048,14 +2401,45 @@ class LRBSimulationPipeline:
         if not os.path.exists(unif_save_dir):
             os.mkdir(unif_save_dir)
     
+        write_start = time.perf_counter()
         LRBSimulationPipeline.write_lrb_stats(
             partial_progress_folder_path + "const_check_data/", const_save_dir,
             error_prob, stab_checks_const, BATCH_SIZE, num_shots,
             filter_trivial_shots, dimension=logical_dimension)
+        write_seconds = time.perf_counter() - write_start
+        _append_timing_metric(
+            partial_progress_folder_path,
+            {
+                "backend": backend,
+                "phase": "LRB",
+                "event": "write_const_stats",
+                "probability_index": error_prob_ind,
+                "probability": error_prob,
+                "write_seconds": write_seconds,
+                "total_seconds": write_seconds,
+                "notes": f"checks={stab_checks_const}",
+            },
+        )
+
+        write_start = time.perf_counter()
         LRBSimulationPipeline.write_lrb_stats(
             partial_progress_folder_path + "unif_check_data/", unif_save_dir,
             error_prob, stab_checks_unif, BATCH_SIZE, num_shots,
             filter_trivial_shots, dimension=logical_dimension)
+        write_seconds = time.perf_counter() - write_start
+        _append_timing_metric(
+            partial_progress_folder_path,
+            {
+                "backend": backend,
+                "phase": "LRB",
+                "event": "write_unif_stats",
+                "probability_index": error_prob_ind,
+                "probability": error_prob,
+                "write_seconds": write_seconds,
+                "total_seconds": write_seconds,
+                "notes": f"checks={stab_checks_unif}",
+            },
+        )
         print(
             "Wrote logical test data to the following directories:\n"
             f"{const_save_dir}\n"
@@ -2077,6 +2461,7 @@ class LRBSimulationPipeline:
         # print(f"Wrote logical test raw data  to {LRB_raw_data_file}")
     
         # Complete RB
+        load_start = time.perf_counter()
         for i in range(num_cliff_seq):
     
             # make new list
@@ -2091,30 +2476,97 @@ class LRBSimulationPipeline:
                 RB_experiments_from_single_sequence.append(RB_c)
     
             RB_experiments.append(RB_experiments_from_single_sequence)
+        load_seconds = time.perf_counter() - load_start
+        _append_timing_metric(
+            partial_progress_folder_path,
+            {
+                "backend": backend,
+                "phase": "RB",
+                "event": "load_rb_circuits",
+                "probability_index": error_prob_ind,
+                "probability": error_prob,
+                "load_seconds": load_seconds,
+                "total_seconds": load_seconds,
+                "notes": f"num_cliff={num_cliff_seq};"
+                f"num_depths={num_depths}",
+            },
+        )
     
         print(f"Running physical circuit...")
         start_time = time.time()
+        rb_start = time.perf_counter()
         RB_experiment_results = LRBSimulationPipeline.RB(
             experiments=RB_experiments,
             depths=depths,
             shots=NORMAL_RB_SHOTS,
             simulation_backend=backend,
+            partial_progress_folder=partial_progress_folder_path,
+            timing_phase="RB",
+            probability_index=error_prob_ind,
+            probability=error_prob,
+            batch_index=0,
         )
         end_time = time.time()
+        rb_seconds = time.perf_counter() - rb_start
         print(f"Finished in {str(end_time - start_time)} seconds!")
+        _append_timing_metric(
+            partial_progress_folder_path,
+            {
+                "backend": backend,
+                "phase": "RB",
+                "event": "batch_total",
+                "probability_index": error_prob_ind,
+                "probability": error_prob,
+                "batch_index": 0,
+                "batch_shots": NORMAL_RB_SHOTS,
+                "total_seconds": rb_seconds,
+            },
+        )
     
         # Calculate and write RB stats
         RB_writefile = RB_results_folder_path + str(error_prob_ind) + '.csv'
+        process_start = time.perf_counter()
         RB_f_stats, _, RB_r_stats, _ = (
             LRBSimulationPipeline.extract_statistics(
                 measurement_record=RB_experiment_results,
                 dimension=None,
             )
         )
+        process_seconds = time.perf_counter() - process_start
+        _append_timing_metric(
+            partial_progress_folder_path,
+            {
+                "backend": backend,
+                "phase": "RB",
+                "event": "extract_statistics",
+                "probability_index": error_prob_ind,
+                "probability": error_prob,
+                "batch_shots": NORMAL_RB_SHOTS,
+                "process_seconds": process_seconds,
+                "total_seconds": process_seconds,
+            },
+        )
+
+        write_start = time.perf_counter()
         LRBSimulationPipeline.write_stats(filename=RB_writefile,
                                           prob=error_prob,
                                           fidelity_stats=RB_f_stats,
                                           rejected_stats=RB_r_stats)
+        write_seconds = time.perf_counter() - write_start
+        _append_timing_metric(
+            partial_progress_folder_path,
+            {
+                "backend": backend,
+                "phase": "RB",
+                "event": "write_stats",
+                "probability_index": error_prob_ind,
+                "probability": error_prob,
+                "batch_shots": NORMAL_RB_SHOTS,
+                "write_seconds": write_seconds,
+                "total_seconds": write_seconds,
+                "notes": RB_writefile,
+            },
+        )
         print(f"Wrote physical test results to {RB_writefile}")
     
         return 0
