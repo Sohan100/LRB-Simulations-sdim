@@ -838,7 +838,8 @@ class LRBResultsPlotter:
             data_dir,
             f"{check_num}.csv",
         )
-        rb_path = os.path.join(self.rb_root, f"{prob_index}.csv")
+        rb_results_root, _ = self._rb_table_source()
+        rb_path = os.path.join(rb_results_root, f"{prob_index}.csv")
 
         ok_lrb = False
         ok_rb = False
