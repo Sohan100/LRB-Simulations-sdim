@@ -96,6 +96,10 @@ scripts/
 slurm/
   run_lrb_slurm_folded.sh      Cluster launcher for folded runs
   run_lrb_slurm_qgrm.sh        Cluster launcher for QGRM runs
+  run_lrb_dem_si1000_all_checks_folded.sh
+                               DEM/SI1000 launcher, one ancilla per stabilizer
+  run_lrb_rb_comparison_folded.sh
+                               Matched physical RB grid for DEM notebook plots
 
 LRB-experiment-data-slurm/
   Run-.../                     Saved metadata and result outputs
@@ -171,6 +175,35 @@ sbatch slurm/run_lrb_slurm_folded.sh
 sbatch slurm/run_lrb_slurm_qgrm.sh
 ```
 
+To reproduce the all-check folded DEM/SI1000 sweep with one measurement
+ancilla per stabilizer, generate the conventional `folded_qutrit` profile and
+submit its dedicated DEM launcher:
+
+```bash
+python3 scripts/generate_circuits_folded.py \
+  --noise-model si1000 \
+  --ancilla-mode single \
+  --custom-name single-ancilla-si1000 \
+  --n-cliff 30 \
+  --depths 0,2,4,6,10,14,18,20,22 \
+  --n-shots 1000000 \
+  --probabilities 0.0,0.0001,0.0002,0.0005,0.001,0.002,0.005,0.0075,0.01,0.0125,0.015,0.02,0.03,0.04,0.05 \
+  --stab-checks-const 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 \
+  --stab-checks-unif 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22
+
+sbatch slurm/run_lrb_dem_si1000_all_checks_folded.sh
+
+# Submit after all one-ancilla LRB probability jobs are complete. This creates
+# physical RB points with p_RB = lambda_LRB = 5 * raw LRB p.
+sbatch slurm/run_lrb_rb_comparison_folded.sh
+```
+
+This matches the split-ancilla DEM production grid and postselection policies;
+only the folded-code profile changes to the one-ancilla stabilizer circuits.
+The second job creates the RB comparison grid consumed by the DEM notebook.
+For example, raw LRB `p=0.005` is displayed as `lambda_LRB=0.025` and is
+paired with the physical RB result at `p_RB=0.025`.
+
 The generation scripts support:
 
 - `--custom-name`
@@ -183,6 +216,7 @@ The generation scripts support:
 - `--home-folder`
 - `--lrb-folder-name`
 - `--noise-model`
+- `--ancilla-mode`
 
 The default noise model is the historical `depolarizing` generator model.
 Use `--noise-model si1000` to generate generalized SI1000 circuit-level noise.

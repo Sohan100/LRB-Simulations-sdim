@@ -9,6 +9,7 @@ LRB lambda = 5 * raw_p.
 from __future__ import annotations
 
 import argparse
+import csv
 import os
 import random
 import sys
@@ -123,6 +124,17 @@ def _write_probability_grid(run_folder: Path,
                 "--force to replace it.")
     ExperimentSetupManager.write_list(rb_probabilities, str(out_path))
     return out_path
+
+
+def _read_result_probability(result_path: Path) -> float:
+    """Read and validate the probability coordinate in one RB result CSV."""
+    with result_path.open(newline="", encoding="utf-8") as result_file:
+        first_row = next(csv.reader(result_file), [])
+    if (len(first_row) < 2
+            or first_row[0].strip().lower() != "probability"):
+        raise ValueError(
+            f"{result_path} does not start with a Probability row.")
+    return float(first_row[1])
 
 
 def _build_rb_experiments(
@@ -262,12 +274,25 @@ def main(argv: list[str] | None = None) -> int:
     seed = None if int(args.seed) < 0 else int(args.seed)
 
     for index in selected_indices:
+        probability = rb_probabilities[index]
         out_csv = result_root / f"{index}.csv"
         if out_csv.exists() and not args.force:
-            print(f"[SKIP] {out_csv} already exists.")
+            stored_probability = _read_result_probability(out_csv)
+            if abs(stored_probability - probability) > max(
+                    1e-15,
+                    1e-12 * max(abs(stored_probability), abs(probability)),
+            ):
+                raise ValueError(
+                    f"{out_csv} stores p_RB={stored_probability:.12g}, but "
+                    f"this matched grid requires p_RB={probability:.12g}. "
+                    "Use --force to regenerate it."
+                )
+            print(
+                f"[SKIP] {out_csv} already exists with matched "
+                f"p_RB={probability:.12g}."
+            )
             continue
 
-        probability = rb_probabilities[index]
         progress_dir = progress_root / str(index)
         progress_dir.mkdir(parents=True, exist_ok=True)
         start = time.perf_counter()

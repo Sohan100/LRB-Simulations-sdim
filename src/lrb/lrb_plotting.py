@@ -10,6 +10,7 @@ Constant-check plots intentionally do not use fitting.
 
 from __future__ import annotations
 
+import csv
 import os
 from dataclasses import dataclass
 from typing import Any
@@ -246,6 +247,7 @@ class LRBResultsPlotter:
         """
         self.working_folder = working_folder
         self.fit_config = fit_config or LRBPlotFitConfig()
+        self._validated_rb_table_source: tuple[str, list[float]] | None = None
         # Load all run metadata once; plotting calls reuse cached attributes.
         self._load_run_params()
 
@@ -400,32 +402,119 @@ class LRBResultsPlotter:
 
         Returns:
             tuple[str, list[float]]: Result folder and RB p-values. An
-                additive comparison grid is preferred over the original raw
-                run grid when present.
+                exact matched comparison grid is required whenever the
+                displayed LRB coordinate differs from raw run probability.
 
         Raises:
-            ValueError: If the comparison grid cannot be paired by probability
-                index with the LRB grid.
+            ValueError: If any RB probability or result CSV is missing or does
+                not satisfy ``p_RB = lambda_LRB`` at its paired index.
         """
+        if self._validated_rb_table_source is not None:
+            return self._validated_rb_table_source
+
+        expected_rb_probabilities = self.probabilities
         if self.rb_comparison_probabilities:
             if len(self.rb_comparison_probabilities) != len(self.probabilities):
                 raise ValueError(
                     "rb_comparison_probs.txt must have the same number of "
                     "entries as probs.txt so each LRB lambda has one RB p."
                 )
+            mismatched = [
+                (index, lrb_lambda, rb_probability)
+                for index, (lrb_lambda, rb_probability) in enumerate(zip(
+                    expected_rb_probabilities,
+                    self.rb_comparison_probabilities,
+                ))
+                if not np.isclose(
+                    lrb_lambda,
+                    rb_probability,
+                    rtol=1e-12,
+                    atol=1e-15,
+                )
+            ]
+            if mismatched:
+                details = ", ".join(
+                    f"index {index}: lambda_LRB={lrb_lambda:.12g}, "
+                    f"p_RB={rb_probability:.12g}"
+                    for index, lrb_lambda, rb_probability in mismatched[:5]
+                )
+                raise ValueError(
+                    "RB comparison probabilities must satisfy "
+                    "p_RB = lambda_LRB at every index. Mismatches: "
+                    f"{details}"
+                )
+
             missing = [
-                str(i) for i in range(len(self.rb_comparison_probabilities))
+                str(index)
+                for index in range(len(self.rb_comparison_probabilities))
                 if not os.path.exists(
-                    os.path.join(self.rb_comparison_root, f"{i}.csv"))
+                    os.path.join(self.rb_comparison_root, f"{index}.csv"))
             ]
             if missing:
-                print(
-                    "RB comparison grid is present but incomplete; using "
-                    f"raw RB grid until indices {', '.join(missing)} exist."
+                raise ValueError(
+                    "RB comparison grid is incomplete; missing result CSV "
+                    f"indices {', '.join(missing)}. Run the matched physical "
+                    "RB comparison sweep before generating DEM graphs."
                 )
-                return self.rb_root, self.raw_probabilities
-            return self.rb_comparison_root, self.rb_comparison_probabilities
-        return self.rb_root, self.raw_probabilities
+
+            for index, expected in enumerate(expected_rb_probabilities):
+                result_path = os.path.join(
+                    self.rb_comparison_root, f"{index}.csv")
+                with open(
+                    result_path,
+                    newline="",
+                    encoding="utf-8",
+                ) as result_file:
+                    first_row = next(csv.reader(result_file), [])
+                if (len(first_row) < 2
+                        or first_row[0].strip().lower() != "probability"):
+                    raise ValueError(
+                        f"{result_path} does not start with a Probability row."
+                    )
+                stored_probability = float(first_row[1])
+                if not np.isclose(
+                    stored_probability,
+                    expected,
+                    rtol=1e-12,
+                    atol=1e-15,
+                ):
+                    raise ValueError(
+                        f"{result_path} stores p_RB={stored_probability:.12g}, "
+                        "but the matched comparison grid requires "
+                        f"p_RB={expected:.12g}."
+                    )
+
+            self._validated_rb_table_source = (
+                self.rb_comparison_root,
+                self.rb_comparison_probabilities,
+            )
+            return self._validated_rb_table_source
+
+        raw_grid_matches = (
+            len(self.raw_probabilities) == len(expected_rb_probabilities)
+            and all(np.isclose(
+                raw_probability,
+                expected,
+                rtol=1e-12,
+                atol=1e-15,
+            ) for raw_probability, expected in zip(
+                self.raw_probabilities,
+                expected_rb_probabilities,
+            ))
+        )
+        if not raw_grid_matches:
+            raise ValueError(
+                "No matched RB comparison grid is available. The displayed "
+                "LRB coordinates differ from the raw RB probabilities, so "
+                "run the physical RB comparison sweep with "
+                "p_RB = lambda_LRB before plotting."
+            )
+
+        self._validated_rb_table_source = (
+            self.rb_root,
+            self.raw_probabilities,
+        )
+        return self._validated_rb_table_source
 
     def _title_context(self, check_type: str, check_num: int) -> str:
         """
