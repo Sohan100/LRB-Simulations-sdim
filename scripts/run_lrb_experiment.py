@@ -8,6 +8,11 @@ and testable. The existing command-line contract is preserved:
 
 from __future__ import annotations
 
+import csv
+import fcntl
+import hashlib
+import json
+import math
 import os
 import sys
 from dataclasses import dataclass
@@ -29,6 +34,8 @@ from lrb.experiment_setup import ExperimentSetupManager
 from lrb.lrb_simulation import (
     DEFAULT_SIM_ENGINE,
     LRBSimulationEngine,
+    atomic_write_text,
+    open_lrb_checkpoint_store,
 )
 from lrb.project_paths import DEFAULT_RUNS_ROOT
 
@@ -63,6 +70,7 @@ class LRBRunConfig:
     unpack_func: Callable | None = None
     const0_unpack_func: Callable | None = None
     simulation_backend: str | None = None
+    profile_name: str = DEFAULT_CODE_NAME
 
 
 class LRBRunCoordinator:
@@ -106,6 +114,254 @@ class LRBRunCoordinator:
         """
         self.simulation_engine = simulation_engine
         self.config = config if config is not None else LRBRunConfig()
+
+    @staticmethod
+    def _validate_stats_csv(
+        filename: str,
+        *,
+        probability: float,
+        num_depths: int,
+    ) -> None:
+        if not os.path.isfile(filename) or os.path.getsize(filename) == 0:
+            raise RuntimeError(f"Missing or empty result file: {filename}")
+        with open(filename, "r", newline="") as result_file:
+            rows = list(csv.reader(result_file))
+        expected_labels = (
+            "Probability",
+            "Fidelity averages",
+            "Fidelity Standard Deviations",
+            "Rejected Runs",
+            "Rejected Standard Deviations",
+        )
+        if len(rows) != len(expected_labels):
+            raise RuntimeError(
+                f"Result file {filename} has {len(rows)} rows; expected 5."
+            )
+        for row_index, (row, label) in enumerate(zip(rows, expected_labels)):
+            expected_length = 2 if row_index == 0 else num_depths + 1
+            if not row or row[0] != label or len(row) != expected_length:
+                raise RuntimeError(
+                    f"Malformed result row {row_index} in {filename}."
+                )
+        observed_probability = float(rows[0][1])
+        if not math.isclose(
+            observed_probability,
+            probability,
+            rel_tol=0.0,
+            abs_tol=1e-15,
+        ):
+            raise RuntimeError(
+                f"Result probability {observed_probability} in {filename} "
+                f"does not match {probability}."
+            )
+        for row_index, row in enumerate(rows[1:], start=1):
+            for value in row[1:]:
+                if value in ("", "None"):
+                    if row_index not in (2, 4):
+                        raise RuntimeError(
+                            f"Undefined non-deviation value in {filename}."
+                        )
+                    continue
+                float(value)
+
+    @staticmethod
+    def _sha256_file(filename: str) -> str:
+        digest = hashlib.sha256()
+        with open(filename, "rb") as input_file:
+            for chunk in iter(lambda: input_file.read(1024 * 1024), b""):
+                digest.update(chunk)
+        return digest.hexdigest()
+
+    @staticmethod
+    def _completed_artifact_paths(
+        *,
+        stab_checks_const,
+        stab_checks_unif,
+        error_prob_ind: int,
+        lrb_results_folder_path: str,
+        rb_results_folder_path: str,
+    ) -> dict[str, str]:
+        paths = {}
+        for policy_name, checks in (
+            ("const_check_data", stab_checks_const),
+            ("unif_check_data", stab_checks_unif),
+        ):
+            for check in checks:
+                key = (
+                    f"LRB/{error_prob_ind}/{policy_name}/"
+                    f"{int(check)}.csv"
+                )
+                paths[key] = os.path.join(
+                    lrb_results_folder_path,
+                    str(error_prob_ind),
+                    policy_name,
+                    f"{int(check)}.csv",
+                )
+        paths[f"RB/{error_prob_ind}.csv"] = os.path.join(
+            rb_results_folder_path,
+            f"{error_prob_ind}.csv",
+        )
+        return paths
+
+    @classmethod
+    def _completion_manifest_payload(
+        cls,
+        *,
+        stab_checks_const,
+        stab_checks_unif,
+        probability: float,
+        error_prob_ind: int,
+        lrb_results_folder_path: str,
+        rb_results_folder_path: str,
+        partial_progress_folder_path: str,
+    ) -> dict:
+        current_link = os.path.join(
+            partial_progress_folder_path,
+            ".checkpoint_current",
+        )
+        if not os.path.islink(current_link):
+            raise RuntimeError(
+                f"Missing authoritative checkpoint link: {current_link}"
+            )
+        current_target = os.readlink(current_link)
+        checkpoint_manifest_path = os.path.join(
+            partial_progress_folder_path,
+            current_target,
+            "manifest.json",
+        )
+        with open(checkpoint_manifest_path, "r") as manifest_file:
+            checkpoint_manifest = json.load(manifest_file)
+        artifact_paths = cls._completed_artifact_paths(
+            stab_checks_const=stab_checks_const,
+            stab_checks_unif=stab_checks_unif,
+            error_prob_ind=error_prob_ind,
+            lrb_results_folder_path=lrb_results_folder_path,
+            rb_results_folder_path=rb_results_folder_path,
+        )
+        artifacts = {}
+        for key, filename in sorted(artifact_paths.items()):
+            artifacts[key] = {
+                "bytes": os.path.getsize(filename),
+                "sha256": cls._sha256_file(filename),
+            }
+        return {
+            "schema_version": 1,
+            "probability_index": int(error_prob_ind),
+            "probability": float(probability),
+            "checkpoint_current_target": current_target,
+            "checkpoint_configuration_fingerprint": (
+                checkpoint_manifest["configuration_fingerprint"]),
+            "checkpoint_manifest_sha256": cls._sha256_file(
+                checkpoint_manifest_path
+            ),
+            "artifacts": artifacts,
+        }
+
+    @classmethod
+    def _write_completion_manifest(cls, **kwargs) -> None:
+        progress_folder = kwargs["partial_progress_folder_path"]
+        payload = cls._completion_manifest_payload(**kwargs)
+        atomic_write_text(
+            os.path.join(progress_folder, "completion_manifest.json"),
+            json.dumps(payload, sort_keys=True, indent=2) + "\n",
+        )
+
+    @classmethod
+    def _validate_completion_manifest(cls, **kwargs) -> None:
+        progress_folder = kwargs["partial_progress_folder_path"]
+        manifest_path = os.path.join(
+            progress_folder,
+            "completion_manifest.json",
+        )
+        if not os.path.isfile(manifest_path):
+            raise RuntimeError(
+                f"Missing completion manifest: {manifest_path}"
+            )
+        with open(manifest_path, "r") as manifest_file:
+            recorded = json.load(manifest_file)
+        expected = cls._completion_manifest_payload(**kwargs)
+        if recorded != expected:
+            raise RuntimeError(
+                f"Completion manifest does not match authoritative "
+                f"checkpoint/results for probability index "
+                f"{kwargs['error_prob_ind']}."
+            )
+
+    @classmethod
+    def _validate_completed_artifacts(
+        cls,
+        *,
+        stab_checks_const,
+        stab_checks_unif,
+        probability: float,
+        error_prob_ind: int,
+        depths,
+        lrb_results_folder_path: str,
+        rb_results_folder_path: str,
+        partial_progress_folder_path: str,
+    ) -> None:
+        shots_path = os.path.join(
+            partial_progress_folder_path,
+            "shots_processed.txt",
+        )
+        if not os.path.isfile(shots_path):
+            raise RuntimeError(
+                f"Missing final checkpoint counter: {shots_path}"
+            )
+        with open(shots_path, "r") as shots_file:
+            shots_remaining = int(shots_file.read().strip())
+        if shots_remaining != 0:
+            raise RuntimeError(
+                f"Completion requested with {shots_remaining} shots remaining."
+            )
+
+        policy_directories = (
+            (
+                os.path.join(
+                    lrb_results_folder_path,
+                    str(error_prob_ind),
+                    "const_check_data",
+                ),
+                tuple(int(check) for check in stab_checks_const),
+            ),
+            (
+                os.path.join(
+                    lrb_results_folder_path,
+                    str(error_prob_ind),
+                    "unif_check_data",
+                ),
+                tuple(int(check) for check in stab_checks_unif),
+            ),
+        )
+        for directory, checks in policy_directories:
+            expected_names = {f"{check}.csv" for check in checks}
+            actual_names = {
+                entry.name
+                for entry in os.scandir(directory)
+                if entry.is_file(follow_symlinks=False)
+                and entry.name.endswith(".csv")
+            } if os.path.isdir(directory) else set()
+            if actual_names != expected_names:
+                raise RuntimeError(
+                    f"Result files differ in {directory}: "
+                    f"missing={sorted(expected_names - actual_names)}, "
+                    f"extra={sorted(actual_names - expected_names)}."
+                )
+            for filename in sorted(expected_names):
+                cls._validate_stats_csv(
+                    os.path.join(directory, filename),
+                    probability=probability,
+                    num_depths=len(depths),
+                )
+
+        cls._validate_stats_csv(
+            os.path.join(
+                rb_results_folder_path,
+                f"{error_prob_ind}.csv",
+            ),
+            probability=probability,
+            num_depths=len(depths),
+        )
 
     def compute_lrb(
         self,
@@ -157,52 +413,185 @@ class LRBRunCoordinator:
             ValueError: Propagated if invalid index/parameter combinations are
                 encountered downstream.
         """
-        # Honor resumable execution markers so repeated calls are cheap.
-        if os.path.exists(progress_file_path):
-            with open(progress_file_path, "r") as progress_reader:
-                done = int(progress_reader.readline())
+        os.makedirs(partial_progress_folder_path, exist_ok=True)
+        lock_path = os.path.join(
+            partial_progress_folder_path,
+            ".worker.lock",
+        )
+        with open(lock_path, "a+") as lock_file:
+            try:
+                fcntl.flock(
+                    lock_file.fileno(),
+                    fcntl.LOCK_EX | fcntl.LOCK_NB,
+                )
+            except BlockingIOError as lock_error:
+                raise RuntimeError(
+                    f"Another worker already owns probability index "
+                    f"{error_prob_ind}; refusing a concurrent update."
+                ) from lock_error
+
+            lock_file.seek(0)
+            lock_file.truncate()
+            lock_file.write(
+                f"pid={os.getpid()} "
+                f"slurm_job_id={os.environ.get('SLURM_JOB_ID', 'local')}\n"
+            )
+            lock_file.flush()
+
+            error_prob = probabilities[error_prob_ind]
+            done = 0
+            if os.path.exists(progress_file_path):
+                with open(progress_file_path, "r") as progress_reader:
+                    done_text = progress_reader.read().strip()
+                if done_text in ("0", "1"):
+                    done = int(done_text)
+                elif done_text:
+                    raise RuntimeError(
+                        f"Invalid completion marker {progress_file_path}: "
+                        f"{done_text!r}."
+                    )
+            else:
+                print(
+                    "No progress file found -- starting from the beginning."
+                )
+                atomic_write_text(progress_file_path, "0")
+
             if done == 1:
+                checkpoint_store, _, _ = open_lrb_checkpoint_store(
+                    partial_progress_folder_path=(
+                        partial_progress_folder_path),
+                    num_shots=num_shots,
+                    batch_size=self.config.batch_size,
+                    num_cliff_seq=num_cliff_seq,
+                    depths=depths,
+                    stab_checks_const=stab_checks_const,
+                    stab_checks_unif=stab_checks_unif,
+                    logical_dimension=self.config.logical_dimension,
+                    error_prob_ind=error_prob_ind,
+                    error_prob=error_prob,
+                    backend=self.config.simulation_backend,
+                    runtime_profile=self.config.profile_name,
+                    filter_trivial_shots=(
+                        self.config.filter_trivial_shots),
+                    lrb_experiment_folder_path=(
+                        lrb_experiment_folder_path),
+                    lrb_const0_experiment_folder_path=(
+                        lrb_const0_experiment_folder_path),
+                    rb_experiment_folder_path=(
+                        rb_experiment_folder_path),
+                )
+                if checkpoint_store.shots_remaining != 0:
+                    raise RuntimeError(
+                        "Completion marker is set but the authoritative "
+                        f"checkpoint has {checkpoint_store.shots_remaining} "
+                        "shots remaining."
+                    )
+                self._validate_completed_artifacts(
+                    stab_checks_const=stab_checks_const,
+                    stab_checks_unif=stab_checks_unif,
+                    probability=error_prob,
+                    error_prob_ind=error_prob_ind,
+                    depths=depths,
+                    lrb_results_folder_path=lrb_results_folder_path,
+                    rb_results_folder_path=rb_results_folder_path,
+                    partial_progress_folder_path=(
+                        partial_progress_folder_path),
+                )
+                self._validate_completion_manifest(
+                    stab_checks_const=stab_checks_const,
+                    stab_checks_unif=stab_checks_unif,
+                    probability=error_prob,
+                    error_prob_ind=error_prob_ind,
+                    lrb_results_folder_path=lrb_results_folder_path,
+                    rb_results_folder_path=rb_results_folder_path,
+                    partial_progress_folder_path=(
+                        partial_progress_folder_path),
+                )
                 print(
                     f"No more work to be done for error probability "
-                    f"{probabilities[error_prob_ind]}."
+                    f"{error_prob}; completion artifacts revalidated."
                 )
                 return 0
-        else:
-            print("No progress file found -- starting from the beginning.")
-            with open(progress_file_path, "w") as progress_writer:
-                progress_writer.write("0")
 
-        # Select the one physical-error point handled by this worker.
-        error_prob = probabilities[error_prob_ind]
-
-        # Run the full LRB/RB processing round for this probability index.
-        self.simulation_engine.run_round(
-            stab_checks_const=stab_checks_const,
-            stab_checks_unif=stab_checks_unif,
-            batch_size=self.config.batch_size,
-            error_prob=error_prob,
-            error_prob_ind=error_prob_ind,
-            num_cliff_seq=num_cliff_seq,
-            depths=depths,
-            num_shots=num_shots,
-            filter_trivial_shots=self.config.filter_trivial_shots,
-            lrb_experiment_folder_path=lrb_experiment_folder_path,
-            lrb_const0_experiment_folder_path=(
-                lrb_const0_experiment_folder_path),
-            rb_experiment_folder_path=rb_experiment_folder_path,
-            lrb_results_folder_path=lrb_results_folder_path,
-            rb_results_folder_path=rb_results_folder_path,
-            partial_progress_folder_path=partial_progress_folder_path,
-            unpack_func=self.config.unpack_func,
-            const0_unpack_func=self.config.const0_unpack_func,
-            logical_dimension=self.config.logical_dimension,
-            simulation_backend=self.config.simulation_backend,
-        )
-
-        with open(progress_file_path, "w") as progress_writer:
-            progress_writer.write("1")
-
-        return 0
+            atomic_write_text(progress_file_path, "0")
+            self.simulation_engine.run_round(
+                stab_checks_const=stab_checks_const,
+                stab_checks_unif=stab_checks_unif,
+                batch_size=self.config.batch_size,
+                error_prob=error_prob,
+                error_prob_ind=error_prob_ind,
+                num_cliff_seq=num_cliff_seq,
+                depths=depths,
+                num_shots=num_shots,
+                filter_trivial_shots=self.config.filter_trivial_shots,
+                lrb_experiment_folder_path=lrb_experiment_folder_path,
+                lrb_const0_experiment_folder_path=(
+                    lrb_const0_experiment_folder_path),
+                rb_experiment_folder_path=rb_experiment_folder_path,
+                lrb_results_folder_path=lrb_results_folder_path,
+                rb_results_folder_path=rb_results_folder_path,
+                partial_progress_folder_path=partial_progress_folder_path,
+                unpack_func=self.config.unpack_func,
+                const0_unpack_func=self.config.const0_unpack_func,
+                logical_dimension=self.config.logical_dimension,
+                simulation_backend=self.config.simulation_backend,
+                runtime_profile=self.config.profile_name,
+            )
+            checkpoint_store, _, _ = open_lrb_checkpoint_store(
+                partial_progress_folder_path=partial_progress_folder_path,
+                num_shots=num_shots,
+                batch_size=self.config.batch_size,
+                num_cliff_seq=num_cliff_seq,
+                depths=depths,
+                stab_checks_const=stab_checks_const,
+                stab_checks_unif=stab_checks_unif,
+                logical_dimension=self.config.logical_dimension,
+                error_prob_ind=error_prob_ind,
+                error_prob=error_prob,
+                backend=self.config.simulation_backend,
+                runtime_profile=self.config.profile_name,
+                filter_trivial_shots=self.config.filter_trivial_shots,
+                lrb_experiment_folder_path=lrb_experiment_folder_path,
+                lrb_const0_experiment_folder_path=(
+                    lrb_const0_experiment_folder_path),
+                rb_experiment_folder_path=rb_experiment_folder_path,
+            )
+            if checkpoint_store.shots_remaining != 0:
+                raise RuntimeError(
+                    "Simulation returned before its authoritative checkpoint "
+                    f"completed; {checkpoint_store.shots_remaining} shots "
+                    "remain."
+                )
+            self._validate_completed_artifacts(
+                stab_checks_const=stab_checks_const,
+                stab_checks_unif=stab_checks_unif,
+                probability=error_prob,
+                error_prob_ind=error_prob_ind,
+                depths=depths,
+                lrb_results_folder_path=lrb_results_folder_path,
+                rb_results_folder_path=rb_results_folder_path,
+                partial_progress_folder_path=partial_progress_folder_path,
+            )
+            self._write_completion_manifest(
+                stab_checks_const=stab_checks_const,
+                stab_checks_unif=stab_checks_unif,
+                probability=error_prob,
+                error_prob_ind=error_prob_ind,
+                lrb_results_folder_path=lrb_results_folder_path,
+                rb_results_folder_path=rb_results_folder_path,
+                partial_progress_folder_path=partial_progress_folder_path,
+            )
+            self._validate_completion_manifest(
+                stab_checks_const=stab_checks_const,
+                stab_checks_unif=stab_checks_unif,
+                probability=error_prob,
+                error_prob_ind=error_prob_ind,
+                lrb_results_folder_path=lrb_results_folder_path,
+                rb_results_folder_path=rb_results_folder_path,
+                partial_progress_folder_path=partial_progress_folder_path,
+            )
+            atomic_write_text(progress_file_path, "1")
+            return 0
 
     @staticmethod
     def load_run_inputs(working_folder_name: str, error_prob_ind: int) -> dict:
@@ -314,6 +703,7 @@ class LRBRunCoordinator:
         """
         profile = CodeSimulationProfileRegistry.resolve_code_profile(code_name)
         return LRBRunConfig(
+            profile_name=profile.code_name,
             logical_dimension=profile.logical_dimension,
             unpack_func=profile.unpack_func,
             const0_unpack_func=profile.const0_unpack_func,
@@ -375,4 +765,3 @@ if __name__ == "__main__":
         progress_file_path=inputs["progress_file_path"],
         partial_progress_folder_path=inputs["partial_progress_folder_path"],
     )
-

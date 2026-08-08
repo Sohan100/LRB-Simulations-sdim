@@ -4,8 +4,15 @@ from __future__ import annotations
 
 import ast
 import csv
+import hashlib
+import importlib.metadata
+import json
 import os
+import platform
+import shutil
+import tempfile
 import time
+import uuid
 from dataclasses import dataclass
 from typing import Any, Callable, Sequence
 
@@ -140,6 +147,773 @@ def _append_timing_metric(
         if should_write_header:
             writer.writeheader()
         writer.writerow(row)
+
+
+def atomic_write_text(filename: str, value: str) -> None:
+    """Durably replace a small text file without exposing a partial write."""
+    parent = os.path.dirname(os.path.abspath(filename))
+    os.makedirs(parent, exist_ok=True)
+    descriptor, temporary = tempfile.mkstemp(
+        dir=parent,
+        prefix=f".{os.path.basename(filename)}.",
+        suffix=".tmp",
+        text=True,
+    )
+    try:
+        with os.fdopen(descriptor, "w") as writer:
+            writer.write(value)
+            writer.flush()
+            os.fsync(writer.fileno())
+        os.replace(temporary, filename)
+        _fsync_directory(parent)
+    except BaseException:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+        raise
+
+
+def _fsync_directory(directory: str) -> None:
+    """Flush directory-entry changes when the platform supports it."""
+    descriptor = os.open(directory, os.O_RDONLY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _fsync_tree(root: str) -> None:
+    """Flush every file and directory in a staged checkpoint tree."""
+    directories = []
+    for directory, child_directories, filenames in os.walk(root):
+        directories.append(directory)
+        for filename in filenames:
+            path = os.path.join(directory, filename)
+            if os.path.islink(path):
+                continue
+            descriptor = os.open(path, os.O_RDONLY)
+            try:
+                os.fsync(descriptor)
+            finally:
+                os.close(descriptor)
+        for child_directory in child_directories:
+            child_path = os.path.join(directory, child_directory)
+            if os.path.islink(child_path):
+                raise RuntimeError(
+                    f"Checkpoint staging tree contains a symlink: "
+                    f"{child_path}"
+                )
+    for directory in reversed(directories):
+        _fsync_directory(directory)
+
+
+def _critical_runtime_source_fingerprint() -> str:
+    """Hash simulation sources whose drift would invalidate a checkpoint."""
+    module_root = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(module_root))
+    relative_paths = (
+        "src/lrb/lrb_simulation.py",
+        "src/lrb/dem_simulation.py",
+        "src/lrb/detector_events.py",
+        "src/lrb/code_definitions.py",
+        "src/lrb/code_simulation_profiles.py",
+        "scripts/run_lrb_experiment.py",
+    )
+    digest = hashlib.sha256()
+    for relative_path in relative_paths:
+        absolute_path = os.path.join(project_root, relative_path)
+        digest.update(relative_path.encode("utf-8"))
+        with open(absolute_path, "rb") as source_file:
+            digest.update(source_file.read())
+    return digest.hexdigest()
+
+
+def _installed_distribution_version(distribution: str) -> str:
+    """Return a stable package version for checkpoint compatibility checks."""
+    try:
+        return importlib.metadata.version(distribution)
+    except importlib.metadata.PackageNotFoundError:
+        return "unknown"
+
+
+def _checkpoint_test_failpoint(name: str) -> None:
+    """Raise only when a private test failpoint is explicitly selected."""
+    if os.environ.get("_LRB_TEST_CHECKPOINT_FAILPOINT") == name:
+        raise RuntimeError(f"Injected checkpoint failure at {name}.")
+
+
+def _circuit_input_fingerprint(
+    circuit_folders: Sequence[tuple[str, str]],
+    *,
+    num_cliff_seq: int,
+    probability_index: int,
+    num_depths: int,
+) -> str:
+    """Hash every circuit consumed by one probability-index worker."""
+    digest = hashlib.sha256()
+    for family, folder in circuit_folders:
+        folder = os.path.abspath(folder)
+        for clifford_index in range(num_cliff_seq):
+            for depth_index in range(num_depths):
+                relative_path = os.path.join(
+                    str(clifford_index),
+                    str(probability_index),
+                    f"{depth_index}.chp",
+                )
+                circuit_path = os.path.join(folder, relative_path)
+                if not os.path.isfile(circuit_path):
+                    raise RuntimeError(
+                        f"Missing expected {family} circuit: {circuit_path}"
+                    )
+                if os.path.getsize(circuit_path) == 0:
+                    raise RuntimeError(
+                        f"Empty expected {family} circuit: {circuit_path}"
+                    )
+                digest.update(family.encode("utf-8"))
+                digest.update(relative_path.encode("utf-8"))
+                with open(circuit_path, "rb") as circuit_file:
+                    for chunk in iter(
+                        lambda: circuit_file.read(1024 * 1024),
+                        b"",
+                    ):
+                        digest.update(chunk)
+    return digest.hexdigest()
+
+
+class LRBBatchCheckpointStore:
+    """Copy-on-write, atomically published LRB batch checkpoints."""
+
+    GENERATIONS_DIRECTORY = ".checkpoint_generations"
+    CURRENT_LINK = ".checkpoint_current"
+    MANIFEST_FILENAME = "manifest.json"
+    SHOTS_FILENAME = "shots_processed.txt"
+    COUNT_DIRECTORIES = ("const_check_data", "unif_check_data")
+
+    def __init__(
+        self,
+        progress_folder: str,
+        *,
+        num_shots: int,
+        batch_size: int,
+        num_cliff_seq: int,
+        depths: Sequence[int],
+        const_checks: Sequence[int],
+        unif_checks: Sequence[int],
+        dimension: int,
+        probability_index: int,
+        probability: float,
+        backend: str,
+        input_fingerprint: str,
+        runtime_profile: str,
+        filter_trivial_shots: bool,
+    ) -> None:
+        self.progress_folder = os.path.abspath(progress_folder)
+        self.generations_directory = os.path.join(
+            self.progress_folder,
+            self.GENERATIONS_DIRECTORY,
+        )
+        self.current_link = os.path.join(
+            self.progress_folder,
+            self.CURRENT_LINK,
+        )
+        self.num_shots = int(num_shots)
+        self.batch_size = int(batch_size)
+        self.num_cliff_seq = int(num_cliff_seq)
+        self.depths = tuple(int(depth) for depth in depths)
+        self.const_checks = tuple(int(check) for check in const_checks)
+        self.unif_checks = tuple(int(check) for check in unif_checks)
+        self.dimension = int(dimension)
+        self.probability_index = int(probability_index)
+        self.probability = float(probability)
+        self.backend = str(backend)
+        self.input_fingerprint = str(input_fingerprint)
+        self.runtime_profile = str(runtime_profile)
+        self.filter_trivial_shots = bool(filter_trivial_shots)
+        self._active_transaction: str | None = None
+
+        if self.num_shots < 1:
+            raise ValueError("Checkpoint shot count must be positive.")
+        if self.batch_size < 1:
+            raise ValueError("Checkpoint batch size must be positive.")
+        if self.num_cliff_seq < 1 or not self.depths:
+            raise ValueError("Checkpoint circuit dimensions must be positive.")
+
+        self.configuration = {
+            "schema_version": 1,
+            "num_shots": self.num_shots,
+            "batch_size": self.batch_size,
+            "num_cliff_seq": self.num_cliff_seq,
+            "depths": list(self.depths),
+            "const_checks": list(self.const_checks),
+            "unif_checks": list(self.unif_checks),
+            "dimension": self.dimension,
+            "probability_index": self.probability_index,
+            "probability": self.probability,
+            "backend": self.backend,
+            "input_fingerprint": self.input_fingerprint,
+            "runtime_profile": self.runtime_profile,
+            "filter_trivial_shots": self.filter_trivial_shots,
+            "python_version": platform.python_version(),
+            "numpy_version": np.__version__,
+            "sdim_version": _installed_distribution_version("sdim"),
+            "source_fingerprint": _critical_runtime_source_fingerprint(),
+        }
+        encoded_configuration = json.dumps(
+            self.configuration,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+        self.configuration_fingerprint = hashlib.sha256(
+            encoded_configuration
+        ).hexdigest()
+
+        os.makedirs(self.progress_folder, exist_ok=True)
+        os.makedirs(self.generations_directory, exist_ok=True)
+        self._remove_abandoned_transactions()
+        if not os.path.islink(self.current_link):
+            if os.path.lexists(self.current_link):
+                raise RuntimeError(
+                    f"Checkpoint CURRENT path is not a symlink: "
+                    f"{self.current_link}"
+                )
+            self._migrate_or_initialize_legacy_checkpoint()
+        self._ensure_compatibility_links()
+        self.validate_current_generation()
+
+    @property
+    def current_generation(self) -> str:
+        if not os.path.islink(self.current_link):
+            raise RuntimeError(
+                f"Missing checkpoint CURRENT symlink: {self.current_link}"
+            )
+        relative_target = os.readlink(self.current_link)
+        generation = os.path.abspath(
+            os.path.join(self.progress_folder, relative_target)
+        )
+        generations_root = os.path.abspath(self.generations_directory)
+        if os.path.commonpath((generation, generations_root)) != generations_root:
+            raise RuntimeError(
+                f"Checkpoint CURRENT escapes its generation directory: "
+                f"{relative_target}"
+            )
+        if os.path.islink(generation):
+            raise RuntimeError(
+                f"Checkpoint generation target must not be a symlink: "
+                f"{generation}"
+            )
+        real_generation = os.path.realpath(generation)
+        real_generations_root = os.path.realpath(generations_root)
+        if (
+            os.path.commonpath((real_generation, real_generations_root))
+            != real_generations_root
+        ):
+            raise RuntimeError(
+                "Checkpoint CURRENT resolves outside its generation "
+                f"directory: {relative_target}"
+            )
+        if not os.path.isdir(generation):
+            raise RuntimeError(
+                f"Checkpoint CURRENT target is missing: {generation}"
+            )
+        return generation
+
+    @property
+    def shots_remaining(self) -> int:
+        shots_path = os.path.join(
+            self.current_generation,
+            self.SHOTS_FILENAME,
+        )
+        with open(shots_path, "r") as reader:
+            value = int(reader.read().strip())
+        if value < 0 or value > self.num_shots:
+            raise RuntimeError(
+                f"Invalid checkpoint shots remaining {value}; expected "
+                f"0..{self.num_shots}."
+            )
+        return value
+
+    @property
+    def current_data_folder(self) -> str:
+        return self.current_generation + os.sep
+
+    def _remove_abandoned_transactions(self) -> None:
+        for entry in os.scandir(self.generations_directory):
+            if entry.name.startswith(".txn-"):
+                if entry.is_dir(follow_symlinks=False):
+                    shutil.rmtree(entry.path)
+                else:
+                    os.unlink(entry.path)
+
+    def _manifest(self, shots_remaining: int, batch_index: int) -> dict[str, Any]:
+        return {
+            "configuration": self.configuration,
+            "configuration_fingerprint": self.configuration_fingerprint,
+            "shots_remaining": int(shots_remaining),
+            "committed_shots": self.num_shots - int(shots_remaining),
+            "last_batch_index": int(batch_index),
+            "committed_utc": time.strftime(
+                "%Y-%m-%dT%H:%M:%SZ",
+                time.gmtime(),
+            ),
+        }
+
+    def _write_manifest(
+        self,
+        generation: str,
+        *,
+        shots_remaining: int,
+        batch_index: int,
+    ) -> None:
+        atomic_write_text(
+            os.path.join(generation, self.MANIFEST_FILENAME),
+            json.dumps(
+                self._manifest(shots_remaining, batch_index),
+                sort_keys=True,
+                indent=2,
+            ) + "\n",
+        )
+
+    def _publish_current_generation(self, generation: str) -> None:
+        relative_target = os.path.relpath(
+            generation,
+            self.progress_folder,
+        )
+        temporary_link = os.path.join(
+            self.progress_folder,
+            f".checkpoint_current.{uuid.uuid4().hex}.tmp",
+        )
+        os.symlink(relative_target, temporary_link)
+        try:
+            os.replace(temporary_link, self.current_link)
+            _fsync_directory(self.progress_folder)
+        finally:
+            if os.path.lexists(temporary_link):
+                os.unlink(temporary_link)
+
+    def _migrate_or_initialize_legacy_checkpoint(self) -> None:
+        legacy_shots_path = os.path.join(
+            self.progress_folder,
+            self.SHOTS_FILENAME,
+        )
+        if os.path.exists(legacy_shots_path):
+            with open(legacy_shots_path, "r") as reader:
+                shots_remaining = int(reader.read().strip())
+        else:
+            shots_remaining = self.num_shots
+        if shots_remaining < 0 or shots_remaining > self.num_shots:
+            raise RuntimeError(
+                f"Invalid legacy shots remaining {shots_remaining}."
+            )
+
+        committed_shots = self.num_shots - shots_remaining
+        if committed_shots != 0:
+            raise RuntimeError(
+                "A committed legacy checkpoint has no recorded source, "
+                "circuit, or runtime-profile provenance. Quarantine it "
+                "instead of silently mixing it into this run."
+            )
+        if (
+            committed_shots not in (0, self.num_shots)
+            and committed_shots % self.batch_size != 0
+        ):
+            raise RuntimeError(
+                f"Legacy checkpoint contains {committed_shots} committed "
+                f"shots, which is not aligned to batch size "
+                f"{self.batch_size}."
+            )
+        legacy_has_counts = any(
+            os.path.isdir(os.path.join(self.progress_folder, directory))
+            and any(
+                filename.endswith(".npy")
+                for filename in os.listdir(
+                    os.path.join(self.progress_folder, directory)
+                )
+            )
+            for directory in self.COUNT_DIRECTORIES
+        )
+        if committed_shots == 0 and legacy_has_counts:
+            raise RuntimeError(
+                "Legacy checkpoint has count arrays but reports zero "
+                "committed shots. Quarantine the interrupted arrays before "
+                "restarting this probability index."
+            )
+
+        transaction = tempfile.mkdtemp(
+            dir=self.generations_directory,
+            prefix=".txn-initialize-",
+        )
+        try:
+            for directory in self.COUNT_DIRECTORIES:
+                source = os.path.join(self.progress_folder, directory)
+                destination = os.path.join(transaction, directory)
+                if os.path.isdir(source):
+                    shutil.copytree(source, destination)
+                else:
+                    os.makedirs(destination)
+
+            atomic_write_text(
+                os.path.join(transaction, self.SHOTS_FILENAME),
+                str(shots_remaining),
+            )
+            self._write_manifest(
+                transaction,
+                shots_remaining=shots_remaining,
+                batch_index=(
+                    (committed_shots + self.batch_size - 1)
+                    // self.batch_size
+                ),
+            )
+            self.validate_generation(
+                transaction,
+                expected_committed_shots=committed_shots,
+            )
+            _fsync_tree(transaction)
+            generation = os.path.join(
+                self.generations_directory,
+                f"gen-{committed_shots:09d}-{uuid.uuid4().hex}",
+            )
+            os.replace(transaction, generation)
+            _fsync_directory(self.generations_directory)
+            self._publish_current_generation(generation)
+        except BaseException:
+            if os.path.isdir(transaction):
+                shutil.rmtree(transaction)
+            raise
+
+    def _ensure_compatibility_links(self) -> None:
+        archive_root = os.path.join(
+            self.progress_folder,
+            ".legacy_checkpoint_migrated",
+        )
+        aliases = {
+            self.SHOTS_FILENAME: os.path.join(
+                self.CURRENT_LINK,
+                self.SHOTS_FILENAME,
+            ),
+            **{
+                directory: os.path.join(self.CURRENT_LINK, directory)
+                for directory in self.COUNT_DIRECTORIES
+            },
+        }
+        for alias_name, link_target in aliases.items():
+            alias_path = os.path.join(self.progress_folder, alias_name)
+            if os.path.islink(alias_path):
+                if os.readlink(alias_path) == link_target:
+                    continue
+                os.unlink(alias_path)
+            elif os.path.lexists(alias_path):
+                os.makedirs(archive_root, exist_ok=True)
+                archive_path = os.path.join(archive_root, alias_name)
+                if os.path.lexists(archive_path):
+                    archive_path += f".{uuid.uuid4().hex}"
+                os.replace(alias_path, archive_path)
+
+            temporary_link = os.path.join(
+                self.progress_folder,
+                f".{alias_name}.{uuid.uuid4().hex}.tmp",
+            )
+            os.symlink(link_target, temporary_link)
+            os.replace(temporary_link, alias_path)
+        _fsync_directory(self.progress_folder)
+
+    def prepare_batch(
+        self,
+        *,
+        shots_remaining_before: int,
+        batch_index: int,
+    ) -> str:
+        if self._active_transaction is not None:
+            raise RuntimeError("A checkpoint transaction is already active.")
+        if shots_remaining_before != self.shots_remaining:
+            raise RuntimeError(
+                "Checkpoint changed before batch start: expected "
+                f"{shots_remaining_before}, found {self.shots_remaining}."
+            )
+        transaction = tempfile.mkdtemp(
+            dir=self.generations_directory,
+            prefix=f".txn-batch-{batch_index:04d}-",
+        )
+        shutil.rmtree(transaction)
+        shutil.copytree(self.current_generation, transaction)
+        self._active_transaction = transaction
+        _checkpoint_test_failpoint("after_prepare_copy")
+        return transaction + os.sep
+
+    def commit_batch(
+        self,
+        transaction_folder: str,
+        *,
+        shots_remaining_after: int,
+        batch_index: int,
+    ) -> None:
+        transaction = os.path.abspath(transaction_folder)
+        if transaction != self._active_transaction:
+            raise RuntimeError(
+                f"Unexpected checkpoint transaction {transaction_folder}."
+            )
+        shots_remaining_after = int(shots_remaining_after)
+        shots_remaining_before = self.shots_remaining
+        expected_remaining_after = max(
+            0,
+            shots_remaining_before - self.batch_size,
+        )
+        if shots_remaining_after != expected_remaining_after:
+            raise RuntimeError(
+                f"Invalid checkpoint transition "
+                f"{shots_remaining_before}->{shots_remaining_after}; "
+                f"expected {shots_remaining_before}->"
+                f"{expected_remaining_after}."
+            )
+        expected_batch_index = (
+            (self.num_shots - shots_remaining_before) // self.batch_size
+        ) + 1
+        if int(batch_index) != expected_batch_index:
+            raise RuntimeError(
+                f"Invalid checkpoint batch index {batch_index}; expected "
+                f"{expected_batch_index}."
+            )
+        committed_shots = self.num_shots - shots_remaining_after
+        self.validate_generation(
+            transaction,
+            expected_committed_shots=committed_shots,
+        )
+        atomic_write_text(
+            os.path.join(transaction, self.SHOTS_FILENAME),
+            str(shots_remaining_after),
+        )
+        self._write_manifest(
+            transaction,
+            shots_remaining=shots_remaining_after,
+            batch_index=batch_index,
+        )
+        _fsync_tree(transaction)
+        _checkpoint_test_failpoint("after_staged_metadata")
+        generation = os.path.join(
+            self.generations_directory,
+            f"gen-{committed_shots:09d}-{uuid.uuid4().hex}",
+        )
+        os.replace(transaction, generation)
+        _fsync_directory(self.generations_directory)
+        _checkpoint_test_failpoint("after_generation_rename")
+        _checkpoint_test_failpoint("before_current_replace")
+        self._publish_current_generation(generation)
+        _checkpoint_test_failpoint("after_current_replace")
+        self._active_transaction = None
+        self.validate_current_generation()
+
+    def validate_current_generation(self) -> None:
+        generation = self.current_generation
+        manifest_path = os.path.join(generation, self.MANIFEST_FILENAME)
+        with open(manifest_path, "r") as manifest_file:
+            manifest = json.load(manifest_file)
+        manifest_configuration = manifest.get("configuration")
+        if not isinstance(manifest_configuration, dict):
+            raise RuntimeError(
+                "Checkpoint manifest is missing its configuration."
+            )
+        encoded_manifest_configuration = json.dumps(
+            manifest_configuration,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+        recorded_configuration_fingerprint = manifest.get(
+            "configuration_fingerprint"
+        )
+        recomputed_configuration_fingerprint = hashlib.sha256(
+            encoded_manifest_configuration
+        ).hexdigest()
+        if (
+            recorded_configuration_fingerprint
+            != recomputed_configuration_fingerprint
+        ):
+            raise RuntimeError(
+                "Checkpoint manifest configuration was modified or "
+                "corrupted."
+            )
+        if (
+            recorded_configuration_fingerprint
+            != self.configuration_fingerprint
+        ):
+            raise RuntimeError(
+                "Checkpoint configuration/source fingerprint changed. "
+                "Refusing to mix simulation data from different runtimes."
+            )
+        shots_remaining = self.shots_remaining
+        if manifest.get("shots_remaining") != shots_remaining:
+            raise RuntimeError(
+                "Checkpoint manifest and shots_remaining.txt disagree."
+            )
+        if manifest.get("committed_shots") != self.num_shots - shots_remaining:
+            raise RuntimeError(
+                "Checkpoint manifest committed-shot total is inconsistent."
+            )
+        committed_shots = self.num_shots - shots_remaining
+        expected_last_batch_index = (
+            (committed_shots + self.batch_size - 1) // self.batch_size
+        )
+        if manifest.get("last_batch_index") != expected_last_batch_index:
+            raise RuntimeError(
+                "Checkpoint manifest batch index is inconsistent with its "
+                "committed-shot total."
+            )
+        self.validate_generation(
+            generation,
+            expected_committed_shots=self.num_shots - shots_remaining,
+        )
+
+    def validate_generation(
+        self,
+        generation: str,
+        *,
+        expected_committed_shots: int,
+    ) -> None:
+        expected_shapes = (
+            (len(self.depths), self.num_cliff_seq, self.dimension),
+            (len(self.depths), self.num_cliff_seq),
+        )
+        policies = (
+            ("const_check_data", self.const_checks),
+            ("unif_check_data", self.unif_checks),
+        )
+        for directory, checks in policies:
+            directory_path = os.path.join(generation, directory)
+            if not os.path.isdir(directory_path):
+                raise RuntimeError(
+                    f"Missing checkpoint count directory {directory_path}."
+                )
+            expected_files = {
+                filename
+                for check in checks
+                for filename in (f"{check}.npy", f"{check}_rejected.npy")
+            }
+            actual_files = {
+                entry.name
+                for entry in os.scandir(directory_path)
+                if entry.is_file(follow_symlinks=False)
+            }
+            if expected_committed_shots == 0 and not actual_files:
+                continue
+            if actual_files != expected_files:
+                missing = sorted(expected_files - actual_files)
+                extra = sorted(actual_files - expected_files)
+                raise RuntimeError(
+                    f"Checkpoint policy files differ in {directory}: "
+                    f"missing={missing}, extra={extra}."
+                )
+            for check in checks:
+                counts = np.load(
+                    os.path.join(directory_path, f"{check}.npy"),
+                    allow_pickle=False,
+                )
+                rejected = np.load(
+                    os.path.join(
+                        directory_path,
+                        f"{check}_rejected.npy",
+                    ),
+                    allow_pickle=False,
+                )
+                if counts.shape != expected_shapes[0]:
+                    raise RuntimeError(
+                        f"Wrong checkpoint count shape for {directory}/"
+                        f"{check}: {counts.shape}, expected "
+                        f"{expected_shapes[0]}."
+                    )
+                if rejected.shape != expected_shapes[1]:
+                    raise RuntimeError(
+                        f"Wrong checkpoint rejection shape for {directory}/"
+                        f"{check}: {rejected.shape}, expected "
+                        f"{expected_shapes[1]}."
+                    )
+                if not np.issubdtype(counts.dtype, np.integer) \
+                        or not np.issubdtype(rejected.dtype, np.integer):
+                    raise RuntimeError(
+                        f"Checkpoint arrays for {directory}/{check} must be "
+                        "integer-valued."
+                    )
+                if np.any(counts < 0) or np.any(rejected < 0):
+                    raise RuntimeError(
+                        f"Checkpoint arrays for {directory}/{check} contain "
+                        "negative values."
+                    )
+                totals = counts.sum(axis=2, dtype=np.int64) + rejected
+                if np.any(totals != expected_committed_shots):
+                    observed = np.unique(totals)
+                    raise RuntimeError(
+                        f"Checkpoint totals for {directory}/{check} are "
+                        f"{observed.tolist()}, expected exactly "
+                        f"{expected_committed_shots} per cell."
+                    )
+
+
+def open_lrb_checkpoint_store(
+    *,
+    partial_progress_folder_path: str,
+    num_shots: int,
+    batch_size: int,
+    num_cliff_seq: int,
+    depths: Sequence[int],
+    stab_checks_const: Sequence[int],
+    stab_checks_unif: Sequence[int],
+    logical_dimension: int,
+    error_prob_ind: int,
+    error_prob: float,
+    backend: str | None,
+    runtime_profile: str,
+    filter_trivial_shots: bool,
+    lrb_experiment_folder_path: str,
+    lrb_const0_experiment_folder_path: str | None,
+    rb_experiment_folder_path: str,
+) -> tuple[
+    LRBBatchCheckpointStore,
+    str,
+    tuple[tuple[str, str], ...],
+]:
+    """Open and deeply validate the checkpoint and its exact circuit inputs."""
+    resolved_backend = _resolve_simulation_backend(backend)
+    const0_requested = 0 in stab_checks_const
+    need_main_lrb = bool(
+        [check for check in stab_checks_const if check != 0]
+        or stab_checks_unif
+    )
+    circuit_folders: list[tuple[str, str]] = []
+    if need_main_lrb:
+        circuit_folders.append(("LRB", lrb_experiment_folder_path))
+    if const0_requested:
+        if lrb_const0_experiment_folder_path is None:
+            raise RuntimeError(
+                "const=0 checkpoint validation requires LRB_const0 circuits."
+            )
+        circuit_folders.append(
+            ("LRB_const0", lrb_const0_experiment_folder_path)
+        )
+    circuit_folders.append(("RB", rb_experiment_folder_path))
+    immutable_circuit_folders = tuple(circuit_folders)
+    input_fingerprint = _circuit_input_fingerprint(
+        immutable_circuit_folders,
+        num_cliff_seq=num_cliff_seq,
+        probability_index=error_prob_ind,
+        num_depths=len(depths),
+    )
+    checkpoint_store = LRBBatchCheckpointStore(
+        partial_progress_folder_path,
+        num_shots=num_shots,
+        batch_size=batch_size,
+        num_cliff_seq=num_cliff_seq,
+        depths=depths,
+        const_checks=stab_checks_const,
+        unif_checks=stab_checks_unif,
+        dimension=logical_dimension,
+        probability_index=error_prob_ind,
+        probability=error_prob,
+        backend=resolved_backend,
+        input_fingerprint=input_fingerprint,
+        runtime_profile=runtime_profile,
+        filter_trivial_shots=filter_trivial_shots,
+    )
+    return (
+        checkpoint_store,
+        input_fingerprint,
+        immutable_circuit_folders,
+    )
 
 
 def _circuit_timing_context(circuit) -> dict[str, Any]:
@@ -503,6 +1277,7 @@ class LRBSimulationEngine:
         logical_dimension: int = 3,
         lrb_const0_experiment_folder_path: str | None = None,
         simulation_backend: str | None = None,
+        runtime_profile: str = "unspecified",
     ) -> int:
         """
         Run round.
@@ -555,6 +1330,7 @@ class LRBSimulationEngine:
             LRB_const0_experiment_folder_path=(
                 lrb_const0_experiment_folder_path),
             simulation_backend=simulation_backend,
+            runtime_profile=runtime_profile,
         )
 
 
@@ -1816,21 +2592,43 @@ class LRBSimulationPipeline:
             ValueError: If supplied arguments violate this method's input
                 assumptions.
         """
-        with open(filename, "w") as csvfile:
+        parent = os.path.dirname(os.path.abspath(filename))
+        os.makedirs(parent, exist_ok=True)
+        descriptor, temporary = tempfile.mkstemp(
+            dir=parent,
+            prefix=f".{os.path.basename(filename)}.",
+            suffix=".tmp",
+            text=True,
+        )
+        try:
+            csvfile = os.fdopen(descriptor, "w", newline="")
             len_fid = len(fidelity_stats)
             len_rej = len(rejected_stats)
-            writer = csv.writer(csvfile)
-            data = []
-            data.append(["Probability", prob])
-            data.append(["Fidelity averages"] +
-                        [fidelity_stats[i]['mean'] for i in range(len_fid)])
-            data.append(["Fidelity Standard Deviations"] +
-                        [fidelity_stats[i]['std'] for i in range(len_fid)])
-            data.append(["Rejected Runs"] +
-                        [rejected_stats[i]['mean'] for i in range(len_rej)])
-            data.append(["Rejected Standard Deviations"] +
-                        [rejected_stats[i]['std'] for i in range(len_rej)])
-            writer.writerows(data)
+            with csvfile:
+                writer = csv.writer(csvfile)
+                data = []
+                data.append(["Probability", prob])
+                data.append(["Fidelity averages"] +
+                            [fidelity_stats[i]['mean']
+                             for i in range(len_fid)])
+                data.append(["Fidelity Standard Deviations"] +
+                            [fidelity_stats[i]['std']
+                             for i in range(len_fid)])
+                data.append(["Rejected Runs"] +
+                            [rejected_stats[i]['mean']
+                             for i in range(len_rej)])
+                data.append(["Rejected Standard Deviations"] +
+                            [rejected_stats[i]['std']
+                             for i in range(len_rej)])
+                writer.writerows(data)
+                csvfile.flush()
+                os.fsync(csvfile.fileno())
+            os.replace(temporary, filename)
+            _fsync_directory(parent)
+        except BaseException:
+            if os.path.exists(temporary):
+                os.unlink(temporary)
+            raise
     
     
     @staticmethod
@@ -2030,6 +2828,7 @@ class LRBSimulationPipeline:
         logical_dimension: int = 3,
         LRB_const0_experiment_folder_path: str | None = None,
         simulation_backend: str | None = None,
+        runtime_profile: str = "unspecified",
     ):
         """
         Run LRB round.
@@ -2087,19 +2886,34 @@ class LRBSimulationPipeline:
                 "const=0 processing requires generated LRB_const0 circuits "
                 f"at {LRB_const0_experiment_folder_path}."
             )
-    
-        # Create progress if not found
-        if not os.path.exists(partial_progress_folder_path +
-                              "shots_processed.txt"):
-            ExperimentSetupManager.write_single_param(
-                num_shots,
-                partial_progress_folder_path + "shots_processed.txt",
-            )
-    
-        # Load in progress
-        shots_to_process = int(
-            ExperimentSetupManager.fetch_single_param(
-                partial_progress_folder_path + "shots_processed.txt"))
+
+        (
+            checkpoint_store,
+            input_fingerprint,
+            circuit_folders,
+        ) = open_lrb_checkpoint_store(
+            partial_progress_folder_path=partial_progress_folder_path,
+            num_shots=num_shots,
+            batch_size=BATCH_SIZE,
+            num_cliff_seq=num_cliff_seq,
+            depths=depths,
+            stab_checks_const=stab_checks_const,
+            stab_checks_unif=stab_checks_unif,
+            logical_dimension=logical_dimension,
+            error_prob_ind=error_prob_ind,
+            error_prob=error_prob,
+            backend=backend,
+            runtime_profile=runtime_profile,
+            filter_trivial_shots=filter_trivial_shots,
+            lrb_experiment_folder_path=LRB_experiment_folder_path,
+            lrb_const0_experiment_folder_path=(
+                LRB_const0_experiment_folder_path),
+            rb_experiment_folder_path=RB_experiment_folder_path,
+        )
+
+        # Load only an atomically published checkpoint generation. Incomplete
+        # copy-on-write transaction directories are never made current.
+        shots_to_process = checkpoint_store.shots_remaining
         print(f"We have to process {shots_to_process} shots.")
         print(f"Simulation backend: {backend}")
     
@@ -2186,8 +3000,20 @@ class LRBSimulationPipeline:
             # )
     
             # Run shots in batches of size BATCH_SIZE
-            batch_index = 0
+            batch_index = (
+                (num_shots - shots_to_process) // BATCH_SIZE
+            )
             while shots_to_process > 0:
+                if _circuit_input_fingerprint(
+                    circuit_folders,
+                    num_cliff_seq=num_cliff_seq,
+                    probability_index=error_prob_ind,
+                    num_depths=num_depths,
+                ) != input_fingerprint:
+                    raise RuntimeError(
+                        "Circuit inputs changed during this probability-index "
+                        "run; refusing to mix batches from different inputs."
+                    )
     
                 # Determine how many shots to run
                 batch = (
@@ -2196,6 +3022,10 @@ class LRBSimulationPipeline:
                 )
                 batch_index += 1
                 shots_remaining_before = shots_to_process
+                batch_progress_folder = checkpoint_store.prepare_batch(
+                    shots_remaining_before=shots_remaining_before,
+                    batch_index=batch_index,
+                )
     
                 # Run experiment
                 print(
@@ -2253,7 +3083,7 @@ class LRBSimulationPipeline:
                             depths=depths,
                             stab_check_array=main_const_checks,
                             stab_checks_are_const=True,
-                            folder=partial_progress_folder_path,
+                            folder=batch_progress_folder,
                             dimension=logical_dimension)
                         process_seconds = time.perf_counter() - process_start
                         _append_timing_metric(
@@ -2282,7 +3112,7 @@ class LRBSimulationPipeline:
                             depths=depths,
                             stab_check_array=stab_checks_unif,
                             stab_checks_are_const=False,
-                            folder=partial_progress_folder_path,
+                            folder=batch_progress_folder,
                             dimension=logical_dimension)
                         process_seconds = time.perf_counter() - process_start
                         _append_timing_metric(
@@ -2340,7 +3170,7 @@ class LRBSimulationPipeline:
                         depths=depths,
                         stab_check_array=[0],
                         stab_checks_are_const=True,
-                        folder=partial_progress_folder_path,
+                        folder=batch_progress_folder,
                         dimension=logical_dimension)
                     process_seconds = time.perf_counter() - process_start
                     _append_timing_metric(
@@ -2365,20 +3195,22 @@ class LRBSimulationPipeline:
                 shots_to_process -= batch
     
                 write_start = time.perf_counter()
-                with open(partial_progress_folder_path + "shots_processed.txt",
-                          "w") as progress_file:
-                    progress_file.write(str(shots_to_process))
-                    print(
-                        f"Progress saved, need to process "
-                        f"{shots_to_process} more shots."
-                    )
+                checkpoint_store.commit_batch(
+                    batch_progress_folder,
+                    shots_remaining_after=shots_to_process,
+                    batch_index=batch_index,
+                )
+                print(
+                    f"Progress saved, need to process "
+                    f"{shots_to_process} more shots."
+                )
                 write_seconds = time.perf_counter() - write_start
                 _append_timing_metric(
                     partial_progress_folder_path,
                     {
                         "backend": backend,
                         "phase": "progress",
-                        "event": "write_shots_processed",
+                        "event": "commit_checkpoint_generation",
                         "probability_index": error_prob_ind,
                         "probability": error_prob,
                         "batch_index": batch_index,
@@ -2389,6 +3221,17 @@ class LRBSimulationPipeline:
                         "total_seconds": write_seconds,
                     },
                 )
+
+        if _circuit_input_fingerprint(
+            circuit_folders,
+            num_cliff_seq=num_cliff_seq,
+            probability_index=error_prob_ind,
+            num_depths=num_depths,
+        ) != input_fingerprint:
+            raise RuntimeError(
+                "Circuit inputs changed before result generation; refusing "
+                "to publish mixed-input artifacts."
+            )
     
         # Calculate and write LRB stats
         const_save_dir = LRB_results_folder_path + \
@@ -2396,14 +3239,17 @@ class LRBSimulationPipeline:
         unif_save_dir = LRB_results_folder_path + \
             str(error_prob_ind) + "/unif_check_data/"
     
-        if not os.path.exists(const_save_dir):
-            os.mkdir(const_save_dir)
-        if not os.path.exists(unif_save_dir):
-            os.mkdir(unif_save_dir)
+        for save_directory in (const_save_dir, unif_save_dir):
+            if not os.path.exists(save_directory):
+                os.makedirs(save_directory)
+                _fsync_directory(
+                    os.path.dirname(os.path.normpath(save_directory))
+                )
     
         write_start = time.perf_counter()
         LRBSimulationPipeline.write_lrb_stats(
-            partial_progress_folder_path + "const_check_data/", const_save_dir,
+            checkpoint_store.current_data_folder + "const_check_data/",
+            const_save_dir,
             error_prob, stab_checks_const, BATCH_SIZE, num_shots,
             filter_trivial_shots, dimension=logical_dimension)
         write_seconds = time.perf_counter() - write_start
@@ -2423,7 +3269,8 @@ class LRBSimulationPipeline:
 
         write_start = time.perf_counter()
         LRBSimulationPipeline.write_lrb_stats(
-            partial_progress_folder_path + "unif_check_data/", unif_save_dir,
+            checkpoint_store.current_data_folder + "unif_check_data/",
+            unif_save_dir,
             error_prob, stab_checks_unif, BATCH_SIZE, num_shots,
             filter_trivial_shots, dimension=logical_dimension)
         write_seconds = time.perf_counter() - write_start
