@@ -1,0 +1,125 @@
+{
+  "backend": "dem",
+  "batch_size": 100000,
+  "code_name": "folded_qutrit_conv_sites",
+  "complete": true,
+  "indices": {
+    "0": {
+      "current_generation": "progress/0/.checkpoint_generations/gen-001000000-f03c488f116e4b4c897ae1abe0a3cf00",
+      "error": null,
+      "probability": 0.0,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "1": {
+      "current_generation": "progress/1/.checkpoint_generations/gen-001000000-1be0a456163a4cc5befbb9ca17f16b78",
+      "error": null,
+      "probability": 0.0001,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "10": {
+      "current_generation": "progress/10/.checkpoint_generations/gen-001000000-042ea8b4994d43c1ac8c47b84d82e1db",
+      "error": null,
+      "probability": 0.015,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "11": {
+      "current_generation": "progress/11/.checkpoint_generations/gen-001000000-42f3f3cab46947d386b5f482e2da85bb",
+      "error": null,
+      "probability": 0.02,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "12": {
+      "current_generation": "progress/12/.checkpoint_generations/gen-001000000-3d6bb169f3824dd79a2f95c04eb36bb2",
+      "error": null,
+      "probability": 0.03,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "13": {
+      "current_generation": "progress/13/.checkpoint_generations/gen-001000000-5f5a6b5731ac4b6ebf628eaeb3d69452",
+      "error": null,
+      "probability": 0.04,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "14": {
+      "current_generation": "progress/14/.checkpoint_generations/gen-001000000-25fbd733193b47158832ce8fac2a9521",
+      "error": null,
+      "probability": 0.05,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "2": {
+      "current_generation": "progress/2/.checkpoint_generations/gen-001000000-a47e933a7ccf48e4b658a0261ee939aa",
+      "error": null,
+      "probability": 0.0002,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "3": {
+      "current_generation": "progress/3/.checkpoint_generations/gen-001000000-f434007a3ffd462f89f9615f2e148784",
+      "error": null,
+      "probability": 0.0005,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "4": {
+      "current_generation": "progress/4/.checkpoint_generations/gen-001000000-8d8093a09ab647c48b645b2be5c5ba5c",
+      "error": null,
+      "probability": 0.001,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "5": {
+      "current_generation": "progress/5/.checkpoint_generations/gen-001000000-2cdc4035d46e4f0592eac5b16da14524",
+      "error": null,
+      "probability": 0.002,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "6": {
+      "current_generation": "progress/6/.checkpoint_generations/gen-001000000-3e5341623b1741318d8dd2d3b87b26b6",
+      "error": null,
+      "probability": 0.005,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "7": {
+      "current_generation": "progress/7/.checkpoint_generations/gen-001000000-3cbb334c942b4fa094a7ed31264c4edd",
+      "error": null,
+      "probability": 0.0075,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "8": {
+      "current_generation": "progress/8/.checkpoint_generations/gen-001000000-8fd3ddbd89714f56b41f91f47ea2811f",
+      "error": null,
+      "probability": 0.01,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "9": {
+      "current_generation": "progress/9/.checkpoint_generations/gen-001000000-ef9f1771527149bbab07df800165bc01",
+      "error": null,
+      "probability": 0.0125,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    }
+  },
+  "invalid_indices": [],
+  "metadata_errors": [],
+  "noise_model": "sd6",
+  "probability_count": 15,
+  "resubmittable_indices": [],
+  "run_name": "Run-2026-11-01-09-24-10-folded_qutrit_conv_sites-conv-sites-sd6-sdim140",
+  "run_path": "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/conventional-sites/LRB-experiment-data-slurm/Run-2026-11-01-09-24-10-folded_qutrit_conv_sites-conv-sites-sd6-sdim140",
+  "schema_version": 1,
+  "strict_production_grid": true,
+  "strict_single_ancilla_si1000": false,
+  "valid": true,
+  "validated_utc": "2026-11-01T19:27:33Z"
+}

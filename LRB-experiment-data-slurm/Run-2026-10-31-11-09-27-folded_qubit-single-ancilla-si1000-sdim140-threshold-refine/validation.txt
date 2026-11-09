@@ -1,0 +1,181 @@
+{
+  "backend": "dem",
+  "batch_size": 100000,
+  "code_name": "folded_qubit",
+  "complete": true,
+  "indices": {
+    "0": {
+      "current_generation": "progress/0/.checkpoint_generations/gen-001000000-05342e93930740dfa562bcf874741ab7",
+      "error": null,
+      "probability": 0.002,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "1": {
+      "current_generation": "progress/1/.checkpoint_generations/gen-001000000-da30c34057d04363ae4d417827d55c74",
+      "error": null,
+      "probability": 0.0025,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "10": {
+      "current_generation": "progress/10/.checkpoint_generations/gen-001000000-32b8237d647940abb5b815c58642ecf7",
+      "error": null,
+      "probability": 0.007,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "11": {
+      "current_generation": "progress/11/.checkpoint_generations/gen-001000000-0e4078a45488472d85edafb6e0f282b6",
+      "error": null,
+      "probability": 0.0075,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "12": {
+      "current_generation": "progress/12/.checkpoint_generations/gen-001000000-82c8d32c83914bb68e09cdf0f6042348",
+      "error": null,
+      "probability": 0.008,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "13": {
+      "current_generation": "progress/13/.checkpoint_generations/gen-001000000-b03dc92b9cfe474e8faffa35803d0bd8",
+      "error": null,
+      "probability": 0.0085,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "14": {
+      "current_generation": "progress/14/.checkpoint_generations/gen-001000000-5ff894e03b944c52b10f4e9dfb4e5204",
+      "error": null,
+      "probability": 0.009,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "15": {
+      "current_generation": "progress/15/.checkpoint_generations/gen-001000000-310ad842253b48bda0b1d74a820f401e",
+      "error": null,
+      "probability": 0.0095,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "16": {
+      "current_generation": "progress/16/.checkpoint_generations/gen-001000000-eac4df1a08fd4154ae1471275f9df1d9",
+      "error": null,
+      "probability": 0.01,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "17": {
+      "current_generation": "progress/17/.checkpoint_generations/gen-001000000-3e60993b67f540c38ab26d0e0dd0317a",
+      "error": null,
+      "probability": 0.0105,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "18": {
+      "current_generation": "progress/18/.checkpoint_generations/gen-001000000-f9d9d15fd91647ddad4dfdd7c425e31b",
+      "error": null,
+      "probability": 0.011,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "19": {
+      "current_generation": "progress/19/.checkpoint_generations/gen-001000000-3d50ce16b4da491b962f1c9f42baf479",
+      "error": null,
+      "probability": 0.0115,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "2": {
+      "current_generation": "progress/2/.checkpoint_generations/gen-001000000-3f416c6bfed441178aa8fc012b18f5a0",
+      "error": null,
+      "probability": 0.003,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "20": {
+      "current_generation": "progress/20/.checkpoint_generations/gen-001000000-75759d4e233c483198bc5955c46a33d5",
+      "error": null,
+      "probability": 0.012,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "21": {
+      "current_generation": "progress/21/.checkpoint_generations/gen-001000000-0c6716388ea34ca092f252129d03d1ed",
+      "error": null,
+      "probability": 0.0125,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "22": {
+      "current_generation": "progress/22/.checkpoint_generations/gen-001000000-727165bb8e9f4706836f24b823e4485f",
+      "error": null,
+      "probability": 0.013,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "3": {
+      "current_generation": "progress/3/.checkpoint_generations/gen-001000000-29c7e502e0714877bad5fd8c840ab302",
+      "error": null,
+      "probability": 0.0035,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "4": {
+      "current_generation": "progress/4/.checkpoint_generations/gen-001000000-5bcc799dde9a4a92acbd16903d55cabb",
+      "error": null,
+      "probability": 0.004,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "5": {
+      "current_generation": "progress/5/.checkpoint_generations/gen-001000000-3ddb6961ba6a47c5b37d99fc8a0f958b",
+      "error": null,
+      "probability": 0.0045,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "6": {
+      "current_generation": "progress/6/.checkpoint_generations/gen-001000000-2218da777a6644729ccabd5651962a88",
+      "error": null,
+      "probability": 0.005,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "7": {
+      "current_generation": "progress/7/.checkpoint_generations/gen-001000000-0a804b54bbac48359a6484c888cc2a3a",
+      "error": null,
+      "probability": 0.0055,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "8": {
+      "current_generation": "progress/8/.checkpoint_generations/gen-001000000-53be54cd8038494c8adcdd9e6e27acf7",
+      "error": null,
+      "probability": 0.006,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "9": {
+      "current_generation": "progress/9/.checkpoint_generations/gen-001000000-1c3f76e2edfc4d1888feefd056496e60",
+      "error": null,
+      "probability": 0.0065,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    }
+  },
+  "invalid_indices": [],
+  "metadata_errors": [],
+  "noise_model": "si1000",
+  "probability_count": 23,
+  "resubmittable_indices": [],
+  "run_name": "Run-2026-10-31-11-09-27-folded_qubit-single-ancilla-si1000-sdim140-threshold-refine",
+  "run_path": "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/qubit-lrbd-sdim140/LRB-experiment-data-slurm/Run-2026-10-31-11-09-27-folded_qubit-single-ancilla-si1000-sdim140-threshold-refine",
+  "schema_version": 1,
+  "strict_production_grid": false,
+  "strict_single_ancilla_si1000": false,
+  "valid": true,
+  "validated_utc": "2026-10-31T20:55:21Z"
+}

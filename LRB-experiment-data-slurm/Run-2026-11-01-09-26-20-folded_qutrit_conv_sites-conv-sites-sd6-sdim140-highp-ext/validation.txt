@@ -1,0 +1,76 @@
+{
+  "backend": "dem",
+  "batch_size": 100000,
+  "code_name": "folded_qutrit_conv_sites",
+  "complete": true,
+  "indices": {
+    "0": {
+      "current_generation": "progress/0/.checkpoint_generations/gen-020000000-8f3a303d5f3f406dab4c19709525617e",
+      "error": null,
+      "probability": 0.025,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "1": {
+      "current_generation": "progress/1/.checkpoint_generations/gen-020000000-eb43b95d96b047cfa11191a5f5b568ba",
+      "error": null,
+      "probability": 0.03,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "2": {
+      "current_generation": "progress/2/.checkpoint_generations/gen-020000000-665a4b24446640f2938a5331a9217963",
+      "error": null,
+      "probability": 0.035,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "3": {
+      "current_generation": "progress/3/.checkpoint_generations/gen-020000000-1aeb1e7f164847f89eaca8c86d107bef",
+      "error": null,
+      "probability": 0.04,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "4": {
+      "current_generation": "progress/4/.checkpoint_generations/gen-020000000-5814bfacdd6e4c0c9147ea13c3519993",
+      "error": null,
+      "probability": 0.045,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "5": {
+      "current_generation": "progress/5/.checkpoint_generations/gen-020000000-e687198f3d8140dc9bcde589da49fb1d",
+      "error": null,
+      "probability": 0.05,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "6": {
+      "current_generation": "progress/6/.checkpoint_generations/gen-020000000-b590157d0ded4f519b0fe64a53ead001",
+      "error": null,
+      "probability": 0.055,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "7": {
+      "current_generation": "progress/7/.checkpoint_generations/gen-020000000-01c37b90a41b482f8c5ad72da2692897",
+      "error": null,
+      "probability": 0.06,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    }
+  },
+  "invalid_indices": [],
+  "metadata_errors": [],
+  "noise_model": "sd6",
+  "probability_count": 8,
+  "resubmittable_indices": [],
+  "run_name": "Run-2026-11-01-09-26-20-folded_qutrit_conv_sites-conv-sites-sd6-sdim140-highp-ext",
+  "run_path": "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/conventional-sites/LRB-experiment-data-slurm/Run-2026-11-01-09-26-20-folded_qutrit_conv_sites-conv-sites-sd6-sdim140-highp-ext",
+  "schema_version": 1,
+  "strict_production_grid": false,
+  "strict_single_ancilla_si1000": false,
+  "valid": true,
+  "validated_utc": "2026-11-01T19:31:13Z"
+}

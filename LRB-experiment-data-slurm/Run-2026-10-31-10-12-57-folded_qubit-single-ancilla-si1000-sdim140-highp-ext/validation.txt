@@ -1,0 +1,104 @@
+{
+  "backend": "dem",
+  "batch_size": 100000,
+  "code_name": "folded_qubit",
+  "complete": true,
+  "indices": {
+    "0": {
+      "current_generation": "progress/0/.checkpoint_generations/gen-020000000-811dde308bb54cadae5551d7b6aaec8b",
+      "error": null,
+      "probability": 0.015,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "1": {
+      "current_generation": "progress/1/.checkpoint_generations/gen-020000000-4166752838394c26b8bea47c30c5be42",
+      "error": null,
+      "probability": 0.0175,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "10": {
+      "current_generation": "progress/10/.checkpoint_generations/gen-020000000-e3a7c2bbf15545b88eb2f347821de000",
+      "error": null,
+      "probability": 0.045,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "11": {
+      "current_generation": "progress/11/.checkpoint_generations/gen-020000000-b23e73ffb6dc4f428ce18889295184d0",
+      "error": null,
+      "probability": 0.05,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "2": {
+      "current_generation": "progress/2/.checkpoint_generations/gen-020000000-cb1beecabbda4eada5f0de95e674939f",
+      "error": null,
+      "probability": 0.02,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "3": {
+      "current_generation": "progress/3/.checkpoint_generations/gen-020000000-7f3c475772a4479ebae03af88d8df7f6",
+      "error": null,
+      "probability": 0.0225,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "4": {
+      "current_generation": "progress/4/.checkpoint_generations/gen-020000000-49ff0ff9501c4bb289801cb66fa5019b",
+      "error": null,
+      "probability": 0.025,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "5": {
+      "current_generation": "progress/5/.checkpoint_generations/gen-020000000-315bfe2224c64cfcba502d799733ffc8",
+      "error": null,
+      "probability": 0.0275,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "6": {
+      "current_generation": "progress/6/.checkpoint_generations/gen-020000000-d5f824f825bd4e9cb91a3fe9f6317815",
+      "error": null,
+      "probability": 0.03,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "7": {
+      "current_generation": "progress/7/.checkpoint_generations/gen-020000000-22354888ef66458eaf4b4a1aff4219ba",
+      "error": null,
+      "probability": 0.0325,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "8": {
+      "current_generation": "progress/8/.checkpoint_generations/gen-020000000-7767b17a9e384ceea6fbf8e60b4ad446",
+      "error": null,
+      "probability": 0.035,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "9": {
+      "current_generation": "progress/9/.checkpoint_generations/gen-020000000-93ff84fc77904ce59824d43cecac34e0",
+      "error": null,
+      "probability": 0.04,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    }
+  },
+  "invalid_indices": [],
+  "metadata_errors": [],
+  "noise_model": "si1000",
+  "probability_count": 12,
+  "resubmittable_indices": [],
+  "run_name": "Run-2026-10-31-10-12-57-folded_qubit-single-ancilla-si1000-sdim140-highp-ext",
+  "run_path": "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/qubit-lrbd-sdim140/LRB-experiment-data-slurm/Run-2026-10-31-10-12-57-folded_qubit-single-ancilla-si1000-sdim140-highp-ext",
+  "schema_version": 1,
+  "strict_production_grid": false,
+  "strict_single_ancilla_si1000": false,
+  "valid": true,
+  "validated_utc": "2026-10-31T20:58:57Z"
+}

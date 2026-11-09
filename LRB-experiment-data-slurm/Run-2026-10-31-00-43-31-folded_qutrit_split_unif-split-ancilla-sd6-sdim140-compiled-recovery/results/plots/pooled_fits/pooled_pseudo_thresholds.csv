@@ -1,0 +1,5 @@
+k,step_unit,p_star_r_L,ci68_low,ci68_high,note,p_star_r_uncond,note_uncond
+1,clifford+check,0.0338376,0.0330611,0.0345463,interp,nan,LRB worse at every p >= 0.0001
+2,clifford+check,0.0273229,0.026971,0.0276398,interp,nan,LRB worse at every p >= 0.0001
+3,clifford+check,0.0166461,0.0163911,0.0168535,interp,nan,LRB worse at every p >= 0.0001
+4,clifford+check,0.0122267,0.0120801,0.012391,interp,nan,LRB worse at every p >= 0.0001

@@ -1,0 +1,85 @@
+k,p_index,p,source,step_unit,r_L,r_L_se,d_L,r_uncond,r_RB,chi2_dof,window_ratio,depths_used,min_accepted_used
+1,1,0.0001,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,2.345e-07,1.8426e-07,0.00689282,0.00459544,4.1706e-05,0.47863,0.75,0 1 2 3 4 6 10 14 18 22,2.56286e+07
+1,2,0.0002,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,1e-07,1.61241e-07,0.013743,0.00916209,8.49555e-05,1.31702,0,0 1 2 3 4 6 10 14 18 22,2.18935e+07
+1,3,0.0005,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,6.06e-07,3.74804e-07,0.0340057,0.022671,0.000208403,1.11826,nan,0 1 2 3 4 6 10 14 18 22,1.36474e+07
+1,4,0.001,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,4.04814e-06,6.75933e-07,0.0668566,0.0445748,0.00041914,0.502161,0.730209,0 1 2 3 4 6 10 14 18 22,6.20718e+06
+1,5,0.002,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,1.64806e-05,1.54116e-06,0.129315,0.0862244,0.000836005,0.204111,0.912842,0 1 2 3 4 6 10 14 18 22,1.28226e+06
+1,6,0.005,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.000150393,1.02758e-05,0.292917,0.195384,0.00209078,3.77958,0.786293,0 1 2 3 4 6 10 14 18 22,11270
+1,7,0.0075,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.000374625,1.89991e-05,0.406903,0.271491,0.00316644,4.88892,0.554662,0 1 2 3 4 6 10 14 18,1655
+1,8,0.01,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.000827644,3.02397e-05,0.501887,0.335004,0.00419251,12.8101,0.25178,0 1 2 3 4 6 10 14,1015
+1,9,0.0125,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.00145907,6.26529e-05,0.582553,0.388978,0.00523578,20.4666,0.455826,0 1 2 3 4 6 10,2509
+1,0,0.015,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.00262622,3.9654e-05,0.652961,0.436219,0.0081921,1239.98,0.38164,0 1 2 3 4,4.00829e+06
+1,1,0.0175,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.00414044,5.66546e-05,0.709407,0.474141,0.00972884,1520.29,0.299449,0 1 2 3 4,1.73408e+06
+1,2,0.02,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.00634307,9.62282e-05,0.756606,0.505948,0.0110784,1651.65,0.316766,0 1 2 3 4,751409
+1,3,0.0225,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.00926653,0.00015627,0.796268,0.532733,0.0123347,1721.6,0.261448,0 1 2 3 4,324846
+1,4,0.025,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0131625,0.000187003,0.829376,0.555163,0.0136271,1609.33,0.277177,0 1 2 3 4,140776
+1,5,0.0275,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0182403,0.000295383,0.857141,0.574033,0.014996,1519.26,0.281021,0 1 2 3 4,61102
+1,6,0.03,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0247853,0.000389197,0.880016,0.589651,0.0163238,1327.01,0.313137,0 1 2 3 4,26871
+1,7,0.0325,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0329717,0.00046946,0.899641,0.60307,0.0176439,1099.53,0.268028,0 1 2 3 4,11609
+1,8,0.035,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0426798,0.000614143,0.915219,0.613765,0.0190769,956.951,0.325327,0 1 2 3 4,5284
+1,9,0.04,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0689173,0.00117743,0.940517,0.631111,0.0217265,626.193,0.298061,0 1 2 3 4,1007
+1,10,0.045,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.10498,0.00185444,0.957293,0.642678,0.024499,538.217,0.40454,0 1 2 3,5080
+1,11,0.05,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.15227,0.00256416,0.968588,0.650508,0.0269397,240.655,0.354918,0 1 2 3,1617
+2,1,0.0001,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,2.345e-07,1.76039e-07,0.00541226,0.00360841,4.1706e-05,0.632639,0,0 2 4 6 10 14 18 22,2.64851e+07
+2,2,0.0002,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,4.02e-07,2.29128e-07,0.0108026,0.00720216,8.49555e-05,1.47343,0.049505,0 2 4 6 10 14 18 22,2.33797e+07
+2,3,0.0005,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,2.0703e-06,3.5343e-07,0.0267795,0.017855,0.000208403,1.04469,1.65107,0 2 4 6 10 14 18 22,1.60862e+07
+2,4,0.001,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,1.05509e-05,8.15203e-07,0.0528356,0.0352337,0.00041914,0.316041,0.895084,0 2 4 6 10 14 18 22,8.62386e+06
+2,5,0.002,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,3.85138e-05,2.00517e-06,0.102889,0.0686275,0.000836005,0.16395,1.04482,0 2 4 6 10 14 18 22,2.47887e+06
+2,6,0.005,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.000292299,7.99028e-06,0.23784,0.158783,0.00209078,1.20537,1.13708,0 2 4 6 10 14 18 22,58691
+2,7,0.0075,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.000679402,1.38146e-05,0.334063,0.223161,0.00316644,1.39367,0.637508,0 2 4 6 10 14 18 22,2685
+2,8,0.01,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.0013897,4.08098e-05,0.418426,0.279759,0.00419251,2.43472,0.739179,0 2 4 6 10 14 18,1041
+2,9,0.0125,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.00234978,6.62826e-05,0.493527,0.330208,0.00523578,1.44135,0.975107,0 2 4 6 10 14,1137
+2,0,0.015,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.00387463,6.84676e-05,0.564814,0.378229,0.0081921,60.7187,nan,0 2 4,1.01663e+07
+2,1,0.0175,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.00581496,0.000108531,0.620673,0.415988,0.00972884,69.5733,nan,0 2 4,5.18235e+06
+2,2,0.02,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.008415,0.000152693,0.66894,0.448746,0.0110784,42.6863,nan,0 2 4,2.65624e+06
+2,3,0.0225,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0118368,0.0002009,0.710905,0.477358,0.0123347,16.6285,nan,0 2 4,1.365e+06
+2,4,0.025,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0161088,0.00029076,0.746994,0.502072,0.0136271,16.8207,nan,0 2 4,708075
+2,5,0.0275,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.021772,0.000376992,0.77808,0.523551,0.014996,0.0443481,nan,0 2 4,370836
+2,6,0.03,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0290723,0.000505344,0.804475,0.542001,0.0163238,2.5536,nan,0 2 4,197842
+2,7,0.0325,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0382507,0.00070363,0.827256,0.558111,0.0176439,10.3254,nan,0 2 4,106816
+2,8,0.035,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0494225,0.000993578,0.846506,0.571923,0.0190769,18.387,nan,0 2 4,59054
+2,9,0.04,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0811637,0.00148286,0.875811,0.593953,0.0217265,19.8146,nan,0 2 4,19975
+2,10,0.045,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.126989,0.00259313,0.895835,0.610451,0.024499,14.065,nan,0 2 4,7844
+2,11,0.05,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.188296,0.00382431,0.907015,0.622186,0.0269397,16.5711,nan,0 2 4,3979
+3,1,0.0001,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,4.355e-07,2.75103e-07,0.00493165,0.0032882,4.1706e-05,0.0940446,1.60796,0 3 6 18,2.73029e+07
+3,2,0.0002,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,1.326e-06,3.64394e-07,0.00983346,0.00655696,8.49555e-05,0.0782173,1.3399,0 3 6 18,2.48506e+07
+3,3,0.0005,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,2.82204e-06,7.34682e-07,0.0243979,0.016268,0.000208403,1.63578,nan,0 3 6 18,1.87376e+07
+3,4,0.001,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,1.595e-05,1.31787e-06,0.0481718,0.0321297,0.00041914,0.0974438,1.08115,0 3 6 18,1.17085e+07
+3,5,0.002,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,6.34948e-05,2.66286e-06,0.0939709,0.0627048,0.000836005,0.280482,1.0806,0 3 6 18,4.57408e+06
+3,6,0.005,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.00044296,1.19579e-05,0.218494,0.146009,0.00209078,0.702457,1.00392,0 3 6 18,273262
+3,7,0.0075,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.00107975,2.43619e-05,0.308964,0.206722,0.00316644,2.54553,0.815793,0 3 6 18,26212
+3,8,0.01,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.00217927,4.60705e-05,0.386681,0.259124,0.00419251,1.82201,0.679237,0 3 6 18,2676
+3,9,0.0125,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.00385995,7.80325e-05,0.4629,0.310673,0.00523578,6.85999,nan,0 3 6,385351
+3,0,0.015,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.00600356,0.000121354,0.530922,0.356764,0.0081921,nan,nan,0 3,2.92548e+07
+3,1,0.0175,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.00919296,0.000184803,0.584995,0.393812,0.00972884,nan,nan,0 3,1.78909e+07
+3,2,0.02,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0136004,0.000280971,0.632168,0.426448,0.0110784,nan,nan,0 3,1.1005e+07
+3,3,0.0225,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0195448,0.000389616,0.672997,0.455056,0.0123347,nan,nan,0 3,6.83316e+06
+3,4,0.025,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0274506,0.000491843,0.708193,0.480139,0.0136271,nan,nan,0 3,4.29382e+06
+3,5,0.0275,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0380928,0.000619942,0.738506,0.502298,0.014996,nan,nan,0 3,2.73388e+06
+3,6,0.03,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0515938,0.000898002,0.764222,0.521646,0.0163238,nan,nan,0 3,1.77427e+06
+3,7,0.0325,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0688875,0.0012676,0.785957,0.538716,0.0176439,nan,nan,0 3,1.17631e+06
+3,8,0.035,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0909173,0.00176811,0.803845,0.553731,0.0190769,nan,nan,0 3,802928
+3,9,0.04,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.146386,0.0022287,0.829586,0.578004,0.0217265,nan,nan,0 3,415590
+3,10,0.045,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.217782,0.00331179,0.844522,0.596875,0.024499,nan,nan,0 3,250413
+3,11,0.05,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.296108,0.00422328,0.851279,0.611557,0.0269397,nan,nan,0 3,175084
+4,1,0.0001,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,2.1048e-06,1.17233e-06,0.00478967,0.00319521,4.1706e-05,nan,nan,0 4,2.92821e+07
+4,2,0.0002,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,3.34162e-06,2.16347e-06,0.00956959,0.00638304,8.49555e-05,nan,nan,0 4,2.85805e+07
+4,3,0.0005,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0,9.94762e-07,0.0237176,0.0158117,0.000208403,nan,nan,0 4,2.65807e+07
+4,4,0.001,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,1.62032e-05,3.54435e-06,0.0468544,0.0312517,0.00041914,nan,nan,0 4,2.35503e+07
+4,5,0.002,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,7.38457e-05,5.04024e-06,0.0915366,0.0610915,0.000836005,nan,nan,0 4,1.84879e+07
+4,6,0.005,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.000631463,1.49276e-05,0.212781,0.142351,0.00209078,nan,nan,0 4,8.97098e+06
+4,7,0.0075,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.00153789,3.808e-05,0.300585,0.201466,0.00316644,nan,nan,0 4,4.93218e+06
+4,8,0.01,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.00325207,6.04691e-05,0.378004,0.254025,0.00419251,nan,nan,0 4,2.72184e+06
+4,9,0.0125,Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery,clifford+check,0.00577489,0.000151061,0.445761,0.300375,0.00523578,nan,nan,0 4,1.51466e+06
+4,0,0.015,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.00973677,0.000203132,0.505501,0.341815,0.0081921,nan,nan,0 4,1.69483e+07
+4,1,0.0175,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0154816,0.000300637,0.557062,0.378232,0.00972884,nan,nan,0 4,9.63483e+06
+4,2,0.02,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0235336,0.000408017,0.60144,0.410339,0.0110784,nan,nan,0 4,5.57981e+06
+4,3,0.0225,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0349432,0.000737526,0.639428,0.438885,0.0123347,nan,nan,0 4,3.30322e+06
+4,4,0.025,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0501382,0.000980499,0.671342,0.46404,0.0136271,nan,nan,0 4,2.01621e+06
+4,5,0.0275,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0699131,0.00142595,0.697892,0.486383,0.014996,nan,nan,0 4,1.27362e+06
+4,6,0.03,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.0943552,0.00171707,0.71909,0.505898,0.0163238,nan,nan,0 4,842906
+4,7,0.0325,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.123735,0.00221004,0.735909,0.523283,0.0176439,nan,nan,0 4,583489
+4,8,0.035,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.156287,0.00274813,0.748698,0.538407,0.0190769,nan,nan,0 4,424289
+4,9,0.04,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.230578,0.00333246,0.764545,0.563987,0.0217265,nan,nan,0 4,258096
+4,10,0.045,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.300565,0.00381962,0.771137,0.582879,0.024499,nan,nan,0 4,182790
+4,11,0.05,Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp,clifford+check,0.382522,0.00762238,0.771489,0.601736,0.0269397,nan,nan,0 4,145131

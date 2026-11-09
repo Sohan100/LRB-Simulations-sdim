@@ -1,0 +1,104 @@
+{
+  "backend": "dem",
+  "batch_size": 100000,
+  "code_name": "folded_qutrit_conv_sites",
+  "complete": true,
+  "indices": {
+    "0": {
+      "current_generation": "progress/0/.checkpoint_generations/gen-020000000-0c0903543e134accaef4c1d62d737a64",
+      "error": null,
+      "probability": 0.015,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "1": {
+      "current_generation": "progress/1/.checkpoint_generations/gen-020000000-3068f82613534fb9a2a04ec0ec01dcb9",
+      "error": null,
+      "probability": 0.0175,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "10": {
+      "current_generation": "progress/10/.checkpoint_generations/gen-020000000-3e90f0a5b7504d4a9bc3f6e81d4af415",
+      "error": null,
+      "probability": 0.045,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "11": {
+      "current_generation": "progress/11/.checkpoint_generations/gen-020000000-3135f1cf560644eab355eb842133bdad",
+      "error": null,
+      "probability": 0.05,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "2": {
+      "current_generation": "progress/2/.checkpoint_generations/gen-020000000-0850a0a1db754486968c2eac5de1f604",
+      "error": null,
+      "probability": 0.02,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "3": {
+      "current_generation": "progress/3/.checkpoint_generations/gen-020000000-9ae1e6cbae05441392806480eadb2b59",
+      "error": null,
+      "probability": 0.0225,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "4": {
+      "current_generation": "progress/4/.checkpoint_generations/gen-020000000-6b936d1cd97441dc9dc07bdd62de2ec4",
+      "error": null,
+      "probability": 0.025,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "5": {
+      "current_generation": "progress/5/.checkpoint_generations/gen-020000000-2da9d66eedb9447aa01ae48a8ca078d4",
+      "error": null,
+      "probability": 0.0275,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "6": {
+      "current_generation": "progress/6/.checkpoint_generations/gen-020000000-54a554f5859c452b88e11b78ddf1db1d",
+      "error": null,
+      "probability": 0.03,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "7": {
+      "current_generation": "progress/7/.checkpoint_generations/gen-020000000-729e041d80694c4eb382698c6263eb35",
+      "error": null,
+      "probability": 0.0325,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "8": {
+      "current_generation": "progress/8/.checkpoint_generations/gen-020000000-a7cbcc603ac64236b2a3eca051906f61",
+      "error": null,
+      "probability": 0.035,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "9": {
+      "current_generation": "progress/9/.checkpoint_generations/gen-020000000-c7c3d64c41aa41e3b17dddcb0fa73b23",
+      "error": null,
+      "probability": 0.04,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    }
+  },
+  "invalid_indices": [],
+  "metadata_errors": [],
+  "noise_model": "si1000",
+  "probability_count": 12,
+  "resubmittable_indices": [],
+  "run_name": "Run-2026-11-01-09-25-50-folded_qutrit_conv_sites-conv-sites-si1000-sdim140-highp-ext",
+  "run_path": "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/conventional-sites/LRB-experiment-data-slurm/Run-2026-11-01-09-25-50-folded_qutrit_conv_sites-conv-sites-si1000-sdim140-highp-ext",
+  "schema_version": 1,
+  "strict_production_grid": false,
+  "strict_single_ancilla_si1000": false,
+  "valid": true,
+  "validated_utc": "2026-11-01T19:30:57Z"
+}

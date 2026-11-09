@@ -1,0 +1,76 @@
+{
+  "backend": "dem",
+  "batch_size": 100000,
+  "code_name": "folded_qubit_split_unif",
+  "complete": true,
+  "indices": {
+    "0": {
+      "current_generation": "progress/0/.checkpoint_generations/gen-020000000-c52e4c82e6b64278bb911fd4f8af26aa",
+      "error": null,
+      "probability": 0.025,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "1": {
+      "current_generation": "progress/1/.checkpoint_generations/gen-020000000-561436eb0ae44889a5b4404ffad09190",
+      "error": null,
+      "probability": 0.03,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "2": {
+      "current_generation": "progress/2/.checkpoint_generations/gen-020000000-90681389bf634decada1775c8dc58f1f",
+      "error": null,
+      "probability": 0.035,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "3": {
+      "current_generation": "progress/3/.checkpoint_generations/gen-020000000-3ada59385b984a649516f4dd63d3cc3a",
+      "error": null,
+      "probability": 0.04,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "4": {
+      "current_generation": "progress/4/.checkpoint_generations/gen-020000000-3bc4f4c7c2954123aa91fe5876923faf",
+      "error": null,
+      "probability": 0.045,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "5": {
+      "current_generation": "progress/5/.checkpoint_generations/gen-020000000-5e47be08ab684fc3a737d486fcfff214",
+      "error": null,
+      "probability": 0.05,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "6": {
+      "current_generation": "progress/6/.checkpoint_generations/gen-020000000-27725356745446619d9e73d6ea19bc12",
+      "error": null,
+      "probability": 0.055,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "7": {
+      "current_generation": "progress/7/.checkpoint_generations/gen-020000000-2b6eb62d902444168d7f550df78b9dc2",
+      "error": null,
+      "probability": 0.06,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    }
+  },
+  "invalid_indices": [],
+  "metadata_errors": [],
+  "noise_model": "sd6",
+  "probability_count": 8,
+  "resubmittable_indices": [],
+  "run_name": "Run-2026-10-31-10-13-09-folded_qubit_split_unif-split-ancilla-sd6-sdim140-highp-ext",
+  "run_path": "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/qubit-lrbd-sdim140/LRB-experiment-data-slurm/Run-2026-10-31-10-13-09-folded_qubit_split_unif-split-ancilla-sd6-sdim140-highp-ext",
+  "schema_version": 1,
+  "strict_production_grid": false,
+  "strict_single_ancilla_si1000": false,
+  "valid": true,
+  "validated_utc": "2026-10-31T21:00:13Z"
+}

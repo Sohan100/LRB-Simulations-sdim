@@ -1,0 +1,209 @@
+{
+  "backend": "dem",
+  "batch_size": 100000,
+  "code_name": "folded_qubit_conv_sites",
+  "complete": true,
+  "indices": {
+    "0": {
+      "current_generation": "progress/0/.checkpoint_generations/gen-001000000-e70451b4c31e4a13b85be4026f617e35",
+      "error": null,
+      "probability": 0.003,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "1": {
+      "current_generation": "progress/1/.checkpoint_generations/gen-001000000-45f360b1f8b040258a1cd5bb682325e6",
+      "error": null,
+      "probability": 0.0035,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "10": {
+      "current_generation": "progress/10/.checkpoint_generations/gen-001000000-0b34fbc297dd4d79a579fd32584aee9f",
+      "error": null,
+      "probability": 0.01,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "11": {
+      "current_generation": "progress/11/.checkpoint_generations/gen-001000000-4d42fd2a46c14a9085b11c9dc4b11789",
+      "error": null,
+      "probability": 0.011,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "12": {
+      "current_generation": "progress/12/.checkpoint_generations/gen-001000000-10e17ca4e2714644be82959dc9125fc2",
+      "error": null,
+      "probability": 0.012,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "13": {
+      "current_generation": "progress/13/.checkpoint_generations/gen-001000000-c8f054e9cbf346f5b09e6388014770e2",
+      "error": null,
+      "probability": 0.013,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "14": {
+      "current_generation": "progress/14/.checkpoint_generations/gen-001000000-220b1835192441d08473493e2e1b063a",
+      "error": null,
+      "probability": 0.014,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "15": {
+      "current_generation": "progress/15/.checkpoint_generations/gen-001000000-2e59b6b536484793aaa1ea631e5e5983",
+      "error": null,
+      "probability": 0.015,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "16": {
+      "current_generation": "progress/16/.checkpoint_generations/gen-001000000-729890384640459180b520ea9e156b1f",
+      "error": null,
+      "probability": 0.016,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "17": {
+      "current_generation": "progress/17/.checkpoint_generations/gen-001000000-5656fc2321ee4724a568f62a0561e1e1",
+      "error": null,
+      "probability": 0.017,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "18": {
+      "current_generation": "progress/18/.checkpoint_generations/gen-001000000-cd4a831a45ce4c82879f90c376aaf881",
+      "error": null,
+      "probability": 0.018,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "19": {
+      "current_generation": "progress/19/.checkpoint_generations/gen-001000000-e0605f96097b474a9f622597a53e1edb",
+      "error": null,
+      "probability": 0.019,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "2": {
+      "current_generation": "progress/2/.checkpoint_generations/gen-001000000-f389445f5d8049e8b2ee942dc7b99a52",
+      "error": null,
+      "probability": 0.004,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "20": {
+      "current_generation": "progress/20/.checkpoint_generations/gen-001000000-6c992dd11b5449c3a10bec1908f1d598",
+      "error": null,
+      "probability": 0.02,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "21": {
+      "current_generation": "progress/21/.checkpoint_generations/gen-001000000-6d64600d0e1e4af6aa3542179efd13e9",
+      "error": null,
+      "probability": 0.021,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "22": {
+      "current_generation": "progress/22/.checkpoint_generations/gen-001000000-9a886899a8a0428ba4b7c768184fe921",
+      "error": null,
+      "probability": 0.022,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "23": {
+      "current_generation": "progress/23/.checkpoint_generations/gen-001000000-a0694b43167f4d82aa60ec618fc877c3",
+      "error": null,
+      "probability": 0.023,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "24": {
+      "current_generation": "progress/24/.checkpoint_generations/gen-001000000-9e3772a93a8a40bea2dfe630ba723af7",
+      "error": null,
+      "probability": 0.024,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "25": {
+      "current_generation": "progress/25/.checkpoint_generations/gen-001000000-36f2895e89104445ae21850ea5d06d26",
+      "error": null,
+      "probability": 0.025,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "26": {
+      "current_generation": "progress/26/.checkpoint_generations/gen-001000000-5e000e9f49e04058884bcf758f1d7cb3",
+      "error": null,
+      "probability": 0.026,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "3": {
+      "current_generation": "progress/3/.checkpoint_generations/gen-001000000-ac6b90431b5f405391fe4cbd079bc935",
+      "error": null,
+      "probability": 0.0045,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "4": {
+      "current_generation": "progress/4/.checkpoint_generations/gen-001000000-6c8c544a2ede4f54ad952e25ca989a74",
+      "error": null,
+      "probability": 0.005,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "5": {
+      "current_generation": "progress/5/.checkpoint_generations/gen-001000000-09b8bbfd7dc64ae0be696a8cd5fa145d",
+      "error": null,
+      "probability": 0.0055,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "6": {
+      "current_generation": "progress/6/.checkpoint_generations/gen-001000000-dc1e33d67bad46f997395dcc469b1288",
+      "error": null,
+      "probability": 0.006,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "7": {
+      "current_generation": "progress/7/.checkpoint_generations/gen-001000000-81c88d8b657445e896925067846b2616",
+      "error": null,
+      "probability": 0.007,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "8": {
+      "current_generation": "progress/8/.checkpoint_generations/gen-001000000-b3d44336a7004ba3b0ec8434bce1b40a",
+      "error": null,
+      "probability": 0.008,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    },
+    "9": {
+      "current_generation": "progress/9/.checkpoint_generations/gen-001000000-889d5d0024b34478bd5e1d44fe3fa69e",
+      "error": null,
+      "probability": 0.009,
+      "shots_remaining": 0,
+      "status": "COMPLETE_VALID"
+    }
+  },
+  "invalid_indices": [],
+  "metadata_errors": [],
+  "noise_model": "sd6",
+  "probability_count": 27,
+  "resubmittable_indices": [],
+  "run_name": "Run-2026-11-02-01-15-57-folded_qubit_conv_sites-conv-sites-sd6-sdim140-threshold-refine-wide",
+  "run_path": "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/conventional-sites/LRB-experiment-data-slurm/Run-2026-11-02-01-15-57-folded_qubit_conv_sites-conv-sites-sd6-sdim140-threshold-refine-wide",
+  "schema_version": 1,
+  "strict_production_grid": false,
+  "strict_single_ancilla_si1000": false,
+  "valid": true,
+  "validated_utc": "2026-11-02T09:38:16Z"
+}
