@@ -224,6 +224,22 @@ class LRBResultsPlotter:
     _CODE_TITLE_BY_NAME: dict[str, str] = {
         "qgrm_3_1_2": r"$[[3,1,2]]_3$",
         "folded_qutrit": r"$[[5,1,2]]_3$",
+        "folded_qutrit_split_unif": r"$[[5,1,2]]_3$ split-ancilla",
+        "folded_qubit": r"$[[5,1,2]]_2$",
+        "folded_qubit_split_unif": r"$[[5,1,2]]_2$ split-ancilla",
+        "folded_qutrit_conv_sites": r"$[[5,1,2]]_3$ two-ancilla sites",
+        "folded_qubit_conv_sites": r"$[[5,1,2]]_2$ two-ancilla sites",
+    }
+    # Logical dimension of codes that are not qutrit codes, used when a run
+    # folder has no d.txt.
+    _DIMENSION_BY_CODE_NAME: dict[str, int] = {
+        "folded_qubit": 2,
+        "folded_qubit_split_unif": 2,
+        "folded_qubit_conv_sites": 2,
+    }
+    _NOISE_TITLE_BY_NAME: dict[str, str] = {
+        "si1000": "SI1000",
+        "sd6": "SD6",
     }
 
     def __init__(
@@ -326,6 +342,18 @@ class LRBResultsPlotter:
             if value not in ("", "0"):
                 self.code_name = value
         self.code_title = self._format_code_title(self.code_name)
+        if not os.path.exists(d_path):
+            self.d_dim = self._DIMENSION_BY_CODE_NAME.get(
+                self.code_name, self.d_dim)
+        # Circuit-level runs name their noise model in every title.
+        noise_model_path = os.path.join(self.working_folder, "noise_model.txt")
+        self.noise_model = ""
+        if os.path.exists(noise_model_path):
+            self.noise_model = ExperimentSetupManager.fetch_single_param(
+                noise_model_path)
+        noise_title = self._NOISE_TITLE_BY_NAME.get(self.noise_model)
+        if noise_title:
+            self.code_title = f"{self.code_title}, {noise_title}"
 
     @classmethod
     def _format_code_title(cls, code_name: str) -> str:
@@ -852,7 +880,7 @@ class LRBResultsPlotter:
     ) -> tuple[dict[str, float] | None, tuple[list[int], list[float],
                                               list[float]]]:
         """
-        Build filtered RB series and apply free-a fitting.
+        Build filtered RB series and apply the configured RB fit model.
 
         Args:
             stats_list (list[dict[str, Any]] | None): Per-depth RB stats.
@@ -867,16 +895,27 @@ class LRBResultsPlotter:
         means = self._extract_series(stats_list, "mean", len(self.depths))
         errs = self._extract_series(stats_list, "std", len(self.depths))
         x, y, e = self._mask_invalid(self.depths, means, errs)
+        return self._fit_rb_series(x, y, e), (x, y, e)
+
+    def _fit_rb_series(
+        self,
+        depths: list[int] | np.ndarray,
+        means: list[float] | np.ndarray,
+        errors: list[float] | np.ndarray,
+    ) -> dict[str, float] | None:
+        """
+        Fit one RB series with the configured model: free offset when
+        ``rb_a_fixed`` is ``None``, otherwise the fixed offset. The point
+        estimate and its bootstrap both use this so they share one model.
+        """
         if self.fit_config.rb_a_fixed is None:
-            fit = self._fit_decay_parameter_free_a(x, y, e)
-        else:
-            fit = self._fit_decay_parameter_fixed_a(
-                x,
-                y,
-                e,
-                a_fixed=self.fit_config.rb_a_fixed,
-            )
-        return fit, (x, y, e)
+            return self._fit_decay_parameter_free_a(depths, means, errors)
+        return self._fit_decay_parameter_fixed_a(
+            depths,
+            means,
+            errors,
+            a_fixed=self.fit_config.rb_a_fixed,
+        )
 
     def _decay_to_fidelity(self, decay: float) -> float:
         """
@@ -2237,7 +2276,8 @@ class LRBResultsPlotter:
             depths (list[int] | np.ndarray): Depth values used in fit.
             means (list[float] | np.ndarray): Mean fidelities per depth.
             std_values (list[float] | np.ndarray): Std values per depth.
-            fit_kind (str): ``"lrb"`` (fixed-a) or ``"rb"`` (free-a).
+            fit_kind (str): ``"lrb"`` (fixed-a) or ``"rb"`` (the configured
+                RB model, matching the point estimate).
             n_boot (int): Number of bootstrap replicates.
             ci_level (float): Central CI level.
             use_sem (bool): Whether to use SEM bootstrap noise.
@@ -2285,11 +2325,7 @@ class LRBResultsPlotter:
                     errors=fit_errors,
                 )
             elif fit_kind == "rb":
-                fit = self._fit_decay_parameter_free_a(
-                    depths=x,
-                    means=y_boot,
-                    errors=fit_errors,
-                )
+                fit = self._fit_rb_series(x, y_boot, fit_errors)
             else:
                 raise ValueError(f"Unsupported fit_kind: {fit_kind}")
             if fit is None:

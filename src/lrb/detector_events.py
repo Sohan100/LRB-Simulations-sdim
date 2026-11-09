@@ -10,6 +10,7 @@ perfectly valid detector data under labels the runtime never reads.
 
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 from typing import Any, Iterable, Sequence
 
@@ -184,3 +185,96 @@ def indices_and_coefficients_from_wire_terms(
         resolved_coefficients.append(int(coefficient))
 
     return resolved_indices, resolved_coefficients
+
+
+_LINEAR_TERM_PATTERN = re.compile(r"(?:(-?\d+)\*)?(-)?rec\[(-?\d+)\]")
+_MEASUREMENT_GATE_IDS = (14, 15)
+_RESET_GATE_ID = 16
+_EVENT_GATE_KINDS = {19: "detectors", 20: "logicals"}
+
+
+def linear_expression_terms(expression: str) -> list[tuple[int, int]]:
+    """
+    Parse a detector expression emitted by
+    ``expression_from_measurement_indices`` into ``(rec index, coefficient)``
+    terms.
+
+    Args:
+        expression (str): Expression such as ``"rec[4]+-rec[9]+2*rec[11]"``
+            or ``"0"``.
+
+    Returns:
+        list[tuple[int, int]]: Record indices (negative ones count back from
+        the measurements seen so far) and their integer coefficients.
+
+    Raises:
+        ValueError: If a term is not of the linear ``c*rec[i]`` form.
+    """
+    terms: list[tuple[int, int]] = []
+    for raw_term in str(expression).split("+"):
+        term = raw_term.replace(" ", "")
+        if term in ("", "0"):
+            continue
+        match = _LINEAR_TERM_PATTERN.fullmatch(term)
+        if match is None:
+            raise ValueError(
+                f"Detector term '{raw_term}' in '{expression}' is not a "
+                "linear rec[...] term.")
+        coefficient = int(match.group(1) or 1)
+        if match.group(2):
+            coefficient = -coefficient
+        terms.append((int(match.group(3)), coefficient))
+    return terms
+
+
+def reference_event_values(
+    circuit: Any,
+    measurement_results: Any,
+) -> dict[str, list[int]]:
+    """
+    Evaluate every DETECTOR and LOGICAL_OBSERVABLE on reference shot zero.
+
+    Frame and DEM samplers report each event as a shift from the noiseless
+    reference shot. The absolute value of an event is that shift plus the
+    reference value returned here, which this helper computes directly from
+    the event's own ``rec[...]`` expression. Unlike indexing the raw
+    measurement tensor by a fixed per-wire stride, this does not depend on
+    where RESET operations (which add measurement rounds but no records) sit
+    in the circuit.
+
+    Args:
+        circuit (Any): SDIM circuit with ``DETECTOR``/``LOGICAL_OBSERVABLE``
+            operations carrying an ``expr`` parameter.
+        measurement_results (Any): SDIM measurement tensor indexed as
+            ``[qudit][measurement round][shot]``, where RESET also adds a
+            round.
+
+    Returns:
+        dict[str, list[int]]: ``{"detectors": [...], "logicals": [...]}``
+        reference values modulo the circuit dimension, in circuit order.
+    """
+    dimension = int(circuit.dimension)
+    rounds_seen: dict[int, int] = defaultdict(int)
+    records: list[int] = []
+    values: dict[str, list[int]] = {"detectors": [], "logicals": []}
+
+    for operation in circuit.operations:
+        gate_id = operation.gate_id
+        if gate_id in _MEASUREMENT_GATE_IDS or gate_id == _RESET_GATE_ID:
+            qudit = int(operation.qudit_index)
+            if gate_id != _RESET_GATE_ID:
+                records.append(int(
+                    measurement_results[qudit][rounds_seen[qudit]][0]
+                    .measurement_value))
+            rounds_seen[qudit] += 1
+            continue
+        kind = _EVENT_GATE_KINDS.get(gate_id)
+        if kind is None:
+            continue
+        value = 0
+        for record_index, coefficient in linear_expression_terms(
+                operation.params.get("expr", "0")):
+            value += coefficient * records[record_index]
+        values[kind].append(value % dimension)
+
+    return values

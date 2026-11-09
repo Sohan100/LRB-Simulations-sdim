@@ -17,10 +17,7 @@ if str(SRC_PATH) not in sys.path:
 from sdim.circuit_io import read_circuit
 from sdim.program import Program
 
-from lrb.dem_simulation import (
-    build_compact_detector_error_model,
-    sample_detector_error_model,
-)
+from lrb.dem_simulation import build_circuit_dem, sample_circuit_dem
 from lrb.lrb_simulation import NoiseModelUtils
 from lrb.project_paths import DEFAULT_RUNS_ROOT
 
@@ -99,7 +96,6 @@ def append_row(
     all_noise_locations: int,
     detector_count: int,
     logical_count: int,
-    response_batch_size: int,
 ) -> None:
     rows.append(
         {
@@ -114,7 +110,6 @@ def append_row(
             "all_noise_locations": all_noise_locations,
             "detector_count": detector_count,
             "logical_count": logical_count,
-            "response_batch_size": response_batch_size,
         }
     )
 
@@ -124,7 +119,6 @@ def benchmark_circuit(
     *,
     shots_values: list[int],
     repeats: int,
-    response_batch_size: int,
     skip_sdim: bool,
 ) -> list[dict[str, object]]:
     if not circuit_path.exists():
@@ -135,10 +129,7 @@ def benchmark_circuit(
         compile_circuit = read_circuit(str(circuit_path))
         operation_count = len(compile_circuit.operations)
         compile_seconds, model = time_call(
-            lambda: build_compact_detector_error_model(
-                compile_circuit,
-                response_batch_size=response_batch_size,
-            )
+            lambda: build_circuit_dem(compile_circuit)
         )
         append_row(
             rows,
@@ -149,16 +140,15 @@ def benchmark_circuit(
             repeat=repeat,
             shots=None,
             operation_count=operation_count,
-            active_noise_locations=len(model.locations),
-            all_noise_locations=model.all_noise_locations,
+            active_noise_locations=len(model.dem.mechanisms),
+            all_noise_locations=model.total_noise_locations,
             detector_count=model.num_detectors,
             logical_count=model.num_logical_observables,
-            response_batch_size=response_batch_size,
         )
 
         for shots in shots_values:
             sample_seconds, _payload = time_call(
-                lambda: sample_detector_error_model(
+                lambda: sample_circuit_dem(
                     model,
                     extra_shots=max(0, shots - 1),
                 )
@@ -172,12 +162,11 @@ def benchmark_circuit(
                 repeat=repeat,
                 shots=shots,
                 operation_count=operation_count,
-                active_noise_locations=len(model.locations),
-                all_noise_locations=model.all_noise_locations,
+                active_noise_locations=len(model.dem.mechanisms),
+                all_noise_locations=model.total_noise_locations,
                 detector_count=model.num_detectors,
                 logical_count=model.num_logical_observables,
-                response_batch_size=response_batch_size,
-            )
+                )
 
             if skip_sdim:
                 continue
@@ -196,12 +185,11 @@ def benchmark_circuit(
                 repeat=repeat,
                 shots=shots,
                 operation_count=operation_count,
-                active_noise_locations=len(model.locations),
-                all_noise_locations=model.all_noise_locations,
+                active_noise_locations=len(model.dem.mechanisms),
+                all_noise_locations=model.total_noise_locations,
                 detector_count=model.num_detectors,
                 logical_count=model.num_logical_observables,
-                response_batch_size=response_batch_size,
-            )
+                )
 
     return rows
 
@@ -220,7 +208,6 @@ def write_rows(path: Path, rows: list[dict[str, object]]) -> None:
         "all_noise_locations",
         "detector_count",
         "logical_count",
-        "response_batch_size",
     ]
     with path.open("w", newline="") as output_file:
         writer = csv.DictWriter(output_file, fieldnames=fieldnames)
@@ -279,7 +266,6 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--depth-file-indices", default="0")
     parser.add_argument("--shots", default="100,1000")
     parser.add_argument("--repeats", type=int, default=3)
-    parser.add_argument("--dem-response-batch-size", type=int, default=256)
     parser.add_argument(
         "--skip-sdim",
         action="store_true",
@@ -298,8 +284,6 @@ def main() -> None:
     args = parser.parse_args()
     if args.repeats < 1:
         parser.error("--repeats must be at least 1")
-    if args.dem_response_batch_size < 1:
-        parser.error("--dem-response-batch-size must be at least 1")
 
     circuit_paths = resolve_circuit_paths(args)
     shots_values = parse_int_csv(args.shots)
@@ -310,7 +294,6 @@ def main() -> None:
                 circuit_path,
                 shots_values=shots_values,
                 repeats=args.repeats,
-                response_batch_size=args.dem_response_batch_size,
                 skip_sdim=args.skip_sdim,
             )
         )

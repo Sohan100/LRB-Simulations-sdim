@@ -18,6 +18,10 @@ from .circuit_generator import LRBCodeDefinition, LRBCodeDefinitionFactory
 
 DEFAULT_CODE_NAME = "folded_qutrit"
 SPLIT_UNIFORM_FOLDED_CODE_NAME = "folded_qutrit_split_unif"
+FOLDED_QUBIT_CODE_NAME = "folded_qubit"
+SPLIT_UNIFORM_FOLDED_QUBIT_CODE_NAME = "folded_qubit_split_unif"
+CONVENTIONAL_SITES_FOLDED_CODE_NAME = "folded_qutrit_conv_sites"
+CONVENTIONAL_SITES_FOLDED_QUBIT_CODE_NAME = "folded_qubit_conv_sites"
 
 
 @dataclass(frozen=True)
@@ -248,6 +252,202 @@ class CodeSimulationProfileRegistry:
             ),
             "depth_zero_noise_wires": (0, 1, 2, 3, 4),
         },
+        FOLDED_QUBIT_CODE_NAME: {
+            "dimension": 2,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 9,
+            "clifford_strings": (
+                defns.single_qubit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QubitCliffordLibrary.qubit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QubitCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQubitDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQubitDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQubitDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQubitDetectionCode.
+                    z_ALT_stabilizer_measurement_ancillae_circuit,
+                    {5, 6},
+                ),
+                (
+                    defns.FoldedQubitDetectionCode.
+                    x_stabilizer_measurement_ancillae_circuit,
+                    {7, 8},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQubitDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQubitDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQubitDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
+        SPLIT_UNIFORM_FOLDED_QUBIT_CODE_NAME: {
+            "dimension": 2,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 11,
+            "clifford_strings": (
+                defns.single_qubit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QubitCliffordLibrary.qubit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QubitCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQubitSplitAncillaUniformDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQubitSplitAncillaUniformDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQubitSplitAncillaUniformDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQubitSplitAncillaUniformDetectionCode.
+                    z_boundary_split_stabilizer_measurement_ancillae_circuit,
+                    {5, 9},
+                ),
+                (
+                    defns.FoldedQubitSplitAncillaUniformDetectionCode.
+                    z_middle_stabilizer_measurement_ancillae_circuit,
+                    {6},
+                ),
+                (
+                    defns.FoldedQubitSplitAncillaUniformDetectionCode.
+                    x_middle_stabilizer_measurement_ancillae_circuit,
+                    {7},
+                ),
+                (
+                    defns.FoldedQubitSplitAncillaUniformDetectionCode.
+                    x_boundary_split_stabilizer_measurement_ancillae_circuit,
+                    {8, 10},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQubitSplitAncillaUniformDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQubitSplitAncillaUniformDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQubitSplitAncillaUniformDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
+        CONVENTIONAL_SITES_FOLDED_CODE_NAME: {
+            "dimension": 3,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 9,
+            "clifford_strings": (
+                defns.single_qutrit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QutritCliffordLibrary.qutrit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QutritCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQutritConventionalSitesDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQutritConventionalSitesDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQutritConventionalSitesDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQutritConventionalSitesDetectionCode.
+                    conventional_sites_check_round_circuit,
+                    {5, 6, 7, 8},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQutritConventionalSitesDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQutritConventionalSitesDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQutritConventionalSitesDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
+        CONVENTIONAL_SITES_FOLDED_QUBIT_CODE_NAME: {
+            "dimension": 2,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 9,
+            "clifford_strings": (
+                defns.single_qubit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QubitCliffordLibrary.qubit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QubitCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQubitConventionalSitesDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQubitConventionalSitesDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQubitConventionalSitesDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQubitConventionalSitesDetectionCode.
+                    conventional_sites_check_round_circuit,
+                    {5, 6, 7, 8},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQubitConventionalSitesDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQubitConventionalSitesDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQubitConventionalSitesDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
         "qgrm_3_1_2": {
             "dimension": 3,
             "physical_num_qudits": 1,
@@ -340,6 +540,88 @@ class CodeSimulationProfileRegistry:
                 split_ancilla_stabilizer_check
             ),
         ),
+        # Qubit profiles: the qutrit layouts with every coefficient read
+        # modulo two (-1 = +1).
+        FOLDED_QUBIT_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(5, 6, 7, 8),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 2
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQubitDetectionCode.codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, 1)),
+                ((3, 1), (1, 1), (4, 1)),
+            ),
+            stabilizer_pass_fn=(
+                lambda measurements: all(v % 2 == 0 for v in measurements)
+            ),
+            dimension=2,
+        ),
+        SPLIT_UNIFORM_FOLDED_QUBIT_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(5, 6, 7, 8, 9, 10),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 2
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQubitSplitAncillaUniformDetectionCode.
+                codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, 1)),
+                ((3, 1), (1, 1), (4, 1)),
+            ),
+            stabilizer_pass_fn=(
+                defns.FoldedQubitSplitAncillaUniformDetectionCode.
+                split_ancilla_stabilizer_check
+            ),
+            dimension=2,
+        ),
+        # Conventional-site two-ancilla profiles: four sites read once per
+        # round, every readout must vanish.
+        CONVENTIONAL_SITES_FOLDED_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(5, 6, 7, 8),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 3
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQutritConventionalSitesDetectionCode.codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, -1)),
+                ((3, 1), (1, -1), (4, -1)),
+            ),
+        ),
+        CONVENTIONAL_SITES_FOLDED_QUBIT_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(5, 6, 7, 8),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 2
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQubitConventionalSitesDetectionCode.codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, 1)),
+                ((3, 1), (1, 1), (4, 1)),
+            ),
+            stabilizer_pass_fn=(
+                lambda measurements: all(v % 2 == 0 for v in measurements)
+            ),
+            dimension=2,
+        ),
         "qgrm_3_1_2": _UnpackSpec(
             stabilizer_wires=(3, 4),
             logical_measurement_wires=(0, 1),
@@ -362,6 +644,10 @@ class CodeSimulationProfileRegistry:
         "folded_qutrit": 3,
         SPLIT_UNIFORM_FOLDED_CODE_NAME: 3,
         "qgrm_3_1_2": 3,
+        FOLDED_QUBIT_CODE_NAME: 2,
+        SPLIT_UNIFORM_FOLDED_QUBIT_CODE_NAME: 2,
+        CONVENTIONAL_SITES_FOLDED_CODE_NAME: 3,
+        CONVENTIONAL_SITES_FOLDED_QUBIT_CODE_NAME: 2,
     }
 
     @classmethod

@@ -22,6 +22,12 @@ This module provides primary class abstractions used by the LRB workflow:
 4. ``QGRMThreeQutritDetectionCode``
    Encodes the circuit templates for the [[3,1,2]]_3 QGRM qutrit detection
    code, including initialization, logical operators, and stabilizer checks.
+
+5. ``QubitCliffordLibrary``, ``FoldedQubitDetectionCode`` and
+   ``FoldedQubitSplitAncillaUniformDetectionCode``
+   The qubit ``[[5,1,2]]`` counterparts of the folded code: the 24 single-qubit
+   Cliffords and the same circuits built in dimension two, with modulo-two
+   stabilizer checks.
 """
 
 from __future__ import annotations
@@ -55,7 +61,12 @@ SINGLE_QUTRIT_INVERSES: dict[str, str] = {
     "I": "I",
 }
 
-single_qutrit_cliffords_exhaustive_with_S_strings = [
+# The single-qutrit Clifford group modulo global phase has
+# d^3 (d^2 - 1) = 216 elements for d = 3. Every element factors uniquely as a
+# Pauli X^a Z^b (9 choices) times a symplectic part from SL(2, Z_3)
+# (24 choices). Descriptors are words whose rightmost symbol acts first, so
+# the Pauli prefix is applied last.
+QUTRIT_SYMPLECTIC_WORDS = (
     "I",
     "H",
     "S",
@@ -80,198 +91,13 @@ single_qutrit_cliffords_exhaustive_with_S_strings = [
     "HHSHS",
     "HSHSS",
     "SSHSH",
-    "X",
-    "XH",
-    "XS",
-    "XHH",
-    "XHS",
-    "XSH",
-    "XSS",
-    "XHHH",
-    "XHHS",
-    "XHSH",
-    "XHSS",
-    "XSHS",
-    "XSSH",
-    "XHHHS",
-    "XHHSH",
-    "XHHSS",
-    "XHSHS",
-    "XSHSH",
-    "XSHSS",
-    "XSSHS",
-    "XHHHSH",
-    "XHHSHS",
-    "XHSHSS",
-    "XSSHSH",
-    "Z",
-    "ZH",
-    "ZS",
-    "ZHH",
-    "ZHS",
-    "ZSH",
-    "ZSS",
-    "ZHHH",
-    "ZHHS",
-    "ZHSH",
-    "ZHSS",
-    "ZSHS",
-    "ZSSH",
-    "ZHHHS",
-    "ZHHSH",
-    "ZHHSS",
-    "ZHSHS",
-    "ZSHSH",
-    "ZSHSS",
-    "ZSSHS",
-    "ZHHHSH",
-    "ZHHSHS",
-    "ZHSHSS",
-    "ZSSHSH",
-    "XZ",
-    "XZH",
-    "XZS",
-    "XZHH",
-    "XZHS",
-    "XZSH",
-    "XZSS",
-    "XZHHH",
-    "XZHHS",
-    "XZHSH",
-    "XZHS",
-    "XZSHS",
-    "XZSH",
-    "XZHHHS",
-    "XZHHSH",
-    "XZHHSS",
-    "XZHSHS",
-    "XZSHSH",
-    "XZSHSS",
-    "XZSSHS",
-    "XZHHHSH",
-    "XZHHSHS",
-    "XZHSHSS",
-    "XZSSHSH",
-    "XX",
-    "XXH",
-    "XXS",
-    "XXHH",
-    "XXHS",
-    "XXSH",
-    "XXSS",
-    "XXHHH",
-    "XXHHS",
-    "XXHSH",
-    "XXHSS",
-    "XXSHS",
-    "XXSSH",
-    "XXHHHS",
-    "XXHHSH",
-    "XXHHSS",
-    "XXHSHS",
-    "XXSHSH",
-    "XXSHSS",
-    "XXSSHS",
-    "XXHHHSH",
-    "XXHHSHS",
-    "XXHSHSS",
-    "XXSSHSH",
-    "ZZ",
-    "ZZH",
-    "ZZS",
-    "ZZHH",
-    "ZZHS",
-    "ZZSH",
-    "ZZSS",
-    "ZZHHH",
-    "ZZHHS",
-    "ZZHSH",
-    "ZZHSS",
-    "ZZSHS",
-    "ZZSSH",
-    "ZZHHHS",
-    "ZZHHSH",
-    "ZZHHSS",
-    "ZZHSHS",
-    "ZZSHSH",
-    "ZZSHSS",
-    "ZZSSHS",
-    "ZZHHHSH",
-    "ZZHHSHS",
-    "ZZHSHSS",
-    "ZZSSHSH",
-    "XXZZ",
-    "XXZH",
-    "XXZS",
-    "XXZHH",
-    "XXZHS",
-    "XXZSH",
-    "XXZSS",
-    "XXZHHH",
-    "XXZHHS",
-    "XXZHSH",
-    "XXZHS",
-    "XXZSHS",
-    "XXZS",
-    "XXZHHHS",
-    "XXZHHSH",
-    "XXZHHSS",
-    "XXZHSHS",
-    "XXZSHSH",
-    "XXZSHSS",
-    "XXZSSHS",
-    "XXZHHHSH",
-    "XXZHHSHS",
-    "XXZHSHSS",
-    "XXZSSHSH",
-    "ZZXX",
-    "ZZXH",
-    "ZZXS",
-    "ZZXHH",
-    "ZZXHS",
-    "ZZXSH",
-    "ZZXSS",
-    "ZZXHHH",
-    "ZZXHHS",
-    "ZZXHSH",
-    "ZZXHS",
-    "ZZXSHS",
-    "ZZXS",
-    "ZZXHHHS",
-    "ZZXHHSH",
-    "ZZXHHSS",
-    "ZZXHSHS",
-    "ZZXSHSH",
-    "ZZXSHSS",
-    "ZZXSSHS",
-    "ZZXHHHSH",
-    "ZZXHHSHS",
-    "ZZXHSHSS",
-    "ZZXSSHSH",
-    "XXZZ",
-    "XXZZH",
-    "XXZZS",
-    "XXZZHH",
-    "XXZZHS",
-    "XXZZSH",
-    "XXZZSS",
-    "XXZZHHH",
-    "XXZZHHS",
-    "XXZZHSH",
-    "XXZZHS",
-    "XXZZSHS",
-    "XXZZS",
-    "XXZZHHHS",
-    "XXZZHHSH",
-    "XXZZHHSS",
-    "XXZZHSHS",
-    "XXZZSHSH",
-    "XXZZSHSS",
-    "XXZZSSHS",
-    "XXZZHHHSH",
-    "XXZZHHSHS",
-    "XXZZHSHSS",
-    "XXZZSSHSH",
+)
+QUTRIT_PAULI_WORDS = ("", "X", "XX", "Z", "XZ", "XXZ", "ZZ", "XZZ", "XXZZ")
+
+single_qutrit_cliffords_exhaustive_with_S_strings = [
+    pauli + word if word != "I" else (pauli or "I")
+    for pauli in QUTRIT_PAULI_WORDS
+    for word in QUTRIT_SYMPLECTIC_WORDS
 ]
 
 # Internal catalog in terms of the P gate symbol used by SDIM.
@@ -1062,6 +888,101 @@ class FoldedQutritSplitAncillaUniformDetectionCode(
 
 
 @dataclass(frozen=True)
+class FoldedQutritConventionalSitesDetectionCode(FoldedQutritDetectionCode):
+    """
+    Two-ancilla checks of the folded ``[[5,1,2]]_3`` code on the four
+    conventional surface-code ancilla sites.
+
+    The data sit as in the paper's patch, ``q2`` at the centre (``q0`` top
+    left, ``q1`` top right, ``q3`` bottom left, ``q4`` bottom right), and the
+    ancillas at the four sites between them:
+
+    ``N = 5`` touches ``q0, q1, q2``; ``W = 6`` touches ``q0, q2, q3``;
+    ``E = 7`` touches ``q1, q2, q4``; ``S = 8`` touches ``q2, q3, q4``.
+
+    Every two-qutrit gate couples a site to one of its own data qutrits; no
+    two sites are coupled. ``S_X1 = X0 X1 X2^-1`` (G3) fits ``N`` and
+    ``S_Z2 = Z1 Z2 Z4^-1`` (G2) fits ``E``. No site covers
+    ``S_Z1 = Z0 Z1^-1 Z3^-1`` (G1) or ``S_X2 = X1^-1 X3 X4^-1`` (G4), because
+    both contain the opposite corners ``q1`` and ``q3``. They are measured by a
+    data relay:
+
+    G1
+        ``N`` collects ``-z1`` and lends it to ``q0`` (``q0 -> z0 - z1``);
+        ``W`` reads ``q0`` and ``-z3``; ``N`` takes the value back from ``q0``
+        and clears itself against ``q1``.
+    G4
+        The same in the X basis: ``E`` lends its ``q1`` part to ``q4``,
+        ``S`` reads ``q4`` and ``q3``, ``E`` takes it back.
+
+    ``N`` measures G3 before lending and ``E`` lends before measuring G2, so
+    each site is read once per round and no ancilla is reset mid-round. The
+    readouts are ``m5 = G3``, ``m6 = G1 + G3`` (``N`` holds its G3 value while
+    lending), ``m7 = G2`` and ``m8 = G4``, so all four vanish exactly when the
+    four stabilizers do. A noiseless single-fault enumeration of this round
+    finds no undetected logical error. The gate order is the shallowest
+    correct order found by a search over orders: 11 gate moments under the
+    ASAP scheduler, with one reset and one measurement moment.
+
+    Attributes:
+        dimension (int): Local qutrit dimension, three.
+        num_qudits (int): Total circuit width, nine (five data, four sites).
+    """
+
+    dimension: int = 3
+    num_qudits: int = 9
+
+    @classmethod
+    def conventional_sites_check_round_circuit(cls) -> Circuit:
+        """
+        Build one check round on the sites ``N, W, E, S`` (wires 5-8).
+
+        Gates are listed in the moment the ASAP scheduler gives them.
+
+        Returns:
+            Circuit: Check round without the leading ancilla resets.
+        """
+        n, w, e, s = 5, 6, 7, 8
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        # 1: N and S start X-type checks, E starts its X-type lend.
+        c.add_gate("H", e)
+        c.add_gate("H", s)
+        c.add_gate("H", n)
+        # 2-5: G3 on N. E collects its q1 part, lends it to q4 and takes it
+        # back once S has read q4; S also reads q3 and W reads -z3.
+        c.add_gate("CNOT", e, 1)
+        c.add_gate("CNOT_INV", s, 3)
+        c.add_gate("CNOT", n, 0)
+        c.add_gate("CNOT", 4, e)
+        c.add_gate("CNOT_INV", 3, w)
+        c.add_gate("CNOT_INV", n, 2)
+        c.add_gate("CNOT", s, 4)
+        c.add_gate("CNOT", n, 1)
+        c.add_gate("H_INV", s)
+        c.add_gate("CNOT_INV", 4, e)
+        c.add_gate("H_INV", n)
+        # 6-7: E clears against q1 and returns to the Z basis; N collects -z1.
+        c.add_gate("CNOT_INV", e, 1)
+        c.add_gate("CNOT_INV", 1, n)
+        c.add_gate("H_INV", e)
+        # 8-11: N lends to q0, W reads q0, N takes it back and clears
+        # against q1; G2 on E.
+        c.add_gate("CNOT", n, 0)
+        c.add_gate("CNOT", 2, e)
+        c.add_gate("CNOT_INV", 4, e)
+        c.add_gate("CNOT", 0, w)
+        c.add_gate("CNOT_INV", n, 0)
+        c.add_gate("CNOT", 1, e)
+        c.add_gate("CNOT", 1, n)
+        # One measurement moment for all four sites.
+        c.add_gate("M", s)
+        c.add_gate("M", w)
+        c.add_gate("M", e)
+        c.add_gate("M", n)
+        return c
+
+
+@dataclass(frozen=True)
 class QGRMThreeQutritDetectionCode:
     """
     Circuit builder for the [[3,1,2]]_3 QGRM error-detection code.
@@ -1348,3 +1269,168 @@ class QGRMThreeQutritDetectionCode:
         ) % 3
         return stabilizer_measurement == 0
 
+
+
+# ---------------------------------------------------------------------------
+# Qubit counterpart of the folded code.
+# ---------------------------------------------------------------------------
+# The single-qubit Clifford group modulo global phase has
+# d^3 (d^2 - 1) = 24 elements for d = 2: a Pauli X^a Z^b (4 choices) times a
+# symplectic part from SL(2, Z_2), which permutes {X, Y, Z} (6 choices).
+# Descriptors follow the qutrit convention: the rightmost symbol acts first,
+# so the Pauli prefix is applied last.
+QUBIT_SYMPLECTIC_WORDS = ("I", "H", "S", "HS", "SH", "HSH")
+QUBIT_PAULI_WORDS = ("", "X", "Z", "XZ")
+
+single_qubit_cliffords_exhaustive_with_S_strings = [
+    pauli + word if word != "I" else (pauli or "I")
+    for pauli in QUBIT_PAULI_WORDS
+    for word in QUBIT_SYMPLECTIC_WORDS
+]
+
+# Internal catalog in terms of the P gate symbol used by SDIM.
+single_qubit_cliffords_exhaustive_strings = [
+    cliff.replace("S", "P")
+    for cliff in single_qubit_cliffords_exhaustive_with_S_strings
+]
+
+
+class QubitCliffordLibrary(QutritCliffordLibrary):
+    """
+    Qubit counterpart of ``QutritCliffordLibrary`` over the 24 Cliffords.
+
+    Gate tokens keep their qutrit spellings. In dimension two SDIM gives
+    ``H_INV = H``, ``P = S``, ``P_INV = S^dagger``, ``X_INV = X`` and
+    ``Z_INV = Z``, so ``SINGLE_QUTRIT_INVERSES`` is still the right inverse
+    table and descriptors parse exactly as for qutrits.
+
+    Methods:
+        qubit_gate_seq_list(cliff): Convert one descriptor string into an
+            execution-order gate list.
+        build_inverse_lookup(): Build descriptor-to-inverse mappings for the
+            24-element qubit catalog.
+    """
+
+    @staticmethod
+    def qubit_gate_seq_list(cliff: str) -> list[str]:
+        """Convert a qubit Clifford descriptor into execution-order gates."""
+        return QutritCliffordLibrary.qutrit_gate_seq_list(cliff)
+
+    @classmethod
+    def build_inverse_lookup(cls) -> dict[str, list[str]]:
+        """Build inverse mappings for all descriptors in the qubit catalog."""
+        return {
+            cliff: [SINGLE_QUTRIT_INVERSES[gate] for gate in cliff]
+            for cliff in single_qubit_cliffords_exhaustive_strings
+        }
+
+
+class _QubitStabilizerArithmetic:
+    """
+    Modulo-two stabilizer checks shared by the qubit folded-code classes.
+
+    The qubit stabilizers have the same supports as the qutrit ones; every
+    ``-1`` exponent becomes ``+1`` modulo two (``S_Z1 = Z0 Z1 Z3``,
+    ``S_Z2 = Z1 Z2 Z4``, ``S_X1 = X0 X1 X2``, ``S_X2 = X1 X3 X4``).
+    """
+
+    @staticmethod
+    def codespace_check(z_measurements: Sequence[int],
+                        x_measurements: Sequence[int]) -> bool:
+        """Return ``True`` when all four stabilizers vanish modulo two."""
+        stabilizer_measurements = [
+            (z_measurements[0] + z_measurements[1] + z_measurements[3]) % 2,
+            (z_measurements[1] + z_measurements[2] + z_measurements[4]) % 2,
+            (x_measurements[0] + x_measurements[1] + x_measurements[2]) % 2,
+            (x_measurements[3] + x_measurements[1] + x_measurements[4]) % 2,
+        ]
+        return all(stabilizer == 0 for stabilizer in stabilizer_measurements)
+
+    @staticmethod
+    def codespace_X_stabilizer_check(x_measurements: Sequence[int]) -> bool:
+        """Return ``True`` when both X stabilizers vanish modulo two."""
+        stabilizer_measurements = [
+            (x_measurements[0] + x_measurements[1] + x_measurements[2]) % 2,
+            (x_measurements[3] + x_measurements[1] + x_measurements[4]) % 2,
+        ]
+        return all(stabilizer == 0 for stabilizer in stabilizer_measurements)
+
+
+@dataclass(frozen=True)
+class FoldedQubitDetectionCode(_QubitStabilizerArithmetic,
+                               FoldedQutritDetectionCode):
+    """
+    Circuit builder for the qubit ``[[5,1,2]]`` folded surface code.
+
+    Wire layout, stabilizer supports, logical operators, fold-transversal
+    logical gates and check circuits are those of
+    ``FoldedQutritDetectionCode``, built in dimension two. Every inherited
+    builder reads ``cls.dimension``, so the same gate lists give the qubit
+    circuits (``H_INV -> H``, ``P -> S``, ``P_INV -> S^dagger``,
+    ``CNOT_INV -> CNOT``, ``CZ_INV -> CZ``). Only the modulo arithmetic of the
+    classical checks changes.
+
+    Attributes:
+        dimension (int): Local qubit dimension, two.
+        num_qudits (int): Total wire count, nine (five data, four ancillas).
+    """
+
+    dimension: int = 2
+    num_qudits: int = 9
+
+
+@dataclass(frozen=True)
+class FoldedQubitSplitAncillaUniformDetectionCode(
+        _QubitStabilizerArithmetic,
+        FoldedQutritSplitAncillaUniformDetectionCode):
+    """
+    Split-ancilla layout of the qubit ``[[5,1,2]]`` folded code.
+
+    The qubit counterpart of ``FoldedQutritSplitAncillaUniformDetectionCode``:
+    the same eleven wires and relay circuits for the boundary stabilizers
+    ``S_Z1`` and ``S_X2``, built in dimension two.
+
+    Attributes:
+        dimension (int): Local qubit dimension, two.
+        num_qudits (int): Total circuit width, eleven.
+    """
+
+    dimension: int = 2
+    num_qudits: int = 11
+
+    @staticmethod
+    def split_ancilla_stabilizer_check(
+            stabilizer_measurements: Sequence[int]) -> bool:
+        """
+        Evaluate the split-ancilla stabilizer layer modulo two.
+
+        Same readout order and pass rule as the qutrit version: the four
+        syndromes ``m5..m8`` and the relay-cleanliness readouts ``m9`` and
+        ``m10`` must all vanish.
+        """
+        if len(stabilizer_measurements) != 6:
+            raise ValueError(
+                "Split-ancilla folded checks require exactly six "
+                "stabilizer measurement values ordered as "
+                "(m5, m6, m7, m8, m9, m10)."
+            )
+        return all(value % 2 == 0 for value in stabilizer_measurements)
+
+
+@dataclass(frozen=True)
+class FoldedQubitConventionalSitesDetectionCode(
+        _QubitStabilizerArithmetic,
+        FoldedQutritConventionalSitesDetectionCode):
+    """
+    Conventional-site two-ancilla checks of the qubit ``[[5,1,2]]`` code.
+
+    The qubit counterpart of ``FoldedQutritConventionalSitesDetectionCode``:
+    the same nine wires and check round, built in dimension two.
+
+    Attributes:
+        dimension (int): Local qubit dimension, two.
+        num_qudits (int): Total circuit width, nine.
+    """
+
+    dimension: int = 2
+    num_qudits: int = 9

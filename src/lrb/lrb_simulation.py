@@ -36,12 +36,12 @@ from .detector_events import (
     RB_LOGICAL_OBSERVABLE_LABEL,
     lrb_const0_stabilizer_detector_label,
     lrb_stabilizer_detector_label,
+    reference_event_values,
 )
 
 
 NORMAL_RB_SHOTS = 10000
 SIMULATION_BACKEND_ENV = "LRB_SIMULATION_BACKEND"
-DEM_RESPONSE_BATCH_SIZE_ENV = "LRB_DEM_RESPONSE_BATCH_SIZE"
 SUPPORTED_SIMULATION_BACKENDS = ("sdim", "dem")
 TIMING_METRIC_FILENAME = "timing_metrics.csv"
 TIMING_METRIC_FIELDS = (
@@ -96,13 +96,6 @@ def _resolve_simulation_backend(
             f"Supported backends are: {supported}."
         )
     return backend
-
-
-def _dem_response_batch_size() -> int:
-    value = int(os.environ.get(DEM_RESPONSE_BATCH_SIZE_ENV, "256"))
-    if value < 1:
-        raise ValueError(f"{DEM_RESPONSE_BATCH_SIZE_ENV} must be at least 1.")
-    return value
 
 
 def _format_timing_metric_value(value: Any) -> Any:
@@ -990,18 +983,24 @@ class NoiseModelUtils:
     @staticmethod
     def ensure_noise_params(circuit, default_prob: float = None):
         """
-        Ensure noise params.
-        
+        Normalize N2 noise parameters for SDIM 1.4.
+
+        SDIM 1.4 samples N2 ``prob`` natively as two-qudit depolarizing
+        noise (a uniformly random non-identity two-qudit Pauli with
+        probability ``prob``), and ``sdim.dem`` only accepts that form. Gates
+        that carry ``prob`` are therefore left without a ``prob_dist``.
+        Legacy gates that carry only a serialized ``prob_dist`` keep it,
+        parsed into a list.
+
         Args:
-            circuit (Any): Input argument.
-            default_prob (Any): Input argument.
-        
-        Returns:
-            object: Method output.
-        
+            circuit (Any): SDIM circuit whose N2 gates are normalized in
+                place.
+            default_prob (float | None): ``prob`` assigned to N2 gates that
+                carry neither ``prob`` nor ``prob_dist``.
+
         Raises:
-            ValueError: If supplied arguments violate this method's input
-                assumptions.
+            ValueError: If an N2 gate has neither parameter and no
+                ``default_prob`` is supplied.
         """
         for op in circuit.operations:
             if op.gate_name != 'N2' and getattr(op, 'gate_id', None) != 18:
@@ -1011,26 +1010,18 @@ class NoiseModelUtils:
 
             prob_dist = op.params.get('prob_dist', None)
             if isinstance(prob_dist, str):
-                try:
-                    parsed = ast.literal_eval(prob_dist)
-                    op.params['prob_dist'] = parsed
-                    prob_dist = parsed
-                except Exception:
-                    prob_dist = None
-
-            if isinstance(
-                    prob_dist,
-                (list, tuple)) and len(prob_dist) == circuit.dimension**4:
+                prob_dist = ast.literal_eval(prob_dist)
+                op.params['prob_dist'] = prob_dist
+            if prob_dist is not None and len(prob_dist) == (
+                    circuit.dimension**4):
                 continue
+            op.params.pop('prob_dist', None)
 
-            prob = op.params.get('prob', default_prob)
-            if prob is None:
+            if op.params.get('prob', default_prob) is None:
                 raise ValueError(
-                    "N2 gate missing 'prob' and 'prob_dist' params; "
-                    "cannot expand."
+                    "N2 gate missing 'prob' and 'prob_dist' params."
                 )
-            op.params['prob_dist'] = NoiseModelUtils.two_qudit_depol_prob_dist(
-                circuit.dimension, float(prob))
+            op.params.setdefault('prob', default_prob)
 
 
 @dataclass(frozen=True)
@@ -1527,9 +1518,16 @@ class LRBSimulationPipeline:
             reconstructed_values: list[np.ndarray] = []
             check_offset = check_round * spec.check_stride
             for wire in spec.stabilizer_wires:
-                reference_value = int(
-                    results[wire][check_offset][0].measurement_value)
                 label = lrb_stabilizer_detector_label(check_round, wire)
+                reference_value = (
+                    LRBSimulationPipeline.event_reference_value(
+                        compact_results,
+                        "detectors",
+                        label,
+                        lambda wire=wire: (
+                            results[wire][check_offset][0].measurement_value),
+                    )
+                )
                 reconstructed_values.append(
                     LRBSimulationPipeline.detector_values_from_reference(
                         reference_value=reference_value,
@@ -1545,13 +1543,16 @@ class LRBSimulationPipeline:
                 .astype(np.int64)
             )
 
-        reference_logical_value = (
-            LRBSimulationPipeline.reference_linear_value_from_results(
+        reference_logical_value = LRBSimulationPipeline.event_reference_value(
+            compact_results,
+            "logicals",
+            LRB_LOGICAL_OBSERVABLE_LABEL,
+            lambda: LRBSimulationPipeline.reference_linear_value_from_results(
                 results=results,
                 wire_terms=spec.logical_observable_terms,
                 measurement_round=spec.logical_measurement_round,
                 dimension=spec.dimension,
-            )
+            ),
         )
         logical_values = LRBSimulationPipeline.detector_values_from_reference(
             reference_value=reference_logical_value,
@@ -1616,15 +1617,20 @@ class LRBSimulationPipeline:
         reconstructed_stabilizers: list[np.ndarray] = []
         for stabilizer_index, stabilizer_terms in enumerate(
                 spec.terminal_x_stabilizer_terms):
-            reference_value = (
-                LRBSimulationPipeline.reference_linear_value_from_results(
-                    results=results,
-                    wire_terms=stabilizer_terms,
-                    measurement_round=0,
-                    dimension=spec.dimension,
-                )
-            )
             label = lrb_const0_stabilizer_detector_label(stabilizer_index)
+            reference_value = LRBSimulationPipeline.event_reference_value(
+                compact_results,
+                "detectors",
+                label,
+                lambda terms=stabilizer_terms: (
+                    LRBSimulationPipeline.reference_linear_value_from_results(
+                        results=results,
+                        wire_terms=terms,
+                        measurement_round=0,
+                        dimension=spec.dimension,
+                    )
+                ),
+            )
             reconstructed_stabilizers.append(
                 LRBSimulationPipeline.detector_values_from_reference(
                     reference_value=reference_value,
@@ -1647,13 +1653,16 @@ class LRBSimulationPipeline:
             ).astype(np.int64)
         )
 
-        reference_logical_value = (
-            LRBSimulationPipeline.reference_linear_value_from_results(
+        reference_logical_value = LRBSimulationPipeline.event_reference_value(
+            compact_results,
+            "logicals",
+            LRB_CONST0_LOGICAL_OBSERVABLE_LABEL,
+            lambda: LRBSimulationPipeline.reference_linear_value_from_results(
                 results=results,
                 wire_terms=spec.logical_observable_terms,
                 measurement_round=0,
                 dimension=spec.dimension,
-            )
+            ),
         )
         logical_values = LRBSimulationPipeline.detector_values_from_reference(
             reference_value=reference_logical_value,
@@ -1833,10 +1842,12 @@ class LRBSimulationPipeline:
                 ``Program(circuit).simulate(...)``.
 
         Returns:
-            dict[str, dict[str, np.ndarray]]: A compact result with two top
-            level keys, ``"detectors"`` and ``"logicals"``. Each maps stable
-            event labels to one-dimensional NumPy arrays. When SDIM returns no
-            detector payload, both dictionaries are empty.
+            dict[str, dict[str, np.ndarray]]: A compact result with top level
+            keys ``"detectors"`` and ``"logicals"``, each mapping stable event
+            labels to one-dimensional NumPy arrays, and ``"references"``,
+            which maps ``"detectors"``/``"logicals"`` to the absolute
+            reference-shot value of every event whose payload entry carries
+            one. When SDIM returns no detector payload, all are empty.
 
         Raises:
             TypeError: If SDIM returns a detector payload in an unexpected
@@ -1845,6 +1856,7 @@ class LRBSimulationPipeline:
         compact_results: dict[str, dict[str, np.ndarray]] = {
             "detectors": {},
             "logicals": {},
+            "references": {"detectors": {}, "logicals": {}},
         }
         if not isinstance(simulation_output, tuple):
             return compact_results
@@ -1868,8 +1880,59 @@ class LRBSimulationPipeline:
                     event.get("data", []),
                     dtype=np.int64,
                 )
+                if event.get("reference") is not None:
+                    compact_results["references"][result_kind][label] = int(
+                        event["reference"])
 
         return compact_results
+
+    @staticmethod
+    def attach_reference_event_values(circuit, simulation_output) -> None:
+        """
+        Store each event's reference-shot value in an SDIM detector payload.
+
+        The DEM backend already returns ``"reference"`` on every payload
+        entry. This gives frame-sampler output the same field, so detector
+        unpacking never has to locate an event's measurement round in the raw
+        measurement tensor, whose per-wire round count depends on where RESET
+        operations sit.
+
+        Args:
+            circuit (Any): Simulated SDIM circuit.
+            simulation_output (Any): Return value of
+                ``Program(circuit).simulate(...)``; non-tuple outputs carry no
+                detector payload and are left unchanged.
+        """
+        if not isinstance(simulation_output, tuple):
+            return
+        measurements, detector_payload = simulation_output
+        if not isinstance(detector_payload, dict):
+            return
+        reference_values = reference_event_values(circuit, measurements)
+        for result_kind in ("detectors", "logicals"):
+            entries = detector_payload.get(result_kind, [])
+            if len(entries) != len(reference_values[result_kind]):
+                raise RuntimeError(
+                    f"SDIM returned {len(entries)} {result_kind} but the "
+                    f"circuit defines {len(reference_values[result_kind])}."
+                )
+            for entry, reference in zip(
+                    entries, reference_values[result_kind]):
+                entry["reference"] = reference
+
+    @staticmethod
+    def event_reference_value(
+        compact_results: dict,
+        result_kind: str,
+        label: str,
+        fallback: Callable[[], int],
+    ) -> int:
+        """Return an event's payload reference value, else ``fallback()``."""
+        reference = compact_results.get("references", {}).get(
+            result_kind, {}).get(label)
+        if reference is None:
+            return int(fallback())
+        return int(reference)
 
     @staticmethod
     def simulate_circuit(
@@ -1889,6 +1952,8 @@ class LRBSimulationPipeline:
         start_time = time.perf_counter()
         if backend == "sdim":
             simulation_output = Program(circuit).simulate(shots=shots)
+            LRBSimulationPipeline.attach_reference_event_values(
+                circuit, simulation_output)
             if not return_metrics:
                 return simulation_output
             return simulation_output, {
@@ -1899,16 +1964,11 @@ class LRBSimulationPipeline:
         from .dem_simulation import simulate_circuit_with_dem
 
         if not return_metrics:
-            return simulate_circuit_with_dem(
-                circuit,
-                shots,
-                response_batch_size=_dem_response_batch_size(),
-            )
+            return simulate_circuit_with_dem(circuit, shots)
 
         simulation_output, metrics = simulate_circuit_with_dem(
             circuit,
             shots,
-            response_batch_size=_dem_response_batch_size(),
             return_metrics=True,
         )
         metrics["backend"] = backend
@@ -2072,40 +2132,23 @@ class LRBSimulationPipeline:
             ValueError: If supplied arguments violate this method's input
                 assumptions.
         """
-        decision_table = np.zeros(stabilizer_check_record.shape[0:3],
-                                  dtype=np.int64)
-        num_cliff = stabilizer_check_record.shape[0]
-        num_depths = stabilizer_check_record.shape[1]
-        shots = stabilizer_check_record.shape[2]
-    
-        # make loop more general with nditer multi indices and slicing
-        for ng in range(num_cliff):
-            for k in range(num_depths):
-                for s in range(shots):
-    
-                    # Terminal Stabilizer Check (after inversion step)
-                    stab_pass = stabilizer_check_record[ng, k, s, depths[k]]
-    
-                    # Introduce extra checks only when depth is high enough.
-                    # enough for the interval!
-                    if depths[k] >= interval and interval > 0:
-                        num_checks = depths[k] // interval
-    
-                        # intermediate checks
-                        for j in range(1, num_checks +
-                                       1):  # include the last forward check
-                            idx = j * interval - 1  # forward segment index
-                            # never touch the terminal slot
-                            if idx < depths[k]:
-                                stab_pass *= (
-                                    stabilizer_check_record[ng, k, s, idx]
-                                )
-    
-                    decision_table[ng, k, s] = stab_pass
-    
-        return decision_table
-    
-    
+        def check_slots(depth: int) -> list[int]:
+            # Terminal stabilizer check (after inversion step), plus the
+            # forward check after every ``interval``-th Clifford when the
+            # depth is high enough for the interval. The terminal slot is
+            # never counted twice.
+            slots = [depth]
+            if depth >= interval and interval > 0:
+                slots.extend(
+                    j * interval - 1
+                    for j in range(1, depth // interval + 1)
+                    if j * interval - 1 < depth
+                )
+            return slots
+
+        return LRBSimulationPipeline._decision_table_from_check_slots(
+            stabilizer_check_record, depths, check_slots)
+
     # Number of checks 0 introduces no extra checks (obvious)
     @staticmethod
     def postselect_constant_number(
@@ -2129,38 +2172,51 @@ class LRBSimulationPipeline:
             ValueError: If supplied arguments violate this method's input
                 assumptions.
         """
-        decision_table = np.zeros(stabilizer_check_record.shape[0:3],
-                                  dtype=np.int64)
-        num_cliff = stabilizer_check_record.shape[0]
-        num_depths = stabilizer_check_record.shape[1]
-        shots = stabilizer_check_record.shape[2]
-    
-        # make loop more general with nditer multi indices and slicing
-        for ng in range(num_cliff):
-            for k in range(num_depths):
-                for s in range(shots):
-    
-                    # Terminal Stabilizer Check (after inversion step)
-                    stab_pass = stabilizer_check_record[ng, k, s, depths[k]]
-    
-                    # Do extra checks only if we can accomodate them
-                    if num_checks > 0 and num_checks <= depths[k]:
-                        interval = depths[k] // num_checks
-    
-                        # intermediate checks
-                        for j in range(1, num_checks):
-                            stab_pass = (
-                                stab_pass
-                                * stabilizer_check_record[
-                                    ng, k, s, (j * interval) - 1
-                                ]
-                            )
-    
-                    decision_table[ng, k, s] = stab_pass
-    
+        def check_slots(depth: int) -> list[int]:
+            # Terminal stabilizer check (after inversion step), plus
+            # ``num_checks - 1`` evenly spaced forward checks when the depth
+            # can accommodate them.
+            slots = [depth]
+            if 0 < num_checks <= depth:
+                interval = depth // num_checks
+                slots.extend(j * interval - 1 for j in range(1, num_checks))
+            return slots
+
+        return LRBSimulationPipeline._decision_table_from_check_slots(
+            stabilizer_check_record, depths, check_slots)
+
+    @staticmethod
+    def _decision_table_from_check_slots(
+        stabilizer_check_record: np.ndarray,
+        depths: Sequence[int],
+        check_slots: Callable[[int], list[int]],
+    ) -> np.ndarray:
+        """
+        Multiply the check-record entries of the selected slots per shot.
+
+        Args:
+            stabilizer_check_record (np.ndarray): Record with shape
+                ``(num_cliff, num_depths, shots, max_depth + 1)``.
+            depths (Sequence[int]): Depth of each depth index.
+            check_slots (Callable[[int], list[int]]): Check-record slots that
+                must pass at a given depth.
+
+        Returns:
+            np.ndarray: Product of the selected entries with shape
+            ``(num_cliff, num_depths, shots)``; nonzero means accepted.
+        """
+        record = np.asarray(stabilizer_check_record)
+        decision_table = np.zeros(record.shape[0:3], dtype=np.int64)
+        for k, depth in enumerate(depths[:record.shape[1]]):
+            # Slice the depth first: a scalar and a list index separated by a
+            # slice would move the list axis to the front.
+            decision_table[:, k, :] = np.prod(
+                record[:, k][..., check_slots(int(depth))],
+                axis=-1,
+                dtype=np.int64,
+            )
         return decision_table
-    
-    
+
     @staticmethod
     def postselect_record(measurement_record, decision_table):
     
@@ -2253,7 +2309,14 @@ class LRBSimulationPipeline:
                 # when that compact payload is present; older circuits still
                 # fall back to the raw measurement tensor.
                 if RB_LOGICAL_OBSERVABLE_LABEL in compact_results["logicals"]:
-                    reference_value = int(results[0][0][0].measurement_value)
+                    reference_value = (
+                        LRBSimulationPipeline.event_reference_value(
+                            compact_results,
+                            "logicals",
+                            RB_LOGICAL_OBSERVABLE_LABEL,
+                            lambda: results[0][0][0].measurement_value,
+                        )
+                    )
                     measurement_record[ng, k, :shots] = (
                         LRBSimulationPipeline.
                         detector_values_from_reference(
@@ -2445,38 +2508,25 @@ class LRBSimulationPipeline:
         shots = measurement_record.shape[2]
         m_counts = np.zeros(shape, dtype=np.int32)
         rejected_runs = np.zeros(shape[:2], dtype=np.int32)
-    
         for k in range(shape[0]):
-    
-            #print(f"Calculating fidelities for depth: {depths[k]}")
-    
-            # Calculate fidelities over all Clifford runs at this depth
+            # Tally logical outcomes over all Clifford runs at this depth;
+            # -1 marks a rejected run.
             for ng in range(shape[1]):
-                data = measurement_record[ng, k]
-                #tallies = [0 for j in range(dimension)]
-                tallies = m_counts[k, ng]
-    
-                for i in range(shots):
-                    if data[i] == -1:
-                        rejected_runs[k, ng] += 1
-                    else:
-                        tallies[data[i]] += 1
-    
-                # Fidelity calculation
-                # num_accepted_runs = sum(tallies)
-                # omega = np.exp( (2 * np.pi * (1j)) / dimension)
-                # normalized_tallies = [
-                #     tallies[i] / num_accepted_runs for i in range(dimension)
-                # ]
-                # fidelity_summands = [
-                #     (omega ** i) * normalized_tallies[i]
-                #     for i in range(dimension)
-                # ]
-                # fidelity = np.absolute(sum(fidelity_summands))
-    
+                data = np.asarray(measurement_record[ng, k][:shots])
+                rejected = data == -1
+                accepted = data[~rejected]
+                if accepted.size and (
+                        accepted.min() < 0 or accepted.max() >= dimension):
+                    raise ValueError(
+                        "Logical outcomes must be -1 (rejected) or lie in "
+                        f"[0, {dimension}).")
+                rejected_runs[k, ng] = int(np.count_nonzero(rejected))
+                m_counts[k, ng] = np.bincount(
+                    accepted, minlength=dimension)
+
         return m_counts, rejected_runs
-    
-    
+
+
     @staticmethod
     def lrb_counts_to_statistics(measurement_record,
                                  rejected_runs,

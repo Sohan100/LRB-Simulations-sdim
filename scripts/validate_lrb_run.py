@@ -61,6 +61,7 @@ def validate_run(
     expected_code: str | None,
     expected_noise: str | None,
     strict_single_ancilla_si1000: bool,
+    strict_production_grid: bool = False,
 ) -> tuple[dict, bool]:
     run_path = Path(DEFAULT_RUNS_ROOT, run_name)
     if not run_path.is_dir():
@@ -84,13 +85,8 @@ def validate_run(
         metadata_errors.append(
             f"noise_model={noise_model!r}, expected {expected_noise!r}"
         )
-    if strict_single_ancilla_si1000:
+    if strict_single_ancilla_si1000 or strict_production_grid:
         strict_expectations = {
-            "code_name": (
-                inputs["code_name"],
-                "folded_qutrit",
-            ),
-            "noise_model": (noise_model, "si1000"),
             "num_shots": (inputs["num_shots"], 1_000_000),
             "num_cliff_seq": (inputs["num_cliff_seq"], 30),
             "depths": (
@@ -126,6 +122,10 @@ def validate_run(
                 list(range(1, 23)),
             ),
         }
+        if strict_single_ancilla_si1000:
+            strict_expectations["code_name"] = (
+                inputs["code_name"], "folded_qutrit")
+            strict_expectations["noise_model"] = (noise_model, "si1000")
         for field, (observed, expected) in strict_expectations.items():
             if observed != expected:
                 metadata_errors.append(
@@ -305,6 +305,7 @@ def validate_run(
         "code_name": inputs["code_name"],
         "noise_model": noise_model,
         "strict_single_ancilla_si1000": strict_single_ancilla_si1000,
+        "strict_production_grid": strict_production_grid,
         "probability_count": len(probabilities),
         "complete": complete,
         "valid": valid,
@@ -340,6 +341,14 @@ def main() -> int:
         "--strict-single-ancilla-si1000",
         action="store_true",
     )
+    parser.add_argument(
+        "--strict-production-grid",
+        action="store_true",
+        help=(
+            "Require the production shots, Clifford count, depth, "
+            "probability and check grids for any code and noise model."
+        ),
+    )
     parser.add_argument("--output")
     arguments = parser.parse_args()
     if arguments.batch_size < 1:
@@ -354,6 +363,7 @@ def main() -> int:
             expected_noise=arguments.expected_noise,
             strict_single_ancilla_si1000=(
                 arguments.strict_single_ancilla_si1000),
+            strict_production_grid=arguments.strict_production_grid,
         )
     except Exception as validation_error:
         report = {

@@ -15,6 +15,7 @@ import json
 import math
 import os
 import sys
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
@@ -25,6 +26,11 @@ if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
 LRB_BATCH_SIZE_ENV = "LRB_BATCH_SIZE"
+LRB_WORKER_LOCK_WAIT_ENV = "LRB_WORKER_LOCK_WAIT_SECONDS"
+# A batch job whose index is held by a local (login-node) worker waits this
+# long for the local worker to hand the index over, then resumes from its
+# checkpoint. Interactive invocations fail fast instead.
+SLURM_DEFAULT_LOCK_WAIT_SECONDS = 7200.0
 
 from lrb.code_simulation_profiles import (
     DEFAULT_CODE_NAME,
@@ -60,6 +66,8 @@ class LRBRunConfig:
         const0_unpack_func (Callable | None): Optional unpack callback for the
             special direct terminal X-data ``const=0`` protocol.
         simulation_backend (str | None): Optional circuit-sampling backend.
+        lock_wait_seconds (float): How long to wait for another worker to
+            release this probability index before refusing to run.
 
     Methods:
         This class is declarative and intentionally defines no custom methods.
@@ -71,6 +79,56 @@ class LRBRunConfig:
     const0_unpack_func: Callable | None = None
     simulation_backend: str | None = None
     profile_name: str = DEFAULT_CODE_NAME
+    lock_wait_seconds: float = 0.0
+
+
+def acquire_worker_lock(
+    lock_file,
+    error_prob_ind: int,
+    wait_seconds: float = 0.0,
+    poll_seconds: float = 10.0,
+) -> None:
+    """
+        Take the exclusive per-index worker lock, waiting up to
+        ``wait_seconds`` for a current owner to release it.
+
+    The lock is an ``flock`` on a file in the index's progress folder, so it
+    is released as soon as the owning process exits or is killed, and it is
+    coherent across nodes on the ``flock``-mounted scratch filesystem.
+
+    Args:
+        lock_file: Open file object for the ``.worker.lock`` file.
+        error_prob_ind (int): Probability index, used in messages.
+        wait_seconds (float): Maximum time to wait for the current owner.
+        poll_seconds (float): Delay between acquisition attempts.
+
+    Raises:
+        RuntimeError: If another worker still owns the index after waiting.
+    """
+    deadline = time.monotonic() + max(0.0, float(wait_seconds))
+    announced = False
+    while True:
+        try:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            return
+        except BlockingIOError as lock_error:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0.0:
+                raise RuntimeError(
+                    f"Another worker already owns probability index "
+                    f"{error_prob_ind}; refusing a concurrent update."
+                ) from lock_error
+            if not announced:
+                lock_file.seek(0)
+                owner = lock_file.read().strip() or "unknown owner"
+                print(
+                    f"Probability index {error_prob_ind} is owned by "
+                    f"another worker ({owner}); waiting up to "
+                    f"{wait_seconds:.0f} s for it to hand over.",
+                    flush=True,
+                )
+                announced = True
+            time.sleep(min(poll_seconds, remaining))
 
 
 class LRBRunCoordinator:
@@ -419,16 +477,11 @@ class LRBRunCoordinator:
             ".worker.lock",
         )
         with open(lock_path, "a+") as lock_file:
-            try:
-                fcntl.flock(
-                    lock_file.fileno(),
-                    fcntl.LOCK_EX | fcntl.LOCK_NB,
-                )
-            except BlockingIOError as lock_error:
-                raise RuntimeError(
-                    f"Another worker already owns probability index "
-                    f"{error_prob_ind}; refusing a concurrent update."
-                ) from lock_error
+            acquire_worker_lock(
+                lock_file,
+                error_prob_ind,
+                wait_seconds=self.config.lock_wait_seconds,
+            )
 
             lock_file.seek(0)
             lock_file.truncate()
@@ -746,6 +799,11 @@ if __name__ == "__main__":
         runtime_cfg.batch_size = int(batch_size_env)
         if runtime_cfg.batch_size < 1:
             raise ValueError(f"{LRB_BATCH_SIZE_ENV} must be at least 1.")
+    lock_wait_env = os.environ.get(LRB_WORKER_LOCK_WAIT_ENV)
+    if lock_wait_env is not None:
+        runtime_cfg.lock_wait_seconds = float(lock_wait_env)
+    elif os.environ.get("SLURM_JOB_ID"):
+        runtime_cfg.lock_wait_seconds = SLURM_DEFAULT_LOCK_WAIT_SECONDS
     coordinator = LRBRunCoordinator(simulation_engine=DEFAULT_SIM_ENGINE,
                                     config=runtime_cfg)
     coordinator.compute_lrb(

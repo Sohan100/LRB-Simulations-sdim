@@ -23,3 +23,9 @@ LRB-experiment-data-slurm/working-folder*.txt
 external/
 legacy/
 artifacts/
+
+# Repo-local virtual environments (sdim 1.4.0 lives in .venv-sdim140/)
+.venv-*/
+
+# Local search index
+._dbindex_/

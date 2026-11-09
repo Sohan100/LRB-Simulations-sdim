@@ -21,6 +21,7 @@ from .circuit_generator import (
     DEPOLARIZING_NOISE_MODEL,
     LRBCodeDefinition,
     LRBCircuitGenerator,
+    MIRROR_INVERSE_MODE,
     normalize_noise_model,
 )
 from .project_paths import PROJECT_ROOT
@@ -46,6 +47,8 @@ class ExperimentSetupConfig:
         home_folder (str): Root directory containing all run folders.
         lrb_folder_name (str): Name of the top-level experiment directory.
         noise_model (str): Circuit-level noise model used during generation.
+        inverse_mode (str): ``mirror`` (default) or ``compiled`` recovery
+            closing each RB/LRB sequence.
 
     Methods:
         This class is declarative and intentionally defines no custom methods.
@@ -82,6 +85,7 @@ class ExperimentSetupConfig:
     lrb_folder_name: str = "LRB-experiment-data-slurm"
     code_name: str = DEFAULT_CODE_NAME
     noise_model: str = DEPOLARIZING_NOISE_MODEL
+    inverse_mode: str = MIRROR_INVERSE_MODE
 
     def __post_init__(self) -> None:
         """Normalize setup-time noise-model aliases."""
@@ -141,10 +145,12 @@ class ExperimentSetupManager:
         if generator is not None:
             self.generator = generator
             self.config.noise_model = self.generator.noise_model
+            self.config.inverse_mode = self.generator.inverse_mode
         elif code_definition is not None:
             self.generator = LRBCircuitGenerator(
                 code_definition=code_definition,
                 noise_model=self.config.noise_model,
+                inverse_mode=self.config.inverse_mode,
             )
         else:
             # Resolve default generator hooks from the configured code name.
@@ -153,6 +159,7 @@ class ExperimentSetupManager:
             self.generator = LRBCircuitGenerator(
                 code_definition=profile.code_definition,
                 noise_model=self.config.noise_model,
+                inverse_mode=self.config.inverse_mode,
             )
 
     @staticmethod
@@ -403,6 +410,18 @@ class ExperimentSetupManager:
                                 os.path.join(run_path, "code_name.txt"))
         self.write_single_param(self.config.noise_model,
                                 os.path.join(run_path, "noise_model.txt"))
+        # Only non-default closings are recorded, so mirror runs keep the
+        # exact file set they always had; a missing file means ``mirror``.
+        if self.config.inverse_mode != MIRROR_INVERSE_MODE:
+            self.write_single_param(self.config.inverse_mode,
+                                    os.path.join(run_path,
+                                                 "inverse_mode.txt"))
+        # Likewise only non-qutrit codes record their dimension; the plotter
+        # reads d.txt and defaults to 3.
+        dimension = self.generator.code_definition.dimension
+        if dimension != 3:
+            self.write_single_param(dimension,
+                                    os.path.join(run_path, "d.txt"))
 
     @staticmethod
     def _write_instructions(run_path: str) -> None:

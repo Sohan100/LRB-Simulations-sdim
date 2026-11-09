@@ -13,6 +13,7 @@ import random
 from dataclasses import dataclass
 from typing import Any, Callable, Sequence
 
+from .clifford_recovery import CliffordRecoveryTable
 from .detector_events import (
     LRB_CONST0_LOGICAL_OBSERVABLE_LABEL,
     LRB_LOGICAL_OBSERVABLE_LABEL,
@@ -47,7 +48,12 @@ def _require_sdim_runtime() -> None:
 
 DEPOLARIZING_NOISE_MODEL = "depolarizing"
 SI1000_NOISE_MODEL = "si1000"
-SUPPORTED_NOISE_MODELS = (DEPOLARIZING_NOISE_MODEL, SI1000_NOISE_MODEL)
+SD6_NOISE_MODEL = "sd6"
+SUPPORTED_NOISE_MODELS = (
+    DEPOLARIZING_NOISE_MODEL,
+    SI1000_NOISE_MODEL,
+    SD6_NOISE_MODEL,
+)
 _NOISE_MODEL_ALIASES = {
     "default": DEPOLARIZING_NOISE_MODEL,
     "legacy": DEPOLARIZING_NOISE_MODEL,
@@ -55,7 +61,65 @@ _NOISE_MODEL_ALIASES = {
     "depol": DEPOLARIZING_NOISE_MODEL,
     DEPOLARIZING_NOISE_MODEL: DEPOLARIZING_NOISE_MODEL,
     SI1000_NOISE_MODEL: SI1000_NOISE_MODEL,
+    SD6_NOISE_MODEL: SD6_NOISE_MODEL,
 }
+
+
+@dataclass(frozen=True)
+class CircuitLevelNoiseRates:
+    """
+    Noise strengths of a circuit-level model as multiples of the swept p.
+
+    The swept parameter p is the two-qudit gate depolarizing probability.
+    Rates follow the SD6 and SI1000 models of Gidney, Newman, Fowler and
+    Broughton, "A Fault-Tolerant Honeycomb Memory", Quantum 5, 605 (2021),
+    generalized to qudits: DEP1/DEP2 apply a uniformly random non-identity
+    one-/two-qudit Pauli, and a flip applies ``X^a`` (``Z^a`` before
+    ``M_X``) with ``a`` uniform on ``1..d-1``.
+
+    Attributes:
+        one_qudit_gate (float): DEP1 after every one-qudit Clifford.
+        two_qudit_gate (float): DEP2 after every two-qudit Clifford.
+        reset_flip (float): Flip after every RESET.
+        measurement_flip (float): Flip just before every M/M_X, which shifts
+            the recorded result.
+        post_measurement (float): DEP1 after every M/M_X. Every measured
+            ancilla is reset before reuse, so this never reaches a detector in
+            the LRB circuits; it is kept for fidelity to the model.
+        idle (float): DEP1 on every qudit idle during a gate moment.
+        measure_reset_idle (float): DEP1 on every qudit idle during a
+            measurement/reset moment (SI1000's resonator idle).
+    """
+    one_qudit_gate: float
+    two_qudit_gate: float
+    reset_flip: float
+    measurement_flip: float
+    post_measurement: float
+    idle: float
+    measure_reset_idle: float
+
+
+CIRCUIT_LEVEL_NOISE_RATES = {
+    SI1000_NOISE_MODEL: CircuitLevelNoiseRates(
+        one_qudit_gate=0.1,
+        two_qudit_gate=1.0,
+        reset_flip=2.0,
+        measurement_flip=5.0,
+        post_measurement=1.0,
+        idle=0.1,
+        measure_reset_idle=2.0,
+    ),
+    SD6_NOISE_MODEL: CircuitLevelNoiseRates(
+        one_qudit_gate=1.0,
+        two_qudit_gate=1.0,
+        reset_flip=1.0,
+        measurement_flip=1.0,
+        post_measurement=1.0,
+        idle=1.0,
+        measure_reset_idle=1.0,
+    ),
+}
+CIRCUIT_LEVEL_NOISE_MODELS = tuple(CIRCUIT_LEVEL_NOISE_RATES)
 
 _ONE_QUDIT_IDEAL_GATES = {
     "I",
@@ -78,6 +142,14 @@ _TWO_QUDIT_IDEAL_GATES = {
 }
 _MEASUREMENT_GATES = {"M", "M_X"}
 _RESET_GATES = {"RESET"}
+
+
+# How an RB/LRB sequence C1..Cm is closed. ``mirror`` (the default, used by
+# every production run) appends Cm^-1..C1^-1; ``compiled`` appends one
+# catalog Clifford equal to (Cm...C1)^-1, as in standard RB.
+MIRROR_INVERSE_MODE = "mirror"
+COMPILED_INVERSE_MODE = "compiled"
+SUPPORTED_INVERSE_MODES = (MIRROR_INVERSE_MODE, COMPILED_INVERSE_MODE)
 
 
 def normalize_noise_model(noise_model: str) -> str:
@@ -213,6 +285,9 @@ class LRBCircuitGenerator:
             used for injected ``N1`` gates.
         code_definition (LRBCodeDefinition | None): Code-specific construction
             hooks used by all RB/LRB builders.
+        noise_model (str): Noise model (depolarizing, si1000 or sd6).
+        inverse_mode (str): How sequences are closed: ``mirror`` (default,
+            Cm^-1..C1^-1) or ``compiled`` (one recovery Clifford).
 
     Methods:
         _add_n1_depolarizing/_add_n2_depolarizing: Append serialized noise
@@ -239,10 +314,45 @@ class LRBCircuitGenerator:
     with_default_noise_channel: str = "d"
     code_definition: LRBCodeDefinition | None = None
     noise_model: str = DEPOLARIZING_NOISE_MODEL
+    inverse_mode: str = MIRROR_INVERSE_MODE
 
     def __post_init__(self) -> None:
         """Normalize noise-model aliases after dataclass initialization."""
         self.noise_model = normalize_noise_model(self.noise_model)
+        if self.inverse_mode not in SUPPORTED_INVERSE_MODES:
+            raise ValueError(
+                f"Unsupported inverse mode '{self.inverse_mode}'. "
+                f"Supported choices are: {', '.join(SUPPORTED_INVERSE_MODES)}."
+            )
+        self._recovery_table: CliffordRecoveryTable | None = None
+
+    def _closing_gate_lists(
+        self,
+        clifford_strings: list[str],
+        full_clifford_inverse_list: list[list[str]],
+        max_depth: int,
+        depth: int,
+    ) -> list[list[str]]:
+        """
+            Return the gate lists that close a depth-``depth`` sequence.
+
+        ``mirror`` returns the inverses of the first ``depth`` Cliffords in
+        reverse order (the suffix of ``full_clifford_inverse_list``);
+        ``compiled`` returns one catalog Clifford equal to their inverse
+        product. Depth 0 has no closing gates in either mode.
+        """
+        if depth == 0:
+            return []
+        if self.inverse_mode == MIRROR_INVERSE_MODE:
+            return full_clifford_inverse_list[(max_depth - depth):]
+        if self._recovery_table is None:
+            code_definition = self._require_code_definition()
+            self._recovery_table = CliffordRecoveryTable(
+                code_definition.clifford_strings,
+                code_definition.clifford_to_gate_sequence,
+                dimension=code_definition.dimension,
+            )
+        return [self._recovery_table.recovery_gates(clifford_strings[:depth])]
 
     def _require_code_definition(self) -> LRBCodeDefinition:
         """
@@ -283,7 +393,9 @@ class LRBCircuitGenerator:
             prob (float): Probability assigned to the gate.
             noise_channel (str): SDIM single-qudit channel tag.
             prob_scale (float | None): Optional multiplier applied when
-                materializing a probability sweep value.
+                materializing a probability sweep value. SDIM rejects unknown
+                gate parameters, so it is stored on the operation after
+                ``add_gate`` and stripped again by ``write_circuit_file``.
 
         Returns:
             None: Updates the provided circuit in-place.
@@ -291,16 +403,9 @@ class LRBCircuitGenerator:
         Raises:
             ValueError: Propagated if SDIM rejects invalid gate arguments.
         """
-        params: dict[str, float | str] = {
-            "noise_channel": noise_channel,
-            "prob": prob,
-        }
+        circuit.add_gate("N1", wire, noise_channel=noise_channel, prob=prob)
         if prob_scale is not None:
-            params["prob_scale"] = prob_scale
-        circuit.add_gate("N1", wire, **params)
-        last_gate = circuit.operations[-1]
-        if last_gate.params is not None and "channel" in last_gate.params:
-            last_gate.params.pop("channel", None)
+            circuit.operations[-1].params["prob_scale"] = prob_scale
 
     def _add_n1_depolarizing(
         self,
@@ -352,13 +457,9 @@ class LRBCircuitGenerator:
         Raises:
             ValueError: Propagated if SDIM rejects invalid gate arguments.
         """
-        params: dict[str, float] = {"prob": prob}
+        circuit.add_gate("N2", q0, q1, prob=prob)
         if prob_scale is not None:
-            params["prob_scale"] = prob_scale
-        circuit.add_gate("N2", q0, q1, **params)
-        last_gate = circuit.operations[-1]
-        if last_gate.params is not None and "prob_dist" in last_gate.params:
-            last_gate.params.pop("prob_dist", None)
+            circuit.operations[-1].params["prob_scale"] = prob_scale
 
     def _append_operation_copy(self, circuit: Circuit, operation: Any) -> None:
         """
@@ -386,130 +487,192 @@ class LRBCircuitGenerator:
                 **params,
             )
 
-    def _add_si1000_idle_layer_noise(
+    @staticmethod
+    def _operation_qudits(operation: Any) -> tuple[int, ...]:
+        """Return the wires one SDIM operation acts on."""
+        if operation.target_index is None:
+            return (int(operation.qudit_index),)
+        return (int(operation.qudit_index), int(operation.target_index))
+
+    def schedule_moments(
         self,
-        circuit: Circuit,
-        active_wires: set[int],
-    ) -> None:
+        source: Circuit,
+    ) -> list[tuple[bool, list[Any]]]:
         """
-            Add SI1000 reset/measurement-layer idle noise.
+            Pack an ideal subcircuit into as-soon-as-possible moments.
+
+        Each operation goes into the earliest moment after the previous
+        operation on each of its wires, so operations on disjoint wires run in
+        parallel while the order on every wire is kept. A moment holds either
+        unitary gates or collapse operations (measurements and resets), never
+        both, so idle wires can receive the right idle noise. Measurements
+        whose wire is not used again in ``source`` are deferred to one final
+        measurement moment, so a block of checks reads out together.
 
         Args:
-            circuit (Circuit): Circuit receiving idle noise gates.
-            active_wires (set[int]): Wires occupied by reset/measurement
-                operations in this layer.
+            source (Circuit): Ideal subcircuit of Clifford gates,
+                measurements and resets.
 
         Returns:
-            None: Mutates ``circuit``.
-        """
-        for wire in range(circuit.num_qudits):
-            if wire not in active_wires:
-                self._add_n1_depolarizing(circuit, wire, 0.0, prob_scale=2.0)
+            list[tuple[bool, list[Any]]]: ``(is_collapse_moment,
+            operations)`` pairs in time order. Operations within a moment act
+            on disjoint wires and keep their source order.
 
-    def apply_si1000_noise_to_circuit(
+        Raises:
+            ValueError: If ``source`` contains an operation that cannot be
+                scheduled, such as a noise gate or detector annotation.
+        """
+        operations = list(source.operations)
+        schedulable = (
+            _ONE_QUDIT_IDEAL_GATES
+            | _TWO_QUDIT_IDEAL_GATES
+            | _MEASUREMENT_GATES
+            | _RESET_GATES
+        )
+        last_use: dict[int, int] = {}
+        for index, operation in enumerate(operations):
+            if operation.gate_name not in schedulable:
+                raise ValueError(
+                    f"Cannot schedule {operation.gate_name} inside a "
+                    "circuit-level noise segment."
+                )
+            for wire in self._operation_qudits(operation):
+                last_use[wire] = index
+
+        deferred = [
+            index for index, operation in enumerate(operations)
+            if operation.gate_name in _MEASUREMENT_GATES
+            and last_use[int(operation.qudit_index)] == index
+        ]
+        deferred_set = set(deferred)
+
+        moments: list[tuple[bool, list[Any]]] = []
+        ready: dict[int, int] = {}
+        for index, operation in enumerate(operations):
+            if index in deferred_set:
+                continue
+            collapse = operation.gate_name in (
+                _MEASUREMENT_GATES | _RESET_GATES)
+            wires = self._operation_qudits(operation)
+            slot = max(ready.get(wire, 0) for wire in wires)
+            while slot < len(moments) and moments[slot][0] != collapse:
+                slot += 1
+            if slot == len(moments):
+                moments.append((collapse, []))
+            moments[slot][1].append(operation)
+            for wire in wires:
+                ready[wire] = slot + 1
+
+        if deferred:
+            moments.append((True, [operations[index] for index in deferred]))
+        return moments
+
+    def _add_scaled_depolarizing(
+        self,
+        circuit: Circuit,
+        wire: int,
+        prob_scale: float,
+    ) -> None:
+        """Append DEP1 at ``prob_scale * p`` unless the scale is zero."""
+        if prob_scale > 0.0:
+            self._add_n1_depolarizing(
+                circuit, wire, 0.0, prob_scale=prob_scale)
+
+    def apply_circuit_level_noise(
         self,
         source: Circuit,
         noisy_measurements: bool = True,
     ) -> Circuit:
         """
-            Copy a subcircuit and insert generalized SI1000 noise locations.
+            Schedule an ideal subcircuit into moments and insert the
+            generator's circuit-level (SI1000 or SD6) noise.
+
+        Each moment adds DEP1 after one-qudit gates, DEP2 after two-qudit
+        gates, a flip after resets, a result flip before and DEP1 after
+        measurements, and idle DEP1 on every wire the moment leaves untouched
+        (``measure_reset_idle`` in measurement/reset moments, ``idle``
+        otherwise). The identity gate ``I`` occupies a moment and receives
+        idle noise. Moments never span two calls, so each call is one
+        barrier-separated segment of the protocol. All noise gates carry a
+        ``prob_scale`` relative to p; ``update_noise_param`` materializes
+        them.
 
         Args:
             source (Circuit): Ideal source subcircuit.
-            noisy_measurements (bool): Whether measurement gates in the source
-                should receive SI1000 measurement noise. Terminal data readout
-                passes ``False`` to remain ideal.
+            noisy_measurements (bool): Whether measurements in ``source``
+                receive measurement noise. Idle noise is applied either way.
 
         Returns:
-            Circuit: Noisy copy of ``source``.
+            Circuit: Noisy, rescheduled copy of ``source``.
 
         Raises:
-            ValueError: Propagated if SDIM rejects generated operations.
+            ValueError: If the generator's noise model is not circuit-level
+                or ``source`` cannot be scheduled.
         """
         _require_sdim_runtime()
+        if self.noise_model not in CIRCUIT_LEVEL_NOISE_RATES:
+            raise ValueError(
+                f"Noise model '{self.noise_model}' has no circuit-level "
+                "rates."
+            )
+        rates = CIRCUIT_LEVEL_NOISE_RATES[self.noise_model]
         output = Circuit(
             dimension=source.dimension,
             num_qudits=source.num_qudits,
         )
-        operations = source.operations
-        operation_index = 0
-        while operation_index < len(operations):
-            operation = operations[operation_index]
-            gate_name = operation.gate_name
 
-            if noisy_measurements and gate_name in _MEASUREMENT_GATES:
-                layer_end = operation_index
-                active_wires: set[int] = set()
-                while (layer_end < len(operations)
-                       and operations[layer_end].gate_name
-                       in _MEASUREMENT_GATES):
-                    active_wires.add(int(operations[layer_end].qudit_index))
-                    layer_end += 1
+        for collapse, moment in self.schedule_moments(source):
+            busy: set[int] = set()
+            for operation in moment:
+                busy.update(self._operation_qudits(operation))
+                gate_name = operation.gate_name
+                wire = int(operation.qudit_index)
 
-                self._add_si1000_idle_layer_noise(output, active_wires)
-                for measurement in operations[operation_index:layer_end]:
-                    self._add_n1_depolarizing(
-                        output,
-                        measurement.qudit_index,
-                        0.0,
-                        prob_scale=1.0,
-                    )
-                    shift_channel = (
-                        "p" if measurement.gate_name == "M_X" else "f"
-                    )
+                if gate_name in _MEASUREMENT_GATES:
+                    if noisy_measurements:
+                        self._add_n1_noise(
+                            output,
+                            wire,
+                            0.0,
+                            noise_channel=(
+                                "p" if gate_name == "M_X" else "f"),
+                            prob_scale=rates.measurement_flip,
+                        )
+                    self._append_operation_copy(output, operation)
+                    if noisy_measurements:
+                        self._add_scaled_depolarizing(
+                            output, wire, rates.post_measurement)
+                elif gate_name in _RESET_GATES:
+                    self._append_operation_copy(output, operation)
                     self._add_n1_noise(
                         output,
-                        measurement.qudit_index,
-                        0.0,
-                        noise_channel=shift_channel,
-                        prob_scale=5.0,
-                    )
-                    self._append_operation_copy(output, measurement)
-
-                operation_index = layer_end
-                continue
-
-            if gate_name in _RESET_GATES:
-                layer_end = operation_index
-                active_wires = set()
-                while (layer_end < len(operations)
-                       and operations[layer_end].gate_name in _RESET_GATES):
-                    active_wires.add(int(operations[layer_end].qudit_index))
-                    layer_end += 1
-
-                self._add_si1000_idle_layer_noise(output, active_wires)
-                for reset in operations[operation_index:layer_end]:
-                    self._append_operation_copy(output, reset)
-                    self._add_n1_noise(
-                        output,
-                        reset.qudit_index,
+                        wire,
                         0.0,
                         noise_channel="f",
-                        prob_scale=2.0,
+                        prob_scale=rates.reset_flip,
+                    )
+                elif gate_name == "I":
+                    self._append_operation_copy(output, operation)
+                    self._add_scaled_depolarizing(output, wire, rates.idle)
+                elif operation.target_index is None:
+                    self._append_operation_copy(output, operation)
+                    self._add_scaled_depolarizing(
+                        output, wire, rates.one_qudit_gate)
+                else:
+                    self._append_operation_copy(output, operation)
+                    self._add_n2_depolarizing(
+                        output,
+                        wire,
+                        int(operation.target_index),
+                        0.0,
+                        prob_scale=rates.two_qudit_gate,
                     )
 
-                operation_index = layer_end
-                continue
-
-            self._append_operation_copy(output, operation)
-            if gate_name in _ONE_QUDIT_IDEAL_GATES:
-                self._add_n1_depolarizing(
-                    output,
-                    operation.qudit_index,
-                    0.0,
-                    prob_scale=0.1,
-                )
-            elif (gate_name in _TWO_QUDIT_IDEAL_GATES
-                  or operation.target_index is not None):
-                self._add_n2_depolarizing(
-                    output,
-                    operation.qudit_index,
-                    operation.target_index,
-                    0.0,
-                    prob_scale=1.0,
-                )
-
-            operation_index += 1
+            idle_scale = (
+                rates.measure_reset_idle if collapse else rates.idle)
+            for wire in range(source.num_qudits):
+                if wire not in busy:
+                    self._add_scaled_depolarizing(output, wire, idle_scale)
 
         return output
 
@@ -766,6 +929,68 @@ class LRBCircuitGenerator:
             for clifford in clifford_strings
         ]
 
+    def _circuit_level_noise(self) -> bool:
+        """Whether the generator uses a moment-scheduled circuit-level model."""
+        return self.noise_model in CIRCUIT_LEVEL_NOISE_RATES
+
+    def _noisy_segment(self, segment: Circuit, with_noise: bool) -> Circuit:
+        """Apply circuit-level noise to one protocol segment if requested."""
+        if not with_noise:
+            return segment
+        return self.apply_circuit_level_noise(segment)
+
+    def _clifford_and_inverse_gate_lists(
+        self,
+        clifford_strings: list[str],
+    ) -> tuple[list[list[str]], list[list[str]]]:
+        """
+            Return execution-order gate lists for a maximum-depth Clifford
+            sample and for its inverses in reverse (closing) order.
+        """
+        code_definition = self._require_code_definition()
+        full_clifford_gate_list = [
+            code_definition.clifford_to_gate_sequence(clifford)
+            for clifford in clifford_strings
+        ]
+        full_clifford_inverse_list = [
+            code_definition.clifford_inverse_map[clifford]
+            for clifford in clifford_strings
+        ]
+        full_clifford_inverse_list.reverse()
+        return full_clifford_gate_list, full_clifford_inverse_list
+
+    def _logical_clifford_circuit(self, clifford: list[str]) -> Circuit:
+        """Concatenate the encoded circuits of one Clifford's logical tokens."""
+        code_definition = self._require_code_definition()
+        circuit = Circuit(
+            dimension=code_definition.dimension,
+            num_qudits=code_definition.encoded_num_qudits,
+        )
+        for logical_gate in clifford:
+            circuit = circuit + code_definition.logical_gate_circuit(
+                logical_gate)
+        return circuit
+
+    def _check_round_circuit(self) -> Circuit:
+        """
+            Build one ideal stabilizer-check round for circuit-level models.
+
+        Ancillas are reset immediately before they are used, then every
+        stabilizer block runs, so the whole round is one scheduling segment:
+        blocks on disjoint wires overlap and all ancilla readouts share the
+        final measurement moment.
+        """
+        code_definition = self._require_code_definition()
+        circuit = Circuit(
+            dimension=code_definition.dimension,
+            num_qudits=code_definition.encoded_num_qudits,
+        )
+        if code_definition.reset_measurement_wires is not None:
+            circuit = circuit + code_definition.reset_measurement_wires()
+        for stab_factory, _ in code_definition.stabilizer_check_blocks:
+            circuit = circuit + stab_factory()
+        return circuit
+
     def generate_rb_clifford_sequence(self,
                                       depths: list[int],
                                       with_noise: bool = True
@@ -774,10 +999,12 @@ class LRBCircuitGenerator:
             Build single-qutrit RB circuits for all requested depths using a
             shared max-depth random Clifford sample and matching inverse tails.
 
+        Under SI1000/SD6 every Clifford is one noisy scheduling segment; the
+        terminal measurement stays ideal.
+
         Args:
             depths (list[int]): Benchmark depth values to instantiate.
-            with_noise (bool): Whether to insert N1 noise after each Clifford
-                block and terminally before measurement.
+            with_noise (bool): Whether to insert noise.
 
         Returns:
             list[Circuit]: One physical RB circuit per requested depth.
@@ -794,15 +1021,8 @@ class LRBCircuitGenerator:
 
         # Sample once at max depth, then reuse prefixes for each depth.
         clifford_strings = self.generate_random_clifford_strings(max_depth)
-        full_clifford_gate_list = [
-            code_definition.clifford_to_gate_sequence(clifford)
-            for clifford in clifford_strings
-        ]
-        full_clifford_inverse_list = [
-            code_definition.clifford_inverse_map[clifford]
-            for clifford in clifford_strings
-        ]
-        full_clifford_inverse_list.reverse()
+        full_clifford_gate_list, full_clifford_inverse_list = (
+            self._clifford_and_inverse_gate_lists(clifford_strings))
 
         for depth in sorted_depths:
             circuit = Circuit(
@@ -816,60 +1036,41 @@ class LRBCircuitGenerator:
             else:
                 # Prefix selects forward gates; suffix selects inverse closure.
                 clifford_gates = full_clifford_gate_list[:depth]
-                inverse_gates = full_clifford_inverse_list[(max_depth -
-                                                            depth):]
+                inverse_gates = self._closing_gate_lists(
+                    clifford_strings, full_clifford_inverse_list,
+                    max_depth, depth)
 
-            for clifford in clifford_gates:
-                for gate in clifford:
-                    if with_noise and self.noise_model == SI1000_NOISE_MODEL:
-                        gate_circuit = Circuit(
-                            dimension=code_definition.dimension,
-                            num_qudits=code_definition.physical_num_qudits,
-                        )
-                        code_definition.apply_physical_gate(
-                            gate_circuit, gate)
-                        circuit = (
-                            circuit
-                            + self.apply_si1000_noise_to_circuit(
-                                gate_circuit,
-                                noisy_measurements=False,
-                            )
-                        )
-                    else:
+            if self._circuit_level_noise():
+                for clifford in clifford_gates + inverse_gates:
+                    segment = Circuit(
+                        dimension=code_definition.dimension,
+                        num_qudits=code_definition.physical_num_qudits,
+                    )
+                    for gate in clifford:
+                        code_definition.apply_physical_gate(segment, gate)
+                    circuit = circuit + self._noisy_segment(
+                        segment, with_noise)
+            else:
+                for clifford in clifford_gates:
+                    for gate in clifford:
                         code_definition.apply_physical_gate(circuit, gate)
-                if (with_noise
-                        and self.noise_model == DEPOLARIZING_NOISE_MODEL):
+                    if with_noise:
+                        circuit.add_gate(
+                            "N1",
+                            0,
+                            noise_channel=self.with_default_noise_channel,
+                            prob=0.0)
+
+                for clifford in inverse_gates:
+                    for gate in clifford:
+                        code_definition.apply_physical_gate(circuit, gate)
+
+                if with_noise:
                     circuit.add_gate(
                         "N1",
                         0,
                         noise_channel=self.with_default_noise_channel,
                         prob=0.0)
-
-            for clifford in inverse_gates:
-                for gate in clifford:
-                    if with_noise and self.noise_model == SI1000_NOISE_MODEL:
-                        gate_circuit = Circuit(
-                            dimension=code_definition.dimension,
-                            num_qudits=code_definition.physical_num_qudits,
-                        )
-                        code_definition.apply_physical_gate(
-                            gate_circuit, gate)
-                        circuit = (
-                            circuit
-                            + self.apply_si1000_noise_to_circuit(
-                                gate_circuit,
-                                noisy_measurements=False,
-                            )
-                        )
-                    else:
-                        code_definition.apply_physical_gate(circuit, gate)
-
-            if (with_noise
-                    and self.noise_model == DEPOLARIZING_NOISE_MODEL):
-                circuit.add_gate("N1",
-                                 0,
-                                 noise_channel=self.with_default_noise_channel,
-                                 prob=0.0)
             circuit.add_gate("M", 0)
             self.append_rb_detector_events(circuit)
             subcircuits.append(circuit)
@@ -885,7 +1086,14 @@ class LRBCircuitGenerator:
         """
             Build folded-code logical RB circuits for all requested depths,
             including logical gate expansion, stabilizer checks, and optional
-            physical depolarizing noise insertion.
+            noise insertion.
+
+        Each forward logical Clifford is followed by one stabilizer-check
+        round; the mirrored inverse Cliffords run back to back and are
+        followed by one final check round. Under SI1000/SD6 every Clifford and
+        every check round is one noisy scheduling segment, and each check
+        round resets its ancillas just before use. The encoded preparation
+        and terminal logical readout stay ideal.
 
         Args:
             depths (list[int]): Benchmark depth values to instantiate.
@@ -912,15 +1120,8 @@ class LRBCircuitGenerator:
         elif len(clifford_strings) < max_depth:
             raise ValueError(
                 "Pre-sampled Clifford sequence is shorter than max depth.")
-        full_clifford_gate_list = [
-            code_definition.clifford_to_gate_sequence(clifford)
-            for clifford in clifford_strings
-        ]
-        full_clifford_inverse_list = [
-            code_definition.clifford_inverse_map[clifford]
-            for clifford in clifford_strings
-        ]
-        full_clifford_inverse_list.reverse()
+        full_clifford_gate_list, full_clifford_inverse_list = (
+            self._clifford_and_inverse_gate_lists(clifford_strings))
 
         for depth in sorted_depths:
             circuit = Circuit(
@@ -934,126 +1135,113 @@ class LRBCircuitGenerator:
             if depth == 0:
                 clifford_gates: list[list[str]] = []
                 inverse_gates: list[list[str]] = []
-                # Preserve the historical special-case noise model at depth
-                # zero.
-                if self.noise_model == DEPOLARIZING_NOISE_MODEL:
-                    for wire in code_definition.depth_zero_noise_wires:
-                        circuit.add_gate(
-                            "N1",
-                            wire,
-                            noise_channel=self.with_default_noise_channel,
-                            prob=0.0)
             else:
                 clifford_gates = full_clifford_gate_list[:depth]
-                inverse_gates = full_clifford_inverse_list[(max_depth -
-                                                            depth):]
+                inverse_gates = self._closing_gate_lists(
+                    clifford_strings, full_clifford_inverse_list,
+                    max_depth, depth)
 
-            for clifford in clifford_gates:
-                for logical_gate in clifford:
-                    gate_circuit = code_definition.logical_gate_circuit(
-                        logical_gate)
-                    if (with_noise
-                            and self.noise_model == SI1000_NOISE_MODEL):
-                        gate_circuit = self.apply_si1000_noise_to_circuit(
-                            gate_circuit,
-                            noisy_measurements=False,
-                        )
-                    circuit = circuit + gate_circuit
-
-                if (with_noise
-                        and self.noise_model == DEPOLARIZING_NOISE_MODEL):
-                    for wire in code_definition.affected_wires(clifford):
-                        circuit.add_gate(
-                            "N1",
-                            wire,
-                            noise_channel=self.with_default_noise_channel,
-                            prob=0.0)
-
-                if with_noise:
-                    for stab_factory, ancilla_wires in (
-                            code_definition.stabilizer_check_blocks):
-                        if self.noise_model == SI1000_NOISE_MODEL:
-                            circuit = (
-                                circuit
-                                + self.apply_si1000_noise_to_circuit(
-                                    stab_factory(),
-                                    noisy_measurements=True,
-                                )
-                            )
-                        else:
-                            circuit = circuit + self.inject_stabcheck_noise(
-                                stab_factory(),
-                                ancilla_wires=set(ancilla_wires),
-                                prob=0.0,
-                            )
-                else:
-                    for stab_factory, _ in (
-                            code_definition.stabilizer_check_blocks):
-                        circuit = circuit + stab_factory()
-
-                if code_definition.reset_measurement_wires is not None:
-                    reset_circuit = code_definition.reset_measurement_wires()
-                    if (with_noise
-                            and self.noise_model == SI1000_NOISE_MODEL):
-                        reset_circuit = self.apply_si1000_noise_to_circuit(
-                            reset_circuit,
-                            noisy_measurements=False,
-                        )
-                    circuit = circuit + reset_circuit
-
-            inverse_affected_wires: set[int] = set()
-            for clifford in inverse_gates:
-                for logical_gate in clifford:
-                    gate_circuit = code_definition.logical_gate_circuit(
-                        logical_gate)
-                    if (with_noise
-                            and self.noise_model == SI1000_NOISE_MODEL):
-                        gate_circuit = self.apply_si1000_noise_to_circuit(
-                            gate_circuit,
-                            noisy_measurements=False,
-                        )
-                    circuit = circuit + gate_circuit
-                # Track touched wires so one final inverse-stage noise pass is
-                # applied exactly where needed.
-                inverse_affected_wires.update(
-                    code_definition.affected_wires(clifford))
-
-            if (with_noise
-                    and self.noise_model == DEPOLARIZING_NOISE_MODEL):
-                for wire in sorted(inverse_affected_wires):
-                    circuit.add_gate(
-                        "N1",
-                        wire,
-                        noise_channel=self.with_default_noise_channel,
-                        prob=0.0)
-
-            if with_noise:
-                for stab_factory, ancilla_wires in (
-                        code_definition.stabilizer_check_blocks):
-                    if self.noise_model == SI1000_NOISE_MODEL:
-                        circuit = (
-                            circuit
-                            + self.apply_si1000_noise_to_circuit(
-                                stab_factory(),
-                                noisy_measurements=True,
-                            )
-                        )
-                    else:
-                        circuit = circuit + self.inject_stabcheck_noise(
-                            stab_factory(),
-                            ancilla_wires=set(ancilla_wires),
-                            prob=0.0,
-                        )
+            if self._circuit_level_noise():
+                for clifford in clifford_gates:
+                    circuit = circuit + self._noisy_segment(
+                        self._logical_clifford_circuit(clifford), with_noise)
+                    circuit = circuit + self._noisy_segment(
+                        self._check_round_circuit(), with_noise)
+                for clifford in inverse_gates:
+                    circuit = circuit + self._noisy_segment(
+                        self._logical_clifford_circuit(clifford), with_noise)
+                circuit = circuit + self._noisy_segment(
+                    self._check_round_circuit(), with_noise)
             else:
-                for stab_factory, _ in (
-                        code_definition.stabilizer_check_blocks):
-                    circuit = circuit + stab_factory()
+                circuit = self._append_depolarizing_lrb_body(
+                    circuit, depth, clifford_gates, inverse_gates, with_noise)
 
             circuit = circuit + code_definition.terminal_measurement()
             self.append_lrb_detector_events(circuit, depth)
             subcircuits.append(circuit)
 
         return subcircuits
+
+    def _append_depolarizing_lrb_body(
+        self,
+        circuit: Circuit,
+        depth: int,
+        clifford_gates: list[list[str]],
+        inverse_gates: list[list[str]],
+        with_noise: bool,
+    ) -> Circuit:
+        """
+            Append the historical depolarizing-model LRB body: per-Clifford
+            N1 noise, checks then ancilla reset after every forward Clifford,
+            and one final check round after the inverse block.
+        """
+        code_definition = self._require_code_definition()
+
+        if depth == 0:
+            # Preserve the historical special-case noise model at depth zero.
+            for wire in code_definition.depth_zero_noise_wires:
+                circuit.add_gate(
+                    "N1",
+                    wire,
+                    noise_channel=self.with_default_noise_channel,
+                    prob=0.0)
+
+        for clifford in clifford_gates:
+            for logical_gate in clifford:
+                circuit = circuit + code_definition.logical_gate_circuit(
+                    logical_gate)
+
+            if with_noise:
+                for wire in code_definition.affected_wires(clifford):
+                    circuit.add_gate(
+                        "N1",
+                        wire,
+                        noise_channel=self.with_default_noise_channel,
+                        prob=0.0)
+
+            for stab_factory, ancilla_wires in (
+                    code_definition.stabilizer_check_blocks):
+                if with_noise:
+                    circuit = circuit + self.inject_stabcheck_noise(
+                        stab_factory(),
+                        ancilla_wires=set(ancilla_wires),
+                        prob=0.0,
+                    )
+                else:
+                    circuit = circuit + stab_factory()
+
+            if code_definition.reset_measurement_wires is not None:
+                circuit = circuit + code_definition.reset_measurement_wires()
+
+        inverse_affected_wires: set[int] = set()
+        for clifford in inverse_gates:
+            for logical_gate in clifford:
+                circuit = circuit + code_definition.logical_gate_circuit(
+                    logical_gate)
+            # Track touched wires so one final inverse-stage noise pass is
+            # applied exactly where needed.
+            inverse_affected_wires.update(
+                code_definition.affected_wires(clifford))
+
+        if with_noise:
+            for wire in sorted(inverse_affected_wires):
+                circuit.add_gate(
+                    "N1",
+                    wire,
+                    noise_channel=self.with_default_noise_channel,
+                    prob=0.0)
+
+        for stab_factory, ancilla_wires in (
+                code_definition.stabilizer_check_blocks):
+            if with_noise:
+                circuit = circuit + self.inject_stabcheck_noise(
+                    stab_factory(),
+                    ancilla_wires=set(ancilla_wires),
+                    prob=0.0,
+                )
+            else:
+                circuit = circuit + stab_factory()
+        return circuit
 
     def generate_lrb_const0_clifford_sequence(
         self,
@@ -1062,27 +1250,26 @@ class LRBCircuitGenerator:
         clifford_strings: list[str] | None = None,
     ) -> list[Circuit]:
         """
-            Build encoded LRB circuits for the special ``const=0`` protocol.
+            Build encoded circuits for the special ``const=0`` protocol.
 
-        The non-fault-tolerant state preparation is ideal. No intermediate or
-        ancilla-based terminal stabilizer checks are inserted. Instead, after
-        the noisy logical Clifford/inverse sequence, the circuit performs an
-        error-free direct X-basis data readout containing the X stabilizers and
-        logical-X observable.
+        These circuits use the same logical Clifford and inverse sequence as
+        ordinary LRB, but they omit every ancilla stabilizer-check block and
+        every ancilla reset. The only postselection data comes from the
+        error-free terminal direct X-basis data readout, which evaluates the
+        X-stabilizers and logical X observable. Under SI1000/SD6 every
+        Clifford is one noisy scheduling segment.
 
         Args:
             depths (list[int]): Benchmark depth values to instantiate.
-            with_noise (bool): Whether logical Clifford gates receive physical
-                noise according to the selected model.
+            with_noise (bool): Whether to insert gate noise.
             clifford_strings (list[str] | None): Optional pre-sampled maximum
-                depth Clifford descriptor sequence.
+                depth Clifford descriptor sequence shared with ordinary LRB.
 
         Returns:
-            list[Circuit]: One encoded const=0 circuit per requested depth.
+            list[Circuit]: One encoded ``const=0`` circuit per requested depth.
 
         Raises:
-            ValueError: Propagated if logical-operator expansion or circuit
-                assembly receives unsupported gate symbols.
+            ValueError: If the pre-sampled Clifford sequence is too short.
         """
         _require_sdim_runtime()
         subcircuits: list[Circuit] = []
@@ -1095,15 +1282,8 @@ class LRBCircuitGenerator:
         elif len(clifford_strings) < max_depth:
             raise ValueError(
                 "Pre-sampled Clifford sequence is shorter than max depth.")
-        full_clifford_gate_list = [
-            code_definition.clifford_to_gate_sequence(clifford)
-            for clifford in clifford_strings
-        ]
-        full_clifford_inverse_list = [
-            code_definition.clifford_inverse_map[clifford]
-            for clifford in clifford_strings
-        ]
-        full_clifford_inverse_list.reverse()
+        full_clifford_gate_list, full_clifford_inverse_list = (
+            self._clifford_and_inverse_gate_lists(clifford_strings))
 
         for depth in sorted_depths:
             circuit = Circuit(
@@ -1117,59 +1297,88 @@ class LRBCircuitGenerator:
                 inverse_gates: list[list[str]] = []
             else:
                 clifford_gates = full_clifford_gate_list[:depth]
-                inverse_gates = full_clifford_inverse_list[(max_depth -
-                                                            depth):]
+                inverse_gates = self._closing_gate_lists(
+                    clifford_strings, full_clifford_inverse_list,
+                    max_depth, depth)
 
-            for clifford in clifford_gates:
-                for logical_gate in clifford:
-                    gate_circuit = code_definition.logical_gate_circuit(
-                        logical_gate)
-                    if (with_noise
-                            and self.noise_model == SI1000_NOISE_MODEL):
-                        gate_circuit = self.apply_si1000_noise_to_circuit(
-                            gate_circuit,
-                            noisy_measurements=False,
-                        )
-                    circuit = circuit + gate_circuit
+            if self._circuit_level_noise():
+                for clifford in clifford_gates + inverse_gates:
+                    circuit = circuit + self._noisy_segment(
+                        self._logical_clifford_circuit(clifford), with_noise)
+            else:
+                for clifford in clifford_gates:
+                    for logical_gate in clifford:
+                        circuit = circuit + (
+                            code_definition.logical_gate_circuit(
+                                logical_gate))
 
-                if (with_noise
-                        and self.noise_model == DEPOLARIZING_NOISE_MODEL):
-                    for wire in code_definition.affected_wires(clifford):
+                    if with_noise:
+                        for wire in code_definition.affected_wires(clifford):
+                            circuit.add_gate(
+                                "N1",
+                                wire,
+                                noise_channel=self.with_default_noise_channel,
+                                prob=0.0)
+
+                inverse_affected_wires: set[int] = set()
+                for clifford in inverse_gates:
+                    for logical_gate in clifford:
+                        circuit = circuit + (
+                            code_definition.logical_gate_circuit(
+                                logical_gate))
+                    inverse_affected_wires.update(
+                        code_definition.affected_wires(clifford))
+
+                if with_noise:
+                    for wire in sorted(inverse_affected_wires):
                         circuit.add_gate(
                             "N1",
                             wire,
                             noise_channel=self.with_default_noise_channel,
                             prob=0.0)
 
-            inverse_affected_wires: set[int] = set()
-            for clifford in inverse_gates:
-                for logical_gate in clifford:
-                    gate_circuit = code_definition.logical_gate_circuit(
-                        logical_gate)
-                    if (with_noise
-                            and self.noise_model == SI1000_NOISE_MODEL):
-                        gate_circuit = self.apply_si1000_noise_to_circuit(
-                            gate_circuit,
-                            noisy_measurements=False,
-                        )
-                    circuit = circuit + gate_circuit
-                inverse_affected_wires.update(
-                    code_definition.affected_wires(clifford))
-
-            if (with_noise
-                    and self.noise_model == DEPOLARIZING_NOISE_MODEL):
-                for wire in sorted(inverse_affected_wires):
-                    circuit.add_gate(
-                        "N1",
-                        wire,
-                        noise_channel=self.with_default_noise_channel,
-                        prob=0.0)
-
             circuit = circuit + code_definition.terminal_const0_measurement()
             self.append_lrb_const0_detector_events(circuit, depth)
             subcircuits.append(circuit)
 
         return subcircuits
+
+    @staticmethod
+    def write_circuit_file(
+        circuit: Circuit,
+        directory: str,
+        output_file: str,
+    ) -> str:
+        """
+            Write ``circuit`` as a CHP file without generator-only metadata.
+
+        SDIM's reader rejects parameters a gate does not define, so the
+        ``prob_scale`` kept on noise operations for ``update_noise_param`` is
+        left out of the file and restored on the in-memory circuit.
+
+        Args:
+            circuit (Circuit): Circuit with materialized noise probabilities.
+            directory (str): Output directory.
+            output_file (str): Output file name.
+
+        Returns:
+            str: Path of the written file.
+        """
+        stripped = []
+        for operation in circuit.operations:
+            if operation.params and "prob_scale" in operation.params:
+                stripped.append(
+                    (operation, operation.params.pop("prob_scale")))
+        try:
+            return write_circuit(
+                circuit=circuit,
+                output_file=output_file,
+                comment="",
+                directory=directory,
+            )
+        finally:
+            for operation, prob_scale in stripped:
+                operation.params["prob_scale"] = prob_scale
 
     def update_noise_param(self, circuit: Circuit, prob: float) -> None:
         """
@@ -1282,30 +1491,18 @@ class LRBCircuitGenerator:
 
                 for depth_index, circuit in enumerate(lrb_experiments):
                     self.update_noise_param(circuit, probability)
-                    write_circuit(
-                        circuit=circuit,
-                        output_file=f"{depth_index}.chp",
-                        comment="",
-                        directory=lrb_prob_path,
-                    )
+                    self.write_circuit_file(
+                        circuit, lrb_prob_path, f"{depth_index}.chp")
 
                 for depth_index, circuit in enumerate(lrb_const0_experiments):
                     self.update_noise_param(circuit, probability)
-                    write_circuit(
-                        circuit=circuit,
-                        output_file=f"{depth_index}.chp",
-                        comment="",
-                        directory=lrb_const0_prob_path,
-                    )
+                    self.write_circuit_file(
+                        circuit, lrb_const0_prob_path, f"{depth_index}.chp")
 
                 for depth_index, circuit in enumerate(rb_experiments):
                     self.update_noise_param(circuit, probability)
-                    write_circuit(
-                        circuit=circuit,
-                        output_file=f"{depth_index}.chp",
-                        comment="",
-                        directory=rb_prob_path,
-                    )
+                    self.write_circuit_file(
+                        circuit, rb_prob_path, f"{depth_index}.chp")
 
             print(f"Generated tests for Clifford round {clifford_index}.")
 

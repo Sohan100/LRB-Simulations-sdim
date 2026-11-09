@@ -4,6 +4,8 @@ import csv
 import fcntl
 import json
 import os
+import threading
+import time
 from pathlib import Path
 
 import numpy as np
@@ -17,6 +19,7 @@ from lrb.lrb_simulation import (
 from scripts.run_lrb_experiment import (
     LRBRunConfig,
     LRBRunCoordinator,
+    acquire_worker_lock,
 )
 
 
@@ -477,3 +480,33 @@ def test_probability_worker_lock_rejects_concurrent_owner(
                 progress_file_path=str(progress / "done.txt"),
                 partial_progress_folder_path=str(progress),
             )
+
+
+def test_probability_worker_lock_waits_for_owner_to_hand_over(
+    tmp_path: Path,
+) -> None:
+    lock_path = tmp_path / ".worker.lock"
+    owner = lock_path.open("a+")
+    fcntl.flock(owner.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    releaser = threading.Timer(0.3, owner.close)
+    releaser.start()
+    try:
+        with lock_path.open("a+") as waiter:
+            start = time.monotonic()
+            acquire_worker_lock(waiter, 0, wait_seconds=5.0, poll_seconds=0.05)
+            assert time.monotonic() - start >= 0.25
+    finally:
+        releaser.cancel()
+        owner.close()
+
+
+def test_probability_worker_lock_wait_times_out(tmp_path: Path) -> None:
+    lock_path = tmp_path / ".worker.lock"
+    with lock_path.open("a+") as owner:
+        fcntl.flock(owner.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        with lock_path.open("a+") as waiter:
+            start = time.monotonic()
+            with pytest.raises(RuntimeError, match="Another worker"):
+                acquire_worker_lock(
+                    waiter, 0, wait_seconds=0.2, poll_seconds=0.05)
+            assert time.monotonic() - start >= 0.15
