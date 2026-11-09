@@ -1,0 +1,10 @@
+50/450 circuits, 12s
+100/450 circuits, 24s
+150/450 circuits, 33s
+200/450 circuits, 44s
+250/450 circuits, 54s
+300/450 circuits, 64s
+350/450 circuits, 73s
+400/450 circuits, 83s
+450/450 circuits, 93s
+wrote /pscratch/sd/s/sohan100/LRB-Simulations-sdim/non-markovian-brainstorm/results/variant_sim_sd6_p0.025_shots2000000_compiled-compiled_I0-compiled_pair.npz 93s

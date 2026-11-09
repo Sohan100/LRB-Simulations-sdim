@@ -1,0 +1,4 @@
+k=1: p*(r_L) = 0.04023 [0.039, 0.04154] (interp); r_uncond: LRB worse at every p >= 0.0001
+k=2: p*(r_L) = 0.03091 [0.03021, 0.03137] (interp); r_uncond: LRB worse at every p >= 0.0001
+k=3: p*(r_L) = 0.01955 [0.01928, 0.01995] (interp); r_uncond: LRB worse at every p >= 0.0001
+k=4: p*(r_L) = 0.01441 [0.01421, 0.0146] (interp); r_uncond: LRB worse at every p >= 0.0001

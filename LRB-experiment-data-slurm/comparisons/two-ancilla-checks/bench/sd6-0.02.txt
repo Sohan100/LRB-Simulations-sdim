@@ -1,0 +1,4 @@
+sd6 p=0.02 R=3  one ancilla (current)             X: acc 0.0238 err 1.09e-02 (52)   Z: acc 0.0225 err 1.09e-02 (49)
+sd6 p=0.02 R=3  coherent relay (current)          X: acc 0.0037 err 1.21e-02 (9)   Z: acc 0.0039 err 9.02e-03 (7)
+sd6 p=0.02 R=3  data relay, mid-round readout     X: acc 0.0016 err 3.10e-02 (10)   Z: acc 0.0018 err 2.99e-02 (11)
+sd6 p=0.02 R=3  data relay, measure once          X: acc 0.0045 err 2.44e-02 (22)   Z: acc 0.0047 err 2.63e-02 (25)

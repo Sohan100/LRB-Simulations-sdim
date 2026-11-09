@@ -1,0 +1,49 @@
+code,noise,layout,interval,p_star,seq_boot_se,method,status
+qutrit,sd6,one ancilla,1,0.0398597108754852,0.0014655146622084,permanent_regime_interp,final
+qutrit,sd6,one ancilla,2,0.0268813337692056,0.0007002780451836,permanent_regime_interp,final
+qutrit,sd6,one ancilla,3,0.0180628938387077,0.0005704949742257,permanent_regime_interp,final
+qutrit,sd6,one ancilla,4,0.0155235247699647,0.0004468627531482,permanent_regime_interp,final
+qutrit,sd6,"two ancillas, coherent relay",1,0.036000806276926,0.0013020449433051,permanent_regime_interp,final
+qutrit,sd6,"two ancillas, coherent relay",2,0.025109299184633,0.0015479624381146,permanent_regime_interp,final
+qutrit,sd6,"two ancillas, coherent relay",3,0.0145282223098524,0.0004188669434802,permanent_regime_interp,final
+qutrit,sd6,"two ancillas, coherent relay",4,0.0125,0.0002865995272751,permanent_regime_no_interp,final
+qutrit,si1000,one ancilla,1,0.0291650172925556,0.000558216814893,permanent_regime_interp,final
+qutrit,si1000,one ancilla,2,0.0238802207411883,0.0004881590130632,permanent_regime_interp,final
+qutrit,si1000,one ancilla,3,0.0166041525118481,0.0004488185620515,permanent_regime_interp,final
+qutrit,si1000,one ancilla,4,0.0132024335646111,0.0002020730174999,permanent_regime_interp,final
+qutrit,si1000,"two ancillas, coherent relay",1,0.0287674964384738,0.0006329087232487,permanent_regime_interp,final
+qutrit,si1000,"two ancillas, coherent relay",2,0.0228066991673031,0.00051443242813,permanent_regime_interp,final
+qutrit,si1000,"two ancillas, coherent relay",3,0.015,0.000325620665025,permanent_regime_no_interp,final
+qutrit,si1000,"two ancillas, coherent relay",4,0.0119393836208121,0.0002597677492054,permanent_regime_interp,final
+qutrit,sd6,"two ancillas, conventional sites",1,0.0282904956440419,0.0006982032694814,permanent_regime_interp,final
+qutrit,sd6,"two ancillas, conventional sites",2,0.021188797666973,0.0002971045865776,permanent_regime_interp,final
+qutrit,sd6,"two ancillas, conventional sites",3,0.0122186961101015,0.0003272372620789,permanent_regime_interp,final
+qutrit,sd6,"two ancillas, conventional sites",4,0.0103431580562515,0.0001380759013634,permanent_regime_interp,final
+qutrit,si1000,"two ancillas, conventional sites",1,0.0265950503585351,0.0004281951771075,permanent_regime_interp,final
+qutrit,si1000,"two ancillas, conventional sites",2,0.0208824157900038,0.0003236538789218,permanent_regime_interp,final
+qutrit,si1000,"two ancillas, conventional sites",3,0.0136357574528262,0.0002997738004671,permanent_regime_interp,final
+qutrit,si1000,"two ancillas, conventional sites",4,0.0108369189928816,0.0001400507051653,permanent_regime_interp,final
+qubit,sd6,one ancilla,1,0.0210027165125153,0.0008302056293022,permanent_regime_interp,final
+qubit,sd6,one ancilla,2,0.0150603413712533,0.0004903518464722,permanent_regime_interp,final
+qubit,sd6,one ancilla,3,0.0093536514882944,0.0003208717368024,permanent_regime_interp,final
+qubit,sd6,one ancilla,4,0.0072254579268746,0.0002495707301054,permanent_regime_interp,final
+qubit,sd6,"two ancillas, coherent relay",1,0.0183992978191884,0.000441076855829,permanent_regime_interp,final
+qubit,sd6,"two ancillas, coherent relay",2,0.0131577554314057,0.0003914850764103,permanent_regime_interp,final
+qubit,sd6,"two ancillas, coherent relay",3,0.0081610762303069,0.0001981391797468,permanent_regime_interp,final
+qubit,sd6,"two ancillas, coherent relay",4,0.0062880347282414,0.0001398203954116,permanent_regime_interp,final
+qubit,si1000,one ancilla,1,0.0112131995564208,0.000212105458052,permanent_regime_interp,final
+qubit,si1000,one ancilla,2,0.0077833894177753,0.000150928028733,permanent_regime_interp,final
+qubit,si1000,one ancilla,3,0.0049465386070045,8.724928502309173e-05,permanent_regime_interp,final
+qubit,si1000,one ancilla,4,0.0039523669053712,7.928802146612077e-05,permanent_regime_interp,final
+qubit,si1000,"two ancillas, coherent relay",1,0.0102351906205221,0.0002425423067796,permanent_regime_interp,final
+qubit,si1000,"two ancillas, coherent relay",2,0.0067918308563639,0.0001162750510225,permanent_regime_interp,final
+qubit,si1000,"two ancillas, coherent relay",3,0.0043343511938167,7.734797114665385e-05,permanent_regime_interp,final
+qubit,si1000,"two ancillas, coherent relay",4,0.003327270841982,5.153011798617852e-05,permanent_regime_interp,final
+qubit,sd6,"two ancillas, conventional sites",1,0.014190209913054,0.0004036302535235,permanent_regime_interp,final
+qubit,sd6,"two ancillas, conventional sites",2,0.0100025821903088,0.0002515885322314,permanent_regime_interp,final
+qubit,sd6,"two ancillas, conventional sites",3,0.0060842018307933,0.0001541631834858,permanent_regime_interp,final
+qubit,sd6,"two ancillas, conventional sites",4,0.0046876250777727,0.0001247214414909,permanent_regime_interp,final
+qubit,si1000,"two ancillas, conventional sites",1,0.0093196926323123,0.0001419204945253,permanent_regime_interp,final
+qubit,si1000,"two ancillas, conventional sites",2,0.0064175732322387,0.0001207010443209,permanent_regime_interp,final
+qubit,si1000,"two ancillas, conventional sites",3,0.0039510220301672,7.664997827999207e-05,permanent_regime_interp,final
+qubit,si1000,"two ancillas, conventional sites",4,0.0031265535717796,5.204018458856348e-05,permanent_regime_interp,final

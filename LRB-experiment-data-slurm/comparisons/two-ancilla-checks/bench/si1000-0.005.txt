@@ -1,0 +1,4 @@
+si1000 p=0.005 R=3  one ancilla (current)             X: acc 0.3933 err 1.91e-04 (15)   Z: acc 0.3924 err 3.19e-04 (25)
+si1000 p=0.005 R=3  coherent relay (current)          X: acc 0.2893 err 2.77e-04 (16)   Z: acc 0.2879 err 2.43e-04 (14)
+si1000 p=0.005 R=3  data relay, mid-round readout     X: acc 0.1880 err 9.31e-04 (35)   Z: acc 0.1954 err 8.19e-04 (32)
+si1000 p=0.005 R=3  data relay, measure once          X: acc 0.3452 err 3.04e-04 (21)   Z: acc 0.3453 err 3.33e-04 (23)

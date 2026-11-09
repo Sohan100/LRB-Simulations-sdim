@@ -1,0 +1,17 @@
+50/810 circuits, 37s
+100/810 circuits, 75s
+150/810 circuits, 108s
+200/810 circuits, 145s
+250/810 circuits, 180s
+300/810 circuits, 215s
+350/810 circuits, 252s
+400/810 circuits, 281s
+450/810 circuits, 319s
+500/810 circuits, 352s
+550/810 circuits, 389s
+600/810 circuits, 421s
+650/810 circuits, 457s
+700/810 circuits, 490s
+750/810 circuits, 522s
+800/810 circuits, 556s
+wrote /pscratch/sd/s/sohan100/LRB-Simulations-sdim/non-markovian-brainstorm/results/variant_sim_sd6_p0.002_shots1000000_compiled-compiled_I0-compiled_pair.npz 561s

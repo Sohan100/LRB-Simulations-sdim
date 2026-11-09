@@ -1,0 +1,31 @@
+sd6 merged one 1 {'pipe': 0.0399, 'pooled': 0.0465, 'aligned': 0.0465, 'uncond': 'worse at every p >= 0.0001'}
+sd6 merged one 2 {'pipe': 0.0248, 'pooled': 0.0261, 'aligned': 0.0325, 'uncond': 'worse at every p >= 0.0001'}
+sd6 merged one 3 {'pipe': 0.0186, 'pooled': 0.0179, 'aligned': 0.023, 'uncond': 'worse at every p >= 0.0001'}
+sd6 merged one 4 {'pipe': 0.0158, 'pooled': 0.0178, 'aligned': 0.0184, 'uncond': 'worse at every p >= 0.0001'}
+sd6 merged two 1 {'pipe': 0.0362, 'pooled': 0.0401, 'aligned': 0.0401, 'uncond': 'worse at every p >= 0.0001'}
+sd6 merged two 2 {'pipe': 0.0229, 'pooled': 0.0241, 'aligned': 0.028, 'uncond': 'worse at every p >= 0.0001'}
+sd6 merged two 3 {'pipe': 0.0146, 'pooled': 0.0137, 'aligned': 0.0187, 'uncond': 'worse at every p >= 0.0001'}
+sd6 merged two 4 {'pipe': 0.0125, 'pooled': 0.0136, 'aligned': 0.0148, 'uncond': 'worse at every p >= 0.0001'}
+si1000 prod one 1 {'pipe': 0.03, 'pooled': 0.0302, 'aligned': 0.0302, 'uncond': 'worse at every p >= 0.0001'}
+si1000 prod one 2 {'pipe': 0.0244, 'pooled': 0.0249, 'aligned': 0.0249, 'uncond': 'worse at every p >= 0.0001'}
+si1000 prod one 3 {'pipe': 0.0156, 'pooled': 0.0139, 'aligned': 0.0179, 'uncond': 'worse at every p >= 0.0001'}
+si1000 prod one 4 {'pipe': 0.0133, 'pooled': 0.0129, 'aligned': 0.0151, 'uncond': 'worse at every p >= 0.0001'}
+si1000 prod two 1 {'pipe': 0.0293, 'pooled': 0.0295, 'aligned': 0.0295, 'uncond': 'worse at every p >= 0.0001'}
+si1000 prod two 2 {'pipe': 0.024, 'pooled': 0.0241, 'aligned': 0.0241, 'uncond': 'worse at every p >= 0.0001'}
+si1000 prod two 3 {'pipe': 0.0143, 'pooled': 0.0126, 'aligned': 0.0162, 'uncond': 'worse at every p >= 0.0001'}
+si1000 prod two 4 {'pipe': 0.0121, 'pooled': 0.0117, 'aligned': 0.0139, 'uncond': 'worse at every p >= 0.0001'}
+si1000+ext one 1 {'pipe': 0.0293, 'pooled': 0.0285, 'aligned': 0.0285, 'uncond': 'worse at every p >= 0.0001'}
+si1000+ext one 2 {'pipe': 0.0222, 'pooled': 0.0194, 'aligned': 0.0253, 'uncond': 'worse at every p >= 0.0001'}
+si1000+ext one 3 {'pipe': 0.0173, 'pooled': 0.0152, 'aligned': 0.0195, 'uncond': 'worse at every p >= 0.0001'}
+si1000+ext one 4 {'pipe': 0.0134, 'pooled': 0.0128, 'aligned': 0.0155, 'uncond': 'worse at every p >= 0.0001'}
+si1000+ext two 1 {'pipe': 0.0289, 'pooled': 0.0274, 'aligned': 0.0274, 'uncond': 'worse at every p >= 0.0001'}
+si1000+ext two 2 {'pipe': 0.0208, 'pooled': 0.0178, 'aligned': 0.0241, 'uncond': 'worse at every p >= 0.0001'}
+si1000+ext two 3 {'pipe': 0.0159, 'pooled': 0.0127, 'aligned': 0.0179, 'uncond': 'worse at every p >= 0.0001'}
+si1000+ext two 4 {'pipe': 0.0121, 'pooled': 0.0117, 'aligned': 0.0138, 'uncond': 'worse at every p >= 0.0001'}
+wrote /pscratch/sd/s/sohan100/LRB-Simulations-sdim/non-markovian-brainstorm/results/variant_summary.csv
+wrote fig1_worked_example.png
+wrote fig2_unif1_windowed_rates.png
+wrote fig3_c2_flat_in_k.png
+wrote fig4_protocol_variants_sd6_p0.002.png
+wrote fig5_estimators_vs_rb.png
+DONE
