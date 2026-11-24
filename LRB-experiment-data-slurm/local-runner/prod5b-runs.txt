@@ -1,0 +1,5 @@
+# RUN  JOBNAME  THREADS_PER_INDEX  strict|loose
+Run-2026-11-19-12-51-34-folded_qutrit_prod5b-single-ancilla-si1000-sdim140 lrbP-si 16 strict
+Run-2026-11-19-12-51-50-folded_qutrit_prod5b-single-ancilla-sd6-sdim140 lrbP-sd 16 strict
+Run-2026-11-19-12-52-10-folded_qutrit_prod5b-single-ancilla-si1000-sdim140-highp-ext lrbPx-si 20 loose
+Run-2026-11-19-12-52-21-folded_qutrit_prod5b-single-ancilla-sd6-sdim140-highp-ext lrbPx-sd 30 loose

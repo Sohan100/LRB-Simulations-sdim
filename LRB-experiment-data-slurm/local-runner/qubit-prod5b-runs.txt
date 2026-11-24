@@ -1,0 +1,4 @@
+Run-2026-11-19-23-39-09-folded_qubit_prod5b-single-ancilla-si1000-sdim140 lrbQP-si 16 strict
+Run-2026-11-19-23-39-27-folded_qubit_prod5b-single-ancilla-sd6-sdim140 lrbQP-sd 16 strict
+Run-2026-11-19-23-39-41-folded_qubit_prod5b-single-ancilla-si1000-sdim140-threshold-refine lrbQPr-si 11 loose
+Run-2026-11-19-23-39-59-folded_qubit_prod5b-single-ancilla-sd6-sdim140-threshold-refine lrbQPr-sd 12 loose

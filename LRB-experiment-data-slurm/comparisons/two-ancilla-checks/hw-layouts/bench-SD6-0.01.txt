@@ -1,0 +1,6 @@
+SD6 p=0.01 R=3 one ancilla (production)               moments 7g+2c  X: acc 0.1502 err 2.80e-03 (21)   Z: acc 0.1512 err 2.65e-03 (20)
+SD6 p=0.01 R=3 conv sites, data relay once            moments 11g+2c  X: acc 0.0636 err 6.92e-03 (22)   Z: acc 0.0669 err 4.78e-03 (16)
+SD6 p=0.01 R=3 LEFT  G1,G2(a reads),G3,G3G4^-1(a reads) moments 19g+8c  X: acc 0.0099 err 2.43e-02 (12)   Z: acc 0.0079 err 2.04e-02 (8)
+SD6 p=0.01 R=3 LEFT  G1,G2(a reads),G3,G3G4^-1 hybrid q2-q3 moments 23g+8c  X: acc 0.0045 err 3.52e-02 (8)   Z: acc 0.0038 err 5.29e-02 (10)
+SD6 p=0.01 R=3 RIGHT G1(a reads),G2,G3,G3G4^-1 3-anc c via q1 moments 16g+8c  X: acc 0.0095 err 6.33e-03 (3)   Z: acc 0.0086 err 2.32e-02 (10)
+SD6 p=0.01 R=3 RIGHT G1(a reads),G2,G3,G4 via q2-q3   moments 14g+8c  X: acc 0.0185 err 2.59e-02 (24)   Z: acc 0.0160 err 1.12e-02 (9)

@@ -1,0 +1,1 @@
+sd6 p=0.01 R=3 encoder layout A1 (0, 0, 0, 1) 22g+4c  X: acc 0.0163 err 3.57e-02 (29)   Z: acc 0.0136 err 2.65e-02 (18)

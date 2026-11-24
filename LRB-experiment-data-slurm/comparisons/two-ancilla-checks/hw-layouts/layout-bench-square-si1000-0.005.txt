@@ -1,0 +1,2 @@
+si1000 p=0.005 R=3 production round (LRB runs, 4 ancillas)      7g+2c  X: acc 0.3924 err 2.55e-04 (5)   Z: acc 0.3948 err 2.53e-04 (5)
+si1000 p=0.005 R=3 square lattice: a{012} G3,G1* | c{124} G2,G4* (*via q2-q3) 13g+4c  X: acc 0.2781 err 1.37e-03 (19)   Z: acc 0.2640 err 9.09e-04 (12)

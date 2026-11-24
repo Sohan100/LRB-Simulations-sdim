@@ -1,0 +1,7 @@
+sd6 p=0.01 R=3 production round (LRB runs, 4 ancillas)      7g+2c  X: acc 0.1556 err 1.29e-03 (10)   Z: acc 0.1504 err 1.60e-03 (12)
+sd6 p=0.01 R=3 4 ancillas, one per check (production)       7g+8c  X: acc 0.0483 err 1.03e-02 (25)   Z: acc 0.0456 err 8.78e-03 (20)
+sd6 p=0.01 R=3 2 ancillas: a{0123} G1,G3 | b{1234} G2,G4    8g+4c  X: acc 0.1377 err 7.26e-03 (50)   Z: acc 0.1335 err 4.20e-03 (28)
+sd6 p=0.01 R=3 2 ancillas: a{0134} G1,G4 | b{0124} G2,G3    8g+4c  X: acc 0.1380 err 5.22e-03 (36)   Z: acc 0.1294 err 4.33e-03 (28)
+sd6 p=0.01 R=3 1 ancilla on all five data                   16g+8c  X: acc 0.0268 err 2.54e-02 (34)   Z: acc 0.0229 err 1.75e-02 (20)
+sd6 p=0.01 R=3 user LEFT (hybrid relay, q2-q3)              23g+8c  X: acc 0.0049 err 1.22e-02 (3)   Z: acc 0.0038 err 1.60e-02 (3)
+sd6 p=0.01 R=3 user RIGHT (relay + q2-q3 difference)        14g+8c  X: acc 0.0181 err 1.77e-02 (16)   Z: acc 0.0150 err 1.60e-02 (12)

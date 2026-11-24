@@ -1,0 +1,253 @@
+{
+ "created": "2026-11-19T12:52:25-0800",
+ "source_run": "/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-slurm/Run-2026-10-30-05-58-58-folded_qutrit-single-ancilla-sd6-sdim140-highp-ext",
+ "source_code_name": "folded_qutrit",
+ "code_name": "folded_qutrit_prod5b",
+ "pairing": "same Clifford words per sequence (decoded from the source files); RB copied byte for byte",
+ "source_reproduced": "every sequence, LRB and LRB_const0 at p-indices first/middle/last",
+ "lrb_circuits_written": 2880,
+ "clifford_words": {
+  "0": [
+   "HP",
+   "XZHHPP",
+   "ZZPP",
+   "XXZZ",
+   "ZHHPHP",
+   "XXHH"
+  ],
+  "1": [
+   "XZZHHPHP",
+   "ZHP",
+   "XZZPHP",
+   "HP",
+   "XXHHPH",
+   "XXZZPH"
+  ],
+  "2": [
+   "ZHPP",
+   "XHHHPH",
+   "HPHP",
+   "XXZP",
+   "XXZHPP",
+   "XXZP"
+  ],
+  "3": [
+   "XZZPHPH",
+   "XZZHHPH",
+   "ZZHHPP",
+   "XZZHHH",
+   "H",
+   "HHPH"
+  ],
+  "4": [
+   "XXZZPHPH",
+   "XXHH",
+   "XXH",
+   "ZZPHPP",
+   "XXZHP",
+   "XXZHPHPP"
+  ],
+  "5": [
+   "XXZHH",
+   "X",
+   "XXHHPHP",
+   "HH",
+   "ZHHH",
+   "XXPHPH"
+  ],
+  "6": [
+   "XXZZPH",
+   "XZZH",
+   "PP",
+   "ZPHPP",
+   "XZZPP",
+   "XXZP"
+  ],
+  "7": [
+   "XZZPPH",
+   "XZZHHPH",
+   "XXZZHHH",
+   "PHPP",
+   "ZPP",
+   "XZZPP"
+  ],
+  "8": [
+   "XXZHPH",
+   "XXHPH",
+   "ZHH",
+   "ZHHPHP",
+   "XZZHPHPP",
+   "XXZHP"
+  ],
+  "9": [
+   "ZZHHPHP",
+   "XXZZHPH",
+   "ZZH",
+   "XXP",
+   "XZZH",
+   "XZPPHPH"
+  ],
+  "10": [
+   "XZZPPHPH",
+   "XXHPHP",
+   "ZZHPHP",
+   "HH",
+   "XHPHP",
+   "HP"
+  ],
+  "11": [
+   "ZZHHPH",
+   "XXZHH",
+   "XZZPPHP",
+   "XZHHP",
+   "PH",
+   "XXZZHHPP"
+  ],
+  "12": [
+   "ZZPP",
+   "HP",
+   "XXZHHHP",
+   "XZZHHH",
+   "XXZZHPHPP",
+   "XZZHPHPP"
+  ],
+  "13": [
+   "XXZPPHPH",
+   "XZHPHP",
+   "ZZPHPP",
+   "XZPPHP",
+   "XXZZHH",
+   "XZZHPHPP"
+  ],
+  "14": [
+   "XXZZHPHP",
+   "XZH",
+   "XXZZHHH",
+   "XXHHHP",
+   "XZZPPHP",
+   "XXZHHPH"
+  ],
+  "15": [
+   "XPHP",
+   "XHPH",
+   "HHPHP",
+   "ZHHPHP",
+   "XXZZ",
+   "ZPHP"
+  ],
+  "16": [
+   "XXZZPPHP",
+   "ZZPHPP",
+   "XZHPHPP",
+   "XHHH",
+   "Z",
+   "XHPH"
+  ],
+  "17": [
+   "ZZPPHP",
+   "XXZZHHPH",
+   "XXZZPHP",
+   "HHH",
+   "XXZPH",
+   "XZZPHPH"
+  ],
+  "18": [
+   "XPPHP",
+   "XXZZHHP",
+   "XZPHP",
+   "ZZP",
+   "XZZHHH",
+   "XXZH"
+  ],
+  "19": [
+   "XXZZPHPH",
+   "XXZZHPHPP",
+   "ZZPP",
+   "XHHPP",
+   "XHHPP",
+   "ZZH"
+  ],
+  "20": [
+   "Z",
+   "XPPHP",
+   "ZP",
+   "XZZPPHPH",
+   "ZHHH",
+   "XZPPH"
+  ],
+  "21": [
+   "XXZZHHHPH",
+   "XXP",
+   "XXZPPHPH",
+   "XZHPHP",
+   "XZZHPH",
+   "XXZHPH"
+  ],
+  "22": [
+   "PPHP",
+   "ZHPP",
+   "XZZPPHP",
+   "XHHHP",
+   "XZPPHP",
+   "XZHHHPH"
+  ],
+  "23": [
+   "XP",
+   "XZZ",
+   "XXPPH",
+   "XXZHHP",
+   "XZZP",
+   "XZZHH"
+  ],
+  "24": [
+   "XXZPPHP",
+   "XZZPPH",
+   "XXZPPHPH",
+   "XZPHPH",
+   "XZHPH",
+   "XXZHPH"
+  ],
+  "25": [
+   "XXZZPH",
+   "XHPH",
+   "XHHPH",
+   "XXZZHHPH",
+   "ZH",
+   "XXZPP"
+  ],
+  "26": [
+   "HHPHP",
+   "ZHHHP",
+   "XXPH",
+   "XHPHP",
+   "XHHH",
+   "ZHHPHP"
+  ],
+  "27": [
+   "ZHPHP",
+   "ZZHPH",
+   "XZZP",
+   "ZPPHP",
+   "PH",
+   "XXHPH"
+  ],
+  "28": [
+   "ZHPH",
+   "XH",
+   "XH",
+   "XZZHHP",
+   "ZZP",
+   "ZZP"
+  ],
+  "29": [
+   "ZP",
+   "XZHHP",
+   "ZHHPP",
+   "Z",
+   "XXZPHPP",
+   "XXZZHP"
+  ]
+ },
+ "script": "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/one-ancilla-prod5b/scripts/make_round_variant.py",
+ "script_sha256": "e6c7182d9f58c4a68deefadd3c1310275a3c71979af0c08a8fc39793c498fc5d"
+}

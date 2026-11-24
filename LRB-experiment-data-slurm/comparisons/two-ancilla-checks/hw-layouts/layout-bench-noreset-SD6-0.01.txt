@@ -1,0 +1,3 @@
+sd6 p=0.01 R=3 production round (LRB runs, 4 ancillas) no reset 7g+1c  X: acc 0.1827 err 1.42e-03 (13)   Z: acc 0.1857 err 2.37e-03 (22)
+sd6 p=0.01 R=3 2 ancillas: a{0123} G1,G3 | b{1234} G2,G4 no reset 8g+2c  X: acc 0.1859 err 3.44e-03 (32)   Z: acc 0.1777 err 2.48e-03 (22)
+sd6 p=0.01 R=3 2 ancillas: a{0134} G1,G4 | b{0124} G2,G3 no reset 8g+2c  X: acc 0.1853 err 3.56e-03 (33)   Z: acc 0.1762 err 2.16e-03 (19)

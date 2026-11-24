@@ -1,0 +1,2 @@
+sd6 p=0.01 R=3 production round (LRB runs, 4 ancillas) no reset 7g+1c  X: acc 0.1854 err 2.05e-03 (19)   Z: acc 0.1845 err 2.06e-03 (19)
+sd6 p=0.01 R=3 square lattice: a{012} G3,G1* | c{124} G2,G4* (*via q2-q3) no reset 13g+2c  X: acc 0.0848 err 8.73e-03 (37)   Z: acc 0.0780 err 6.15e-03 (24)

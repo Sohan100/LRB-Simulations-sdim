@@ -1,0 +1,61 @@
+\documentclass[border=6pt,varwidth=40cm]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{quantikz}
+\definecolor{Zcol}{HTML}{FF1744}
+\definecolor{Xcol}{HTML}{00B7FF}
+\colorlet{Xtint}{Xcol!26}
+\colorlet{Ztint}{Zcol!17}
+\colorlet{XRim}{Xcol}
+\colorlet{ZRim}{Zcol}
+\colorlet{XText}{Xcol!80!black}
+\colorlet{ZText}{Zcol!85!black}
+\colorlet{WinTint}{black!14}
+\begin{document}
+{\small\bfseries(a)}\hspace{0.5em}{\small Current one-ancilla round, as in the LRB runs: 12 two-qutrit gates, 7 gate moments}\\[4pt]
+\begin{quantikz}[row sep={0.62cm,between origins}, column sep=0.22cm]
+\lstick{$q_0$} & \ctrl{5} \slice[style={black!35}]{} & \qw & \gate{X} \slice[style={black!35}]{} & \qw & \qw \slice[style={black!35}]{} & \qw & \qw & \qw \slice[style={black!35}]{} & \qw & \qw & \qw \slice[style={black!35}]{} & \qw & \qw \slice[style={black!35}]{} & \qw & \qw \\
+\lstick{$q_1$} & \qw & \ctrl{4} & \qw & \qw & \ctrl{5} & \qw & \gate{X} & \qw & \qw & \qw & \gate{X^{-1}} & \qw & \qw & \qw & \qw \\
+\lstick{$q_2$} & \qw & \qw & \qw & \qw & \qw & \ctrl{4} & \qw & \qw & \qw & \gate{X^{-1}} & \qw & \qw & \qw & \qw & \qw \\
+\lstick{$q_3$} & \qw & \qw & \qw & \ctrl{2} & \qw & \qw & \qw & \gate{X} & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\
+\lstick{$q_4$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \ctrl{2} & \qw & \qw & \qw & \gate{X^{-1}} & \qw & \qw \\
+\lstick{$a_1\colon\ket{0}$} & \gate{X} & \gate{X^{-1}} & \qw & \gate{X^{-1}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \meter{} \rstick{\textcolor{ZText}{$G_1$}} \\
+\lstick{$a_2\colon\ket{0}$} & \qw & \qw & \qw & \qw & \gate{X} & \gate{X} & \qw & \qw & \gate{X^{-1}} & \qw & \qw & \qw & \qw & \qw & \meter{} \rstick{\textcolor{ZText}{$G_2$}} \\
+\lstick{$a_3\colon\ket{0}$} & \gate{H} & \qw & \ctrl{-7} & \qw & \qw & \qw & \ctrl{-6} & \qw & \qw & \ctrl{-5} & \qw & \gate{H^{-1}} & \qw & \qw & \meter{} \rstick{\textcolor{XText}{$G_3$}} \\
+\lstick{$a_4\colon\ket{0}$} & \gate{H} & \qw & \qw & \qw & \qw & \qw & \qw & \ctrl{-5} & \qw & \qw & \ctrl{-7} & \qw & \ctrl{-4} & \gate{H^{-1}} & \meter{} \rstick{\textcolor{XText}{$G_4$}}
+\end{quantikz}
+
+\vspace{14pt}
+{\small\bfseries(b)}\hspace{0.5em}{\small Same layout and gates, packed into 5 gate moments: 12 two-qutrit gates, 5 gate moments}\\[4pt]
+\begin{quantikz}[row sep={0.62cm,between origins}, column sep=0.22cm]
+\lstick{$q_0$} & \ctrl{5} \slice[style={black!35}]{} & \qw & \gate{X} & \qw \slice[style={black!35}]{} & \qw & \qw & \qw & \qw \slice[style={black!35}]{} & \qw & \qw & \qw \slice[style={black!35}]{} & \qw & \qw \\
+\lstick{$q_1$} & \qw & \ctrl{4} & \qw & \qw & \qw & \qw & \qw & \gate{X^{-1}} & \qw & \gate{X} & \qw & \ctrl{5} & \qw \\
+\lstick{$q_2$} & \qw & \qw & \qw & \qw & \qw & \qw & \gate{X^{-1}} & \qw & \ctrl{4} & \qw & \qw & \qw & \qw \\
+\lstick{$q_3$} & \qw & \qw & \qw & \qw & \ctrl{2} & \qw & \qw & \qw & \qw & \qw & \gate{X} & \qw & \qw \\
+\lstick{$q_4$} & \qw & \qw & \qw & \gate{X^{-1}} & \qw & \ctrl{2} & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\
+\lstick{$a_1\colon\ket{0}$} & \gate{X} & \gate{X^{-1}} & \qw & \qw & \gate{X^{-1}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \meter{} \rstick{\textcolor{ZText}{$G_1$}} \\
+\lstick{$a_2\colon\ket{0}$} & \qw & \qw & \qw & \qw & \qw & \gate{X^{-1}} & \qw & \qw & \gate{X} & \qw & \qw & \gate{X} & \meter{} \rstick{\textcolor{ZText}{$G_2$}} \\
+\lstick{$a_3\colon\ket{0}$} & \gate{H} & \qw & \ctrl{-7} & \qw & \qw & \qw & \ctrl{-5} & \qw & \qw & \ctrl{-6} & \qw & \gate{H^{-1}} & \meter{} \rstick{\textcolor{XText}{$G_3$}} \\
+\lstick{$a_4\colon\ket{0}$} & \gate{H} & \qw & \qw & \ctrl{-4} & \qw & \qw & \qw & \ctrl{-7} & \qw & \qw & \ctrl{-5} & \gate{H^{-1}} & \meter{} \rstick{\textcolor{XText}{$G_4$}}
+\end{quantikz}
+
+\vspace{14pt}
+{\small\bfseries(c)}\hspace{0.5em}{\small SQ14 (square lattice): 19 two-qutrit gates, 9 gate moments}\\[4pt]
+\begin{quantikz}[row sep={0.62cm,between origins}, column sep=0.22cm]
+\lstick{$q_0$} & \qw \slice[style={black!35}]{} & \qw & \qw \slice[style={black!35}]{} & \qw & \gate{X} & \qw \slice[style={black!35}]{} & \qw & \qw \slice[style={black!35}]{} & \ctrl{6} \slice[style={black!35}]{} & \qw & \qw & \qw \slice[style={black!35}]{} & \qw & \qw \slice[style={black!35}]{} & \qw & \qw \slice[style={black!35}]{} & \qw & \qw \\
+\lstick{$q_1$} & \qw & \qw & \gate{X} & \ctrl{3} & \qw & \qw & \qw & \qw & \qw & \gate{X^{-1}} & \qw & \qw & \ctrl{3} & \qw & \qw & \qw & \qw & \qw \\
+\lstick{$q_2$} & \qw & \qw & \qw & \qw & \qw & \gate[style={fill=WinTint,draw=black!60}]{X} & \qw & \ctrl{4} & \qw & \qw & \qw & \qw & \qw & \gate[style={fill=WinTint,draw=black!60}]{X^{-1}} & \qw & \ctrl{4} & \qw & \qw \\
+\lstick{$q_3$} & \qw & \gate{X^{-1}} & \qw & \qw & \qw & \ctrl{-1} & \qw & \qw & \qw & \qw & \gate{X} & \qw & \qw & \ctrl{-1} & \qw & \qw & \qw & \qw \\
+\lstick{$q_4$} & \qw & \qw & \qw & \gate[style={fill=WinTint,draw=black!60}]{X^{-1}} & \qw & \qw & \ctrl{1} & \qw & \qw & \qw & \qw & \qw & \gate[style={fill=WinTint,draw=black!60}]{X} & \qw & \ctrl{1} & \qw & \qw & \qw \\
+\lstick{$a_1\colon\ket{0}$} & \qw & \qw & \qw & \qw & \qw & \qw & \gate{X^{-1}} & \qw & \qw & \qw & \qw & \gate[style={fill=Ztint,draw=ZRim}]{X^{-1}} & \ctrl{1} & \qw & \gate{X^{-1}} & \qw & \gate[style={fill=Ztint,draw=ZRim}]{X} & \meter{} \rstick{\textcolor{ZText}{$G_1$}} \\
+\lstick{$a_2\colon\ket{0}$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \gate{X} & \gate{X^{-1}} & \qw & \qw & \ctrl{-1} & \gate[style={fill=Ztint,draw=ZRim}]{X} & \qw & \qw & \gate{X} & \ctrl{-1} & \meter{} \rstick{\textcolor{ZText}{$G_2$}} \\
+\lstick{$a_3\colon\ket{0}$} & \gate{H} & \ctrl{-4} & \qw & \qw & \qw & \qw & \ctrl{1} & \qw & \gate[style={fill=Xtint,draw=XRim}]{X} & \qw & \ctrl{-4} & \qw & \gate{H^{-1}} & \qw & \qw & \qw & \qw & \meter{} \rstick{\textcolor{XText}{$G_3$}} \\
+\lstick{$a_4\colon\ket{0}$} & \gate{H} & \qw & \ctrl{-7} & \qw & \ctrl{-8} & \qw & \gate[style={fill=Xtint,draw=XRim}]{X^{-1}} & \qw & \ctrl{-1} & \ctrl{-7} & \qw & \qw & \gate{H^{-1}} & \qw & \qw & \qw & \qw & \meter{} \rstick{\textcolor{XText}{$G_4$}}
+\end{quantikz}
+
+\vspace{10pt}
+{\footnotesize A dot joined to a box $X$ ($X^{-1}$) is a SUM gate (its inverse), control on the dot.
+Dashed lines separate gate moments of the LRB generator's scheduler; every round starts with
+one reset layer and ends with one readout layer.
+Grey boxes: data CNOTs applied and undone inside the round.
+Red / blue boxes: ancilla--ancilla gates that move partial $Z$ / $X$ sums between $a_1, a_2$ / $a_3, a_4$.}
+\end{document}

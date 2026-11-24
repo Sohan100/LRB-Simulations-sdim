@@ -1,0 +1,8 @@
+RESULT one-ancilla d=2 helpers=[5, 6]: min two-qudit gates 8 (helpers ending |+>: 0); 4304 optimal circuits listed
+RESULT one-ancilla d=2 helpers=[5, 8]: min two-qudit gates 9 (helpers ending |+>: 0); 7332 optimal circuits listed
+RESULT one-ancilla d=2 helpers=[6, 7]: min two-qudit gates 9 (helpers ending |+>: 0); 7332 optimal circuits listed
+RESULT one-ancilla d=2 helpers=[7, 8]: min two-qudit gates 10 (helpers ending |+>: 0); 145736 optimal circuits listed
+RESULT one-ancilla d=3 helpers=[5, 6]: min two-qudit gates 8 (helpers ending |+>: 0); 17216 optimal circuits listed
+RESULT one-ancilla d=3 helpers=[5, 8]: min two-qudit gates 9 (helpers ending |+>: 0); 29328 optimal circuits listed
+RESULT one-ancilla d=3 helpers=[6, 7]: min two-qudit gates 9 (helpers ending |+>: 0); 29328 optimal circuits listed
+RESULT one-ancilla d=3 helpers=[7, 8]: min two-qudit gates 10 (helpers ending |+>: 0); 335136 optimal circuits listed

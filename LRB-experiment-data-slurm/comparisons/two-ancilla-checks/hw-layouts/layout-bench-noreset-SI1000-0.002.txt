@@ -1,0 +1,3 @@
+si1000 p=0.002 R=3 production round (LRB runs, 4 ancillas) no reset 7g+1c  X: acc 0.7584 err 0.00e+00 (0)   Z: acc 0.7585 err 2.64e-05 (4)
+si1000 p=0.002 R=3 2 ancillas: a{0123} G1,G3 | b{1234} G2,G4 no reset 8g+2c  X: acc 0.7176 err 5.57e-05 (8)   Z: acc 0.7138 err 4.90e-05 (7)
+si1000 p=0.002 R=3 2 ancillas: a{0134} G1,G4 | b{0124} G2,G3 no reset 8g+2c  X: acc 0.7190 err 4.17e-05 (6)   Z: acc 0.7121 err 4.92e-05 (7)

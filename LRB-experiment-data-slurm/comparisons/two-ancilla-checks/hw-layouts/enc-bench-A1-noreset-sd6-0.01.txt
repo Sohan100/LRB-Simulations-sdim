@@ -1,0 +1,1 @@
+sd6 p=0.01 R=3 encoder layout A1 (0, 0, 0, 1) no reset 22g+2c  X: acc 0.0215 err 3.63e-02 (39)   Z: acc 0.0170 err 2.95e-02 (25)

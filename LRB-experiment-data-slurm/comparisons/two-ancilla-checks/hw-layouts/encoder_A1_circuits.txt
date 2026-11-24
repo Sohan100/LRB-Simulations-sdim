@@ -1,0 +1,5 @@
+A1 combo (0,0,0,1); wires: data 0-4, E=5 (q1,q4), N=6 (q2). Order within each half as listed; readouts grouped per half.
+G1 [('CNOT', 2, 6), ('CNOT_INV', 0, 1), ('CNOT', 1, 2), ('CNOT', 3, 2), ('CNOT_INV', 2, 6), ('CNOT_INV', 3, 2), ('CNOT_INV', 1, 2), ('CNOT', 0, 1)]
+G2 [('CNOT_INV', 4, 5), ('CNOT', 2, 1), ('CNOT', 1, 5), ('CNOT_INV', 2, 1)]
+G3 [('H', 6), ('CNOT_INV', 1, 0), ('CNOT', 2, 1), ('CNOT_INV', 6, 2), ('CNOT_INV', 2, 1), ('CNOT', 1, 0), ('H_INV', 6)]
+G4 [('H', 5), ('CNOT_INV', 5, 4), ('CNOT_INV', 1, 2), ('CNOT_INV', 2, 3), ('CNOT', 1, 2), ('CNOT_INV', 5, 1), ('CNOT_INV', 1, 2), ('CNOT', 2, 3), ('CNOT', 1, 2), ('H_INV', 5)]

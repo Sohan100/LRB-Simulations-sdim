@@ -1,0 +1,1 @@
+si1000 p=0.002 R=3 encoder layout A1 (0, 0, 0, 1) 22g+4c  X: acc 0.5608 err 3.03e-04 (34)   Z: acc 0.5524 err 2.26e-04 (25)

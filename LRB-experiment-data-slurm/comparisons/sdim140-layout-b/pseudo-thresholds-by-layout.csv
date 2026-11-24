@@ -1,0 +1,49 @@
+code,noise,layout,interval,p_star,seq_boot_se,method,status
+qutrit,sd6,one ancilla,1,0.0398597108754852,0.0014655146622084,permanent_regime_interp,final
+qutrit,sd6,one ancilla,2,0.0268813337692056,0.0007002780451836,permanent_regime_interp,final
+qutrit,sd6,one ancilla,3,0.0180628938387077,0.0005704949742257,permanent_regime_interp,final
+qutrit,sd6,one ancilla,4,0.0155235247699647,0.0004468627531482,permanent_regime_interp,final
+qutrit,si1000,one ancilla,1,0.0291650172925556,0.000558216814893,permanent_regime_interp,final
+qutrit,si1000,one ancilla,2,0.0238802207411883,0.0004881590130632,permanent_regime_interp,final
+qutrit,si1000,one ancilla,3,0.0166041525118481,0.0004488185620515,permanent_regime_interp,final
+qutrit,si1000,one ancilla,4,0.0132024335646111,0.0002020730174999,permanent_regime_interp,final
+qutrit,sd6,"previous: two ancillas, conventional sites",1,0.0282904956440419,0.0006982032694814,permanent_regime_interp,final
+qutrit,sd6,"previous: two ancillas, conventional sites",2,0.021188797666973,0.0002971045865776,permanent_regime_interp,final
+qutrit,sd6,"previous: two ancillas, conventional sites",3,0.0122186961101015,0.0003272372620789,permanent_regime_interp,final
+qutrit,sd6,"previous: two ancillas, conventional sites",4,0.0103431580562515,0.0001380759013634,permanent_regime_interp,final
+qutrit,si1000,"previous: two ancillas, conventional sites",1,0.0265950503585351,0.0004281951771075,permanent_regime_interp,final
+qutrit,si1000,"previous: two ancillas, conventional sites",2,0.0208824157900038,0.0003236538789218,permanent_regime_interp,final
+qutrit,si1000,"previous: two ancillas, conventional sites",3,0.0136357574528262,0.0002997738004671,permanent_regime_interp,final
+qutrit,si1000,"previous: two ancillas, conventional sites",4,0.0108369189928816,0.0001400507051653,permanent_regime_interp,final
+qutrit,sd6,two ancillas,1,0.0206450018662648,0.000396816225066,permanent_regime_interp,final
+qutrit,sd6,two ancillas,2,0.0147168543639621,0.0003449641156672,permanent_regime_interp,final
+qutrit,sd6,two ancillas,3,0.0088062104759363,0.0002200034553556,permanent_regime_interp,final
+qutrit,sd6,two ancillas,4,0.0073976950486074,0.0001987299969303,permanent_regime_interp,final
+qutrit,si1000,two ancillas,1,0.0191099115133232,0.0004359700780586,permanent_regime_interp,final
+qutrit,si1000,two ancillas,2,0.0138741608431643,0.0002431300072176,permanent_regime_interp,final
+qutrit,si1000,two ancillas,3,0.0084895579784,0.0001675364816005,permanent_regime_interp,final
+qutrit,si1000,two ancillas,4,0.0064259883571802,0.0001292100069582,permanent_regime_interp,final
+qubit,sd6,one ancilla,1,0.0210027165125153,0.0008302056293022,permanent_regime_interp,final
+qubit,sd6,one ancilla,2,0.0150603413712533,0.0004903518464722,permanent_regime_interp,final
+qubit,sd6,one ancilla,3,0.0093536514882944,0.0003208717368024,permanent_regime_interp,final
+qubit,sd6,one ancilla,4,0.0072254579268746,0.0002495707301054,permanent_regime_interp,final
+qubit,si1000,one ancilla,1,0.0112131995564208,0.000212105458052,permanent_regime_interp,final
+qubit,si1000,one ancilla,2,0.0077833894177753,0.000150928028733,permanent_regime_interp,final
+qubit,si1000,one ancilla,3,0.0049465386070045,8.724928502309173e-05,permanent_regime_interp,final
+qubit,si1000,one ancilla,4,0.0039523669053712,7.928802146612077e-05,permanent_regime_interp,final
+qubit,sd6,"previous: two ancillas, conventional sites",1,0.014190209913054,0.0004036302535235,permanent_regime_interp,final
+qubit,sd6,"previous: two ancillas, conventional sites",2,0.0100025821903088,0.0002515885322314,permanent_regime_interp,final
+qubit,sd6,"previous: two ancillas, conventional sites",3,0.0060842018307933,0.0001541631834858,permanent_regime_interp,final
+qubit,sd6,"previous: two ancillas, conventional sites",4,0.0046876250777727,0.0001247214414909,permanent_regime_interp,final
+qubit,si1000,"previous: two ancillas, conventional sites",1,0.0093196926323123,0.0001419204945253,permanent_regime_interp,final
+qubit,si1000,"previous: two ancillas, conventional sites",2,0.0064175732322387,0.0001207010443209,permanent_regime_interp,final
+qubit,si1000,"previous: two ancillas, conventional sites",3,0.0039510220301672,7.664997827999207e-05,permanent_regime_interp,final
+qubit,si1000,"previous: two ancillas, conventional sites",4,0.0031265535717796,5.204018458856348e-05,permanent_regime_interp,final
+qubit,sd6,two ancillas,1,0.0085381852871781,0.0001811847360321,permanent_regime_interp,final
+qubit,sd6,two ancillas,2,0.0057849526018474,0.0001236287551746,permanent_regime_interp,final
+qubit,sd6,two ancillas,3,0.0034664578195855,6.414326034666565e-05,permanent_regime_interp,final
+qubit,sd6,two ancillas,4,0.00270779050445,3.791141931031437e-05,permanent_regime_interp,final
+qubit,si1000,two ancillas,1,0.0051093674997562,0.0001547759773021,permanent_regime_interp,final
+qubit,si1000,two ancillas,2,0.0031303181252422,6.997384587864816e-05,permanent_regime_interp,final
+qubit,si1000,two ancillas,3,0.0019744547032151,4.0777181913013e-05,permanent_regime_interp,final
+qubit,si1000,two ancillas,4,0.0015214588399132,3.0205724259124336e-05,permanent_regime_interp,final
