@@ -62,6 +62,16 @@ QUBIT_CURRENT_SUMMARY = COMPARISONS / "pseudo-thresholds-qubit-current"
 CONV_CURRENT_SUMMARY = COMPARISONS / "pseudo-thresholds-conv-sites-current"
 QUBIT_CONV_CURRENT_SUMMARY = (
     COMPARISONS / "pseudo-thresholds-qubit-conv-sites-current")
+# Square-lattice two-ancilla layout B (user's choice 2026-11-17, replaces the
+# conventional-site layout in the paper): own hand-off files.
+LAYOUT_B_CURRENT_SUMMARY = COMPARISONS / "pseudo-thresholds-layout-b-current"
+QUBIT_LAYOUT_B_CURRENT_SUMMARY = (
+    COMPARISONS / "pseudo-thresholds-qubit-layout-b-current")
+# The one-ancilla layout's five-moment round (internal name prod5b; the user chose it
+# for the paper on 2026-11-19), paired with the published seven-moment one-ancilla
+# runs (same Clifford sequences): own hand-off files, qutrit and qubit.
+PROD5B_CURRENT_SUMMARY = COMPARISONS / "pseudo-thresholds-prod5b-current"
+QUBIT_PROD5B_CURRENT_SUMMARY = COMPARISONS / "pseudo-thresholds-qubit-prod5b-current"
 CHECK_MIN, CHECK_MAX = 1, 4
 # Same settings as `Visualize LRB DEM SI1000 SD6 Results.ipynb`.
 FIT_CONFIG = LRBPlotFitConfig(
@@ -236,17 +246,122 @@ CAMPAIGNS = {
             ),
         },
     },
+    # Layout B (square-lattice two ancillas). Its qutrit crossings sit lower
+    # than the other qutrit layouts' (p* 0.006-0.020), so its high-p
+    # extensions start at p = 0.0125 (step 0.0025 to 0.03).
+    "layout-b-sd6": {
+        "out": COMPARISONS / "sdim140-layout-b-sd6-highp-merged",
+        "p_split": 0.0125,
+        "pairs": {
+            "layout-b-sd6": (
+                "Run-2026-11-17-14-39-18-folded_qutrit_layout_b-layout-b-sd6-sdim140",
+                "Run-2026-11-17-15-12-56-folded_qutrit_layout_b-layout-b-sd6-sdim140-highp-ext",
+            ),
+        },
+    },
+    "layout-b-si1000": {
+        "out": COMPARISONS / "sdim140-layout-b-si1000-highp-merged",
+        "p_split": 0.0125,
+        "pairs": {
+            "layout-b-si1000": (
+                "Run-2026-11-17-14-38-05-folded_qutrit_layout_b-layout-b-si1000-sdim140",
+                "Run-2026-11-17-15-25-58-folded_qutrit_layout_b-layout-b-si1000-sdim140-highp-ext",
+            ),
+        },
+    },
+    "qubit-layout-b-sd6": {
+        "out": COMPARISONS / "sdim140-qubit-layout-b-sd6-refine-merged",
+        "p_split": 0.0015,
+        "p_max": 0.009,
+        "grid_step": 0.00025,
+        "threshold_config": SCALE_FREE_THRESHOLD_CONFIG,
+        "pairs": {
+            "qubit-layout-b-sd6": (
+                "Run-2026-11-17-14-41-29-folded_qubit_layout_b-layout-b-sd6-sdim140",
+                "Run-2026-11-17-15-42-03-folded_qubit_layout_b-layout-b-sd6-sdim140-threshold-refine",
+            ),
+        },
+    },
+    "qubit-layout-b-si1000": {
+        "out": COMPARISONS / "sdim140-qubit-layout-b-si1000-refine-merged",
+        "p_split": 0.001,
+        "p_max": 0.007,
+        "grid_step": 0.00025,
+        "threshold_config": SCALE_FREE_THRESHOLD_CONFIG,
+        "pairs": {
+            "qubit-layout-b-si1000": (
+                "Run-2026-11-17-14-40-29-folded_qubit_layout_b-layout-b-si1000-sdim140",
+                "Run-2026-11-17-15-26-16-folded_qubit_layout_b-layout-b-si1000-sdim140-threshold-refine",
+            ),
+        },
+    },
+    # PROD5B: same p_split as the current one-ancilla merge, so the two tables
+    # differ only in the round.
+    "prod5b-sd6": {
+        "out": COMPARISONS / "sdim140-prod5b-sd6-highp-merged",
+        "p_split": 0.025,
+        "pairs": {
+            "prod5b-one-ancilla-sd6": (
+                "Run-2026-11-19-12-51-50-folded_qutrit_prod5b-single-ancilla-sd6-sdim140",
+                "Run-2026-11-19-12-52-21-folded_qutrit_prod5b-single-ancilla-sd6-sdim140-highp-ext",
+            ),
+        },
+    },
+    "prod5b-si1000": {
+        "out": COMPARISONS / "sdim140-prod5b-si1000-highp-merged",
+        "p_split": 0.015,
+        "pairs": {
+            "prod5b-one-ancilla-si1000": (
+                "Run-2026-11-19-12-51-34-folded_qutrit_prod5b-single-ancilla-si1000-sdim140",
+                "Run-2026-11-19-12-52-10-folded_qutrit_prod5b-single-ancilla-si1000-sdim140-highp-ext",
+            ),
+        },
+    },
+    # Qubit five-moment round: same windows and threshold rule as the published
+    # qubit one-ancilla merge, so the two tables differ only in the round.
+    "qubit-prod5b-sd6": {
+        "out": COMPARISONS / "sdim140-qubit-prod5b-sd6-refine-merged",
+        "p_split": 0.006,
+        "p_max": 0.026,
+        "threshold_config": SCALE_FREE_THRESHOLD_CONFIG,
+        "pairs": {
+            "qubit-prod5b-one-ancilla-sd6": (
+                "Run-2026-11-19-23-39-27-folded_qubit_prod5b-single-ancilla-sd6-sdim140",
+                "Run-2026-11-19-23-39-59-folded_qubit_prod5b-single-ancilla-sd6-sdim140-threshold-refine",
+            ),
+        },
+    },
+    "qubit-prod5b-si1000": {
+        "out": COMPARISONS / "sdim140-qubit-prod5b-si1000-refine-merged",
+        "p_split": 0.002,
+        "p_max": 0.013,
+        "threshold_config": SCALE_FREE_THRESHOLD_CONFIG,
+        "pairs": {
+            "qubit-prod5b-one-ancilla-si1000": (
+                "Run-2026-11-19-23-39-09-folded_qubit_prod5b-single-ancilla-si1000-sdim140",
+                "Run-2026-11-19-23-39-41-folded_qubit_prod5b-single-ancilla-si1000-sdim140-threshold-refine",
+            ),
+        },
+    },
 }
 QUTRIT_CAMPAIGNS = ("sd6", "si1000")
 QUBIT_CAMPAIGNS = ("qubit-sd6", "qubit-si1000")
 CONV_CAMPAIGNS = ("conv-sd6", "conv-si1000")
 QUBIT_CONV_CAMPAIGNS = ("qubit-conv-sd6", "qubit-conv-si1000")
+LAYOUT_B_CAMPAIGNS = ("layout-b-sd6", "layout-b-si1000")
+QUBIT_LAYOUT_B_CAMPAIGNS = ("qubit-layout-b-sd6", "qubit-layout-b-si1000")
+PROD5B_CAMPAIGNS = ("prod5b-sd6", "prod5b-si1000")
+QUBIT_PROD5B_CAMPAIGNS = ("qubit-prod5b-sd6", "qubit-prod5b-si1000")
 # family -> (campaigns, hand-off file, qubit arithmetic and refine wording)
 FAMILIES = {
     "qutrit": (QUTRIT_CAMPAIGNS, CURRENT_SUMMARY, False),
     "qubit": (QUBIT_CAMPAIGNS, QUBIT_CURRENT_SUMMARY, True),
     "conv": (CONV_CAMPAIGNS, CONV_CURRENT_SUMMARY, False),
     "qubit-conv": (QUBIT_CONV_CAMPAIGNS, QUBIT_CONV_CURRENT_SUMMARY, True),
+    "layout-b": (LAYOUT_B_CAMPAIGNS, LAYOUT_B_CURRENT_SUMMARY, False),
+    "qubit-layout-b": (QUBIT_LAYOUT_B_CAMPAIGNS, QUBIT_LAYOUT_B_CURRENT_SUMMARY, True),
+    "prod5b": (PROD5B_CAMPAIGNS, PROD5B_CURRENT_SUMMARY, False),
+    "qubit-prod5b": (QUBIT_PROD5B_CAMPAIGNS, QUBIT_PROD5B_CURRENT_SUMMARY, True),
 }
 
 
@@ -452,6 +567,8 @@ def write_current_summary(family: str = "qutrit") -> None:
         "# Current LRB-D pseudo-thresholds (sdim 1.4.0, SI1000/SD6"
         + (", qubit [[5,1,2]] folded code" if qubit else "")
         + (", two ancillas on the conventional sites)" if family.endswith("conv")
+           else ", two-ancilla layout)" if family.endswith("layout-b")
+           else ", one-ancilla layout, five-moment round)" if family.endswith("prod5b")
            else ")"),
         "",
         f"Generated {stamp} by `scripts/merge_highp_threshold_extension.py`;"
@@ -465,10 +582,11 @@ def write_current_summary(family: str = "qutrit") -> None:
            " window plus the near-threshold refinement (production depths,"
            " 1M shots, 30 new Clifford sequences, fine p grid) inside it:"
            f" SD6 {sd6['p_split']} <= p <= {sd6['p_max']} in steps of"
-           + (" 0.0005 below 0.006 and 0.001 above," if sd6["p_split"] < 0.006
+           + (f" {sd6['grid_step']}," if "grid_step" in sd6
+              else " 0.0005 below 0.006 and 0.001 above," if sd6["p_split"] < 0.006
               else " 0.001,")
            + f" SI1000 {si1000['p_split']} <= p <= {si1000['p_max']} in"
-           " steps of 0.0005. p* is where the LRB error equals the RB error,"
+           f" steps of {si1000.get('grid_step', 0.0005)}. p* is where the LRB error equals the RB error,"
            " linearly interpolated (tol 0, no error floor; the qutrit"
            " settings tol 5e-4 and floor 2e-3 are on the scale of the qubit"
            " errors themselves). On the qutrit tables this rule gives every"
@@ -508,8 +626,10 @@ def write_current_summary(family: str = "qutrit") -> None:
             seq = f"[{row['seq_ci68_low']:.4f}, {row['seq_ci68_high']:.4f}]"
         else:
             se = seq = "pending"
+        shown = (row["configuration"].replace("layout-b", "two-ancilla")
+                 if family.endswith("layout-b") else row["configuration"])
         lines.append(
-            f"| {row['configuration']} | {row['interval']} |"
+            f"| {shown} | {row['interval']} |"
             f" {row['p_star']:.4f} | {se} | {seq} | [{row['ci68_low']:.4f},"
             f" {row['ci68_high']:.4f}] | {row['method']} | {row['source']}"
             f" | {row['status']} |")
@@ -526,7 +646,7 @@ def main(argv: list[str]) -> int:
                 if all(name in members for name in names)]
     if not families:
         raise SystemExit(
-            "Merge each family (qutrit, qubit, conv, qubit-conv) in its own call.")
+            "Merge each family (qutrit, qubit, conv, qubit-conv, layout-b, qubit-layout-b, prod5b, qubit-prod5b) in its own call.")
     for name in names:
         campaign = CAMPAIGNS[name]
         merge_campaign(campaign["pairs"], campaign["out"], campaign["p_split"],

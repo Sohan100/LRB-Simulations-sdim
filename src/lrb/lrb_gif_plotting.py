@@ -70,6 +70,9 @@ class LRBGifAnimator:
         "folded_qutrit": "[[5,1,2]]",
         "folded_qutrit_split_unif": "[[5,1,2]]",
         "folded_qutrit_conv_sites": "[[5,1,2]]",
+        "folded_qutrit_a1": "[[5,1,2]]",
+        "folded_qutrit_layout_b": "[[5,1,2]]",
+        "folded_qutrit_prod5b": "[[5,1,2]]",
         "qgrm_3_1_2": "[[3,1,2]]",
     }
 

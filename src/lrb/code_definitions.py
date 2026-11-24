@@ -983,6 +983,310 @@ class FoldedQutritConventionalSitesDetectionCode(FoldedQutritDetectionCode):
 
 
 @dataclass(frozen=True)
+class FoldedQutritA1SquareDetectionCode(FoldedQutritDetectionCode):
+    """
+    Two-ancilla checks of the folded ``[[5,1,2]]_3`` code on the square-lattice
+    layout A1, which also runs the paper's encoder with nearest-neighbour
+    gates only.
+
+    Layout (square lattice, x right, y up)::
+
+                  N(1,2)
+          q3(0,1) q2(1,1) q4(2,1)
+          q0(0,0) q1(1,0) E(2,0)
+
+    The eight couplers are the lattice-adjacent pairs ``q0-q1, q0-q3, q1-q2,
+    q2-q3, q2-q4, q1-E, q4-E, q2-N``. The encoder uses ``q1-q2, q0-q1, q0-q3,
+    q2-q4``; the logical gates use ``q2-q3``. Ancilla ``E = 5`` (next to
+    ``q1, q4``) measures ``G2`` and ``G4``; ancilla ``N = 6`` (next to ``q2``)
+    measures ``G1`` and ``G3``. No ancilla neighbours three data qutrits, so
+    every check moves parity through data-data gates on ``q0-q1``, ``q1-q2``
+    and ``q2-q3`` and undoes them before the readout. ``q0-q3`` and ``q2-q4``
+    are kept out of the checks because ``X0 X3`` and ``X2 X4`` are logical
+    operators, so one fault on a gate there could be a silent logical error.
+
+    G1 (N): read ``z2``, move ``z2 + z1 - z0 + z3`` onto ``q2``, read it with
+        the opposite sign (``N = z0 - z1 - z3``), undo.
+    G2 (E): read ``-z4``, ``CNOT 2->1`` puts ``z1 + z2`` on ``q1``, read it,
+        undo.
+    G3 (N): two data CNOTs fold ``G3`` onto ``q2`` as ``X2^-1``; one
+        controlled read in the Fourier basis; undo.
+    G4 (E): read ``X4^-1``; three data CNOTs fold ``X1^-1 X3`` onto ``q1``;
+        read; undo.
+
+    The round runs ``G1`` and ``G2``, reads ``N`` and ``E``, then runs ``G3``
+    and ``G4`` and reads ``N`` and ``E`` again. The ancillas are reset once,
+    just before the round (the generator's reset block), and reused without a
+    reset after the first readouts: a nonzero first readout already rejects
+    the shot, so the pass rule (every readout zero) is unchanged. Readout
+    order per round: ``N = G1, E = G2, N = G3, E = G4``. A noiseless
+    single-fault enumeration of this round finds no undetected logical error.
+    25 two-qutrit and 4 one-qutrit gates in 22 gate moments under the ASAP
+    scheduler, plus two readout moments.
+
+    Attributes:
+        dimension (int): Local qutrit dimension, three.
+        num_qudits (int): Total circuit width, seven (five data, two ancillas).
+    """
+
+    dimension: int = 3
+    num_qudits: int = 7
+    EAST: int = 5
+    NORTH: int = 6
+
+    @classmethod
+    def reset_measurement_wires(cls) -> Circuit:
+        """Reset both A1 ancillas (wires 5 and 6)."""
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        c.add_gate("RESET", cls.EAST)
+        c.add_gate("RESET", cls.NORTH)
+        return c
+
+    @classmethod
+    def a1_check_round_circuit(cls) -> Circuit:
+        """
+        Build one A1 check round (without the leading ancilla resets).
+
+        Gates follow program order; the ASAP scheduler packs them.
+
+        Returns:
+            Circuit: Check round with four readouts (N, E, N, E).
+        """
+        e, n = cls.EAST, cls.NORTH
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        # G1 = Z0 Z1^-1 Z3^-1 on N: read z2, move z1 - z0 + z3 into q2, read
+        # again with the opposite sign, undo.
+        c.add_gate("CNOT", 2, n)
+        c.add_gate("CNOT_INV", 0, 1)
+        c.add_gate("CNOT", 1, 2)
+        c.add_gate("CNOT", 3, 2)
+        c.add_gate("CNOT_INV", 2, n)
+        c.add_gate("CNOT_INV", 3, 2)
+        c.add_gate("CNOT_INV", 1, 2)
+        c.add_gate("CNOT", 0, 1)
+        # G2 = Z1 Z2 Z4^-1 on E.
+        c.add_gate("CNOT_INV", 4, e)
+        c.add_gate("CNOT", 2, 1)
+        c.add_gate("CNOT", 1, e)
+        c.add_gate("CNOT_INV", 2, 1)
+        c.add_gate("M", n)
+        c.add_gate("M", e)
+        # G3 = X0 X1 X2^-1 on N.
+        c.add_gate("H", n)
+        c.add_gate("CNOT_INV", 1, 0)
+        c.add_gate("CNOT", 2, 1)
+        c.add_gate("CNOT_INV", n, 2)
+        c.add_gate("CNOT_INV", 2, 1)
+        c.add_gate("CNOT", 1, 0)
+        c.add_gate("H_INV", n)
+        # G4 = X1^-1 X3 X4^-1 on E.
+        c.add_gate("H", e)
+        c.add_gate("CNOT_INV", e, 4)
+        c.add_gate("CNOT_INV", 1, 2)
+        c.add_gate("CNOT_INV", 2, 3)
+        c.add_gate("CNOT", 1, 2)
+        c.add_gate("CNOT_INV", e, 1)
+        c.add_gate("CNOT_INV", 1, 2)
+        c.add_gate("CNOT", 2, 3)
+        c.add_gate("CNOT", 1, 2)
+        c.add_gate("H_INV", e)
+        c.add_gate("M", n)
+        c.add_gate("M", e)
+        return c
+
+
+@dataclass(frozen=True)
+class FoldedQutritLayoutBDetectionCode(FoldedQutritDetectionCode):
+    """
+    Two-ancilla checks of the folded ``[[5,1,2]]_3`` code on the square-lattice
+    layout B, chosen by the user on 2026-11-17 for the two-ancilla comparison.
+
+    Layout (square lattice, x right, y up)::
+
+          q4(0,2)  N(1,2)
+          q1(0,1)  q2(1,1)  E(2,1)
+          q0(0,0)  q3(1,0)
+
+    The eight couplers are the lattice-adjacent pairs ``q0-q1, q0-q3, q1-q2,
+    q2-q3, q1-q4, N-q4, N-q2, E-q2``. Among all square-lattice layouts with a
+    native four-gate encoder and two ancillas, B has the shortest fault-safe
+    check round (co-design search, ``comparisons/two-ancilla-checks/hw-layouts/
+    encoders``). The encoder (``logical_plus_initial_state``) uses ``q0-q1,
+    q0-q3, q1-q2, q1-q4`` and is the paper's encoder with ``CNOT 4->2``
+    replaced by ``CNOT 4->1``; it prepares the same ``|+>_L``. The logical gates
+    use ``q2-q3``. ``q0-q3`` is kept out of the checks because ``X0 X3`` is a
+    logical operator.
+
+    Ancilla ``N = 5`` (next to ``q4, q2``) measures ``G2`` and then ``G4``;
+    ancilla ``E = 6`` (next to ``q2``) measures ``G1`` and then ``G3``. Neither
+    neighbours three data qutrits of a stabilizer, so each check moves parity
+    through data CNOTs on ``q0-q1, q1-q2, q1-q4, q2-q3`` and undoes them before
+    the readout:
+
+    G2 (N): read ``z2``; with ``q4 -> z4 - z1`` read ``-(z4 - z1)``; undo.
+    G1 (E): read ``z2``; move ``z2 + z1 - z0 + z3`` onto ``q2``; read it with
+        the opposite sign (``E = z0 - z1 - z3``); undo.
+    G4 (N): Fourier basis; read ``X2``, then ``X4^-1`` under ``CNOT_INV 4->1``,
+        then ``X2^-1`` under ``CNOT_INV 4->1`` and ``CNOT 2->3``; undo.
+    G3 (E): two data CNOTs fold ``G3`` onto ``q2`` as ``X2^-1``; one read;
+        undo.
+
+    The round runs ``G2`` and ``G1``, reads ``N`` and ``E``, then runs ``G4``
+    and ``G3`` and reads ``N`` and ``E`` again. The ancillas are reset once,
+    just before the round (the generator's reset block), and reused without a
+    reset after the first readouts: a nonzero first readout already rejects the
+    shot, so the pass rule (every readout zero) is unchanged. Readout order per
+    round: ``N = G2, E = G1, N = G4, E = G3``. Noiseless single-fault
+    enumeration (qutrit and qubit): no undetected logical error. 24 two-qutrit
+    and 4 one-qutrit gates in 19 gate moments under the ASAP scheduler, plus two
+    readout moments.
+
+    Attributes:
+        dimension (int): Local qutrit dimension, three.
+        num_qudits (int): Total circuit width, seven (five data, two ancillas).
+    """
+
+    dimension: int = 3
+    num_qudits: int = 7
+    NORTH: int = 5
+    EAST: int = 6
+
+    @classmethod
+    def logical_plus_initial_state(cls) -> Circuit:
+        """
+        Layout-B encoder of ``|+>_L`` with nearest-neighbour gates only.
+
+        ``H_INV`` on ``q2, q3, q4``, then ``CNOT 3->0``, ``CNOT 4->1``,
+        ``CNOT_INV 2->1``, ``CNOT 1->0`` (four two-qutrit gates, depth four).
+        The state equals the paper encoder's ``|+>_L`` exactly.
+
+        Returns:
+            Circuit: Encoding subcircuit on the seven-wire block.
+        """
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        c.add_gate("H_INV", [2, 3, 4])
+        c.add_gate("CNOT", 3, 0)
+        c.add_gate("CNOT", 4, 1)
+        c.add_gate("CNOT_INV", 2, 1)
+        c.add_gate("CNOT", 1, 0)
+        return c
+
+    @classmethod
+    def reset_measurement_wires(cls) -> Circuit:
+        """Reset both layout-B ancillas (wires 5 and 6)."""
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        c.add_gate("RESET", cls.NORTH)
+        c.add_gate("RESET", cls.EAST)
+        return c
+
+    @classmethod
+    def layout_b_check_round_circuit(cls) -> Circuit:
+        """
+        Build one layout-B check round (without the leading ancilla resets).
+
+        Gates follow program order; the ASAP scheduler packs them.
+
+        Returns:
+            Circuit: Check round with four readouts (N, E, N, E).
+        """
+        n, e = cls.NORTH, cls.EAST
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        # G2 = Z1 Z2 Z4^-1 on N.
+        c.add_gate("CNOT", 2, n)
+        c.add_gate("CNOT_INV", 1, 4)
+        c.add_gate("CNOT_INV", 4, n)
+        c.add_gate("CNOT", 1, 4)
+        # G1 = Z0 Z1^-1 Z3^-1 on E.
+        c.add_gate("CNOT", 2, e)
+        c.add_gate("CNOT_INV", 0, 1)
+        c.add_gate("CNOT", 1, 2)
+        c.add_gate("CNOT", 3, 2)
+        c.add_gate("CNOT_INV", 2, e)
+        c.add_gate("CNOT_INV", 3, 2)
+        c.add_gate("CNOT_INV", 1, 2)
+        c.add_gate("CNOT", 0, 1)
+        c.add_gate("M", n)
+        c.add_gate("M", e)
+        # G4 = X1^-1 X3 X4^-1 on N.
+        c.add_gate("H", n)
+        c.add_gate("CNOT", n, 2)
+        c.add_gate("CNOT_INV", 4, 1)
+        c.add_gate("CNOT_INV", n, 4)
+        c.add_gate("CNOT", 2, 3)
+        c.add_gate("CNOT_INV", n, 2)
+        c.add_gate("CNOT_INV", 2, 3)
+        c.add_gate("CNOT", 4, 1)
+        c.add_gate("H_INV", n)
+        # G3 = X0 X1 X2^-1 on E.
+        c.add_gate("H", e)
+        c.add_gate("CNOT_INV", 1, 0)
+        c.add_gate("CNOT", 2, 1)
+        c.add_gate("CNOT_INV", e, 2)
+        c.add_gate("CNOT_INV", 2, 1)
+        c.add_gate("CNOT", 1, 0)
+        c.add_gate("H_INV", e)
+        c.add_gate("M", n)
+        c.add_gate("M", e)
+        return c
+
+
+class FoldedQutritProd5bDetectionCode(FoldedQutritDetectionCode):
+    """
+    The one-ancilla checks of ``FoldedQutritDetectionCode`` in the gate order
+    PROD5B: same layout, same ancillas ``a1..a4 = 5..8``, same twelve CNOTs
+    with the same powers (``z_ALT_stabilizer_measurement_ancillae_circuit`` and
+    ``x_stabilizer_measurement_ancillae_circuit``), same ``H``/``H_INV`` on the
+    X ancillas and one readout per ancilla per round. Only the order of the
+    gates on each wire changes, so the ASAP scheduler packs the round into five
+    gate moments instead of seven::
+
+        m1: a1 <- q1;  H a3, H a4
+        m2: a1 <- q0;  a3 -> q2;  a4 -> q1
+        m3: a1 <- q3;  a2 <- q2;  a3 -> q0;  a4 -> q4
+        m4: a2 <- q4;  a3 -> q1;  a4 -> q3
+        m5: a2 <- q1;  H_INV a3, H_INV a4
+
+    (``a <- q``: CNOT power from data ``q`` into Z ancilla ``a``; ``a -> q``:
+    CNOT power from X ancilla ``a`` onto ``q``.) Among all 31,104 correct gate
+    orders of this round, PROD5B has the lowest leading-order undetected
+    logical error per round under both SI1000 and SD6, and no single fault is
+    undetected (``comparisons/two-ancilla-checks/hw-layouts/one-ancilla``,
+    ``oa_schedule_search.py``, 2026-11-19).
+    """
+
+    @classmethod
+    def prod5b_check_round_circuit(cls) -> Circuit:
+        """
+        Build one PROD5B check round (without the leading ancilla resets).
+
+        Gates follow program order; the ASAP scheduler packs them.
+
+        Returns:
+            Circuit: Check round with readouts of wires 5, 6, 7, 8.
+        """
+        c = Circuit(dimension=cls.dimension, num_qudits=cls.num_qudits)
+        c.add_gate("CNOT_INV", 1, 5)
+        c.add_gate("H", 7)
+        c.add_gate("H", 8)
+        c.add_gate("CNOT", 0, 5)
+        c.add_gate("CNOT_INV", 7, 2)
+        c.add_gate("CNOT_INV", 8, 1)
+        c.add_gate("CNOT_INV", 3, 5)
+        c.add_gate("CNOT", 2, 6)
+        c.add_gate("CNOT", 7, 0)
+        c.add_gate("CNOT_INV", 8, 4)
+        c.add_gate("CNOT_INV", 4, 6)
+        c.add_gate("CNOT", 7, 1)
+        c.add_gate("CNOT", 8, 3)
+        c.add_gate("CNOT", 1, 6)
+        c.add_gate("H_INV", 7)
+        c.add_gate("H_INV", 8)
+        for wire in (5, 6, 7, 8):
+            c.add_gate("M", wire)
+        return c
+
+
+@dataclass(frozen=True)
 class QGRMThreeQutritDetectionCode:
     """
     Circuit builder for the [[3,1,2]]_3 QGRM error-detection code.
@@ -1430,6 +1734,65 @@ class FoldedQubitConventionalSitesDetectionCode(
     Attributes:
         dimension (int): Local qubit dimension, two.
         num_qudits (int): Total circuit width, nine.
+    """
+
+    dimension: int = 2
+    num_qudits: int = 9
+
+
+@dataclass(frozen=True)
+class FoldedQubitA1SquareDetectionCode(
+        _QubitStabilizerArithmetic,
+        FoldedQutritA1SquareDetectionCode):
+    """
+    Square-lattice layout A1 for the qubit ``[[5,1,2]]`` code.
+
+    The qubit counterpart of ``FoldedQutritA1SquareDetectionCode``: the same
+    seven wires and check round, built in dimension two.
+
+    Attributes:
+        dimension (int): Local qubit dimension, two.
+        num_qudits (int): Total circuit width, seven.
+    """
+
+    dimension: int = 2
+    num_qudits: int = 7
+
+
+@dataclass(frozen=True)
+class FoldedQubitLayoutBDetectionCode(
+        _QubitStabilizerArithmetic,
+        FoldedQutritLayoutBDetectionCode):
+    """
+    Square-lattice layout B for the qubit ``[[5,1,2]]`` code.
+
+    The qubit counterpart of ``FoldedQutritLayoutBDetectionCode``: the same
+    seven wires, encoder and check round, built in dimension two.
+
+    Attributes:
+        dimension (int): Local qubit dimension, two.
+        num_qudits (int): Total circuit width, seven.
+    """
+
+    dimension: int = 2
+    num_qudits: int = 7
+
+
+@dataclass(frozen=True)
+class FoldedQubitProd5bDetectionCode(
+        _QubitStabilizerArithmetic,
+        FoldedQutritProd5bDetectionCode):
+    """
+    The five-moment one-ancilla round for the qubit ``[[5,1,2]]`` code.
+
+    The qubit counterpart of ``FoldedQutritProd5bDetectionCode``: the same
+    nine wires and the same twelve CNOTs in the same order, built in
+    dimension two (``CNOT_INV -> CNOT``, ``H_INV -> H``). Everything else is
+    ``FoldedQubitDetectionCode``.
+
+    Attributes:
+        dimension (int): Local qubit dimension, two.
+        num_qudits (int): Total wire count, nine (five data, four ancillas).
     """
 
     dimension: int = 2

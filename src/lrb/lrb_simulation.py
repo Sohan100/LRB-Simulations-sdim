@@ -37,6 +37,7 @@ from .detector_events import (
     lrb_const0_stabilizer_detector_label,
     lrb_stabilizer_detector_label,
     reference_event_values,
+    stabilizer_readout_slots,
 )
 
 
@@ -1057,6 +1058,10 @@ class LRBUnpackSpec:
         logical_measurement_round (int): Round index used for logical readout.
         dimension (int): Local qudit dimension used for detector/logical
             modulo arithmetic.
+        stabilizer_raw_offsets (tuple[int, ...]): Per-readout offset
+            within one check round's raw measurement-result entries, aligned
+            with ``stabilizer_wires``. Empty means offset zero for every
+            readout (one readout per wire per round).
 
     Methods:
         This dataclass is declarative and defines no custom methods.
@@ -1075,6 +1080,7 @@ class LRBUnpackSpec:
     check_rounds_offset: int = 1
     logical_measurement_round: int = 0
     dimension: int = 3
+    stabilizer_raw_offsets: tuple[int, ...] = ()
 
 
 @dataclass
@@ -1492,11 +1498,14 @@ class LRBSimulationPipeline:
             compact_detector_results_from_sdim_output(simulation_output)
         )
         check_round_limit = depth + spec.check_rounds_offset
+        slots = stabilizer_readout_slots(spec.stabilizer_wires)
+        raw_offsets = (tuple(spec.stabilizer_raw_offsets)
+                       or (0,) * len(slots))
         required_detector_labels = [
-            lrb_stabilizer_detector_label(check_round, wire)
+            lrb_stabilizer_detector_label(check_round, wire, occurrence)
             for check_round in range(
                 spec.check_round_start, check_round_limit)
-            for wire in spec.stabilizer_wires
+            for wire, occurrence, _ in slots
         ]
         if any(
             label not in compact_results["detectors"]
@@ -1517,15 +1526,16 @@ class LRBSimulationPipeline:
                 range(spec.check_round_start, check_round_limit)):
             reconstructed_values: list[np.ndarray] = []
             check_offset = check_round * spec.check_stride
-            for wire in spec.stabilizer_wires:
-                label = lrb_stabilizer_detector_label(check_round, wire)
+            for (wire, occurrence, _), raw_offset in zip(slots, raw_offsets):
+                label = lrb_stabilizer_detector_label(
+                    check_round, wire, occurrence)
                 reference_value = (
                     LRBSimulationPipeline.event_reference_value(
                         compact_results,
                         "detectors",
                         label,
-                        lambda wire=wire: (
-                            results[wire][check_offset][0].measurement_value),
+                        lambda wire=wire, raw=check_offset + raw_offset: (
+                            results[wire][raw][0].measurement_value),
                     )
                 )
                 reconstructed_values.append(
@@ -1725,9 +1735,13 @@ class LRBSimulationPipeline:
                 spec.check_round_start, check_round_limit
             ):
                 check_offset = check_round * spec.check_stride
+                raw_offsets = (tuple(spec.stabilizer_raw_offsets)
+                               or (0,) * len(spec.stabilizer_wires))
                 stab_values = [
-                    results[wire][check_offset][shot_idx].measurement_value
-                    for wire in spec.stabilizer_wires
+                    results[wire][check_offset + raw_offset][shot_idx]
+                    .measurement_value
+                    for wire, raw_offset in zip(
+                        spec.stabilizer_wires, raw_offsets)
                 ]
                 shot_checks.append(int(stabilizer_pass_fn(stab_values)))
     

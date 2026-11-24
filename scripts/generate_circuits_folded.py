@@ -13,6 +13,12 @@ if str(SRC_PATH) not in sys.path:
 
 from lrb.experiment_setup import ExperimentSetupConfig, ExperimentSetupManager
 from lrb.code_simulation_profiles import (
+    A1_SQUARE_FOLDED_CODE_NAME,
+    A1_SQUARE_FOLDED_QUBIT_CODE_NAME,
+    LAYOUT_B_FOLDED_CODE_NAME,
+    PROD5B_FOLDED_CODE_NAME,
+    PROD5B_FOLDED_QUBIT_CODE_NAME,
+    LAYOUT_B_FOLDED_QUBIT_CODE_NAME,
     CONVENTIONAL_SITES_FOLDED_CODE_NAME,
     CONVENTIONAL_SITES_FOLDED_QUBIT_CODE_NAME,
     DEFAULT_CODE_NAME,
@@ -80,15 +86,24 @@ class FoldedCircuitGenerationScript:
     ANCILLA_MODE_SINGLE = "single"
     ANCILLA_MODE_SPLIT_UNIF = "split-unif"
     ANCILLA_MODE_CONV_SITES = "conv-sites"
+    ANCILLA_MODE_A1 = "a1"
+    ANCILLA_MODE_LAYOUT_B = "layout-b"
+    ANCILLA_MODE_PROD5B = "single-prod5b"
     ANCILLA_MODE_TO_CODE_NAME = {
         ANCILLA_MODE_SINGLE: DEFAULT_CODE_NAME,
         ANCILLA_MODE_SPLIT_UNIF: SPLIT_UNIFORM_FOLDED_CODE_NAME,
         ANCILLA_MODE_CONV_SITES: CONVENTIONAL_SITES_FOLDED_CODE_NAME,
+        ANCILLA_MODE_A1: A1_SQUARE_FOLDED_CODE_NAME,
+        ANCILLA_MODE_LAYOUT_B: LAYOUT_B_FOLDED_CODE_NAME,
+        ANCILLA_MODE_PROD5B: PROD5B_FOLDED_CODE_NAME,
     }
     QUBIT_ANCILLA_MODE_TO_CODE_NAME = {
         ANCILLA_MODE_SINGLE: FOLDED_QUBIT_CODE_NAME,
         ANCILLA_MODE_SPLIT_UNIF: SPLIT_UNIFORM_FOLDED_QUBIT_CODE_NAME,
         ANCILLA_MODE_CONV_SITES: CONVENTIONAL_SITES_FOLDED_QUBIT_CODE_NAME,
+        ANCILLA_MODE_A1: A1_SQUARE_FOLDED_QUBIT_CODE_NAME,
+        ANCILLA_MODE_LAYOUT_B: LAYOUT_B_FOLDED_QUBIT_CODE_NAME,
+        ANCILLA_MODE_PROD5B: PROD5B_FOLDED_QUBIT_CODE_NAME,
     }
     SUPPORTED_QUDIT_DIMENSIONS = (3, 2)
     DEFAULT_N_CLIFF = 30
@@ -279,7 +294,16 @@ class FoldedCircuitGenerationScript:
                 "the same const, const=0, and uniform postselection policies "
                 "as the single-ancilla mode. 'conv-sites' measures the "
                 "split stabilizers on the four conventional ancilla sites "
-                "with a data relay (9 wires, circuit-level noise only)."
+                "with a data relay (9 wires, circuit-level noise only). "
+                "'a1' uses the square-lattice layout A1: two ancillas, each "
+                "measuring two stabilizers through data-data gates, with the "
+                "paper's encoder native (7 wires, circuit-level noise only). "
+                "'layout-b' uses square-lattice layout B (the user's choice "
+                "for the two-ancilla comparison): 7 wires, 4-CNOT native "
+                "encoder, circuit-level noise only. 'single-prod5b' is the "
+                "one-ancilla round with its gates reordered into 5 gate "
+                "moments (the five-moment round; qutrit and qubit, "
+                "circuit-level noise only)."
             ),
         )
         parser.add_argument(
@@ -359,6 +383,9 @@ class FoldedCircuitGenerationScript:
 
         code_name = cls.ANCILLA_MODE_TO_CODE_NAME[ancilla_mode]
         if qudit_dimension == 2:
+            if ancilla_mode not in cls.QUBIT_ANCILLA_MODE_TO_CODE_NAME:
+                raise ValueError(
+                    f"The {ancilla_mode} ancilla mode has no qubit profile.")
             code_name = cls.QUBIT_ANCILLA_MODE_TO_CODE_NAME[ancilla_mode]
         elif qudit_dimension != 3:
             raise ValueError(
@@ -366,7 +393,10 @@ class FoldedCircuitGenerationScript:
                 "choose 3 or 2."
             )
         if ancilla_mode in (cls.ANCILLA_MODE_SPLIT_UNIF,
-                            cls.ANCILLA_MODE_CONV_SITES):
+                            cls.ANCILLA_MODE_CONV_SITES,
+                            cls.ANCILLA_MODE_A1,
+                            cls.ANCILLA_MODE_LAYOUT_B,
+                            cls.ANCILLA_MODE_PROD5B):
             if noise_model not in CIRCUIT_LEVEL_NOISE_MODELS:
                 raise ValueError(
                     f"The {ancilla_mode} folded ancilla mode is only defined "

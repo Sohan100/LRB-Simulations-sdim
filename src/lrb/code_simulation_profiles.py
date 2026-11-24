@@ -22,6 +22,12 @@ FOLDED_QUBIT_CODE_NAME = "folded_qubit"
 SPLIT_UNIFORM_FOLDED_QUBIT_CODE_NAME = "folded_qubit_split_unif"
 CONVENTIONAL_SITES_FOLDED_CODE_NAME = "folded_qutrit_conv_sites"
 CONVENTIONAL_SITES_FOLDED_QUBIT_CODE_NAME = "folded_qubit_conv_sites"
+A1_SQUARE_FOLDED_CODE_NAME = "folded_qutrit_a1"
+A1_SQUARE_FOLDED_QUBIT_CODE_NAME = "folded_qubit_a1"
+LAYOUT_B_FOLDED_CODE_NAME = "folded_qutrit_layout_b"
+LAYOUT_B_FOLDED_QUBIT_CODE_NAME = "folded_qubit_layout_b"
+PROD5B_FOLDED_CODE_NAME = "folded_qutrit_prod5b"
+PROD5B_FOLDED_QUBIT_CODE_NAME = "folded_qubit_prod5b"
 
 
 @dataclass(frozen=True)
@@ -91,6 +97,7 @@ class _UnpackSpec:
     check_rounds_offset: int = 1
     logical_measurement_round: int = 0
     dimension: int = 3
+    stabilizer_raw_offsets: tuple[int, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -184,6 +191,51 @@ class CodeSimulationProfileRegistry:
             ),
             "terminal_const0_measurement": (
                 defns.FoldedQutritDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
+        # One-ancilla round in the gate order PROD5B (5 gate moments).
+        PROD5B_FOLDED_CODE_NAME: {
+            "dimension": 3,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 9,
+            "clifford_strings": (
+                defns.single_qutrit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QutritCliffordLibrary.qutrit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QutritCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQutritProd5bDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQutritProd5bDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQutritProd5bDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQutritProd5bDetectionCode.
+                    prod5b_check_round_circuit,
+                    {5, 6, 7, 8},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQutritProd5bDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQutritProd5bDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQutritProd5bDetectionCode.
                 terminal_const0_logical_x_measurement_circuit
             ),
             "depth_zero_noise_wires": (0, 1, 2, 3, 4),
@@ -297,6 +349,51 @@ class CodeSimulationProfileRegistry:
             ),
             "terminal_const0_measurement": (
                 defns.FoldedQubitDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
+        # The five-moment one-ancilla round, qubit code.
+        PROD5B_FOLDED_QUBIT_CODE_NAME: {
+            "dimension": 2,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 9,
+            "clifford_strings": (
+                defns.single_qubit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QubitCliffordLibrary.qubit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QubitCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQubitProd5bDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQubitProd5bDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQubitProd5bDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQubitProd5bDetectionCode.
+                    prod5b_check_round_circuit,
+                    {5, 6, 7, 8},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQubitProd5bDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQubitProd5bDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQubitProd5bDetectionCode.
                 terminal_const0_logical_x_measurement_circuit
             ),
             "depth_zero_noise_wires": (0, 1, 2, 3, 4),
@@ -448,6 +545,182 @@ class CodeSimulationProfileRegistry:
             ),
             "depth_zero_noise_wires": (0, 1, 2, 3, 4),
         },
+        A1_SQUARE_FOLDED_CODE_NAME: {
+            "dimension": 3,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 7,
+            "clifford_strings": (
+                defns.single_qutrit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QutritCliffordLibrary.qutrit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QutritCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQutritA1SquareDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQutritA1SquareDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQutritA1SquareDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQutritA1SquareDetectionCode.
+                    a1_check_round_circuit,
+                    {5, 6},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQutritA1SquareDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQutritA1SquareDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQutritA1SquareDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
+        LAYOUT_B_FOLDED_CODE_NAME: {
+            "dimension": 3,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 7,
+            "clifford_strings": (
+                defns.single_qutrit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QutritCliffordLibrary.qutrit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QutritCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQutritLayoutBDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQutritLayoutBDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQutritLayoutBDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQutritLayoutBDetectionCode.
+                    layout_b_check_round_circuit,
+                    {5, 6},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQutritLayoutBDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQutritLayoutBDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQutritLayoutBDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
+        A1_SQUARE_FOLDED_QUBIT_CODE_NAME: {
+            "dimension": 2,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 7,
+            "clifford_strings": (
+                defns.single_qubit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QubitCliffordLibrary.qubit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QubitCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQubitA1SquareDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQubitA1SquareDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQubitA1SquareDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQubitA1SquareDetectionCode.
+                    a1_check_round_circuit,
+                    {5, 6},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQubitA1SquareDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQubitA1SquareDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQubitA1SquareDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
+        LAYOUT_B_FOLDED_QUBIT_CODE_NAME: {
+            "dimension": 2,
+            "physical_num_qudits": 1,
+            "encoded_num_qudits": 7,
+            "clifford_strings": (
+                defns.single_qubit_cliffords_exhaustive_strings
+            ),
+            "clifford_to_gate_sequence": (
+                defns.QubitCliffordLibrary.qubit_gate_seq_list
+            ),
+            "clifford_inverse_map": (
+                defns.QubitCliffordLibrary.build_inverse_lookup()
+            ),
+            "apply_physical_gate": (
+                LRBCodeDefinitionFactory.apply_single_qudit_gate_to_wire_zero
+            ),
+            "logical_plus_initial_state": (
+                defns.FoldedQubitLayoutBDetectionCode.logical_plus_initial_state
+            ),
+            "logical_gate_circuit": (
+                defns.FoldedQubitLayoutBDetectionCode.
+                single_qudit_logical_gate_circuit
+            ),
+            "affected_wires": defns.FoldedQubitLayoutBDetectionCode.affected_wires,
+            "stabilizer_check_blocks": (
+                (
+                    defns.FoldedQubitLayoutBDetectionCode.
+                    layout_b_check_round_circuit,
+                    {5, 6},
+                ),
+            ),
+            "reset_measurement_wires": (
+                defns.FoldedQubitLayoutBDetectionCode.reset_measurement_wires
+            ),
+            "terminal_measurement": (
+                defns.FoldedQubitLayoutBDetectionCode.
+                terminal_logical_x_measurement_circuit
+            ),
+            "terminal_const0_measurement": (
+                defns.FoldedQubitLayoutBDetectionCode.
+                terminal_const0_logical_x_measurement_circuit
+            ),
+            "depth_zero_noise_wires": (0, 1, 2, 3, 4),
+        },
         "qgrm_3_1_2": {
             "dimension": 3,
             "physical_num_qudits": 1,
@@ -519,6 +792,22 @@ class CodeSimulationProfileRegistry:
                 ((3, 1), (1, -1), (4, -1)),
             ),
         ),
+        PROD5B_FOLDED_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(5, 6, 7, 8),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 3
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQutritDetectionCode.codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, -1)),
+                ((3, 1), (1, -1), (4, -1)),
+            ),
+        ),
         SPLIT_UNIFORM_FOLDED_CODE_NAME: _UnpackSpec(
             stabilizer_wires=(5, 6, 7, 8, 9, 10),
             logical_measurement_wires=(0, 3),
@@ -551,6 +840,26 @@ class CodeSimulationProfileRegistry:
             terminal_x_measurement_wires=(0, 1, 2, 3, 4),
             x_stabilizer_check_fn=(
                 defns.FoldedQubitDetectionCode.codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, 1)),
+                ((3, 1), (1, 1), (4, 1)),
+            ),
+            stabilizer_pass_fn=(
+                lambda measurements: all(v % 2 == 0 for v in measurements)
+            ),
+            dimension=2,
+        ),
+        PROD5B_FOLDED_QUBIT_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(5, 6, 7, 8),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 2
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQubitProd5bDetectionCode.codespace_X_stabilizer_check
             ),
             logical_observable_terms=((0, 1), (3, 1)),
             terminal_x_stabilizer_terms=(
@@ -622,6 +931,93 @@ class CodeSimulationProfileRegistry:
             ),
             dimension=2,
         ),
+        # Square-lattice layout A1: two ancillas, each read twice per round
+        # (N = G1, E = G2, then N = G3, E = G4); every readout must vanish.
+        # Per round each ancilla has one reset and two readouts in the raw
+        # measurement-result record.
+        A1_SQUARE_FOLDED_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(6, 5, 6, 5),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 3
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQutritA1SquareDetectionCode.codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, -1)),
+                ((3, 1), (1, -1), (4, -1)),
+            ),
+            check_stride=3,
+            stabilizer_raw_offsets=(1, 1, 2, 2),
+        ),
+        # Square-lattice layout B: N (wire 5) reads G2 then G4, E (wire 6)
+        # reads G1 then G3; per round each ancilla has one reset and two
+        # readouts in the raw measurement-result record.
+        LAYOUT_B_FOLDED_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(5, 6, 5, 6),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 3
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQutritLayoutBDetectionCode.codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, -1)),
+                ((3, 1), (1, -1), (4, -1)),
+            ),
+            check_stride=3,
+            stabilizer_raw_offsets=(1, 1, 2, 2),
+        ),
+        A1_SQUARE_FOLDED_QUBIT_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(6, 5, 6, 5),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 2
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQubitA1SquareDetectionCode.codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, 1)),
+                ((3, 1), (1, 1), (4, 1)),
+            ),
+            stabilizer_pass_fn=(
+                lambda measurements: all(v % 2 == 0 for v in measurements)
+            ),
+            check_stride=3,
+            stabilizer_raw_offsets=(1, 1, 2, 2),
+            dimension=2,
+        ),
+        LAYOUT_B_FOLDED_QUBIT_CODE_NAME: _UnpackSpec(
+            stabilizer_wires=(5, 6, 5, 6),
+            logical_measurement_wires=(0, 3),
+            logical_outcome_fn=(
+                lambda measurements, _: (measurements[0] + measurements[1]) % 2
+            ),
+            terminal_x_measurement_wires=(0, 1, 2, 3, 4),
+            x_stabilizer_check_fn=(
+                defns.FoldedQubitLayoutBDetectionCode.codespace_X_stabilizer_check
+            ),
+            logical_observable_terms=((0, 1), (3, 1)),
+            terminal_x_stabilizer_terms=(
+                ((0, 1), (1, 1), (2, 1)),
+                ((3, 1), (1, 1), (4, 1)),
+            ),
+            stabilizer_pass_fn=(
+                lambda measurements: all(v % 2 == 0 for v in measurements)
+            ),
+            check_stride=3,
+            stabilizer_raw_offsets=(1, 1, 2, 2),
+            dimension=2,
+        ),
         "qgrm_3_1_2": _UnpackSpec(
             stabilizer_wires=(3, 4),
             logical_measurement_wires=(0, 1),
@@ -648,6 +1044,12 @@ class CodeSimulationProfileRegistry:
         SPLIT_UNIFORM_FOLDED_QUBIT_CODE_NAME: 2,
         CONVENTIONAL_SITES_FOLDED_CODE_NAME: 3,
         CONVENTIONAL_SITES_FOLDED_QUBIT_CODE_NAME: 2,
+        A1_SQUARE_FOLDED_CODE_NAME: 3,
+        A1_SQUARE_FOLDED_QUBIT_CODE_NAME: 2,
+        LAYOUT_B_FOLDED_CODE_NAME: 3,
+        LAYOUT_B_FOLDED_QUBIT_CODE_NAME: 2,
+        PROD5B_FOLDED_CODE_NAME: 3,
+        PROD5B_FOLDED_QUBIT_CODE_NAME: 2,
     }
 
     @classmethod

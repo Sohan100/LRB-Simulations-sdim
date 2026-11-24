@@ -229,6 +229,12 @@ class LRBResultsPlotter:
         "folded_qubit_split_unif": r"$[[5,1,2]]_2$ split-ancilla",
         "folded_qutrit_conv_sites": r"$[[5,1,2]]_3$ two-ancilla sites",
         "folded_qubit_conv_sites": r"$[[5,1,2]]_2$ two-ancilla sites",
+        "folded_qutrit_a1": r"$[[5,1,2]]_3$ A1 square layout",
+        "folded_qubit_a1": r"$[[5,1,2]]_2$ A1 square layout",
+        "folded_qutrit_layout_b": r"$[[5,1,2]]_3$ two-ancilla layout",
+        "folded_qubit_layout_b": r"$[[5,1,2]]_2$ two-ancilla layout",
+        "folded_qutrit_prod5b": r"$[[5,1,2]]_3$ one-ancilla, 5-moment round",
+        "folded_qubit_prod5b": r"$[[5,1,2]]_2$ one-ancilla, 5-moment round",
     }
     # Logical dimension of codes that are not qutrit codes, used when a run
     # folder has no d.txt.
@@ -236,6 +242,9 @@ class LRBResultsPlotter:
         "folded_qubit": 2,
         "folded_qubit_split_unif": 2,
         "folded_qubit_conv_sites": 2,
+        "folded_qubit_a1": 2,
+        "folded_qubit_layout_b": 2,
+        "folded_qubit_prod5b": 2,
     }
     _NOISE_TITLE_BY_NAME: dict[str, str] = {
         "si1000": "SI1000",

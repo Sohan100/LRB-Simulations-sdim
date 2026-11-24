@@ -20,7 +20,8 @@ LRB_CONST0_LOGICAL_OBSERVABLE_LABEL = "lrb_const0_logical"
 RB_LOGICAL_OBSERVABLE_LABEL = "rb_logical"
 
 
-def lrb_stabilizer_detector_label(check_round: int, wire: int) -> str:
+def lrb_stabilizer_detector_label(check_round: int, wire: int,
+                                  occurrence: int = 0) -> str:
     """
     Build the stable label for one ordinary LRB stabilizer detector.
 
@@ -29,16 +30,49 @@ def lrb_stabilizer_detector_label(check_round: int, wire: int) -> str:
             The final post-inverse check is round ``depth``.
         wire (int): Physical ancilla wire whose measured syndrome/relay value
             is represented by this detector.
+        occurrence (int): Which readout of ``wire`` within the round, for
+            layouts that read one ancilla more than once per round. The first
+            readout (``0``) keeps the historical label.
 
     Returns:
         str: Label stored in the SDIM detector payload.
 
     Raises:
-        ValueError: If a negative round or wire is supplied.
+        ValueError: If a negative round, wire or occurrence is supplied.
     """
-    if check_round < 0 or wire < 0:
+    if check_round < 0 or wire < 0 or occurrence < 0:
         raise ValueError("Detector labels require non-negative indices.")
-    return f"lrb_stab_r{check_round}_w{wire}"
+    if occurrence == 0:
+        return f"lrb_stab_r{check_round}_w{wire}"
+    return f"lrb_stab_r{check_round}_w{wire}_m{occurrence}"
+
+
+def stabilizer_readout_slots(
+        stabilizer_wires: Sequence[int]) -> list[tuple[int, int, int]]:
+    """
+    Expand a per-round stabilizer wire list into readout slots.
+
+    A wire may appear more than once when one ancilla is read several times
+    per check round (layout A1). Each slot is ``(wire, occurrence,
+    readouts_per_round_on_wire)``; for a list without repeats every slot is
+    ``(wire, 0, 1)``, which reproduces the historical one-readout indexing.
+
+    Args:
+        stabilizer_wires (Sequence[int]): Wires in per-round readout order.
+
+    Returns:
+        list[tuple[int, int, int]]: Slots in the same order.
+    """
+    totals: dict[int, int] = defaultdict(int)
+    for wire in stabilizer_wires:
+        totals[int(wire)] += 1
+    seen: dict[int, int] = defaultdict(int)
+    slots = []
+    for wire in stabilizer_wires:
+        wire = int(wire)
+        slots.append((wire, seen[wire], totals[wire]))
+        seen[wire] += 1
+    return slots
 
 
 def lrb_const0_stabilizer_detector_label(stabilizer_index: int) -> str:

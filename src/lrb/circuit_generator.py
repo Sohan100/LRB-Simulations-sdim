@@ -22,6 +22,7 @@ from .detector_events import (
     indices_and_coefficients_from_wire_terms,
     lrb_const0_stabilizer_detector_label,
     lrb_stabilizer_detector_label,
+    stabilizer_readout_slots,
     measurement_indices_by_wire,
 )
 
@@ -771,16 +772,18 @@ class LRBCircuitGenerator:
         code_definition = self._require_code_definition()
         measurement_indices = measurement_indices_by_wire(circuit)
 
+        slots = stabilizer_readout_slots(
+            code_definition.stabilizer_detector_wires)
         for check_round in range(depth + 1):
-            for wire in code_definition.stabilizer_detector_wires:
-                measurement_index = measurement_indices[int(wire)][
-                    check_round]
+            for wire, occurrence, per_round in slots:
+                measurement_index = measurement_indices[wire][
+                    check_round * per_round + occurrence]
                 circuit.add_gate(
                     "DETECTOR",
                     expr=expression_from_measurement_indices(
                         [measurement_index]),
                     label=lrb_stabilizer_detector_label(
-                        check_round, int(wire)),
+                        check_round, wire, occurrence),
                 )
 
         logical_indices, logical_coefficients = (

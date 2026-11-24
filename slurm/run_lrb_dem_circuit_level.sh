@@ -64,7 +64,7 @@ fail() {
 CODE_NAME="$(tr -d '[:space:]' < "${WORKDIR}/code_name.txt")"
 NOISE_MODEL="$(tr -d '[:space:]' < "${WORKDIR}/noise_model.txt")"
 case "${CODE_NAME}" in
-    folded_qutrit|folded_qutrit_split_unif|folded_qubit|folded_qubit_split_unif|folded_qutrit_conv_sites|folded_qubit_conv_sites) ;;
+    folded_qutrit|folded_qutrit_split_unif|folded_qubit|folded_qubit_split_unif|folded_qutrit_conv_sites|folded_qubit_conv_sites|folded_qutrit_a1|folded_qubit_a1|folded_qutrit_layout_b|folded_qubit_layout_b|folded_qutrit_prod5b|folded_qubit_prod5b) ;;
     *) fail "Unsupported code '${CODE_NAME}' in ${WORKDIR}/code_name.txt" ;;
 esac
 case "${NOISE_MODEL}" in

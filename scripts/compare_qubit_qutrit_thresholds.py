@@ -15,7 +15,10 @@ comparisons/qubit-vs-qutrit/:
   difference in units of the combined SE (the two campaigns use independent
   Clifford sequences, so their errors add in quadrature).
 
-With --two-ancilla conv-sites the two-ancilla panels use the conventional-site
+With --two-ancilla layout-b-five-moment the one-ancilla panels use the five-moment round
+(both codes) and the two-ancilla panels the square-lattice two-ancilla layout
+(comparisons/qubit-vs-qutrit-five-moment/). With --two-ancilla layout-b they use the square-lattice two-ancilla layout (internal name layout B) instead
+(comparisons/qubit-vs-qutrit-layout-b/). With --two-ancilla conv-sites the two-ancilla panels use the conventional-site
 layout (comparisons/pseudo-thresholds-{,qubit-}conv-sites-current.csv) instead
 of the coherent relay, and everything goes to
 comparisons/qubit-vs-qutrit-conv-sites/; the default output is unchanged.
@@ -60,6 +63,28 @@ LAYOUTS = {
          ("conv-two-ancilla-sd6", "Two ancillas (conventional sites), SD6")],
         {"qutrit": (merge.CONV_CURRENT_SUMMARY,),
          "qubit": (merge.QUBIT_CONV_CURRENT_SUMMARY,)},
+    ),
+    # Square-lattice two-ancilla layout B (replaces the conventional sites in
+    # the paper, user decision 2026-11-17).
+    "layout-b": (
+        merge.COMPARISONS / "qubit-vs-qutrit-layout-b",
+        [("one-ancilla-si1000", "One ancilla, SI1000"),
+         ("layout-b-si1000", "Two ancillas, SI1000"),
+         ("one-ancilla-sd6", "One ancilla, SD6"),
+         ("layout-b-sd6", "Two ancillas, SD6")],
+        {"qutrit": (merge.LAYOUT_B_CURRENT_SUMMARY,),
+         "qubit": (merge.QUBIT_LAYOUT_B_CURRENT_SUMMARY,)},
+    ),
+    # The paper's set from 2026-11-19: the one-ancilla layout with its five-moment
+    # round (internal name prod5b) for both codes, and the two-ancilla layout.
+    "layout-b-five-moment": (
+        merge.COMPARISONS / "qubit-vs-qutrit-five-moment",
+        [("prod5b-one-ancilla-si1000", "One ancilla (five-moment round), SI1000"),
+         ("layout-b-si1000", "Two ancillas, SI1000"),
+         ("prod5b-one-ancilla-sd6", "One ancilla (five-moment round), SD6"),
+         ("layout-b-sd6", "Two ancillas, SD6")],
+        {"qutrit": (merge.PROD5B_CURRENT_SUMMARY, merge.LAYOUT_B_CURRENT_SUMMARY),
+         "qubit": (merge.QUBIT_PROD5B_CURRENT_SUMMARY, merge.QUBIT_LAYOUT_B_CURRENT_SUMMARY)},
     ),
 }
 OUT, PANELS, EXTRA_SUMMARIES = LAYOUTS["relay"]
@@ -197,9 +222,10 @@ def write_table(table: pd.DataFrame) -> None:
         " difference |",
         "|---|---|---|---|---|---|",
     ]
+    titles = dict(PANELS)
     for _, row in wide.iterrows():
         lines.append(
-            f"| {row['panel']} | {int(row['interval'])} |"
+            f"| {titles[row['panel']]} | {int(row['interval'])} |"
             f" {row['p_star_qutrit']:.4f} ± {row['seq_boot_se_qutrit']:.4f} |"
             f" {row['p_star_qubit']:.4f} ± {row['seq_boot_se_qubit']:.4f} |"
             f" {row['ratio_qubit_over_qutrit']:.2f} |"
