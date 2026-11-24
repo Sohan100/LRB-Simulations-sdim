@@ -1,0 +1,55 @@
+\subsection{Noise Models}
+\label{sub:noise_models}
+
+We simulate LRB-D under two circuit-level noise models of Gidney, Newman, Fowler and Broughton \cite{GidneyHoneycomb2021}, which we generalize to qutrits. SD6 is a uniform depolarizing model in which every operation fails with the same probability. SI1000 (superconducting-inspired) assigns different rates to different operations. Both models have a single parameter $p$, the depolarizing probability of a two-qutrit gate, and every other rate is a fixed multiple of $p$. We sweep $p$, and all error rates in \autoref{sec:results} are plotted against $p$. Both models are built entirely out of qutrit Pauli channels. This keeps every noisy circuit inside the stabilizer formalism and permits the sampling methods of \autoref{sub:sim_framework}.
+
+\subsubsection{Qutrit Pauli Channels}
+
+\texttt{sdim} implements the depolarizing channel of Eq.~\eqref{eq:1-depol} in its Weyl form: with probability $p$ it applies a uniformly random non-identity Pauli $X^a Z^b$ to the qutrit,
+\begin{equation}
+    \mathcal{E}_{\mathcal{D}}(p)(\rho) = (1-p)\,\rho + \frac{p}{8}\sum_{P \neq I} P \rho\, P^\dagger .
+\end{equation}
+The two conventions describe the same family of channels and are related by $p_{\mathrm{mix}} = \tfrac{9}{8}\,p$, because one ninth of the uniform Pauli mixture reproduces the input state. The two-qutrit channel is defined the same way,
+\begin{equation}
+    \mathcal{E}^{(2)}_{\mathcal{D}}(p)(\rho) = (1-p)\,\rho + \frac{p}{80}\sum_{P \neq I \otimes I} P \rho\, P^\dagger,
+    \label{eq:2-depol}
+\end{equation}
+with $P$ ranging over the $80$ non-identity two-qutrit Paulis, and corresponds to the mixing form $(1-p_{\mathrm{mix}})\,\rho + \tfrac{p_{\mathrm{mix}}}{9} I$ with $p_{\mathrm{mix}} = \tfrac{81}{80}\,p$. Following \cite{GidneyHoneycomb2021}, we call $\mathcal{E}_{\mathcal{D}}$ and $\mathcal{E}^{(2)}_{\mathcal{D}}$ DEP1 and DEP2. The classical bit flips that the qubit models attach to resets and measurements become uniform shift channels,
+\begin{equation}
+    \mathcal{F}_X(x)(\rho) = (1-x)\,\rho + \frac{x}{2}\left( X \rho X^\dagger + X^2 \rho\, (X^2)^\dagger \right),
+    \label{eq:flip-channel}
+\end{equation}
+together with the phase channel $\mathcal{F}_Z(x)$, in which $Z$ and $Z^2$ replace $X$ and $X^2$. A shift $X^a$ with $a \neq 0$ immediately before a computational-basis measurement $M$ changes the recorded outcome by $a$ modulo three. A phase $Z^a$ plays the same role before an $X$-basis measurement $M_X$. In everything that follows, $p$ and every rate derived from it are Weyl-form probabilities, that is, the probability that the simulator applies a non-identity error.
+
+\subsubsection{Moments, Segments and Noise Placement}
+
+We divide every circuit into segments. Each logical Clifford, each stabilizer check round and each physical Clifford of the RB baseline is its own segment. Within a segment, gates are scheduled as soon as possible into moments: every operation goes into the earliest moment after the previous operation on each of its qutrits. Operations on disjoint qutrits therefore run in parallel, and the order on each qutrit is kept. A moment holds either unitary gates or collapse operations (resets and measurements), never both. Measurements whose qutrit is not used again in the segment are moved to one final moment, so all ancilla readouts of a check round share its last moment. Moments never span two segments.
+
+Every moment then receives noise according to \autoref{tab:circuit-noise}. DEP1 follows every one-qutrit gate and DEP2 follows every two-qutrit gate. $\mathcal{F}_X$ follows every reset. A flip precedes every measurement, $\mathcal{F}_X$ before $M$ and $\mathcal{F}_Z$ before $M_X$, and DEP1 follows it. Every qutrit that a moment leaves untouched receives idle DEP1, at one rate in gate moments and at another in measurement and reset moments. An explicit identity gate occupies a moment and receives the idle noise of a gate moment.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{l|c|c|c}
+    \hline
+    Circuit location & Channel & SI1000 & SD6 \\
+    \hline
+    After each one-qutrit gate & $\mathcal{E}_{\mathcal{D}}$ & $p/10$ & $p$ \\
+    After each two-qutrit gate & $\mathcal{E}^{(2)}_{\mathcal{D}}$ & $p$ & $p$ \\
+    After each reset & $\mathcal{F}_X$ & $2p$ & $p$ \\
+    Before each computational-basis measurement $M$ & $\mathcal{F}_X$ & $5p$ & $p$ \\
+    Before each $X$-basis measurement $M_X$ & $\mathcal{F}_Z$ & $5p$ & $p$ \\
+    After each measurement & $\mathcal{E}_{\mathcal{D}}$ & $p$ & $p$ \\
+    Idle qutrit in a gate moment & $\mathcal{E}_{\mathcal{D}}$ & $p/10$ & $p$ \\
+    Idle qutrit in a measurement or reset moment & $\mathcal{E}_{\mathcal{D}}$ & $2p$ & $p$ \\
+    \hline
+  \end{tabular}
+  \caption{Qutrit SI1000 and SD6 noise models. Each entry is the probability of the channel in the second column, as a function of the swept parameter $p$, the two-qutrit gate depolarizing probability. SI1000 requires $p \le 0.2$ so that the measurement flip probability $5p$ is at most one.}
+  \label{tab:circuit-noise}
+\end{table}
+
+SD6 treats every operation as equally noisy. SI1000 encodes the hierarchy of superconducting processors described in \cite{GidneyHoneycomb2021}. One-qutrit gates and qutrits idling in gate moments fail with probability $p/10$. Measurement results flip with probability $5p$ and resets with probability $2p$. Qutrits that idle while other qutrits are measured or reset depolarize with probability $2p$. Two features of our circuits limit which rules act. All ancilla readouts are computational-basis measurements, because the $X$-type checks rotate their ancillas with $H^{-1}$ before $M$, so the $\mathcal{F}_Z$ rule never applies. Post-measurement DEP1 acts only on ancillas that are reset before their next use or never used again, so it affects no detector and no logical observable.
+
+% TODO(authors): confirm that these deviations from the reference noise models are intended (native SUM, CZ and SWAP under both models, no stacking of Idle(p/10) and ResonatorIdle(2p) under SI1000, post-measurement DEP1 in both models).
+Our qutrit models differ from those of \cite{GidneyHoneycomb2021} in three respects. First, we add DEP1 after every measurement in both models. The reference models have no such rule, and in our circuits it has no effect, as explained above. Second, under SI1000 a qutrit that idles in a measurement or reset moment receives DEP1 with probability $2p$ only. In the reference, the rules Idle($p/10$) and ResonatorIdle($2p$) both act on such a qubit. Third, we treat SUM, CZ, their inverses and SWAP each as one native two-qutrit gate followed by DEP2. The reference gate sets contain a single entangling gate, CZ for SI1000 and CX for SD6, so there a SWAP, or an entangling gate of the other type, would be compiled into several entangling and one-qubit gates.
+
+Three steps are noiseless in all simulations: the encoding of $\ket{\bar{+}}$ (\autoref{fig:encoding_circuit}), the terminal logical readout of LRB-D (\autoref{sub:lrb_d}), which includes the direct $X$-basis data readout of terminal postselection, and the final measurement of the physical RB baseline (\autoref{sub:rb_baseline}). The injected noise therefore acts only on the random Clifford sequence, its mirror inverse and the check rounds. On hardware these steps are noisy and contribute SPAM errors.

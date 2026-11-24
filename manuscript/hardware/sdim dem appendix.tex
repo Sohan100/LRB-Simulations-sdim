@@ -1,0 +1,62 @@
+% Appendix F (track hw). Former Appendix C of the 438f6f16 mirror, without the parts that restate
+% Secs. 2.3, 2.5 and 2.7 (run list, definition of the check rounds and of the schedules, logical
+% readout), without the statement "All circuits in this work use q = 3" and without the const-n
+% schedules, for which the paper reports no result. Changes of content:
+% jpw-review/hw/content-changes.md, part I.
+\section{The \texttt{sdim} Simulator and Detector-Error-Model Sampling}
+\label{sec:sdim-dem}
+
+\autoref{sub:sim_framework} states that sampling the detector error model (DEM) of a circuit reproduces the joint distribution of its detectors and of its logical outcome without approximation. This appendix describes how \texttt{sdim}~1.4.0~\cite{sdim} builds and samples the model and why the sampling is exact. The formulas are written for qutrits. For the qubit code, $q = 2$ takes the place of $q = 3$.
+
+\subsection{Qudit Stabilizer Simulation}
+\label{app:sdim-simulator}
+
+% from "sdim dem appendix.tex", lines 8-12 of the mirror
+\texttt{sdim} is a tableau-based stabilizer simulator for qudits of prime dimension $q$. It generalizes the binary tableau formalism of~\cite{Aaronson2004} to arithmetic over $\mathbb{Z}_q$ and represents stabilizer generators as Pauli operators $\omega^c X^{\mathbf{a}} Z^{\mathbf{b}}$ with exponent vectors $\mathbf{a}, \mathbf{b} \in \mathbb{Z}_q^n$~\cite{Gottesman1999,Hostens2005}. Clifford gates act on the tableau by linear updates of these exponent vectors, and measurements follow the qudit analog of the stabilizer measurement rules. Each noise channel of \autoref{tab:circuit-noise} is an explicit operation in the circuit, with the probability of its location.
+
+Rather than rerunning the tableau algorithm for every shot, \texttt{sdim} samples in the Pauli-frame picture. It simulates one noiseless reference shot with the tableau algorithm. For every further shot it propagates only a Pauli frame, one pair of exponents $(a_i, b_i)$ per qutrit, through the Clifford circuit. Noise operations update the frame at random, and each computational-basis measurement returns the reference outcome shifted by the $X$ exponent of the frame on the measured qutrit, modulo three. As in Stim~\cite{Gidney2021Stim}, the frame simulator draws a random $Z$ component of the frame at the start of the circuit and after every computational-basis measurement and reset, which accounts for measurement outcomes that are random in the reference shot. The stabilizer computation, whose cost is polynomial in the number of qutrits, is thus done once, and the work per shot is the propagation of the frame.
+
+\subsection{Detectors and Logical Observables}
+\label{app:sdim-detectors}
+
+% from "sdim dem appendix.tex", lines 16-22 of the mirror
+The detectors of \autoref{sub:sim_framework} are linear in the measurement records $m_i$ of a circuit, $D = \sum_i c_i m_i \bmod 3$ with integer coefficients $c_i$. A logical observable is an expression of the same kind on the logical readout. In our circuits it also takes a fixed value in the absence of noise, because the mirror inverse returns the initial state, and a deviation from this value is a logical error. This is the qudit form of the detector formalism of Stim~\cite{Gidney2021Stim}, with sums modulo three in place of sums modulo two and with coefficients $\pm 1$ for the stabilizer factors that enter with an inverse.
+
+In an LRB-D circuit every ancilla readout of every check round is one detector with coefficient one, because each ancilla is reset before its round and reads zero in the absence of noise. A circuit of depth $m$ therefore has $4(m+1)$ detectors in either layout, $92$ at depth $22$, and its observable is the logical outcome of \autoref{sub:lrb_d}. The circuits of terminal postselection have the same observable and two detectors, the values of $G_3$ and $G_4$. The baseline circuits have no detector, and their observable is the final readout of the qutrit. The postselection acts on the sampled detector values and is not part of the circuit. Because all intervals $k$ share the shots, the estimates for different intervals at the same $p$, sequence and depth are statistically correlated.
+
+\subsection{The Detector Error Model}
+\label{app:sdim-model}
+
+% from "sdim dem appendix.tex", lines 26-31 of the mirror
+A DEM is a list of independent error mechanisms, each with a firing probability and its effect on every detector and observable. The construction rests on linearity. Write a Pauli fault on the $n \in \{1,2\}$ qutrits of one noise operation, up to a phase, as an exponent vector $e = (a_1, b_1, \dots, a_n, b_n) \in \mathbb{Z}_3^{2n}$. The fault propagates through the rest of the Clifford circuit to a Pauli frame whose exponents depend linearly on $e$, and detectors and observables are linear in the measurement records. The fault therefore shifts the vector of all detector and observable values by
+\begin{equation}
+    \Delta(e) = \sum_{j=1}^{n} \left( a_j\, r^X_j + b_j\, r^Z_j \right) \bmod 3,
+    \label{eq:dem-shift}
+\end{equation}
+where $r^X_j$ and $r^Z_j$ are the responses to a unit $X$ or $Z$ fault on qutrit $j$ right after the operation. \texttt{sdim} computes all unit responses in one backward sweep over the circuit, as Stim does~\cite{Gidney2021Stim}. For every qutrit it keeps the linear map from the $X$ and $Z$ components of its frame to the detectors and observables, updates these maps with the transpose of the frame rule of each gate, and reads off the responses at each noise operation.
+
+% from "sdim dem appendix.tex", lines 33-37 of the mirror
+Every noise operation with nonzero probability and at least one nonzero unit response becomes one mechanism. The generators $g_j$ of the mechanism are its nonzero unit responses, at most two for DEP1, one for a flip and at most four for DEP2. When the mechanism fires, it adds $\sum_j c_j g_j$ to the detector and observable values, with the $c_j$ independent and uniform on $\mathbb{Z}_3$, zero included. A depolarizing operation with probability $p_\ell$ on $n$ qutrits is exactly such a mechanism. Applying a uniformly random non-identity Pauli with probability $p_\ell$ is the same channel as applying a uniformly random Pauli, identity included, with probability
+\begin{equation}
+    \pi_\ell = \frac{9^n}{9^n - 1}\, p_\ell ,
+    \label{eq:dem-firing}
+\end{equation}
+because the second form draws the identity with probability $9^{-n}$. This gives $\pi_\ell = 9p_\ell/8$ for DEP1 and $\pi_\ell = 81p_\ell/80$ for DEP2, which are the probabilities $p_{\mathrm{mix}}$ of \autoref{app:rounds-noise}, and the same argument gives $\pi_\ell = 3p_\ell/2$ for a flip. A uniformly random $e$ has independent uniform components, so by Eq.~\eqref{eq:dem-shift} its shift is $\sum_j c_j g_j$ with independent uniform $c_j$, even when the generators are linearly dependent. One mechanism per noise operation therefore reproduces the effect of the channel on all detectors and observables jointly, with the correlations between its Pauli components. Eight independent events for a DEP1 location, one per non-identity Pauli, would only approximate the channel, which applies exactly one of its Paulis.
+
+% from "sdim dem appendix.tex", line 39 of the mirror
+Two mechanisms with one generator each act on the same line of detector space when one generator is a nonzero multiple of the other. \texttt{sdim} merges all mechanisms on one line into a single mechanism with $1 - \pi = \prod_i (1 - \pi_i)$. The merge is exact, because a uniformly random multiple of a vector plus an independent multiple of the same vector is again a uniformly random multiple. The XOR rule of the binary case does not carry over to $q = 3$, where a shift applied twice does not cancel. Mechanisms with two or more generators are kept as they are. Before it builds the model, \texttt{sdim} checks that every detector and observable is linear in its records, has no constant term and is deterministic in the noiseless circuit. For the last check it places a unit $Z$ fault at every point where the frame simulator draws a random $Z$ component and requires that none of them reaches a detector or observable.
+
+% Noise operations, mechanisms and detectors of the depth-22 production circuits at p = 1e-3, all four qutrit runs: paper-rework/scratch/writer-conv/demcount.py (demcount.out)
+Noise operations whose faults reach no detector or observable are dropped. In the LRB-D circuits these are almost all DEP1 locations on ancillas before a reset, which erases their effect, or after the readout of the final round. In the circuits of terminal postselection they are the idle locations of the four ancilla wires, which these circuits keep and never use. The size of the model does not depend on $p$ for $p > 0$. Across the 30 sequences and both noise models, the depth-22 LRB-D circuits of the qutrit code contain 3701 to 4465 noise operations in the one-ancilla layout and compile to 2199 to 2603 mechanisms on 92 detectors and one observable. In the two-ancilla layout they contain 4401 to 5255 noise operations and compile to 2867 to 3313 mechanisms. The circuits of terminal postselection of the same depth compile to 421 to 923 mechanisms on two detectors, and the baseline circuits to 43 to 167 mechanisms on one observable.
+
+\subsection{Sampling and Exactness}
+\label{app:sdim-sampling}
+
+% from "sdim dem appendix.tex", lines 46-48 and 55 of the mirror
+To sample the model, every mechanism fires independently with its probability $\pi_\ell$ in each shot. When a mechanism fires, its coefficients $c_j$ are drawn and $\sum_j c_j g_j$ is added to the detector and observable values modulo three. The sampler does not visit every mechanism in every shot. It groups the mechanisms into bins of similar probability, jumps to the next candidate firing in a bin with a geometric skip, and keeps a candidate with probability $\pi_\ell / \pi_{\max}$, where $\pi_{\max}$ is the largest probability in its bin. Shots are drawn in blocks of 256, each block with its own pseudo-random stream, so that the samples do not depend on the number of threads. After the model of a circuit is built, the work per shot is thus proportional to the expected number of firing mechanisms, $\sum_\ell \pi_\ell$. The sampled values are shifts relative to the noiseless reference shot, which our pipeline computes once per circuit by tableau simulation with all noise removed. A shot passes a check round when all detectors of that round are zero, and its logical outcome is the reference value of the observable plus the sampled shift.
+
+% from "sdim dem appendix.tex", line 50 of the mirror
+The sampling is exact because our noise consists of independent Pauli channels inside Clifford circuits. Faults compose additively in the frame picture, so the joint shift of all detectors and observables is a sum of independent contributions, one per noise operation, each distributed as its mechanism. The model therefore reproduces the joint distribution of detector and logical events of a direct frame simulation at every $p$ for which each $\pi_\ell$ is a probability. The tightest of these conditions is $p_\ell \le 2/3$ for a qutrit flip and $p_\ell \le 1/2$ for a qubit flip. The largest flip probability on our grids, the measurement flip $5p = 0.25$ of SI1000 at $p = 0.05$, satisfies both.
+
+% DEM versus frame sampler: tests/test_dem_backend.py (conventional-sites worktree), run for the four codes and both noise models by jpw-review/hw/checks/dem_vs_frame_check.py (.out, 2026-11-13): 16 tests pass; 88 compared rates; largest difference 2.42 standard errors.
+We also compared the DEM sampler with direct frame simulation. For both codes, both layouts and both noise models, we generated LRB-D, terminal-postselection and baseline circuits of depth two at $p = 0.01$ and drew $4 \times 10^4$ shots with each sampler. We compared the rate at which each check round passes, the rate of shots that pass every round and return the noiseless logical outcome, and the rate of noiseless logical outcomes. Of the 88 pairs of rates, the largest difference is $2.4$ standard errors of a two-proportion test. At $p = 0$ every check passes and the logical outcome is constant with both samplers.

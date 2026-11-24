@@ -1,0 +1,243 @@
+% Colors
+\definecolor{Xcol}{HTML}{00B7FF}
+\definecolor{Zcol}{HTML}{FF1744}
+\colorlet{Bcol}{Xcol}
+\colorlet{Rcol}{Zcol}
+
+% Shared sizes (match your lattice figure)
+\newcommand{\qdR}{3.6pt}      % circle radius
+\newcommand{\numFont}{\scriptsize} % numbers inside circles (bigger)
+\newcommand{\labelFont}{\normalsize} % X/Z labels (bigger)
+\newcommand{\arrAngle}{90}    % arrow half-angle
+\newcommand{\arrLen}{0.17cm}  % arrow tail length
+
+% Vertex/face local geometry
+\newcommand{\edge}{1.20cm}
+\newcommand{\thick}{1pt}
+
+% Circle + label
+\newcommand{\MidCircle}[2]{%
+  \draw[fill=white] #1 circle (\qdR) node[font=\numFont]{#2};}
+
+% Wedges
+\newcommand{\ArrowOutN}[1]{%
+  \path[fill=black,draw=none]
+    ($(#1)+({\qdR*cos(90+\arrAngle)},{\qdR*sin(90+\arrAngle)})$)
+      arc[start angle=90+\arrAngle, end angle=90-\arrAngle, radius=\qdR]
+      -- ($(#1)+(0,\qdR+\arrLen)$) -- cycle;}
+\newcommand{\ArrowOutE}[1]{%
+  \path[fill=black,draw=none]
+    ($(#1)+({\qdR*cos(\arrAngle)},{\qdR*sin(\arrAngle)})$)
+      arc[start angle=\arrAngle, end angle=-\arrAngle, radius=\qdR]
+      -- ($(#1)+(\qdR+\arrLen,0)$) -- cycle;}
+\newcommand{\ArrowOutS}[1]{%
+  \path[fill=black,draw=none]
+    ($(#1)+({\qdR*cos(270+\arrAngle)},{\qdR*sin(270+\arrAngle)})$)
+      arc[start angle=270+\arrAngle, end angle=270-\arrAngle, radius=\qdR]
+      -- ($(#1)+(0,-\qdR-\arrLen)$) -- cycle;}
+\newcommand{\ArrowOutW}[1]{%
+  \path[fill=black,draw=none]
+    ($(#1)+({\qdR*cos(180+\arrAngle)},{\qdR*sin(180+\arrAngle)})$)
+      arc[start angle=180+\arrAngle, end angle=180-\arrAngle, radius=\qdR]
+      -- ($(#1)+(-\qdR-\arrLen,0)$) -- cycle;}
+
+\tikzset{qcirc/.style={draw=black, fill=white}}
+
+\subsection{Modified Qutrit Surface Code - Folded Surface Code}\label{sec: qudit surface code}
+
+Topological surface codes can be generalized from qubits to qudits (dimension $q$) by using qudit Pauli operators as stabilizers. As seen in \autoref{fig:qudit-surface-code}, in a qudit surface code, the lattice is typically composed of data qudits on a 2D grid where one defines two types of stabilizers: tensor products of $X$-type operators (cyclic shift operators mod $q$) and $Z$-type operators (phase operators mod $q$) on a set of neighbouring physical qudits. These stabilizers mutually commute and define a codespace in which a logical qudit can be encoded. 
+\begin{figure}[H]
+  \centering
+  % Use two top-aligned columns: left = (a)+(c), right = (b)
+  \begin{minipage}[t]{0.34\textwidth}
+    \vspace{0pt}% top align with the right column
+    \vspace{0ex}
+    % -------- (a) Vertex/star (blue) --------
+    \begin{subfigure}[t]{\linewidth}
+      \centering
+      \begin{tikzpicture}[scale=1.3]
+        % diamond that touches the mid-edge circle rims
+        \path[fill=Bcol,draw=none,opacity=0.60]
+          (0,\edge-\qdR) -- (\edge-\qdR,0) -- (0,-\edge+\qdR) -- (-\edge+\qdR,0) -- cycle;
+
+        % cross drawn OVER the diamond
+        \draw[line width=\thick] (-\edge,0) -- (\edge,0);
+        \draw[line width=\thick] (0,-\edge) -- (0,\edge);
+
+        % circle centers
+        \coordinate (CN) at (0,\edge);
+        \coordinate (CE) at (\edge,0);
+        \coordinate (CS) at (0,-\edge);
+        \coordinate (CW) at (-\edge,0);
+
+        % circles
+        \MidCircle{(CN)}{n}
+        \MidCircle{(CE)}{e}
+        \MidCircle{(CS)}{s}
+        \MidCircle{(CW)}{w}
+
+        % arrows: N,E outward; W -> right; S -> up
+        \ArrowOutN{CN}
+        \ArrowOutE{CE}
+        \ArrowOutE{CW}
+        \ArrowOutN{CS}
+      \end{tikzpicture}
+      \caption{Vertex stabilizer generator $G_X=X^{\dagger}_n \otimes  X_w \otimes  X^{\dagger}_e \otimes  X_s$.}
+      \label{fig:vertex}
+    \end{subfigure}
+
+    \vspace{2 ex}
+
+    % -------- (c) Face/plaquette (red) --------
+    \begin{subfigure}[t]{\linewidth}
+      \centering
+      \begin{tikzpicture}[scale=1.3]
+        % frame
+        \draw[line width=\thick] (-\edge,-\edge) rectangle (\edge,\edge);
+
+        % diamond touching mid-edge circle rims
+        \path[fill=Rcol,draw=none,opacity=0.70]
+          (0,\edge-\qdR) -- (\edge-\qdR,0) -- (0,-\edge+\qdR) -- (-\edge+\qdR,0) -- cycle;
+
+        % circle centers
+        \coordinate (FN) at (0,\edge);
+        \coordinate (FE) at (\edge,0);
+        \coordinate (FS) at (0,-\edge);
+        \coordinate (FW) at (-\edge,0);
+
+        % circles
+        \MidCircle{(FN)}{n}
+        \MidCircle{(FE)}{e}
+        \MidCircle{(FS)}{s}
+        \MidCircle{(FW)}{w}
+
+        % arrows: N,S right; W,E up
+        \ArrowOutE{FN}
+        \ArrowOutE{FS}
+        \ArrowOutN{FW}
+        \ArrowOutN{FE}
+      \end{tikzpicture}
+      \caption{Face stabilizer generator $G_Z = Z_n \otimes  Z_w \otimes  Z^{\dagger}_e \otimes  Z^{\dagger}_s$.}
+      \label{fig:face}
+    \end{subfigure}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.60\textwidth}
+    \vspace{0pt}% top align with left column
+
+    % -------- (b) Surface-code patch (bigger) --------
+    \begin{subfigure}[t]{\linewidth}
+      \centering
+      \begin{tikzpicture}[scale=1.8]
+        % lattice params
+        \newcommand{\nCols}{5}
+        \newcommand{\nRows}{5}
+        \newcommand{\gridThick}{1pt}
+        \newcommand{\xLabelOffset}{0.50}
+        \newcommand{\zLabelDy}{0.55}
+        \newcommand{\opBlueTri}{0.60}
+        \newcommand{\opBlueDia}{0.60}
+        \newcommand{\opRed}{0.70}
+
+        % top blue triangles
+        \foreach \i in {0,...,\numexpr\nCols-2\relax} {
+          \path[fill=Bcol, draw=none, opacity=\opBlueTri]
+            (\i+0.5,\nRows) -- (\i+1,\nRows-0.5) -- (\i+1.5,\nRows) -- cycle;
+        }
+
+        % interior blue diamonds
+        \foreach \x in {1,...,\numexpr\nCols-1\relax} {
+          \foreach \y in {2,...,\numexpr\nRows-1\relax} {
+            \path[fill=Bcol, draw=none, opacity=\opBlueDia]
+              (\x,\y+0.5) -- (\x+0.5,\y) -- (\x,\y-0.5) -- (\x-0.5,\y) -- cycle;
+          }
+        }
+
+        % red cells (left edge triangles, interior diamonds, right edge triangles)
+        \foreach \y in {2,...,\numexpr\nRows\relax} {
+          \path[fill=Rcol, draw=none, opacity=\opRed]
+            (0.5,\y) -- (1,\y-0.5) -- (0.5,\y-1) -- cycle;
+        }
+        \foreach \x in {1,...,\numexpr\nCols-2\relax} {
+          \foreach \y in {2,...,\numexpr\nRows\relax} {
+            \path[fill=Rcol, draw=none, opacity=\opRed]
+              (\x+0.5,\y) -- (\x+1,\y-0.5) -- (\x+0.5,\y-1) -- (\x,\y-0.5) -- cycle;
+          }
+        }
+        \foreach \y in {2,...,\numexpr\nRows\relax} {
+          \path[fill=Rcol, draw=none, opacity=\opRed]
+            (\nCols-0.5,\y) -- (\nCols-1,\y-0.5) -- (\nCols-0.5,\y-1) -- cycle;
+        }
+
+        % grid (drawn BEFORE bottom triangles so triangles can sit on top)
+        \foreach \y in {1,...,\nRows}
+          \draw[line width=\gridThick] (0.5,\y)--(\nCols-0.5,\y);
+        \foreach \x in {1,...,\numexpr\nCols-1\relax}
+          \draw[line width=\gridThick] (\x,1)--(\x,\nRows);
+
+        % bottom blue triangles (draw AFTER grid so they are visible)
+        \foreach \i in {0,...,\numexpr\nCols-2\relax} {
+          \path[fill=Bcol, draw=none, opacity=\opBlueTri]
+            (\i+0.5,1) -- (\i+1,1.5) -- (\i+1.5,1) -- cycle;
+        }
+
+        % circles + arrows (right on horizontals, up on verticals)
+        \newcounter{qid}\setcounter{qid}{0}
+        \foreach \j in {0,...,8} {
+          \pgfmathsetmacro\yy{\nRows - 0.5*\j}
+          \ifodd\j\relax
+            % vertical edges: up
+            \foreach \x in {1,...,\numexpr\nCols-1\relax} {
+              \stepcounter{qid}
+              \coordinate (C) at (\x,\yy);
+              \path[fill=black, draw=none]
+                ($(C)+({\qdR*cos(90+\arrAngle)},{\qdR*sin(90+\arrAngle)})$)
+                arc[start angle=90+\arrAngle, end angle=90-\arrAngle, radius=\qdR]
+                -- ($(C)+(0,\qdR+\arrLen)$) -- cycle;
+              \draw[qcirc] (C) circle (\qdR);
+              \node[font=\numFont] at (C) {\arabic{qid}};
+            }
+          \else
+            % horizontal edges: right
+            \foreach \x in {0,...,\numexpr\nCols-1\relax} {
+              \stepcounter{qid}
+              \coordinate (C) at (\x+0.5,\yy);
+              \path[fill=black, draw=none]
+                ($(C)+({\qdR*cos(\arrAngle)},{\qdR*sin(\arrAngle)})$)
+                arc[start angle=\arrAngle, end angle=-\arrAngle, radius=\qdR]
+                -- ($(C)+(\qdR+\arrLen,0)$) -- cycle;
+              \draw[qcirc] (C) circle (\qdR);
+              \node[font=\numFont] at (C) {\arabic{qid}};
+            }
+          \fi
+        }
+
+        % labels
+        \foreach \j in {0,2,4,6,8} {
+          \pgfmathsetmacro\yy{\nRows - 0.5*\j}
+          \node[text=Xcol] at (0.5-\xLabelOffset,\yy) {\labelFont $X$};
+        }
+        \foreach \x in {0,...,\numexpr\nCols-1\relax} {
+          \node[text=Zcol] at (\x+0.5,\nRows+\zLabelDy) {\labelFont $Z$};
+        }
+      \end{tikzpicture}
+      \caption{Qudit surface-code patch with $X$-type/$Z$-type checks.}
+      \label{fig:patch}
+    \end{subfigure}
+  \end{minipage}
+
+  \caption{Defintion of the qudit surface code.
+  (a) $X$-type generalized qudit Pauli stabilizer: $X$ acts on outgoing edges, $X^\dagger$ on incoming edges. 
+  (b) $Z$-type generalized qudit Pauli stabilizer: $Z$ acts on clockwise edges, $Z^\dagger$ on counter-clockwise edges. 
+  (c) Distance-5 qudit surface code on a directed planar graph with vertex-based $X$-type and face-based $Z$-type stabilizers. Logical $\bar{X}$ connects two smooth boundaries (truncated $X$-stabilizers); logical $\bar{Z}$ connects two rough boundaries (truncated $Z$-stabilizers). The logical operators commute with the stabilizer group.}
+  \label{fig:qudit-surface-code}
+\end{figure}
+
+\cite{Moussa2016} introduced the concept of \emph{folded surface codes} as a way to embed surface codes with color-code like advantages; most notably, constant-depth \emph{transversal} implementations of single-qudit Clifford gates. Surface codes by themselves don't have strongly transversal Clifford gates, as they lack the self-dual symmetry that colour codes possess. Hence, folding looks to address that deficiency by pairing $X$-type stabilizers from one layer with $Z$-type stabilizers from the other, enforcing an
+$X$-type$ \,\leftrightarrow\! Z$-type \emph{mirror dual symmetry}. The symmetry is also governed by \emph{star-bipartition} of the qudit set $v=v_\bullet\cup v_\star$ (a bipartition into “unstarred” and
+“starred” sites) which defines the daggered and undaggered X and Z terms of the surface code stabilizers, as shown in \autoref{fig:vertex} and \autoref{fig:face}. 
+
+After folding, the star-bipartition is preserved in the subsystems that form: only qudits from the same set are layered with each other, forming a subsystem that is strictly in one set. This enables constant depth \emph{star-transversal} implementations of the logical Cliffords: a single-qudit logical Clifford gate $\bar{U}$ is applied as $\bar{U} = (U[v_\bullet] \otimes U^\dagger[v_\star])(U'[v_i,\bullet] \otimes U'[v_i,\star] )$, for all $i$ in the layered subsystems. For instance, the generators of the single qudit logical Clifford group are defined as
+$\bar H = (H[v_\bullet]\otimes H^\dagger[v_\star])(SWAP[v_i,\bullet] \otimes SWAP[v_i,\star] )$ and
+$\bar S = (S[v_\bullet]\otimes S^\dagger[v_\star])(CZ[v_i,\bullet] \otimes CZ^\dagger[v_i,\star] )$. In strictly planar hardware, interactions that are local in the folded picture can become long-range in the unfolded layout. Moussa addresses this by, first, assigning additional ancilla qudits in the background and then applying local $SWAP$s between relevant data and ancilla qudits to fold the surface code. This procedure ensures that distant qudits in the unfolded picture end up as nearest neighbours in a layered (top-bottom) subsystem after folding. The folding operation is a logical identity that changes the spatial layout of the surface code. This allows the same constant-depth transversal Clifford gates to be executed using only nearest-neighbor qudits (data-ancilla) at the cost of the local $SWAP$ overhead increasing linearly with code distance. Conceptually, the approach leverages the known equivalence between color codes and folded surface codes and has since been generalized to broader CSS families via \emph{fold-transversal} symmetries  \cite{Kubica2015, BreuckmannBurton2024}. 
+

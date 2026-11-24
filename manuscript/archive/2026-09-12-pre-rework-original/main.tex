@@ -1,0 +1,84 @@
+\documentclass[final]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{quantikz}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{subcaption}
+\usetikzlibrary{calc,arrows.meta}
+\usepackage{authblk}
+\renewcommand\Authfont{\large\bfseries}
+\renewcommand\Affilfont{\normalfont\itshape\normalsize}
+
+\usepackage{graphicx} 
+\usepackage{amssymb,amsthm}
+
+\DeclareMathOperator{\Tr}{\mathrm{Tr}}
+
+\usetikzlibrary{calc}     
+
+\usepackage{hyperref}
+\definecolor{LightBlue}{HTML}{00A6D6} % A standard "LightBlue" RGB
+\usepackage{cleveref}
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{cor}{Corollary}[theorem]
+
+\usepackage{xcolor}
+
+% Shared TikZ colors, sizes, and figure macros for all figures.
+\input{tikz preamble}
+
+% --- title block ---
+\title{Logical Randomized Benchmarking on a Qutrit Surface Code}
+
+\author[1]{Sohan Ghosh\thanks{\texttt{sohghosh@ucdavis.edu, orcid:0000-0003-1318-5502}}}
+\author[2]{Chuan-Hong Liu}
+\author[2]{Noah Goss\thanks{\texttt{noahgoss@berkeley.edu}}}
+\author[3]{Adeeb Kabir\thanks{\texttt{ask171@scarletmail.rutgers.edu}}}
+\author[1]{Aidan Epperly}
+
+\author[3]{Yipeng Huang\thanks{\texttt{}}}
+\author[2]{Irfan Siddiqi}
+\author[1]{Isaac Kim\thanks{\texttt{ikekim@ucdavis.edu}}}
+
+\affil[1]{Department of Physics and Astronomy, University of California Davis, Davis, CA}
+\affil[2]{Quantum Nanoelectronics Laboratory, University of California, Berkeley, CA}
+\affil[3]{Department of Computer Science, Rutgers University, New Brunswick, New Jersey}
+
+\newcommand{\ACE}[1]{{\color{red}#1}} % Feel free to move this -Aidan
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A short summary of the project goes here. Describe the objective,
+methods, key results, and significance in one concise paragraph.
+\end{abstract}
+
+\input{introduction}
+
+\input{background}
+
+\input{method}
+
+\input{results}
+
+\appendix
+
+\input{rep theory appendix}
+
+\input{sdim dem appendix}
+
+\input{clifford group appendix}
+
+\input{Baseband two qubit and two qutrit gate}
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}

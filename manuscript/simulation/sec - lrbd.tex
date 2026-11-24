@@ -1,0 +1,103 @@
+\section{Logical Randomized Benchmarking with Detection}
+\label{sub:lrb_d}\label{subsub:postselection}
+
+% Sec. III of the restructured sim version (style: jpw-review/sim/style-snap.md). Rewritten 2026-11-20 (user): LRB-D as a protocol for any stabilizer code, with its steps as a numbered list (D1-D7); the steps of RB and LRB stay in Appendix A as lists; a subsection "What LRB-D measures" states the properties of the protocol once, including the cost in shots, and ends on the hardware each variant needs. Outline: jpw-review/sim/outline-III-v2.md. Moved out of the main text: the weight of a depth with zero spread and the parametric bootstrap (Appendix C); the statement that the baseline's only channel is DEP1 and that its readout is noiseless (Sec. V, noise models).
+% Novelty statement from the literature search of 2026-11-20 (jpw-review/sim/lit-search-lrbd.md): the name LRB-D and its terminal-check form are in the sdim paper (arXiv:2511.12777, Sec. VII, gate-level depolarizing noise, no pseudo-threshold); postselected logical RB of a distance-two code with a final parity check is Harper & Flammia 2019; a fixed detection cadence in logical cycle benchmarking is Dasu et al. 2026. Do not call LRB-D new.
+Logical randomized benchmarking with detection (LRB-D) adapts logical randomized benchmarking~\cite{Combes2017} to error detection. Logical randomized benchmarking corrects errors after each logical gate and therefore needs a distance of at least three (\appref{app:background-lrb}); LRB-D keeps the syndrome measurements and replaces the correction by postselection. Reference~\cite{sdim} introduced LRB-D for the $[[5,1,2]]_3$ code with a single check round at the end of the circuit and depolarizing noise after each logical Clifford. Harper and Flammia~\cite{Harper2019FTIBM} postselected logical randomized benchmarking of a distance-two qubit code on the final readout alone, Self \emph{et al.}~\cite{Self2024} compared encoded mirror circuits with zero to three syndrome rounds, and Dasu \emph{et al.}~\cite{Dasu2026} checked the syndromes at one fixed interval of logical cycle benchmarking. We extend LRB-D to a check round after every logical Clifford, with the rounds that enter the postselection chosen afterwards on the same shots, and to circuit-level noise, under which we compare it with a physical baseline (\autoref{sub:fit_model}).
+
+\autoref{fig:lrb_overview} gives an overview of LRB-D. The remainder of this section is organized as follows. In \autoref{sub:lrbd_circuits} we give the steps of LRB-D, in \autoref{sub:postselection_schedules} the schedules that decide which syndromes enter the postselection, and in \autoref{sub:fit_model} how the accepted shots become an error rate and a pseudo-threshold. \autoref{sub:lrbd_measures} states what the protocol measures, what it costs in shots and what it needs from hardware.
+
+\subsection{Protocol}
+\label{sub:lrbd_circuits}
+
+LRB-D needs three things of a code: stabilizer generators $G_1, \dots, G_{n_G}$ whose syndromes can be measured, a logical Pauli operator $\bar P$ whose eigenstate can be prepared and which can be measured, and circuits for the logical Clifford gates. Every stabilizer code of prime local dimension provides them, so LRB-D applies to every such code of distance at least two; for a code of larger distance, it benchmarks the code used as an error detector. For any stabilizer code of distance at least two, LRB-D of depth $m$ has seven steps. Steps~\ref{step:D1} to~\ref{step:D5} make up the circuit of \autoref{fig:lrb_overview}, and steps~\ref{step:D6} and~\ref{step:D7} act on its outcomes. For the $[[5,1,2]]_3$ code, $n_G = 4$ and $\bar P = \bar X$.
+\begin{enumerate}[label=\textbf{D\arabic*.}, ref=D\arabic*, leftmargin=2.1em, labelsep=0.4em, itemsep=1pt, topsep=3pt]
+  \item\label{step:D1} \textbf{Encoding.} Prepare the $+1$ eigenstate of $\bar P$. For the $[[5,1,2]]_3$ code, an encoding circuit (\autoref{fig:encoding_circuit}) prepares this state, $\ket{\bar{+}}$.
+  \item\label{step:D2} \textbf{Random sequence with check rounds.} Apply $m$ logical Cliffords $\bar C_1$, \dots, $\bar C_m$, drawn independently and uniformly from the logical Clifford group, which for one qutrit has $216$ elements up to a global phase (\appref{sec:clifford-gen}). A check round $\mathcal{R}_t$ follows each $\bar C_t$: it resets the ancillas, maps the syndromes of $G_1, \dots, G_{n_G}$ onto them and reads them out.
+  \item\label{step:D3} \textbf{Mirror inverse.} Apply $\bar C_m^{-1}, \dots, \bar C_1^{-1}$, one Clifford at a time as in mirror circuits~\cite{Proctor2022MirrorRB} and with no check round in between, which in the absence of errors returns the code to the state of step~\ref{step:D1}.
+  \item\label{step:D4} \textbf{Final check round.} Apply a last check round $\mathcal{R}_{m+1}$.
+  \item\label{step:D5} \textbf{Logical readout.} Measure $\bar P$. For the $[[5,1,2]]_3$ code we measure $q_0$ and $q_3$ in the $X$ basis, and the sum of the two outcomes modulo three, the outcome of $\bar X$ of Eq.~\eqref{eq:logicalPauli}, is the logical outcome, which is zero in the absence of errors.
+  \item\label{step:D6} \textbf{Postselection.} Accept the shot if every syndrome of the check rounds that enter the postselection under the chosen schedule (\autoref{sub:postselection_schedules}) is trivial, and reject it otherwise.
+  \item\label{step:D7} \textbf{Fit and comparison.} Repeat steps~\ref{step:D1} to~\ref{step:D6} for many shots of each of many random sequences at several depths $m$, fit the decay of the logical signal of the accepted shots with $m$, and compare the resulting error rate with that of a physical qudit (\autoref{sub:fit_model}).
+\end{enumerate}
+A unit of depth is thus a forward Clifford with its check round and its inverse, and a circuit of depth $m$ contains $2m$ logical Cliffords and $m+1$ check rounds. The check rounds depend on the connectivity of the device, and \autoref{sub:ancilla_layouts} gives them for two layouts of the $[[5,1,2]]_3$ code.
+
+% TODO(sim): this figure becomes the overview figure of LRB-D (user, 2026-11-20): panel (a) a flowchart from encoding to the pseudo-threshold, drawn in TikZ by the figure session (brief: jpw-review/handoff/sim-overview-figure-brief.md); panel (b) this circuit. Until then the text cites the figure without panel letters.
+\begin{figure*}[tp]
+    \centering
+        \scalebox{0.8}{
+        \begin{quantikz}[row sep=0.45cm, column sep=0.22cm]
+          \lstick{data $\ket{0}^{\otimes 5}$} & \qwbundle{5} &
+            \gate{\textcolor{LightBlue}{U_{\mathrm{enc}}}} &
+            \gate{\textcolor{red}{\bar C_t}}\gategroup[2,steps=4,style={dashed,rounded corners,inner xsep=2pt},background,label style={label position=below,anchor=north,yshift=-0.2cm}]{$t = 1, \dots, m$} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            \gate[2]{\mathcal{R}_t} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            &
+            \gate{\textcolor{red}{\bar C_t^{-1}}}\gategroup[2,steps=2,style={dashed,rounded corners,inner xsep=2pt},background,label style={label position=below,anchor=north,yshift=-0.2cm}]{$t = m, \dots, 1$} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            &
+            \gate[2]{\mathcal{R}_{m+1}} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            \meter{} & \rstick{$x_{\bar X}$} \\
+          \lstick{ancillas $\ket{0}^{\otimes n_a}$} & \qwbundle{n_a} & & & & & & & & & & & & &
+        \end{quantikz}
+        }
+    \caption{LRB-D circuit of depth $m$, steps~\ref{step:D1} to~\ref{step:D5}. The encoding circuit $U_{\mathrm{enc}}$ prepares $\ket{\bar +}$, the $+1$ eigenstate of $\bar X$, on the five data qutrits (\autoref{fig:encoding_circuit}). Each forward logical Clifford $\bar C_t$ is followed by a check round $\mathcal{R}_t$, which acts on the data qutrits and on the $n_a$ ancilla qutrits of the layout, four in the one-ancilla and two in the two-ancilla layout (\autoref{sub:ancilla_layouts}). The mirror inverse $\bar C_m^{-1}, \dots, \bar C_1^{-1}$ follows without check rounds, then the final check round $\mathcal{R}_{m+1}$ and the $X$-basis readout of $q_0$ and $q_3$, which gives the logical outcome $x_{\bar X}$. Each box $\mathcal{N}$ stands for the noise that the simulations attach to the preceding logical Clifford or check round (\autoref{sub:noise_models}).}
+    \label{fig:lrb_d_full}\label{fig:lrb_a}\label{fig:lrb_overview}
+\end{figure*}
+
+\subsection{Postselection Schedules}
+\label{sub:postselection_schedules}
+
+Step~\ref{step:D6} leaves open which check rounds enter the postselection, and we vary this choice to learn how the error of the accepted shots depends on how often the syndromes are used. In uniform-interval postselection with interval $k$, every $k$-th of the rounds $\mathcal{R}_1, \dots, \mathcal{R}_m$ and the final round $\mathcal{R}_{m+1}$ enter the postselection, the rounds whose indices form the set
+\begin{equation}
+    \mathcal{T}_k(m) = \{\, k, 2k, \dots, \lfloor m/k \rfloor k \,\} \cup \{ m+1 \} .
+    \label{eq:unif_rounds}
+\end{equation}
+For $k = 1$ every round is postselected, and for $m < k$ only the final one. The circuit executes all $m+1$ check rounds whatever the value of $k$, so all intervals share one set of circuits and shots and differ only in which shots they accept.
+
+At the other extreme, terminal postselection measures no syndrome during the sequence: its circuits omit the check rounds of steps~\ref{step:D2} and~\ref{step:D4}, and step~\ref{step:D5} reads out every data qudit, so that only the stabilizers that this readout determines can be checked. For the $[[5,1,2]]_3$ code, all five data qutrits are measured in the $X$ basis, with outcomes $x_0, \dots, x_4$. These outcomes carry no information about the $Z$-type stabilizers, so only the two $X$-type stabilizers are checked: besides the logical outcome we evaluate $x_0 + x_1 - x_2$ for $G_3$ and $x_3 - x_1 - x_4$ for $G_4$ modulo three, and step~\ref{step:D6} accepts a shot if both values are zero.
+
+\subsection{Error Rates and the Pseudo-Threshold}
+\label{sub:fit_model}
+
+To decide whether the encoding pays, we compare LRB-D with its physical baseline, randomized benchmarking (RB) of one physical qutrit, run under the same noise model (\appref{app:background-rb} gives its steps, its signal and its fit). Since its Cliffords are the words of the logical Cliffords, the comparison measures what the encoding, with its check rounds and its postselection, changes.
+
+Both error rates come from signals built in the same way, which we give for LRB-D. For a sequence $s$ at depth $m$, let $P_j$ be the fraction of its accepted shots with logical outcome $j$. The complex estimate
+\begin{equation}
+    \langle \bar{X} \rangle_s = \sum_{j=0}^{2} \omega^{-j} P_j
+    \label{eq:estimator}
+\end{equation}
+is an estimate of the expectation value of $\bar X$ in the accepted shots and is one if every accepted shot has the outcome zero. We take its modulus, average the modulus over the sequences, and call this average $\langle \bar{X} \rangle$ the accepted logical signal.
+
+A fit over the depths turns the signal into an error rate per unit of depth. We fit the accepted logical signal, and the signal of the baseline in the same way, as a function of the depth with
+\begin{equation}
+    F(m) = A f^{m},
+    \label{eq:zero_offset_fit}
+\end{equation}
+by weighted least squares with weights $1/\sigma_m^2$, where $\sigma_m$ is the standard deviation of the per-sequence moduli at depth $m$. The fit uses every depth at which every sequence has at least one accepted shot, $m = 0$ included (\autoref{sub:sim_framework} states one exception, and \appref{app:campaign} gives the weight of a depth with $\sigma_m = 0$). The model has no constant offset because, in the limit of many shots, the estimate of Eq.~\eqref{eq:estimator} has zero expectation for a fully depolarized qutrit. The modulus of a finite-shot estimate stays above zero, and \appref{app:campaign} gives this floor. Errors that do not depend on the depth, such as those of the final check round, enter the amplitude $A$. The decay parameter $f$ gives the average fidelity $\bar F$ and the error rate $r$ per unit of depth,
+\begin{equation}
+    \bar{F} = \frac{2f + 1}{3}, \qquad r = 1 - \bar{F} = \frac{2}{3}\,(1 - f) .
+    \label{eq:error_rate}
+\end{equation}
+Equation~\eqref{eq:error_rate} has a simple reading. If the noise of one unit of depth, averaged over the random Cliffords, leaves the qutrit untouched with probability $f$ and depolarizes it otherwise, a depolarized qutrit still agrees with the ideal state with probability $1/3$, so the average fidelity is $f + (1-f)/3$ and the error rate is $\tfrac{2}{3}(1 - f)$.
+
+% TODO(authors): which count should the main text lead with, 2542 (group generated by Hbar and Sbar, 216 elements up to phase) or 301 (group generated by Hbar, Sbar, Xbar and Zbar as simulated, 1944 elements)? Both are quoted until the coauthors decide (CONTRACT Amendment A3; jpw-review/OPEN-QUESTIONS.md, item 4). Verified by paper-rework/scratch/lead/irreps_check.py.
+Unlike the decay of the baseline (\appref{app:background-rb}), the accepted decay need not be a single exponential~\cite{Ceasura2022}. The logical Cliffords twirl the noise on the operators of five qutrits, and the signal of a code state can depend on up to $2542$ eigenvalues for the group of five-qutrit unitaries generated by $\bar H$ and $\bar S$, and on up to $301$ for the larger group generated by the simulated gate set $\bar H$, $\bar S$, $\bar X$ and $\bar Z$ (\appref{sec:rep-theory}). We therefore quote the quality of every fit with more than two depths as $\chi^2$ per degree of freedom, $\chi^2/(n-2)$ with $\chi^2 = \sum_m (y_m - A f^m)^2/\sigma_m^2$ summed over the $n$ fitted depths, where $y_m$ is the signal at depth $m$, $\langle \bar X \rangle(m)$ for LRB-D. Because $\sigma_m$ is the standard deviation over the $N_s$ sequences of a run and not the standard error of their mean, $\sigma_m/\sqrt{N_s}$, residuals at the level of that standard error give a value of about $1/N_s$, not one.
+
+With the two error rates in hand, we condense each combination of code, layout, noise model and interval $k$ into one number, the pseudo-threshold $p^\star(k)$: the value of the two-qutrit gate error probability $p$, the parameter that sets the strength of the noise (\autoref{sub:noise_models}), at which the error rate of LRB-D crosses that of the baseline under the same noise model. In every configuration we report, the logical qudit of the accepted shots has the lower error rate at every sampled $p > 0$ below $p^\star(k)$ and the higher one at every sampled $p$ above it. We obtain $p^\star(k)$ from a linear interpolation of the difference of the two error rates between the grid points on either side (\appref{app:campaign} gives the search rule and its tolerance). For the pseudo-thresholds, uncertainties are one standard error (68\% confidence), from a bootstrap over the random Clifford sequences. Each replicate resamples the sequences of every run that enters the pseudo-threshold, for LRB-D and for the baseline, refits all decays and repeats the search (\appref{app:campaign}).
+
+\subsection{What LRB-D Measures}
+\label{sub:lrbd_measures}
+
+LRB-D returns two quantities for every depth: the distribution of the logical outcome over the accepted shots, from which step~\ref{step:D7} extracts an error rate per unit of depth for uniform-interval postselection (\autoref{sub:terminal_results} shows why terminal postselection gives none), and the fraction of shots that step~\ref{step:D6} rejects, the rejected fraction. The error rate describes the accepted shots only. It is therefore not the failure probability of a computation of depth $m$, which also counts the rejected shots, and we report the rejected fraction with it. Because all intervals share one set of shots (\autoref{sub:postselection_schedules}), the schedule can trade the two quantities against each other.
+
+The price of postselection is paid in shots. Because the logical Cliffords map the stabilizer group to itself, a fault that leaves a detectable error on the data keeps the syndromes nontrivial until the next postselected round, whatever the interval, whereas a fault that corrupts only the syndrome readout of a round matters only if that round is postselected. Step~\ref{step:D6} therefore accepts a shot of depth $m$ with probability about
+\begin{equation}
+    e^{-\mu_d(m) - \mu_r\,|\mathcal{T}_k(m)|} ,
+    \label{eq:acceptance}
+\end{equation}
+where $\mu_d(m)$, the expected number of faults in the circuit that leave a detectable error on the data, grows linearly with $m$ and increases with the size of the code and of its check rounds, and $\mu_r$, the expected number of faults per round that corrupt only its readout, grows with the number $n_G$ of syndromes that a round reads out. The accepted fraction thus falls exponentially with the depth at every interval we report, and postselecting more rounds of a code with more stabilizers lowers it further through the second term. Since a depth enters the fit only while every sequence has an accepted shot (\autoref{sub:fit_model}), the number of shots per sequence sets the largest depth that can be fitted, and this depth shrinks as $p$ grows; \autoref{sec:results} gives the rejected fractions of our runs.
+
+The two kinds of postselection also ask different things of the hardware. Terminal postselection needs only the couplings of the encoding circuit and of the logical gates and a readout of the data qudits at the end, so a device without ancillas and without mid-circuit readout can run it. Uniform-interval postselection needs, in addition, ancillas that are reset and read out in the middle of the circuit, and couplings through which they collect every syndrome. The next section places both on a superconducting quantum processing unit (QPU).

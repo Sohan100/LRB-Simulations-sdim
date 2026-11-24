@@ -1,0 +1,42 @@
+% ============================================================
+% fig - two-ancilla checks.tex
+% Relay syndrome extraction for the boundary stabilizers G1 and G4 in the
+% two-ancilla layout. Gate order follows
+% FoldedQutritSplitAncillaUniformDetectionCode in src/lrb/code_definitions.py
+% (z_boundary_split_... and x_boundary_split_..._ancillae_circuit).
+% Wires: a_1 = 5, r_1 = 9, a_4 = 8, r_4 = 10.
+% ============================================================
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.44\textwidth}
+        \centering
+        \scalebox{0.72}{
+        \begin{quantikz}[row sep={0.7cm,between origins}, column sep=0.3cm]
+          \lstick{$q_0$} & \ctrl{3} & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_1$} & \qw & \ctrl{2} & \qw & \qw & \qw & \qw \\
+          \lstick{$q_3$} & \qw & \qw & \ctrl{2} & \qw & \ctrl{2} & \qw \\
+          \lstick{$a_1: \ket{0}$} & \gate{X_3} & \gate{X_3^{\dagger}} & \qw & \gate{X_3} & \qw & \meter{} \\
+          \lstick{$r_1: \ket{0}$} & \qw & \qw & \gate{X_3^{\dagger}} & \ctrl{-1} & \gate{X_3} & \meter{}
+        \end{quantikz}
+        }
+        \caption{$G_1 = Z_0 Z_1^{-1} Z_3^{-1}$}
+        \label{fig:two_ancilla_g1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.54\textwidth}
+        \centering
+        \scalebox{0.72}{
+        \begin{quantikz}[row sep={0.7cm,between origins}, column sep=0.3cm]
+          \lstick{$q_1$} & \qw & \qw & \gate{X_3^{\dagger}} & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_3$} & \qw & \gate{X_3} & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_4$} & \qw & \qw & \qw & \gate{X_3^{\dagger}} & \qw & \gate{X_3} & \qw & \qw \\
+          \lstick{$a_4: \ket{0}$} & \gate{H_3} & \ctrl{-2} & \ctrl{-3} & \qw & \ctrl{1} & \qw & \gate{H_3^{-1}} & \meter{} \\
+          \lstick{$r_4: \ket{0}$} & \gate{H_3} & \qw & \qw & \ctrl{-2} & \gate{X_3^{\dagger}} & \ctrl{-2} & \gate{H_3^{-1}} & \meter{}
+        \end{quantikz}
+        }
+        \caption{$G_4 = X_1^{-1} X_3 X_4^{-1}$}
+        \label{fig:two_ancilla_g4}
+    \end{subfigure}
+    \caption{Relay syndrome extraction for the boundary stabilizers in the two-ancilla layout (\autoref{sub:ancilla_layouts}). Controlled $X_3$ and $X_3^{\dagger}$ boxes are the generalized SUM gate and its inverse. (a) The syndrome ancilla $a_1$ accumulates the $Z_0 Z_1^{-1}$ part of the syndrome. The relay ancilla $r_1$ accumulates the $Z_3^{-1}$ part, adds it to $a_1$, and is returned to $\ket{0}$ by a second coupling to $q_3$. (b) The same construction in the $X$ basis. The syndrome ancilla $a_4$ accumulates the $X_3 X_1^{-1}$ part, the relay $r_4$ accumulates the $X_4^{-1}$ part, the inverse SUM controlled by $a_4$ transfers the relay contribution to $a_4$, and a second coupling to $q_4$ returns $r_4$ to $\ket{0}$. In both blocks $a_j$ reads the syndrome of $G_j$ and $r_j$ reads $0$ in the absence of faults, and both readouts must be $0$ for a shot to pass. Gates are drawn in program order. In the simulated check round, the scheduler of \autoref{sub:noise_models} packs them with the blocks for $G_2$ and $G_3$ into as-soon-as-possible moments, and every gate, reset and readout carries the noise of \autoref{tab:circuit-noise}.}
+    \label{fig:two_ancilla_checks}
+\end{figure}

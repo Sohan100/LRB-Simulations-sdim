@@ -1,0 +1,31 @@
+\subsection{Noise Models}
+\label{sub:noise_models}
+
+% Sec. 2.5 (track hw). The channel formulas with their mixing forms, the scheduling rules, the two rules without effect, the three deviations from the reference models (with their TODO(authors)) and the derivation of the fault budgets are in Appendix B ("appendix - check rounds and noise.tex").
+To model circuit-level noise we use qutrit forms of two models of Gidney, Newman, Fowler and Broughton~\cite{GidneyHoneycomb2021}, the superconducting-inspired model (SI1000) and the standard depolarizing model (SD6). Both attach a Pauli channel to every operation and to every idle qutrit, with a probability that is a fixed multiple of a single parameter $p$ (\autoref{tab:circuit-noise}). Three channels occur. The one-qutrit depolarizing channel DEP1 applies one of the eight non-identity Paulis $X^a Z^b$, chosen uniformly. The two-qutrit depolarizing channel DEP2 applies one of the $80$ non-identity two-qutrit Paulis, chosen uniformly. A flip applies $X$ or $X^2$, chosen uniformly, and so shifts the state that a reset prepares or the outcome of the computational-basis measurement that follows it. The parameter $p$ is the probability of DEP2, that is, the probability that a two-qutrit gate is followed by a non-identity Pauli. SI1000 makes one-qutrit gates and idling during gates ten times less noisy than two-qutrit gates, and it makes resets, measurements and idling during them two to five times noisier. SD6 gives every channel the probability $p$.
+
+\begin{table*}[tp]
+  \centering
+  \begin{tabular}{l|c|c|c}
+    \hline
+    Circuit location & Channel & SI1000 & SD6 \\
+    \hline
+    After each one-qutrit gate & DEP1 & $p/10$ & $p$ \\
+    After each two-qutrit gate & DEP2 & $p$ & $p$ \\
+    After each reset & flip & $2p$ & $p$ \\
+    Before each measurement & flip & $5p$ & $p$ \\
+    Idle qutrit in a gate moment & DEP1 & $p/10$ & $p$ \\
+    Idle qutrit in a reset or measurement moment & DEP1 & $2p$ & $p$ \\
+    \hline
+  \end{tabular}
+  \caption{Qutrit SI1000 and SD6 noise models. Each entry is the probability of the channel in the second column as a multiple of $p$, the probability that a two-qutrit gate is followed by a non-identity Pauli. DEP1 and DEP2 are the one- and two-qutrit depolarizing channels, and a flip shifts the state after a reset or the outcome of a measurement. Two further rules of the models have no effect in our circuits (\appref{app:rounds}).}
+  \label{tab:circuit-noise}
+\end{table*}
+
+We place the channels moment by moment, at the locations of \autoref{tab:circuit-noise}. Each logical Clifford and each check round is scheduled on its own. Gates run as early as their qutrits allow, resets and readouts occupy moments of their own, and all readouts of a round share its last moment. A qutrit that a moment leaves untouched is idle in that moment. SUM, CZ, their inverses and SWAP each count as one two-qutrit gate, which is one of three points in which these models deviate from those of~\cite{GidneyHoneycomb2021} (\appref{app:rounds}).
+
+Two steps are noiseless in every simulation of an encoded circuit, the encoding and the final $X$-basis readout of the data qutrits. They are the state-preparation and measurement steps, whose errors in standard randomized benchmarking change the amplitude of the decay and not its rate~\cite{Magesan2011PRL,Magesan2012PRA}. Noise thus acts on the logical Cliffords, on the mirror inverse and on the check rounds.
+
+% The four round values keep the 4p of the post-measurement DEP1 (critic round 1, B M-1 and V M1, variant (a): numbers unchanged, CONTRACT Amendment A2); without it they would be 63.9p, 72.3p, 69p and 99p. For the lead: jpw-review/handoff/hw-M2.md.
+% Fault budgets: jpw-review/hw/checks/check_fault_budgets.py (.out), from the generator of the conventional-sites worktree; the round values also in paper-rework/scratch/writer-conv/budget.py (budget.out). Logical Clifford: mean over the 216 catalog words, data wires only, 5.73p (SI1000) and 28.78p (SD6).
+We measure the noise of a check round or of a logical Clifford by its expected number of faults, the sum of the probabilities of its channels (\appref{app:rounds}). Under SI1000 a check round has $67.9p$ in the one-ancilla layout and $76.3p$ in the two-ancilla layout, and under SD6 it has $73p$ and $103p$. Each of these values includes $4p$ from the DEP1 that one of the two rules without effect places after the four ancilla readouts. A logical Clifford, averaged over the group, puts $5.7p$ on the data qutrits under SI1000 and $29p$ under SD6. Its idle channels on the ancillas are not counted, because the next reset erases their effect.

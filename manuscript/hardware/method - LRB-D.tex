@@ -1,0 +1,44 @@
+\subsection{LRB-D Protocol}
+\label{sub:lrb_d}\label{subsub:postselection}
+
+% Sec. 2.3 (track hw). Former Secs. 3.2 (opening), 3.2.1 and 3.2.2. The layouts are now Sec. 2.4 ("method - layouts.tex"), the baseline and the fit Sec. 2.6 ("method - estimation.tex"), and the representation theory Appendix E ("rep theory appendix.tex"). Panels (b) to (d) of the former protocol figure are in Appendix B.
+Because the $[[5,1,2]]_3$ code cannot correct the errors it detects, we estimate the error rate of its logical Clifford gates with logical randomized benchmarking with detection (LRB-D). Standard logical randomized benchmarking~\cite{Combes2017} applies a random sequence of logical Cliffords and corrects errors after each of them (\autoref{app:background}). LRB-D keeps the syndrome measurements and replaces the correction by postselection. A shot, one execution of a circuit, is accepted if every syndrome that enters the postselection is trivial, and is rejected otherwise.
+
+% TODO(authors): why is the inverse a mirror inverse (each Clifford undone in reverse order) and not a single recovery gate, and why does no check round separate the inverse Cliffords? No reason is on record for either choice; the text states them (CONTRACT Amendment A4; jpw-review/OPEN-QUESTIONS.md, item 1).
+An LRB-D circuit of depth $m$ has five parts (\autoref{fig:lrb_d_full}). (i)~An encoding circuit (\autoref{app:rounds}) prepares the logical state $\ket{\bar{+}}$, the $+1$ eigenstate of $\bar X$. (ii)~We apply $m$ forward Cliffords $\bar C_1, \dots, \bar C_m$, logical Cliffords drawn independently and uniformly from the single-qutrit Clifford group, which has $216$ elements up to a global phase (\autoref{sec:clifford-gen}). A check round follows each $\bar C_t$. It resets the four ancilla qutrits, maps the syndromes of $G_1, \dots, G_4$ onto them with one of the two circuits of \autoref{sub:ancilla_layouts}, and reads them out. (iii)~We apply the mirror inverse $\bar C_m^{-1}, \dots, \bar C_1^{-1}$, one Clifford at a time as in mirror circuits~\cite{Proctor2022MirrorRB} and with no check round in between. In the absence of errors it returns the state to $\ket{\bar{+}}$. (iv)~A final check round follows. (v)~We measure $q_0$ and $q_3$ in the $X$ basis. The sum of the two outcomes modulo three is the logical outcome, which is zero in the absence of errors. A circuit of depth $m$ thus contains $2m$ logical Cliffords and $m+1$ check rounds, and one unit of depth is a forward Clifford $\bar C_t$ with its check round and its inverse $\bar C_t^{-1}$.
+
+\begin{figure}[htb]
+    \centering
+        \scalebox{0.8}{
+        \begin{quantikz}[row sep=0.45cm, column sep=0.22cm]
+          \lstick{data $\ket{0}^{\otimes 5}$} & \qwbundle{5} &
+            \gate{\textcolor{LightBlue}{U_{\mathrm{enc}}}} &
+            \gate{\textcolor{red}{\bar C_t}}\gategroup[2,steps=4,style={dashed,rounded corners,inner xsep=2pt},background,label style={label position=below,anchor=north,yshift=-0.2cm}]{$t = 1, \dots, m$} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            \gate[2]{\mathcal{R}_t} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            &
+            \gate{\textcolor{red}{\bar C_t^{-1}}}\gategroup[2,steps=2,style={dashed,rounded corners,inner xsep=2pt},background,label style={label position=below,anchor=north,yshift=-0.2cm}]{$t = m, \dots, 1$} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            &
+            \gate[2]{\mathcal{R}_{m+1}} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            \meter{} & \rstick{$x_{\bar X}$} \\
+          \lstick{ancillas $\ket{0}^{\otimes n_a}$} & \qwbundle{n_a} & & & & & & & & & & & & &
+        \end{quantikz}
+        }
+    \caption{LRB-D circuit of depth $m$. The encoding circuit $U_{\mathrm{enc}}$ prepares $\ket{\bar +}$ on the five data qutrits. Each forward logical Clifford $\bar C_t$ is followed by a check round $\mathcal{R}_t$, which acts on the data qutrits and on the $n_a = 4$ ancilla qutrits. The mirror inverse $\bar C_m^{-1}, \dots, \bar C_1^{-1}$ follows without check rounds, then the final check round $\mathcal{R}_{m+1}$ and the $X$-basis readout of $q_0$ and $q_3$, which gives the logical outcome $x_{\bar X}$. Each purple box $\mathcal{N}$ stands for the noise that the simulations attach to the preceding logical Clifford or check round (\autoref{sub:noise_models}).}
+    \label{fig:lrb_d_full}\label{fig:lrb_a}
+\end{figure}
+
+% Purpose clause: jpw-review/STORY.md, question 2, and the closing paragraph of the former Sec. 3.2.2 ("method - LRB-D.tex", line 170 of the 438f6f16 mirror).
+To learn how the error of the accepted shots depends on how often the syndromes are used, we postselect in two ways. Uniform-interval postselection uses a subset of the check rounds of the circuit of \autoref{fig:lrb_d_full}, and terminal postselection uses the final readout of a circuit without check rounds. We number the rounds so that round $t$ follows $\bar C_t$ and round $m+1$ is the final one. With interval $k$, every $k$-th round and the final round enter the postselection,
+\begin{equation}
+    \mathcal{T}_k(m) = \{\, k, 2k, \dots, \lfloor m/k \rfloor k \,\} \cup \{ m+1 \} .
+    \label{eq:unif_rounds}
+\end{equation}
+For $k = 1$ every round is postselected, and for $m < k$ only the final one. The circuit executes all $m+1$ check rounds whatever the value of $k$, so all intervals share one set of circuits and one set of shots.
+
+The circuits of terminal postselection keep the encoding, the Cliffords and the mirror inverse, and they use no ancillas (\autoref{fig:ancilla_layouts}(a)). At the end all five data qutrits are measured in the $X$ basis, with outcomes $x_0, \dots, x_4$. These outcomes carry no information about the $Z$-type stabilizers, so only the two $X$-type stabilizers are checked: besides the logical outcome we evaluate $x_0 + x_1 - x_2$ for $G_3$ and $x_3 - x_1 - x_4$ for $G_4$ modulo three, and we accept a shot if both values are zero.
+
+Either kind of postselection returns two quantities for every depth: the distribution of the logical outcome over the accepted shots and the fraction of shots that are rejected, the rejected fraction. From the first we extract an error rate per unit of depth (\autoref{sub:fit_model}). This error rate is conditional on acceptance. It states how well the logical qutrit is preserved in the accepted shots. It does not include the rejected shots, so it is not the failure probability of a computation of depth $m$. We therefore report the rejected fraction together with the error rates.

@@ -1,0 +1,94 @@
+\subsection{Randomized Benchmarking}
+Randomized Benchmarking (RB) is a Monte Carlo protocol for estimating the average error rate of a set of quantum gates \cite{Magesan2011PRL,Knill2008,Emerson2005}. Originally developed for qubit systems, RB has been generalized to qudits by considering the appropriate Clifford group in higher dimensions, which also form unitary 2-designs \cite{Appleby2005,Dankert2009,Gross2007}. In essence, RB produces a decay parameter $f \in [0,1]$ such that the probability of a circuit returning the correct result after a sequence of gates of length $m$ is approximately
+\begin{equation}
+F_{seq}(m) = Af^{m} + B,
+\label{eq:fseq}
+\end{equation}
+(for some constant $A$ and $B$), assuming gate independent Markovian errors \cite{Magesan2011PRL,Magesan2012PRA}. This decay is directly related to the average fidelity of the gates; intuitively, $f^m$ represents the fraction of runs that remain error-free after $m$ gates. One of the powerful features of RB is that it is insensitive to the details of the error model when the noise is gate-independent and Markovian: the randomization in the protocol twirls arbitrary errors to an effective depolarizing form giving a single-exponential decay; with mild gate dependence the decay remains approximately exponential, while strong deviations (e.g., drift, non-Markovianity, leakage) can break the single-exponential model \cite{Emerson2005,Wallman2018}. Nonetheless, this relative robustness has been established in prior works, which show that an RB experiment using only Clifford gates with depolarizing noise can accurately capture the performance of a hardware with more general errors, as long as an effective error probability is chosen \cite{Magesan2011PRL,Proctor2019DRB}.
+
+RB protocol for qutrits: At a high level, RB involves applying a random sequence of gates and measuring how often the system returns to a reference state. In the qutrit case, we uniformly sample random elements from the qutrit Clifford group (which normalizes the qutrit Pauli operators) as our gate set \cite{Appleby2005,Morvan2021}. A standard physical-level RB experiment proceeds as follows:
+
+\begin{enumerate}
+    \item \textbf{State Preparation:} Initialize the qutrit in a standard basis state (e.g. $|0\rangle$ in the computational basis). This state serves as the reference for the benchmarking experiment.
+
+    \item \textbf{Random Clifford Sequence:} Apply a sequence of $m$ randomly chosen Clifford gates $C_1, C_2, \dots, C_m$ on the qutrit. Each gate in the sequence is followed by a brief period during which the qutrit experiences noise. The reference model for this exposition is the depolarizing channel
+    \begin{equation}
+        \mathcal{E}_{\mathcal{D}}(\rho)= (1-p_{\mathrm{mix}})\,\rho+\frac{p_{\mathrm{mix}}}{3}\,I
+        \label{eq:1-depol}
+    \end{equation}
+    with some fixed error probability $p_{\mathrm{mix}}$ per gate (gate-independent noise), while the circuit-level noise models we actually sweep in our simulations are defined in \autoref{sub:noise_models}. In a qutrit, this channel replaces the state by the completely mixed state with probability $p_{\mathrm{mix}}$, which is the same as applying a uniformly random non-identity Pauli error with probability $\tfrac{8}{9}p_{\mathrm{mix}}$. This sequence of interleaved gates and errors is illustrated in the RB circuit schematic of \autoref{fig:rb-stacked} (each Clifford gate $C_j$ is immediately followed by a “noise” box) \cite{NielsenChuang2010,Emerson2005}.
+    
+    We can justify this because the qutrit Clifford group forms a unitary 2-design. Therefore, averaging (“twirling”) any fixed completely positive and trace preserving (CPTP) noise channel $\Lambda$ over random Clifford
+    conjugations matches the Haar second moments and symmetrizes its action on the
+    traceless subspace, yielding an effective depolarizing channel with the same
+    average gate fidelity.\cite{Dankert2009,Gross2007,Appleby2005,Magesan2011PRL,Emerson2005}
+    Formally, the Clifford twirl is
+    \begin{equation}
+        \mathcal{T}_{\mathcal{C}_3}(\Lambda)(\rho)
+        = \frac{1}{|\mathcal{C}_3|}\sum_{C\in\mathcal{C}_3}
+        C^\dagger\,\Lambda(C\rho C^\dagger)\,C
+        = \int_{U(3)} U^\dagger\,\Lambda(U\rho U^\dagger)\,U\,
+        d\mu_{\mathrm{Haar}}(U).
+    \label{eq:clifford-twirl}
+    \end{equation}
+    and it has the depolarizing form
+    $\mathcal{T}_{\mathcal{C}_3}(\Lambda)(\rho)=\mathcal{E}_{\mathcal{D}}(\rho)$.
+    Representation-theoretically, the Clifford twirl decomposes the 
+    Pauli transfer matrix representation into two irreducible subspaces: the trivial irrep spanned by the identity and the $(q^{2}\!-\!1)$-dimensional traceless irrep. By Schur’s lemma the twirled channel has block form
+    \begin{equation}
+        W_{\mathcal{C}_3}\!\big(R_{\Lambda}\big)=
+        \begin{bmatrix}
+        1 & 0 \\
+        0 & f\,\Pi
+        \end{bmatrix},
+        \qquad
+        \big[W_{\mathcal{C}_3}\!\big(R_{\Lambda}\big)\big]^m=
+        \begin{bmatrix}
+        1 & 0 \\
+        0 & f^{m}\,\Pi
+        \end{bmatrix},
+    \label{eq:twirl_irrep}
+    \end{equation}
+    where $\Pi$ projects onto the traceless Pauli subspace (dimension $q^{2}{-}1=8$
+    for a qutrit). Thus the identity block contributes a constant offset $B$ while
+    the traceless block contributes $A\,f^{m}$, giving the single-exponential
+    decay in Eq.~\eqref{eq:fseq} and an effective depolarizing channel with
+    parameter $f = 1-p_{\mathrm{mix}}$. For the Weyl-form probability $p$ of \autoref{sub:noise_models}, $p_{\mathrm{mix}} = \tfrac{9}{8}p$ and $f = 1 - \tfrac{9}{8}p$.
+    
+
+    \item \textbf{Inverting Operation:} After the $m$ random gates, apply the inverse of the overall Clifford operation. That is, classically compute $C_{\text{inv}} = (C_m C_{m-1}\cdots C_1)^{-1}$, and apply this final Clifford gate. In the absence of errors, $C_{\text{inv}}$ should ideally return the qutrit to the initial state $|0\rangle$. Our simulations use a mirror variant of this step instead~\cite{Proctor2022MirrorRB} (\autoref{sub:rb_baseline}): the inverses $C_m^{-1},\dots,C_1^{-1}$ are applied one at a time in reverse order, each as its own noisy Clifford, so a sequence of depth $m$ contains $2m$ noisy Cliffords (\autoref{fig:rb-stacked}).
+
+    \item \textbf{Measurement:} Finally, measure the qutrit in the computational basis. We record whether the outcome is the expected state or an error. By repeating the experiment many times, we can estimate the probability of returning the correct state for that sequence. The expectation value of $Z$ is given by
+    \begin{equation}
+         \langle Z\rangle = P_{0} + \omega P_{1} + \omega^{2} P_{2},
+    \end{equation}
+    where $P_j$ are the proportions of classical $j$ readouts for the various shots, which are then weighed by their respective eigenvalues $\omega^j$. In our simulations this final measurement is ideal, and we average the modulus $|\langle Z\rangle|$ of each sequence's estimate over sequences.
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+    \begin{quantikz}[column sep=0.22cm]
+      \lstick{\textcolor{LightBlue}{$\ket{0}$}} &
+        \gate{\textcolor{red}{C_1}} &
+        \gate{\textcolor{violet}{\mathcal{N}}} &
+        \push{\,\cdots\,} &
+        \gate{\textcolor{red}{C_m}} &
+        \gate{\textcolor{violet}{\mathcal{N}}} &
+        \gate{\textcolor{red}{C_m^{-1}}} &
+        \gate{\textcolor{violet}{\mathcal{N}}} &
+        \push{\,\cdots\,} &
+        \gate{\textcolor{red}{C_1^{-1}}} &
+        \gate{\textcolor{violet}{\mathcal{N}}} &
+        \meter{}
+    \end{quantikz}
+  \caption{Physical RB circuit of depth $m$ used as the baseline in our simulations, in the mirror variant of \autoref{sub:rb_baseline}. The qutrit starts in $\ket{0}$. The Cliffords $C_1,\dots,C_m$ are drawn uniformly from the single-qutrit Clifford group (216 elements up to global phase) and are followed by their inverses in reverse order, so the circuit contains $2m$ noisy Cliffords. Each box $\mathcal{N}$ stands for the one-qutrit depolarizing channels that follow every primitive gate of the preceding Clifford, with probability $p/10$ under SI1000 and $p$ under SD6 (\autoref{sub:noise_models}). The final computational-basis measurement is ideal. The standard protocol of the text replaces the inverse half by a single recovery gate $C_{\text{inv}}$.}
+  \label{fig:rb-stacked}
+\end{figure}
+
+Steps 1–4 are repeated for many independent random sequences at the same length $m$, and then for various sequence lengths $m$. The resulting survival probabilities (fraction of runs yielding the correct outcome) will decline as $m$ increases, since longer sequences give more opportunity for errors. Under the assumption of gate-independent depolarizing noise, this decay in survival probability is exponential in the number of gates \cite{Magesan2011PRL}. The data is fit using Eq.\eqref{eq:fseq}, with $f$ the per-gate decay and $A,B$ absorbing State Preparation and Measurement (SPAM) errors~\cite{Magesan2011PRL,Magesan2012PRA}.
+ The decay parameter $f$ is then used to extract the average gate fidelity. For a qutrit, the relationship between $f$ and the average gate fidelity $\bar{F}$ is given by
+\begin{equation}
+\bar{F} = \frac{(q-1)f + 1}{q},
+\label{eq:fbar}
+\end{equation}
+(with $q=3$ in this case) \cite{Nielsen2002,Magesan2012PRA}. In other words, if $f=1$ the gates are ideal (fidelity 1), whereas if $f$ is significantly less than 1, the gates lose fidelity with each application. By plotting the measured expectation value versus sequence length (circuit depth) and fitting an exponential, one obtains $f$ and thereby quantifies the average error rate per gate. This methodology has become a standard way to benchmark multilevel quantum gates, offering a simple exponential metric of performance even in complex qutrit systems \cite{Morvan2021,Proctor2019DRB}. In summary, RB provides a reliable, dimension-agnostic measure of gate fidelity decay, making it well-suited to characterizing qutrit operations \cite{Magesan2011PRL,Magesan2012PRA}. In the mirror sequences of our simulations, $m$ counts forward Cliffords, so $f$ and $\bar F$ describe one forward Clifford together with its inverse; \autoref{sub:fit_model} gives the fit model we use, which fixes $B=0$.

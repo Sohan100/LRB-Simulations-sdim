@@ -1,0 +1,36 @@
+\subsection{Baseline, Error Rates and Pseudo-Threshold}
+\label{sub:fit_model}
+
+% Sec. 2.6 (track hw). Former Secs. 3.2.4 and 3.2.5 (method - LRB-D.tex, lines 212-243 of the 438f6f16 mirror) and the definitions of results Secs. 4.1, 4.3 and 4.4. The finite-shot floor, both bootstrap procedures and the search rule left for Appendix C (jpw-review/handoff/hw-moved-out.tex); the representation theory is Appendix E.
+We condense each combination of layout, noise model and interval $k$ into one number, the pseudo-threshold $p^\star(k)$. It is the value of $p$ at which the error rate of LRB-D equals that of a physical qutrit under the same noise model, and below it the logical qutrit of the accepted shots has the lower error rate per unit of depth. This definition needs a physical baseline, a signal and a fit that give the two error rates, and an uncertainty, which we define in turn.
+
+\label{sub:rb_baseline}The baseline is randomized benchmarking (RB) of one physical qutrit, built like LRB-D without the code. We prepare $\ket{0}$, apply $m$ Cliffords $C_1, \dots, C_m$ drawn uniformly from the same $216$-element group, apply the mirror inverse $C_m^{-1}, \dots, C_1^{-1}$, and measure in the computational basis, without noise as for the final readout of LRB-D, and we reject no shot. Each Clifford and each inverse is a word in the primitive gates $H$, $S$, $X$, $Z$ and their inverses, the word that also defines its logical circuit, with $5.17$ primitive gates on average (\autoref{sec:clifford-gen}). This circuit has no two-qutrit gate, no reset and no idle qutrit, so by \autoref{tab:circuit-noise} its only channel is the DEP1 after each primitive gate. Under SD6 the gates of the baseline therefore fail as often as every operation of the encoded circuit, and under SI1000 ten times less often than its two-qutrit gates.
+
+% TODO(authors): why is the signal the modulus of the complex estimate? No reason is on record; the text states the choice (CONTRACT Amendment A4; jpw-review/OPEN-QUESTIONS.md, item 2).
+We reduce both protocols to one signal per depth. For a sequence $s$ at depth $m$, let $P_j$ be the fraction of its accepted shots with logical outcome $j$. The complex estimate
+\begin{equation}
+    \langle \bar{X} \rangle_s = \sum_{j=0}^{2} \omega^{-j} P_j
+    \label{eq:estimator}
+\end{equation}
+estimates the expectation value of $\bar X$ in the accepted shots and is one if every accepted shot has the outcome zero. We take its modulus, average the modulus over the sequences, and write $\langle \bar{X} \rangle$ for this average, the accepted logical signal. For the baseline the estimate of a sequence is $\langle Z \rangle_s = \sum_j \omega^{j} P_j$, with $P_j$ taken over all its shots, and its modulus averaged over the sequences is the physical signal $\langle Z \rangle$.
+
+% Weights and chi2 as the pipeline computes them: src/lrb/lrb_plotting.py (_safe_weights: 1/std^2 with std over the sequences; _fit_decay_parameter_fixed_a: chi2 = sum_m w_m (y_m - A f^m)^2, at least two depths); chi2 per degree of freedom = lrb_chi2 / (lrb_n_points - 2), as in paper-rework/facts/fit_chi2.csv and the merged tables.
+We fit $\langle \bar{X} \rangle$, and in the same way $\langle Z \rangle$, as a function of the depth with
+\begin{equation}
+    F(m) = A f^{m},
+    \label{eq:zero_offset_fit}
+\end{equation}
+by weighted least squares with weights $1/\sigma_m^2$, where $\sigma_m$ is the standard deviation of the per-sequence moduli at depth $m$. A depth with $\sigma_m = 0$, such as $m = 0$ of the baseline, whose circuit contains no noise, receives a large fixed weight, which fixes $A = 1$ for the baseline (\autoref{app:campaign}). The model has no constant offset because the estimate of Eq.~\eqref{eq:estimator} has zero expectation for a fully depolarized qutrit, and errors that do not depend on the depth, such as those of the final check round, enter the amplitude $A$. The modulus of a finite-shot estimate stays above zero, however, and \autoref{app:campaign} gives this floor. The fit uses every depth, $m = 0$ included, at which every sequence has at least one accepted shot (\autoref{sub:sim_framework} states one exception). The decay parameter $f$ gives the average fidelity $\bar F$ and the error rate $r$ per unit of depth,
+\begin{equation}
+    \bar{F} = \frac{2f + 1}{3}, \qquad r = 1 - \bar{F} = \frac{2}{3}\,(1 - f) ,
+    \label{eq:error_rate}
+\end{equation}
+where for the baseline a unit of depth is a Clifford with its inverse. The uncertainty that we quote for a fitted error rate is the standard deviation of a parametric bootstrap, which perturbs the signal at each depth independently within its standard error over the sequences. A different choice of sequences shifts all depths together, so this uncertainty does not include the choice of sequences (\autoref{app:campaign}).
+
+RB theory guarantees the single-exponential form of Eq.~\eqref{eq:zero_offset_fit} for the baseline, where the Clifford twirl of the noise has two eigenvalues, $1$ and $f$ (\autoref{app:background}). % TODO(authors): which count should the main text lead with, 2542 (group generated by Hbar and Sbar, 216 elements up to phase) or 301 (group generated by Hbar, Sbar, Xbar and Zbar as simulated, 1944 elements)? Both are quoted until the coauthors decide (CONTRACT Amendment A3; jpw-review/OPEN-QUESTIONS.md, item 4). Verified by paper-rework/scratch/lead/irreps_check.py.
+For the encoded qutrit the logical Cliffords twirl the noise on the operators of five qutrits. There the signal of a code state can depend on up to $2542$ eigenvalues for the group of five-qutrit unitaries generated by $\bar H$ and $\bar S$, and on up to $301$ for the larger group generated by the simulated gate set $\bar H$, $\bar S$, $\bar X$ and $\bar Z$ (\autoref{sec:rep-theory}), so the accepted decay need not be a single exponential.
+
+For this reason we quote the quality of every fit with more than two depths as $\chi^2$ per degree of freedom, $\chi^2/(n-2)$ with $\chi^2 = \sum_m [\langle \bar{X} \rangle(m) - A f^m]^2/\sigma_m^2$ summed over the $n$ fitted depths. Because $\sigma_m$ is the standard deviation over the $N_s$ sequences of a run and not the standard error of their mean, $\sigma_m/\sqrt{N_s}$, residuals at the level of that standard error give a value of about $1/N_s$, not one.
+
+% Convention sentence of the house rules (pseudo-threshold uncertainties), stated once here.
+We locate the pseudo-threshold on the grid of $p$ that the simulations sample (\autoref{sub:sim_framework}). Where the error rates of LRB-D and of the baseline cross between two neighboring grid points, we take $p^\star(k)$ from a linear interpolation of their difference between these two points (\autoref{app:campaign} gives the search rule). For the pseudo-thresholds, uncertainties are one standard error (68\% confidence), from a bootstrap over the random Clifford sequences. Each replicate resamples the sequences of every run that enters the pseudo-threshold, for LRB-D and for the baseline, refits all decays and repeats the search (\autoref{app:campaign}). Unlike the parametric bootstrap, this standard error therefore includes the choice of sequences.

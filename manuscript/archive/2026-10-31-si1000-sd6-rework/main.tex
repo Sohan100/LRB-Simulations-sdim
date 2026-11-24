@@ -1,0 +1,94 @@
+\documentclass[final]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{quantikz}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{subcaption}
+\usetikzlibrary{calc,arrows.meta}
+\usepackage{authblk}
+\renewcommand\Authfont{\large\bfseries}
+\renewcommand\Affilfont{\normalfont\itshape\normalsize}
+
+\usepackage{graphicx} 
+\usepackage{amssymb,amsthm}
+
+\DeclareMathOperator{\Tr}{\mathrm{Tr}}
+
+\usetikzlibrary{calc}     
+
+\usepackage{hyperref}
+\definecolor{LightBlue}{HTML}{00A6D6} % A standard "LightBlue" RGB
+\usepackage{cleveref}
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{cor}{Corollary}[theorem]
+
+\usepackage{xcolor}
+
+% Shared TikZ colors, sizes, and figure macros for all figures.
+\input{tikz preamble}
+
+% --- title block ---
+\title{Logical Randomized Benchmarking on a Qutrit Surface Code}
+
+\author[1]{Sohan Ghosh\thanks{\texttt{sohghosh@ucdavis.edu, orcid:0000-0003-1318-5502}}}
+\author[2]{Chuan-Hong Liu}
+\author[2]{Noah Goss\thanks{\texttt{noahgoss@berkeley.edu}}}
+\author[3]{Adeeb Kabir\thanks{\texttt{ask171@scarletmail.rutgers.edu}}}
+\author[1]{Aidan Epperly}
+
+\author[3]{Yipeng Huang\thanks{\texttt{}}}
+\author[2]{Irfan Siddiqi}
+\author[1]{Isaac Kim\thanks{\texttt{ikekim@ucdavis.edu}}}
+
+\affil[1]{Department of Physics and Astronomy, University of California Davis, Davis, CA}
+\affil[2]{Quantum Nanoelectronics Laboratory, University of California, Berkeley, CA}
+\affil[3]{Department of Computer Science, Rutgers University, New Brunswick, New Jersey}
+
+\newcommand{\ACE}[1]{{\color{red}#1}} % Feel free to move this -Aidan
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% DRAFT ABSTRACT (2026-10-30): written from the sdim 1.4.0 SI1000/SD6 simulations only.
+% Revise before submission, and extend once IQM hardware results exist.
+\begin{abstract}
+We benchmark logical Clifford gates on a qutrit encoded in the $[[5,1,2]]_3$ folded qutrit surface code, whose single-qutrit logical Cliffords are transversal and of constant depth. Because the code has distance two, we use logical randomized benchmarking with detection (LRB-D), which replaces error correction by postselection on trivial stabilizer syndromes. We simulate LRB-D with the \texttt{sdim} qudit stabilizer simulator under qutrit generalizations of the SI1000 and SD6 circuit-level noise models and sample every circuit through the exact detector error model of \texttt{sdim}. We compare the postselected logical error with that of physical single-qutrit randomized benchmarking under the same noise model at the same two-qutrit gate error probability $p$.
+With one ancilla per stabilizer and postselection after every forward logical Clifford, the logical error is the smaller one up to a pseudo-threshold $p^\star = 0.0292(6)$ under SI1000 and $0.0399(15)$ under SD6.
+Near these values almost every shot is rejected at larger depth, so these pseudo-thresholds rest on fits over the depths $m \le 6$ of additional high-$p$ runs.
+% p* and their standard errors (seq_boot_se, sequence bootstrap) from LRB-experiment-data-slurm/comparisons/pseudo-thresholds-current.csv; layout gaps, each layout against the RB of its own run, with standard errors added in quadrature: paper-rework/scratch/lead/se_comparisons.py (se_comparisons.out), checked by paper-rework/scratch/writer-seq-se/check.py (check.out)
+When only every fourth check round enters the postselection, the pseudo-threshold falls to $0.0132(2)$ under SI1000 and $0.0155(4)$ under SD6. Uncertainties are one standard error.
+A layout with relay ancillas for the two boundary stabilizers lowers the pseudo-threshold by about 10\% under SI1000 and by about 20\% under SD6 when every third or fourth check round enters the postselection. When every round or every second round enters, the differences between the layouts stay within about two standard errors, the largest being $9.7 \pm 4.7\%$ under SD6 when every round enters.
+The advantage is conditional on acceptance: under SI1000 at $p = 5\times 10^{-3}$ with postselection after every forward Clifford, $98\%$ of shots are rejected by depth 10.
+With postselection on a terminal check alone, the accepted logical signal does not decay as a single exponential, and at depth 22 it falls below the physical signal for $p \geq 10^{-2}$ under SI1000 and $p \geq 5\times 10^{-3}$ under SD6.
+\end{abstract}
+
+\input{introduction}
+
+\input{background}
+
+\input{method}
+
+\input{results}
+
+\appendix
+
+\input{appendix - additional results}
+
+\input{rep theory appendix}
+
+\input{sdim dem appendix}
+
+\input{clifford group appendix}
+
+\input{Baseband two qubit and two qutrit gate}
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}

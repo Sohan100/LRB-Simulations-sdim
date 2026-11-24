@@ -1,0 +1,52 @@
+\subsection{Logical Randomized Benchmarking (LRB)}
+
+Logical Randomized Benchmarking (LRB) extends the RB concept to characterize the error rates at the logical level, after encoding into a quantum error-correcting code. The idea, first proposed by Combes et al. \cite{Combes2017} is to apply random sequences of logical gates on encoded qudits and measure the fidelity of the logical operations. This allows one to assess how much protection the code and any error-correction procedures provide, by comparing the effective logical error rate to the physical error rate. A typical LRB protocol proceeds in the following steps:
+\begin{enumerate}
+  \item \textbf{Logical State Preparation:}
+  Prepare the system in a logical basis state, e.g.\ the logical
+  $|\bar{0}\rangle, |\bar{+}\rangle$, etc. state of the code. All stabilizers of the
+  code are initially satisfied, so the state lies in the codespace.
+
+  \item \textbf{Random Logical Clifford Sequence:}
+  Apply a sequence of random logical Clifford gates \newline $\{\bar{C}_1, \bar{C}_2, \dots, \bar{C}_m\}$. Each $\bar{C}_j$ denotes a Clifford operation on the codespace, which
+  in practice is implemented by some sequence of physical operations on
+  the underlying qudits.
+
+  \item \textbf{Error Correction After Each Logical Gate:}
+  After each logical gate, one can perform error correction, to diagnose and correct any errors using the code’s stabilizer
+  measurements before continuing to the next gate. The error correction
+  after each logical gate aims to keep the logical state in the
+  codespace by defining a faithful recovery map to the appropriate
+  codeword.
+
+  \item \textbf{Logical Inverting Operation:}
+  After the sequence of $m$ logical Cliffords, apply the logical inverse
+  $
+    \bar{C}_{\text{inv}} = (\bar{C}_m \cdots \bar{C}_1)^{-1},
+  $
+  which ideally returns the encoded state to the initial logical state, if there isn't any noise.
+
+  \item \textbf{Logical Measurement:}
+  Finally, measure a logical operator (e.g.\ the logical $\bar Z$, logical $\bar X$, etc.) and compare
+  the outcome to the initial logical state. If the error-correcting code
+  has successfully kept errors at bay, the random sequence followed by
+  its inverse will return the logical qudit to the starting state with
+  high probability, just as in physical RB.
+
+  \item \textbf{Repetition and Curve Fitting:}
+  Repeat the above procedure across many random sequences and sequence
+  lengths $m$. For each $m$, estimate the logical survival probability
+  (i.e.\ the probability that the final logical measurement agrees with
+  the initial state) and fit the data to an exponential decay curve to
+  extract a logical decay parameter $\bar{\alpha}$. The average logical error
+  rate per Clifford can then be derived from $\bar{\alpha}$, analogous
+  to the physical case \cite{Magesan2011PRL,Magesan2012PRA,Wallman2018}. However, this is with the assumption that the logical error channels will be Markovian in nature and that the logical decay curves don't display memory-like features.
+\end{enumerate}
+
+LRB offers several clear advantages: it directly characterizes the performance of an error-correction implementation at the logical level, avoiding the need to extrapolate from physical error rates, which can radically under-or-overestimate logical performance by many orders of magnitude. By operating inside the smaller logical codespace, LRB achieves a drastic reduction in experimental resources while providing more accurate estimates of key performance indicators such as the average probabilities of correctable and uncorrectable errors and the average logical gate error rate. Further, it attempts to incorporate effects of imperfect logical gates, crosstalk, and correlated errors that are often neglected in physical-layer approaches. As the proof of correctness reduces to that of standard RB, the protocol inherits the robustness and many technical refinements of physical RB that is compatible with existing RB-based analysis tools \cite{Combes2017}. 
+
+Similarly, LRB has important limitations: its theoretical guarantees rely on the usual RB
+assumptions that the noise on logical Clifford gates is time-independent, Markovian, and gate-independent,
+and in addition it requires that syndrome measurement errors be uncorrelated between rounds of error correction. These conditions are only approximately satisfied in realistic devices, and while the protocol can be shown to be robust to small violations, large deviations can compromise the interpretation of the extracted logical parameters. Furthermore, LRB relies on the availability of an implemented code with logical
+Clifford gates and syndrome readout, so it is not a substitute for lower-level characterization of the physical hardware \cite{Combes2017}.
+

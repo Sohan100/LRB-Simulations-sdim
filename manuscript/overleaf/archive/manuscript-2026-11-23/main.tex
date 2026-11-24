@@ -1,0 +1,100 @@
+% ARCHIVED 2026-11-23: the manuscript's main.tex as it was before the simulation version replaced it.
+% Only the \input of the Introduction now points to the archived copy in this folder; every other
+% file it inputs (background, method, results, appendices, tikz preamble, references) is unchanged at
+% the project root. To compile this version, set this file as the main document (Menu -> Main document).
+\documentclass[final]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{quantikz}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{subcaption}
+\usetikzlibrary{calc,arrows.meta}
+\usepackage{authblk}
+\renewcommand\Authfont{\large\bfseries}
+\renewcommand\Affilfont{\normalfont\itshape\normalsize}
+
+\usepackage{graphicx} 
+\usepackage{amssymb,amsthm}
+
+\DeclareMathOperator{\Tr}{\mathrm{Tr}}
+
+\usetikzlibrary{calc}     
+
+\usepackage{hyperref}
+\definecolor{LightBlue}{HTML}{00A6D6} % A standard "LightBlue" RGB
+\usepackage{cleveref}
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{cor}{Corollary}[theorem]
+
+\usepackage{xcolor}
+
+% Shared TikZ colors, sizes, and figure macros for all figures.
+\input{tikz preamble}
+
+% --- title block ---
+\title{Logical Randomized Benchmarking on a Qutrit Surface Code}
+
+\author[1]{Sohan Ghosh\thanks{\texttt{sohghosh@ucdavis.edu, orcid:0000-0003-1318-5502}}}
+\author[2]{Chuan-Hong Liu}
+\author[2]{Noah Goss\thanks{\texttt{noahgoss@berkeley.edu}}}
+\author[3]{Adeeb Kabir\thanks{\texttt{ask171@scarletmail.rutgers.edu}}}
+\author[1]{Aidan Epperly}
+
+\author[3]{Yipeng Huang\thanks{\texttt{}}}
+\author[2]{Irfan Siddiqi}
+\author[1]{Isaac Kim\thanks{\texttt{ikekim@ucdavis.edu}}}
+
+\affil[1]{Department of Physics and Astronomy, University of California Davis, Davis, CA}
+\affil[2]{Quantum Nanoelectronics Laboratory, University of California, Berkeley, CA}
+\affil[3]{Department of Computer Science, Rutgers University, New Brunswick, New Jersey}
+
+\newcommand{\ACE}[1]{{\color{red}#1}} % Feel free to move this -Aidan
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% ABSTRACT REMOVED (2026-11-08) at the authors' request until the experimental results are added.
+% The previous simulation-only draft is kept below, commented out, for reference.
+% \begin{abstract}
+% We benchmark logical Clifford gates on a qutrit encoded in the $[[5,1,2]]_3$ folded qutrit surface code, whose single-qutrit logical Cliffords are transversal and of constant depth. Because the code has distance two, we use logical randomized benchmarking with detection (LRB-D), which replaces error correction by postselection on trivial stabilizer syndromes. We simulate LRB-D with the \texttt{sdim} qudit stabilizer simulator under qutrit generalizations of the SI1000 and SD6 circuit-level noise models and sample every circuit through the exact detector error model of \texttt{sdim}. We compare the postselected logical error with that of physical single-qutrit randomized benchmarking under the same noise model at the same two-qutrit gate error probability $p$.
+% With one ancilla per stabilizer and postselection after every forward logical Clifford, the logical error is the smaller one up to a pseudo-threshold $p^\star = 0.0292(6)$ under SI1000 and $0.0399(15)$ under SD6.
+% Near these values almost every shot is rejected at larger depth, so these pseudo-thresholds rest on fits over the depths $m \le 6$ of additional high-$p$ runs.
+%% p* and their standard errors (seq_boot_se, sequence bootstrap) from LRB-experiment-data-slurm/comparisons/pseudo-thresholds-current.csv (one-ancilla rows) and pseudo-thresholds-conv-sites-current.csv (two-ancilla rows); layout gaps 1 - p*(two)/p*(one), each layout against the RB of its own run, with the relative standard errors of the two runs added in quadrature: paper-rework/scratch/writer-conv/analysis.py (section S1)
+% When only every fourth check round enters the postselection, the pseudo-threshold falls to $0.0132(2)$ under SI1000 and $0.0155(4)$ under SD6. Uncertainties are one standard error.
+% We compare two layouts on a square grid with the four ancillas at the conventional surface-code sites, in both of which every two-qutrit gate of the check rounds couples an ancilla to a neighboring data qutrit. They differ in which data qutrit sits at the center. In the one-ancilla layout each stabilizer has its own neighboring ancilla, and the two-qutrit gates of the logical Cliffords need one long-range coupling. In the two-ancilla layout these gates act on diagonal neighbors, but two of the four stabilizers each need two ancillas that pass a partial syndrome through a shared data qutrit. The two-ancilla layout gives pseudo-thresholds lower by 9 to 18\% under SI1000 and by 21 to 33\% under SD6 (3.9 to 15.8 standard errors), whether every round or only every second, third or fourth round enters the postselection. The simulations give the gates on the long-range coupling the same error as any other two-qutrit gate, so these gaps measure the cost of the two-ancilla checks alone.
+% The advantage is conditional on acceptance: under SI1000 at $p = 5\times 10^{-3}$ with postselection after every forward Clifford, $98\%$ of shots are rejected by depth 10.
+% With postselection on a terminal check alone, the accepted logical signal does not decay as a single exponential, and at depth 22 it falls below the physical signal for $p \geq 10^{-2}$ under SI1000 and $p \geq 5\times 10^{-3}$ under SD6.
+%% Qubit comparison: qubit p* from comparisons/pseudo-thresholds-qubit-current.csv (qubit-one-ancilla rows) and pseudo-thresholds-qubit-conv-sites-current.csv; ratios, RB and LRB-D error ratios at equal p: paper-rework/scratch/writer-qubit/analysis.py (sections R1, B1, L1); LRB-D ratio window and RB ratio at every p > 0: paper-rework/scratch/corrector-qubit-1/corrector.py (sections A, B)
+% For the qubit $[[5,1,2]]$ code, simulated with the same check rounds, logical gates and fits and the qubit forms of the same noise models, the pseudo-thresholds are $0.29$ to $0.38$ times the qutrit values under SI1000 and $0.45$ to $0.56$ times under SD6, for all four postselection intervals and in both layouts. A qubit Clifford has fewer primitive gates, each with a slightly lower average error, so the physical qubit RB error is $0.42$ to $0.49$ times the qutrit one. For $10^{-3} \le p \le 10^{-2}$ the postselected logical error per unit depth of the qubit is instead $1.3$ to $3.0$ times the qutrit one at the same $p$, for reasons we have not identified.
+% \end{abstract}
+
+\input{archive/manuscript-2026-11-23/introduction}
+
+\input{background}
+
+\input{method}
+
+\input{results}
+
+\appendix
+
+\input{appendix - additional results}
+
+\input{rep theory appendix}
+
+\input{sdim dem appendix}
+
+\input{clifford group appendix}
+
+\input{Baseband two qubit and two qutrit gate}
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}

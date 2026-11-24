@@ -1,0 +1,192 @@
+\section{Representation Theory}\label{sec:rep-theory}
+
+\subsection{Group Modules and Irreducible Representations}
+
+The aim of this section is to serve as a review of the basics of representation theory.
+This will not be an exhaustive review by any means.
+For a more thorough mathematical treatment of the representation of finite groups we direct the reader to \cite{sagan2001symmetric}.
+
+Let $G$ denote a finite group. We will denote the identity element of $G$ by $e$ to avoid confusion. 
+A $G$-module is a finite dimensional vector space $V$ equipped with a group action $\cdot : G \times V \to V$ satisfying 
+\begin{enumerate}
+    \item \textbf{(Identity)} For all vectors $\ket{v} \in V$, the equality $e \cdot \ket{v} = \ket{v}$ is satisfied.
+    \item \textbf{(Linearity)} For all linear combinations $\alpha \ket{v} + \beta \ket{w}$ and all group elements $g \in G$, the equality $g \cdot (\alpha \ket{v}+\beta\ket{w}) = \alpha (g\cdot \ket{v}) + \beta (g \cdot \ket{w})$ is satisfied.
+    \item \textbf{(Compatibility)} For all group elements $g,h \in G$ and vectors $\ket{v} \in V$, the equality $(gh) \cdot \ket{v} = g\cdot (h \cdot \ket{v})$ is satisfied.
+\end{enumerate}
+The linearity axiom implies the existence of a map $\pi: G \to \mathrm{End}(V)$ mapping the group element $g$ to the linear endomorphism $\ket{v} \mapsto g\cdot \ket{v}$. 
+The identity and compatibility axioms imply that $\pi$ is actually a group homomorphism. 
+
+\begin{lemma}
+    We call a group homomorphism $\pi : G \to \mathrm{End}(V)$ a representation of $G$. If $\pi: G \to \mathrm{End}(V)$ is a representation, then $V$ is a $G$-module under 
+    \begin{align}
+        g \cdot \ket{v} = \pi(g)\ket{v}.
+    \end{align}
+    Moreover, if $V$ is a $G$-module, then the map $\pi(g)(\ket{v}) = g\cdot \ket{v}$ is a representation of $G$.
+\end{lemma}
+In light of this result, it is somewhat standard to conflate representation of $G$ and $G$-modules. 
+As with all linear maps, representations are typically described by how each element of $G$ acts on each basis vector of $V$.
+% Alternatively, one can describe a representation by first describing how the group $G$ acts on some set $X$ and then extending the action to the free vector space $\mathbb{C}[X]$ by linearity.
+
+Sometimes, a representation can be reduced to a direct sum of smaller representations in the sense that 
+\begin{align}
+    \pi(g) = \pi_0(g) \oplus \pi_1(g) \oplus \dots \oplus \pi_k(g)
+\end{align}
+for each $\pi_i$ a representation.
+In this case, we write $\pi = \pi_0 \oplus \dots \oplus \pi_k$.
+This corresponds to a decomposition of $G$-modules $V = V_0 \oplus \dots \oplus V_k$ where each $V_i$ is a $G$-module.
+If no such decomposition exists, then we call the representation (or $G$-module) irreducible.
+Irreducible representations are typically referred to by the abbreviation ``irrep''.
+
+\begin{theorem}[Maschke's Theorem \cite{sagan2001symmetric} Theorem 1.5.3] \label{thm:maschkes-theorem}
+    Every representation $\pi : G \to \mathrm{End}(V)$ decomposes into a direct sum
+    \begin{align}
+        \pi \cong m_0 \pi_0 \oplus m_1 \pi_1 \oplus \dots \oplus m_k \pi_k
+    \end{align}
+    where $\pi_i$ and $\pi_j$ are distinct irreducible representations of $G$. Here $m_i \pi_i \cong \bigoplus_{j=0}^{m_i - 1} \pi_i$.
+
+    Similarly, if $V$ is a finite dimensional $G$-module, then 
+    \begin{align}
+        V = m_0 V_0 \oplus \dots \oplus m_k V_k
+    \end{align}
+    where $V_i$ and $V_j$ are distinct irreducible $G$-modules.
+\end{theorem}
+Maschke's theorem requires two caveats.
+Firstly, the characteristic of the underlying field must not divide $|G|$, which holds over $\mathbb{C}$.
+Secondly, it must be possible to average over the group, so an analog of Maschke's theorem holds for compact Lie groups.
+The form of Schur's lemma used below additionally requires an algebraically closed field such as $\mathbb{C}$.
+
+\subsubsection{Schur's Lemma}
+
+Suppose that $V$ is a $G$-module. 
+We let $\mathrm{End}_G(V)$ denote all of the elements $T \in \mathrm{End}(V)$ such that for all $g \in G$
+\begin{align}
+    T \pi(g) = \pi(g)T.
+\end{align}
+Such elements $T$ are said to be invariant under the action of $G$ or $G$-linear.
+This condition ends up being rather stringent.
+
+\begin{lemma}[Schur's Lemma \cite{sagan2001symmetric} Theorem 1.6.5]\label{lem:schurs-lemma}
+    Let $V$ and $W$ be $G$-modules and let $\pi_V$ and $\pi_W$ be the associated representations.
+    We define $\mathrm{Hom}_G(V, W)$ by $T \in \mathrm{Hom}_G(V, W)$ if for all $g \in G$
+    \begin{align}
+        T \pi_V(g) = \pi_W(g) T.
+    \end{align}
+    If $V$ and $W$ are irreducible, then exactly one of the following holds.
+    \begin{enumerate}
+        \item The $G$-modules $V$ and $W$ are not isomorphic and $\mathrm{Hom}_G(V,W) = 0$.
+        \item The $G$-modules $V$ and $W$ are isomorphic and $\mathrm{Hom}_G(V,W) \cong \mathbb{C}$ in the sense that $\mathrm{End}_G(V) = \{ \lambda I_V \mid \lambda \in \mathbb{C} \}$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{cor}[\cite{sagan2001symmetric} Theorem 1.7.9]
+    Let $V$ be a $G$-module such that
+    \begin{align}
+        V = m_0 V_0 \oplus \dots \oplus m_k V_k
+    \end{align}
+    with $V_i$ and $V_j$ distinct irreducible modules.
+    Let $d_i$ be the dimension of $V_i$.
+    Then the following hold.
+    \begin{enumerate}
+        \item The dimension of $V$ is given by $\mathrm{dim}(V) = m_0 d_0 + \dots + m_k d_k$.
+        \item \label{item:artin-wedderburn} The endomorphism algebra of $V$ is isomorphic to the direct sum
+        \begin{align}
+            \mathrm{End}_G(V) \cong \bigoplus_{i = 0}^k \mathrm{End}(\mathbb{C}^{m_i}).
+        \end{align}
+        \item The endomorphism algebra $\mathrm{End}_G(V)$ has dimension $m_0^2 + m_1^2 + \dots + m_k^2$.
+    \end{enumerate}
+\end{cor}
+
+\begin{proof}
+    We will only include a proof of \Cref{item:artin-wedderburn} as it is the most important.
+    From the decomposition of $V$, we get the equality
+    \begin{align}
+        \mathrm{End}_G(V) \cong \bigoplus_{i,j = 0}^k \mathrm{Hom}_G(m_iV_i,m_jV_j).
+    \end{align}
+    The elements of $\mathrm{Hom}_G(m_i V_i, m_j V_j)$ can be thought of as $m_i \times m_j$ matrices whose entries are in $\mathrm{Hom}_G(V_i, V_j)$. 
+    However, if $i \neq j$, then by Schur's lemma we know that $\mathrm{Hom}_G(V_i, V_j)$ only contains the zero map. 
+    Thus, all of the terms in the direct sum for $i \neq j$ are zero and can be ignored. 
+    When $i = j$, the elements of $\mathrm{Hom}_G(V_i,V_i) = \mathrm{End}_G(V_i)$ are all multiples of the identity map. 
+    So, the elements $g_i \in \mathrm{End}_G(m_iV_i)$ can be written in the form
+    \begin{align}
+        g_i = M_i \otimes I_{V_i},
+    \end{align}
+    where $M_i \in \mathrm{End}(\mathbb{C}^{m_i})$ is an $m_i \times m_i$ matrix with complex entries. 
+    % Moreover, any such matrix $M_i$ defines an element $g_i = M_i \otimes I_{V_i} \in \mathrm{End}_G(m_i V_i)$.
+    A routine argument shows $\mathrm{End}_G(m_iV_i)$ is isomorphic to the matrix algebra $\mathrm{End}(\mathbb{C}^{m_i})$ under the map $g_i \mapsto M_i$.
+    Finally, we conclude that $\mathrm{End}_G(V) \cong \bigoplus_{i = 0}^k \mathrm{End}_G(m_i V_i)$ and hence
+    \begin{align}
+        \mathrm{End}_G(V) \cong \bigoplus_{i=0}^k \mathrm{End}(\mathbb{C}^{m_i}).
+    \end{align}
+\end{proof}
+
+Concretely, Schur's lemma and its corollary impose a relatively stringent structure on the elements of $\mathrm{End}_G(V)$. 
+For our purposes the most important property is that if $T \in \mathrm{End}_G(V)$ and $\ket{v} \in m_i V_i$ is supported entirely in copies of the $V_i$ module, then $T\ket{v} \in m_i V_i$ is also supported entirely in copies of $V_i$. 
+The following result guarantees that the twirled error channel that we aim to study is invariant under the action of the Clifford group.
+
+\begin{lemma}[Twirling] \label{lem:twirling}
+    Suppose $V$ is a finite dimensional $G$-module with associated representation for $G$ finite. Given any $T \in \mathrm{End}(V)$ (notably $T$ need not be $G$-linear), the twirled map
+    \begin{align}
+        T_G = \frac{1}{|G|} \sum_{g \in G} \pi(g)^{-1} T \pi(g)
+    \end{align}
+    is an element of $\mathrm{End}_G(V)$.
+\end{lemma}
+
+\begin{proof}
+    Fix $g \in G$. Conjugating $T_G$ by $\pi(g)$ yields 
+    \begin{align}
+        \pi(g)^{-1} T_G \pi(g) = \frac{1}{|G|} \sum_{h \in G} \pi(g)^{-1} \pi(h)^{-1} T \pi(h) \pi(g) = \frac{1}{|G|} \sum_{h \in G} \pi(hg)^{-1} T \pi(hg).
+    \end{align}
+    Since the right coset $Gg$ is equal to $G$, we can reindex the sum to obtain 
+    \begin{align}
+        \pi(g)^{-1} T_G \pi(g) = \frac{1}{|G|} \sum_{h \in G} \pi(hg)^{-1} T \pi(hg) = \frac{1}{|G|} \sum_{h \in G} \pi(h)^{-1} T \pi(h) = T_G.
+    \end{align}
+    We conclude that $\pi(g)^{-1} T_G \pi(g) = T_G$ and hence $T_G \pi(g) = \pi(g) T_G$.
+\end{proof}
+
+\subsection{Character Theory}
+
+\Cref{item:artin-wedderburn} and \Cref{lem:twirling} show us that in order to fully understand a twirled channel, it is necessary to understand how many copies of each irreducible representation are present in a given representation.
+Luckily, if the irreps are understood, then there is an efficient algorithm for computing how many copies of that irrep occur in the decomposition.
+This technique comes from a subject called character theory.
+
+\subsubsection{Characters and Conjugacy Classes}
+
+If $\pi : G \to \mathrm{End}(V)$ is a representation, then the character $\chi_\pi : G \to \mathbb{C}$ of $\pi$ is defined by 
+\begin{align}
+    \chi_\pi(g) = \Tr \pi(g).
+\end{align}
+By the cyclic property of the trace, characters satisfy the property $\chi_\pi(h g h^{-1}) = \chi_\pi(g)$.
+Because of this, characters are constant on the conjugacy classes.
+Such a function is called a class function.
+Evidently, the space of class functions has dimension equal to the number of conjugacy classes of $G$.
+Moreover, the space is equipped with a natural inner product 
+\begin{align}
+    \langle \chi, \tau \rangle = \frac{1}{|G|} \sum_{g \in G} \chi(g)^* \tau(g).
+\end{align}
+The following lemma is among the most important results in character theory.
+
+\begin{lemma}[Character Orthogonality \cite{sagan2001symmetric} Theorem 1.9.3] \label{lem:character-orthogonality}
+    If $\pi_1$ and $\pi_2$ are irreducible representations of the finite group $G$, then 
+    \begin{align}
+        \langle \chi_{\pi_1}, \chi_{\pi_2}\rangle = \begin{cases}
+            1 & \pi_1 \cong \pi_2, \\
+            0 & \text{otherwise}.
+        \end{cases}
+    \end{align}
+\end{lemma}
+
+\begin{cor}[\cite{sagan2001symmetric} Corollary 1.9.4] \label{cor:character-relations}
+    Let $\pi : G \to \mathrm{End}(V)$ be a representation and $\pi = m_0 \pi_0 \oplus \dots \oplus m_k \pi_k$ be the decomposition of the representation $\pi$ into irreps. The following hold.
+    \begin{enumerate}
+        \item The character $\chi_{\pi}$ can be written as $\chi_{\pi} = m_0 \chi_{\pi_0} + m_1 \chi_{\pi_1} + \dots + m_k \chi_{\pi_k}$.
+        \item \label{item:irrep-mult-test} The inner product $\langle \chi_{\pi}, \chi_{\pi_i}\rangle = m_i$ for all $0 \leq i \leq k$.
+        \item The inner product $\langle \chi_{\pi}, \chi_{\pi} \rangle = m_0^2 + \dots + m_k^2$. In particular this is always an integer.
+        \item The representation $\pi$ is irreducible if and only if $\langle \chi_{\pi}, \chi_{\pi} \rangle = 1$.
+        \item If $\tau$ is another representation of $G$, then $\pi$ and $\tau$ are isomorphic if and only if $\chi_{\pi}(g) = \chi_{\tau}(g)$ for all $g \in G$.
+    \end{enumerate}
+\end{cor}
+
+\Cref{lem:character-orthogonality} and \Cref{cor:character-relations} show us two remarkable facts.
+Firstly, the irrep characters are orthonormal and thus linearly independent.
+Together with the completeness of the irreducible characters, which span the space of class functions \cite{sagan2001symmetric}, this shows that the irrep characters form a basis for that space and, in particular, that there are exactly as many irreps as there are conjugacy classes of $G$.
+Secondly, \Cref{item:irrep-mult-test} gives us an efficient method of determining how many copies of a given irrep are present in an arbitrary representation of $G$.

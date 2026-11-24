@@ -1,0 +1,280 @@
+\subsection{Logical Randomized Benchmarking with Detection (LRB-D)}
+\label{sub:lrb_d}
+
+Standard Logical Randomized Benchmarking (LRB) characterizes the performance of a code by actively correcting errors using decoder feedback throughout the Clifford sequence \cite{Combes2017}. However, the $[[5,1,2]]_3$ code used in this work has distance $d=2$. It can detect the presence of any single-qutrit error, but it cannot identify the location and type of the error without ambiguity. Consequently, the code violates the Knill-Laflamme error correction conditions for generic single-qutrit errors, and faithful error correction is impossible.
+
+We therefore use a detection-only variant of the protocol, denoted LRB-D. Instead of attempting to correct errors and return the system to the code space, LRB-D treats the stabilizer measurements as a filter. We keep only the shots in which every checked syndrome is trivial and discard every shot (experimental run) in which a non-trivial syndrome is detected. LRB-D thus benchmarks how well the code preserves the logical information in the absence of detectable errors.
+
+We first simulate the protocol with the \texttt{sdim} qudit stabilizer simulator under the circuit-level noise models of \autoref{sub:noise_models}, before running it on the IQM Garnet QPU. The simulations test the expected logical fidelity decay and the effect of the postselection filter under controlled noise.
+
+\subsubsection{LRB-D Protocol}
+An LRB-D circuit of depth $m$ consists of the following steps, illustrated in \autoref{fig:lrb_d_full}:
+
+\begin{enumerate}
+    \item \textbf{Logical State Preparation:} The encoding circuit of \autoref{fig:encoding_circuit} prepares the logical state $\ket{\bar{+}}$, the $+1$ eigenstate of the logical $\bar{X}$ operator.
+
+    \item \textbf{Random Logical Clifford Sequence with Checks:} We draw $m$ logical Cliffords $\bar C_1, \dots, \bar C_m$ independently and uniformly from the $216$-element single-qutrit Clifford group (\autoref{sec:clifford-gen}) and apply them to the encoded state. Each $\bar C_j$ is a word in the transversal gates $\bar H$, $\bar S$, $\bar X$ and $\bar Z$ of \autoref{sec: error detection code}. A full stabilizer check round follows every forward Clifford. A check round resets all ancillas to $\ket{0}$, runs the syndrome extraction circuits of $G_1, \dots, G_4$ (\autoref{fig:lrb_c} and \autoref{fig:lrb_d}, or \autoref{fig:two_ancilla_checks} for the two-ancilla layout of \autoref{sub:ancilla_layouts}), and reads out all ancillas in its final moment. We call the check round after $\bar C_t$ round $t$.
+
+    \textit{Simulation: Every logical Clifford and every check round is a separate segment of the circuit-level noise model (\autoref{sub:noise_models}). Every gate, reset, ancilla readout and idle location inside these segments carries the noise of \autoref{tab:circuit-noise}. The identity element is applied as an identity gate that occupies one idle moment.}
+
+    \item \textbf{Mirror Inverse:} We then apply the inverses in reverse order, $\bar C_m^{-1}, \bar C_{m-1}^{-1}, \dots, \bar C_1^{-1}$. The inverse of each element is looked up in the Clifford catalog and applied as an ordinary logical Clifford. No check round separates consecutive inverses. In the absence of errors the mirror inverse returns the system to $\ket{\bar{+}}$.
+
+    \textit{Simulation: Each inverse is a noisy segment like any forward Clifford, so a circuit of depth $m$ contains $2m$ noisy logical Cliffords. We never synthesize a single recovery gate $(\bar C_m \cdots \bar C_1)^{-1}$.}
+
+    \item \textbf{Final Check Round:} One more check round, round $m+1$, follows the last inverse. A circuit of depth $m$ therefore contains $m+1$ check rounds.
+
+    \item \textbf{Postselection:} A postselection schedule (\autoref{subsub:postselection}) selects a set $\mathcal{T}$ of rounds. We keep a shot only if every stabilizer outcome in every selected round is trivial:
+    \begin{equation}
+        \text{Keep shot if: } \forall\, t \in \mathcal{T},\ \forall\, j \in \{1, \dots, 4\}, \quad \text{outcome}_t(G_j) = 0 \pmod 3 .
+    \end{equation}
+    Any shot yielding a non-trivial syndrome in a selected round (eigenvalue $\omega$ or $\omega^2$, integer outcome 1 or 2) is discarded. In the two-ancilla layout the relay readouts of the selected rounds must also be $0$. Rounds outside $\mathcal{T}$ are still executed, and in simulation they still inject noise, but their outcomes are ignored. Terminal postselection uses separate circuits without check rounds and checks the final data readout instead (\autoref{subsub:postselection}).
+
+    \item \textbf{Logical Measurement:} For the surviving shots, we read out the logical qutrit by measuring $q_0$ and $q_3$ in the $X$ basis, since $\bar{X} = X_0 \otimes X_3$. We obtain outcomes $x_0, x_3 \in \{0, 1, 2\}$, and the logical outcome is their modular sum,
+    \begin{equation}
+        x_{\bar{X}} = (x_0 + x_3) \pmod 3 .
+    \end{equation}
+    Each $X$-basis readout is $H^{-1}$ followed by a computational-basis measurement, so its outcome $j$ belongs to the $X$ eigenvalue $\omega^{-j}$. The result $x_{\bar{X}}=0$ therefore corresponds to the target eigenvalue $+1$, and the expectation value of the logical measurement is
+    \begin{equation}
+        \langle \bar{X} \rangle = P_0 + \omega^{2} P_1 + \omega P_2,
+    \end{equation}
+    where $P_j$ is the proportion of postselected shots yielding the logical outcome $j$. We compute the modulus $|\langle \bar{X} \rangle|$ for each random sequence and average it over the sequences. It equals $|P_0 + \omega P_1 + \omega^2 P_2|$, and this sequence average is the quantity that we fit.
+
+    \textit{Simulation: The logical readout is noiseless.}
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    % --- Row 1: Part (a), the full protocol ---
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \scalebox{0.8}{
+        \begin{quantikz}[row sep=0.45cm, column sep=0.22cm]
+          \lstick{data $\ket{0}^{\otimes 5}$} & \qwbundle{5} &
+            \gate{\textcolor{LightBlue}{U_{\mathrm{enc}}}} &
+            \gate{\textcolor{red}{\bar C_j}}\gategroup[2,steps=4,style={dashed,rounded corners,inner xsep=2pt},background,label style={label position=below,anchor=north,yshift=-0.2cm}]{$j = 1, \dots, m$} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            \gate[2]{\mathcal{R}_j} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            &
+            \gate{\textcolor{red}{\bar C_j^{-1}}}\gategroup[2,steps=2,style={dashed,rounded corners,inner xsep=2pt},background,label style={label position=below,anchor=north,yshift=-0.2cm}]{$j = m, \dots, 1$} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            &
+            \gate[2]{\mathcal{R}_{m+1}} &
+            \gate[2]{\textcolor{purple}{\mathcal{N}}} &
+            \meter{} & \rstick{$x_{\bar X}$} \\
+          \lstick{ancillas $\ket{0}^{\otimes n_a}$} & \qwbundle{n_a} & & & & & & & & & & & & &
+        \end{quantikz}
+        }
+        \vspace{0.2cm}
+        \caption{Simulated LRB-D circuit of depth $m$}
+        \label{fig:lrb_a}
+    \end{subfigure}
+
+    \vspace{0.3cm}
+    % --- Row 2: Parts (b) and (c) ---
+    \begin{subfigure}[b]{0.26\textwidth}
+        \centering
+        \scalebox{0.7}{
+        \begin{quantikz}[row sep={0.75cm,between origins}, column sep=0.25cm]
+          \lstick{$q_0$} & \gate{S_3} & \gate{\textcolor{purple}{\mathcal{E}_1}} & \qw \\
+          \lstick{$q_1$} & \gate{S_3^{-1}} & \gate{\textcolor{purple}{\mathcal{E}_1}} & \qw \\
+          \lstick{$q_2$} & \ctrl{1} & \gate[2]{\textcolor{purple}{\mathcal{E}_2}} & \qw \\
+          \lstick{$q_3$} & \gate{Z_3} & & \qw \\
+          \lstick{$q_4$} & \gate{S_3} & \gate{\textcolor{purple}{\mathcal{E}_1}} & \qw \\
+          \lstick{ancillas} & \qwbundle{n_a} & \gate{\textcolor{purple}{\mathcal{E}_{\mathrm{idle}}}} & \qw
+        \end{quantikz}
+        }
+        \caption{Noise in one segment, $\bar S$}
+        \label{fig:lrb_b}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.72\textwidth}
+        \centering
+        % G1
+        \scalebox{0.62}{
+        \begin{quantikz}[row sep={0.62cm,between origins}, column sep=0.3cm]
+          \lstick{$q_0$} & \ctrl{5} & \qw & \qw & \qw \\
+          \lstick{$q_1$} & \qw & \ctrl{4} & \qw & \qw \\
+          \lstick{$q_2$} & \qw & \qw & \qw & \qw \\
+          \lstick{$q_3$} & \qw & \qw & \ctrl{2} & \qw \\
+          \lstick{$q_4$} & \qw & \qw & \qw & \qw \\
+          \lstick{$a_1: \ket{0}$} & \gate{X_3} & \gate{X_3^{\dagger}} & \gate{X_3^{\dagger}} & \meter{}
+        \end{quantikz}
+        }
+        \hspace{0.6cm}
+        % G2
+        \scalebox{0.62}{
+        \begin{quantikz}[row sep={0.62cm,between origins}, column sep=0.3cm]
+          \lstick{$q_0$} & \qw & \qw & \qw & \qw \\
+          \lstick{$q_1$} & \ctrl{4} & \qw & \qw & \qw \\
+          \lstick{$q_2$} & \qw & \ctrl{3} & \qw & \qw \\
+          \lstick{$q_3$} & \qw & \qw & \qw & \qw \\
+          \lstick{$q_4$} & \qw & \qw & \ctrl{1} & \qw \\
+          \lstick{$a_2: \ket{0}$} & \gate{X_3} & \gate{X_3} & \gate{X_3^{\dagger}} & \meter{}
+        \end{quantikz}
+        }
+        \caption{$Z$-type checks $G_1 = Z_0Z_1^{-1}Z_3^{-1}$ (left) and $G_2 = Z_1Z_2Z_4^{-1}$ (right)}
+        \label{fig:lrb_c}
+    \end{subfigure}
+
+    \vspace{0.3cm}
+    % --- Row 3: Part (d) ---
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        % G3
+        \scalebox{0.62}{
+        \begin{quantikz}[row sep={0.62cm,between origins}, column sep=0.3cm]
+          \lstick{$q_0$} & \qw & \gate{X_3} & \qw & \qw & \qw & \qw \\
+          \lstick{$q_1$} & \qw & \qw & \gate{X_3} & \qw & \qw & \qw \\
+          \lstick{$q_2$} & \qw & \qw & \qw & \gate{X_3^{\dagger}} & \qw & \qw \\
+          \lstick{$q_3$} & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_4$} & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$a_3: \ket{0}$} & \gate{H_3} & \ctrl{-5} & \ctrl{-4} & \ctrl{-3} & \gate{H_3^{-1}} & \meter{}
+        \end{quantikz}
+        }
+        \hspace{1.2cm}
+        % G4
+        \scalebox{0.62}{
+        \begin{quantikz}[row sep={0.62cm,between origins}, column sep=0.3cm]
+          \lstick{$q_0$} & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_1$} & \qw & \qw & \gate{X_3^{\dagger}} & \qw & \qw & \qw \\
+          \lstick{$q_2$} & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_3$} & \qw & \gate{X_3} & \qw & \qw & \qw & \qw \\
+          \lstick{$q_4$} & \qw & \qw & \qw & \gate{X_3^{\dagger}} & \qw & \qw \\
+          \lstick{$a_4: \ket{0}$} & \gate{H_3} & \ctrl{-2} & \ctrl{-4} & \ctrl{-1} & \gate{H_3^{-1}} & \meter{}
+        \end{quantikz}
+        }
+        \caption{$X$-type checks $G_3 = X_0X_1X_2^{-1}$ (left) and $G_4 = X_1^{-1}X_3X_4^{-1}$ (right)}
+        \label{fig:lrb_d}
+    \end{subfigure}
+
+    \caption{Simulated LRB-D protocol. (a) Circuit of depth $m$. The encoding circuit $U_{\mathrm{enc}}$ of \autoref{fig:encoding_circuit} prepares $\ket{\bar +}$ on the five data qutrits without noise. Each forward logical Clifford $\bar C_j$ is followed by a check round $\mathcal{R}_j$, which resets the $n_a$ ancillas, extracts the syndromes of $G_1, \dots, G_4$ and reads the ancillas out, with $n_a = 4$ in the one-ancilla layout and $n_a = 6$ in the two-ancilla layout. The mirror inverse $\bar C_m^{-1}, \dots, \bar C_1^{-1}$ follows without checks, then the final check round $\mathcal{R}_{m+1}$ and the noiseless $X$-basis readout of $q_0$ and $q_3$, which gives $x_{\bar X}$. Each purple box $\mathcal{N}$ stands for the circuit-level noise inside the preceding segment, on all qutrits: DEP1 after every one-qutrit gate, DEP2 after every two-qutrit gate and idle DEP1 on every qutrit a moment leaves untouched, together with the reset flips, measurement flips and post-measurement DEP1 of the check rounds. Idle, reset and measurement noise follow \autoref{tab:circuit-noise}. (b) The noise inside one segment, here a Clifford that consists of the logical $\bar S$ alone and occupies a single moment: $\mathcal{E}_1 = \mathcal{E}_{\mathcal{D}}(p_1)$ after each one-qutrit gate, $\mathcal{E}_2 = \mathcal{E}^{(2)}_{\mathcal{D}}(p)$ after the $CZ$ gate, and idle noise $\mathcal{E}_{\mathrm{idle}} = \mathcal{E}_{\mathcal{D}}(p_1)$ on each ancilla, with $p_1 = p/10$ under SI1000 and $p_1 = p$ under SD6. (c) Syndrome extraction for the $Z$-type stabilizers in the one-ancilla layout. (d) Syndrome extraction for the $X$-type stabilizers in the one-ancilla layout. In (c) and (d), controlled $X_3$ and $X_3^{\dagger}$ boxes are the generalized SUM gate and its inverse, and gates are drawn in program order. Noise boxes are omitted there. In a check round the four blocks are packed into as-soon-as-possible moments, and every gate, reset and readout carries the noise of \autoref{tab:circuit-noise}.}
+    \label{fig:lrb_d_full}
+\end{figure}
+
+\subsubsection{Postselection Schedules}
+\label{subsub:postselection}
+In a distance $d \ge 3$ code, error correction would ideally follow every logical gate to prevent the accumulation of errors. In our detection setting the choice is which syndromes enter the filter. We use two kinds of postselection schedules.
+
+\begin{itemize}
+    \item \textbf{Terminal postselection (const-0):} These circuits contain no check rounds at all. After the encoding, the forward Cliffords and the mirror inverse, which are the same as in the other schedules, we read out all five data qutrits directly in the $X$ basis and obtain outcomes $x_0, \dots, x_4$. From these outcomes we evaluate the two $X$-type stabilizers classically, $x_0 + x_1 - x_2$ for $G_3$ and $x_3 - x_1 - x_4$ for $G_4$, together with the logical outcome $x_0 + x_3$, all modulo three. We keep a shot if both stabilizer values vanish. The $Z$-type stabilizers are not checked, because an $X$-basis readout of the data carries no information about them. Terminal postselection adds no ancilla operations to the circuit. It detects only errors that change an $X$-type stabilizer, and it lets physical errors accumulate over the whole sequence, where they can combine into undetectable logical errors such as a weight-two logical operator. In simulation the direct readout is noiseless, so all the noise in these circuits comes from the logical Clifford segments.
+
+    \item \textbf{Uniform-interval postselection with interval $k$:} These circuits are the full LRB-D circuits of \autoref{fig:lrb_d_full}, with a check round after every forward Clifford and a final round. The interval $k$ only selects which rounds enter the filter,
+    \begin{equation}
+        \mathcal{T}_k(m) = \{\, k, 2k, \dots, \lfloor m/k \rfloor k \,\} \cup \{ m+1 \},
+        \label{eq:unif_rounds}
+    \end{equation}
+    that is, the rounds after the forward Cliffords $\bar C_k, \bar C_{2k}, \dots$ together with the final round. For $k = 1$ every round is checked. For $m < k$, including $m = 0$, only the final round is checked. The unselected rounds are still executed and still inject noise. All values of $k$ therefore share identical circuits, and we apply the different filters to the same sampled shots.
+\end{itemize}
+
+A smaller $k$ filters more often. It rejects more shots, but it removes error trajectories before they can combine into undetectable logical errors. A larger $k$ applies fewer filters to the same noisy circuit and does not remove any check round. By comparing the decay rates under these schedules, LRB-D characterizes how the filter shapes the effective logical noise channel, and the comparison with the physical baseline of \autoref{sub:rb_baseline} quantifies the suppression of logical errors.
+
+\subsubsection{Ancilla Layouts}
+\label{sub:ancilla_layouts}
+
+We simulate two ways of measuring the four stabilizers. The two layouts share the code, the logical gates, the encoding and the logical readout, and differ only in the check rounds.
+
+\paragraph{One-ancilla layout.} Each stabilizer $G_j$ has its own ancilla $a_j$, for $9$ qutrits in total. For the $Z$-type stabilizers $G_1$ and $G_2$, the three data qutrits control SUM or inverse SUM gates onto the ancilla (\autoref{fig:lrb_c}). For the $X$-type stabilizers $G_3$ and $G_4$, the ancilla is rotated by $H_3$, controls SUM or inverse SUM gates onto the data qutrits, and is rotated back by $H_3^{-1}$ before its computational-basis readout (\autoref{fig:lrb_d}). This layout assumes that each ancilla couples directly to all three data qutrits of its stabilizer. A check round occupies $9$ moments: one reset moment, $7$ gate moments with $12$ two-qutrit gates, and one readout moment.
+
+\paragraph{Two-ancilla layout.} On the planar layout of the patch, the interior stabilizers $G_2$ and $G_3$, which contain the central qutrit $q_2$, can each be measured by one ancilla that neighbors their three data qutrits. The boundary stabilizers $G_1$ and $G_4$ bypass $q_2$ (\autoref{fig: 5-qutrit-code}(d)), and no single ancilla neighbors all three of their data qutrits. The two-ancilla layout keeps the one-ancilla circuits for $G_2$ and $G_3$ and gives each boundary stabilizer a syndrome ancilla $a_j$, coupled to two of its data qutrits, and a relay ancilla $r_j$, coupled to the third ($q_3$ for $G_1$ and $q_4$ for $G_4$). This layout has $11$ qutrits (\autoref{fig:two_ancilla_checks}). The relay accumulates its part of the syndrome ($Z_3^{-1}$ for $G_1$, $X_4^{-1}$ for $G_4$), transfers it to $a_j$ with one ancilla-ancilla gate, and is uncomputed by a second coupling to the same data qutrit, so that it returns to $\ket{0}$ in the absence of faults. The relay must act coherently. Reading out the two parts on separate ancillas and adding the outcomes would measure $Z_0 Z_1^{-1}$ and $Z_3^{-1}$ (or $X_3 X_1^{-1}$ and $X_4^{-1}$) individually. These operators are not stabilizers, and measuring them would disturb the encoded state.
+
+A two-ancilla check round passes only if the four syndromes and both relay readouts are $0$. A fault on the relay path that shifts the value transferred to $a_j$ also leaves $r_j$ in a nonzero state, so checking $r_j$ rejects such shifts even when they cancel a non-trivial syndrome on $a_j$. A check round occupies $11$ moments: one reset moment, $9$ gate moments with $16$ two-qutrit gates, and one readout moment. The relays thus cost two ancillas with their resets and readouts, four two-qutrit gates, the two one-qutrit basis changes $H$ and $H^{-1}$ on $r_4$, and two gate moments per round, and each additional moment adds idle noise on the data qutrits it leaves untouched. The one-ancilla layout leads our results, and \autoref{sub:layout_comparison} compares the two layouts.
+
+\input{fig - two-ancilla checks}
+
+\subsubsection{Physical RB Baseline}
+\label{sub:rb_baseline}
+
+We compare every LRB-D configuration with single-qutrit physical RB simulated under the same noise model at the same value of $p$. The baseline uses the mirror construction of LRB-D on one qutrit, in the spirit of mirror randomized benchmarking~\cite{Proctor2022MirrorRB}, rather than a single recovery gate $C_{\text{inv}} = (C_m \cdots C_1)^{-1}$. We prepare $\ket{0}$, apply Cliffords $C_1, \dots, C_m$ drawn uniformly from the same $216$-element catalog, apply the mirror inverse $C_m^{-1}, \dots, C_1^{-1}$, and measure in the computational basis. A circuit of depth $m$ again contains $2m$ noisy Cliffords. Each Clifford is a word in the primitive gates $H$, $S$, $X$ and $Z$ (\autoref{sec:clifford-gen}). Every primitive gate, including the Pauli gates and the identity, is applied as a separate gate followed by DEP1, with probability $p/10$ under SI1000 and $p$ under SD6. The final measurement is noiseless. As for LRB-D, we record the modulus of $P_0 + P_1\omega + P_2\omega^2$ for each sequence and average it over the sequences. We sample $10^4$ shots per sequence and depth, with the same depths and the same number of random sequences as LRB-D (\autoref{sub:results_setup}). The RB sequences are drawn independently of the LRB-D sequences, every run draws its own, and every shot is kept.
+
+The single-qutrit circuit contains no two-qutrit gates, resets, mid-circuit measurements or idle qutrits, so the baseline experiences only the one-qutrit gate channel. Under SI1000 that channel has probability $p/10$, ten times below the probability $p$ of the two-qutrit gates in every check round and in the logical $\bar H$ and $\bar S$ of the encoded circuits. LRB-D under SI1000 is therefore compared with a physical qutrit whose gates are ten times better than the entangling gates of the code. Under SD6 every operation fails with probability $p$, and the baseline is a physical qutrit whose gates fail as often as every operation in the encoded circuit.
+
+\subsubsection{Fit Model and Error Rates}
+\label{sub:fit_model}
+
+% Finite-shot floor of the modulus (about 0.886/sqrt(N) for N shots with uniformly random outcomes) and the SD6 RB data at large depth: paper-rework/scratch/physics-reviewer-e2/rbfloor.py (.out)
+For each postselection schedule and each value of $p$, we fit the sequence-averaged $|\langle \bar{X} \rangle|$ as a function of the depth $m$ to Eq.~\eqref{eq:fseq} with $B = 0$,
+\begin{equation}
+    F(m) = A f^{m},
+    \label{eq:zero_offset_fit}
+\end{equation}
+by weighted least squares, weighting each depth by the inverse variance of $|\langle \bar{X} \rangle|$ over the random sequences. We fit the physical RB baseline with the same model. We fix $B = 0$ because our observable is the modulus of a generalized Pauli expectation value, not a survival probability. A fully depolarized qutrit gives $(1 + \omega + \omega^2)/3 = 0$, so the decay has no constant offset. Fixing $B$ also removes the near-degeneracy between $A$ and $B$ when $f$ is close to one over the available depths. SPAM errors then enter only through $A$. The zero offset holds for the expectation value but not for its finite-shot estimate, whose modulus has a positive floor: for $N$ shots with uniformly random outcomes it averages about $0.9/\sqrt{N}$. The floor matters for points with few accepted shots (\autoref{sub:interval_results}) and for the SD6 RB data, with $10^4$ shots per sequence, at the largest depths for $p \ge 0.02$, which approach or level off at about $0.009$. The SI1000 RB data stay far above the floor. The LRB-D fit uses every depth, $m = 0$ included, at which every random sequence keeps at least one shot, except that the fits of the high-$p$ extension runs for $k \ge 2$ use only their even depths $m = 0, 2, 4$ and $6$ (\autoref{sub:results_setup}). At large $p$ almost no shot survives at large depth, and the fits use fewer depths, as few as two.
+
+The decay parameter $f$ gives the average fidelity through Eq.~\eqref{eq:fbar} with $q = 3$,
+\begin{equation}
+    \bar{F} = \frac{2f + 1}{3}, \qquad r = 1 - \bar{F} = \frac{2}{3}\,(1 - f) .
+    \label{eq:error_rate}
+\end{equation}
+One unit of depth adds one forward Clifford and its mirror inverse, and in LRB-D also one check round. The fitted $f$, $\bar{F}$ and $r$ are therefore per unit of depth, that is, per forward logical Clifford plus its mirror inverse. We report every fidelity and error rate in this convention, including those in the figure legends. A per-Clifford decay parameter would be $f^{1/2}$, with an error rate close to $r/2$ when $r$ is small.
+
+We define the pseudo-threshold $p^\star(k)$ as the value of $p$ at which the LRB-D error rate with interval $k$ equals the physical RB error rate at the same $p$ (\autoref{sub:pseudo_thresholds}). Both error rates are per unit of depth, and $r$ decreases monotonically with $f$. The condition $r_{\mathrm{LRB}} = r_{\mathrm{RB}}$ is therefore equivalent to $f_{\mathrm{LRB}} = f_{\mathrm{RB}}$ and to $f_{\mathrm{LRB}}^{1/2} = f_{\mathrm{RB}}^{1/2}$, so the pseudo-thresholds do not depend on the depth convention.
+
+We estimate error-rate uncertainties with a parametric bootstrap. We perturb every sequence-averaged point by Gaussian noise whose width is its standard error over the random sequences, refit, repeat this $500$ times, and quote the standard deviation and the central $68\%$ interval of the refitted error rates.
+Each perturbed point is clipped to $[0, 1]$ before the refit. The LRB-D and RB refits both use the zero-offset model of Eq.~\eqref{eq:zero_offset_fit}, the same model as the point estimates. The bootstrap perturbs every depth independently. All depths of a sequence share its first Cliffords, so a different draw of sequences shifts all depths together, and this bootstrap does not include the uncertainty from the choice of sequences (\autoref{sub:results_setup}). Its standard deviations accompany the LRB-D error rates of \autoref{tab:k1_error_rates} and the comparisons of fitted error rates in \autoref{sub:results_setup}, and its $68\%$ intervals are the error bars on the fitted error rates in the figures.
+
+% Sequence bootstrap of the pseudo-thresholds: scripts/sequence_bootstrap_thresholds.py, outputs in LRB-experiment-data-slurm/comparisons/sequence-bootstrap/ (seq_boot_se copied to comparisons/pseudo-thresholds-current.csv); seq_boot_valid_fraction = 1.0 for all 16 entries; paired interval gaps in sequence-bootstrap/interval_gap_significance.csv, checked by paper-rework/scratch/writer-seq-se/paired.py (paired.out)
+For the pseudo-thresholds, uncertainties are one standard error (68\% confidence), from a bootstrap over the random Clifford sequences. One sequence draw is shared by every depth and every $p$, so the correlations that come from reusing the same sequences are included. The bootstrap has $1000$ replicates. Each replicate draws 30 sequences with replacement from the 30 random sequences of a run and applies this draw to every depth and every $p$ of that sequence set. The sequence sets of the production LRB-D runs, the extension LRB-D runs, the production RB and the extension RB are resampled independently. From the outcome counts of the drawn sequences we rebuild the sequence averages and their spread over the sequences at every depth, refit every LRB-D and RB curve with the zero-offset model of Eq.~\eqref{eq:zero_offset_fit} and the depth rule of the point estimates, $m = 0$ included, and recompute $p^\star(k)$ with the crossing rule of \autoref{sub:pseudo_thresholds}. The standard error is the standard deviation of $p^\star(k)$ over the replicates, that is, the error of the mean over the ensemble of random sequences. Every replicate finds a crossing. The per-sequence RB outcomes were not stored. We therefore re-simulate the RB sequences once with the production settings, $10^4$ shots per sequence and depth, and in each replicate shift the fitted RB error rate of the run by the change that the resampling produces in the fit to the re-simulated data. Differences between pseudo-thresholds of one configuration are evaluated replicate by replicate, so that the shared sequences enter both values. Different configurations come from independent runs with their own sequences, and the standard errors of their pseudo-thresholds add in quadrature.
+
+\subsubsection{Irreducible Representations and Syndrome Dynamics}
+\label{sub:irreps}
+
+The behavior of the twirled error channel in the logical setting can be explained by studying the representation theory of the Clifford group.
+A short review of the relevant representation theory is included in \Cref{sec:rep-theory}.
+
+The logical Clifford group $\bar{\mathcal{C}}_3$ defines a representation of the single-qutrit Clifford group $\mathcal{C}_3$.
+Importantly, the module corresponding to this representation is not the $3^5$ dimensional physical space $\mathcal{H}_{phys}$, but instead the $9^5$ dimensional space $\mathcal{B}({\mathcal{H}_{phys}})$.
+To avoid confusion, we will denote by $\mathcal{S}_{phys}$ the space of linear maps $\mathcal{B}(\mathcal{H}_{phys})$.
+The representation $\bar{\pi} : \mathcal{C}_3 \to 
+\mathrm{End}(\mathcal{S}_{phys})$ defined by the logical Clifford group is the typical conjugation
+$$
+\bar{\pi}(C)(\rho) = \bar{C} \rho \bar{C}^\dagger,
+$$
+where $\bar{C}$ is the five-qutrit unitary that implements $C$ on the logical qutrit, taken from the group generated by the physical $\bar H$ and $\bar S$ of Eq.~\eqref{eq:logical_HS}. Up to global phases this group has $216$ elements and maps one-to-one onto $\mathcal{C}_3$, so $\bar{\pi}$ is a representation of $\mathcal{C}_3$.
+By Maschke's theorem, $\mathcal{S}_{phys}$ decomposes as a direct sum of irreducible representations (irreps).
+The Clifford group has $10$ irreps, one for each conjugacy class \ACE{cite the paper that lists conjugacy classes}, but only two of them are important to us. Up to global phases its $10$ conjugacy classes have sizes $1, 8, 9, 12, 12, 24, 24, 36, 36$ and $54$, and its irreps have dimensions $1, 1, 1, 2, 2, 2, 3, 8, 8$ and $8$.
+The first is the trivial irrep $V_{triv}$ and the second is the eight dimensional irrep $V_{pauli}$ coming from conjugation of the $8$ traceless Pauli matrices.
+The remaining irreps will be denoted as $V_i$ for $i \geq 2$. In this notation, we obtain the decomposition
+\begin{align}
+    \mathcal{S}_{phys} \cong m_{triv} V_{triv} \oplus m_{pauli} V_{pauli} \oplus \bigoplus_{i = 2}^{9} m_i V_i
+\end{align}
+where the $m_i$ denote the multiplicity of each irrep in the direct sum.
+% Verified 2026-10-31 (paper-rework/scratch/lead/irreps_check.py): conjugation representation of the 216-element group generated by the physical Hbar and Sbar built with sdim's gate matrices; Burnside character table of the logical action; multiplicities 301, 260, 260 (dim 1), 560, 560, 520 (dim 2), 820 (dim 3), 2160, 2160, 2241 (dim 8, the last being V_pauli), sum m*d = 59049. The earlier hand value m_triv = 201 (total 2442) was a slip.
+Using the orthogonality of characters, we can compute $m_{triv} = 301$ and $m_{pauli} = 2241$. The other multiplicities are $260$ and $260$ for the remaining one-dimensional irreps, $560$, $560$ and $520$ for the two-dimensional ones, $820$ for the three-dimensional one, and $2160$ and $2160$ for the other two eight-dimensional ones, so that $\sum_i m_i \dim V_i = 3^{10}$. The simulated Clifford catalog applies the logical Paulis as the physical $\bar X$ and $\bar Z$ of \autoref{eq:logicalPauli}, which differ from their images in the group generated by $\bar H$ and $\bar S$ by the stabilizers $G_4$ and $G_2$. With them the generated group has $1944$ elements, $m_{triv} = 40$ and $m_{pauli} = 261$, while its action on the code space is unchanged.
+Noting that in the one-qutrit case $m_{triv} = m_{pauli} = 1$ and every other multiplicity is $0$, we can already see a stark difference between the five- and one-qutrit cases.
+
+Let $\mathrm{End}_{\bar{\mathcal{C}}_3}(\mathcal{S}_{phys})$ denote the subset of linear maps $T : \mathcal{S}_{phys} \to \mathcal{S}_{phys}$ that commute with the action of $\mathcal{C}_3$.
+A corollary of Schur's lemma tells us that $\mathrm{End}_{\bar{\mathcal{C}}_3}(\mathcal{S}_{phys})$ is isomorphic, as an algebra, to a direct sum of matrix algebras as in
+\begin{align}
+    \mathrm{End}_{\bar{\mathcal{C}}_3}(\mathcal{S}_{phys}) &\cong \mathrm{Mat}_{m_{triv}}(\mathbb{C}) \otimes I_{V_{triv}} \oplus \mathrm{Mat}_{m_{pauli}}(\mathbb{C})\otimes I_{V_{pauli}} \oplus \bigoplus_{i = 2}^9 \mathrm{Mat}_{m_i} (\mathbb{C}) \otimes I_{V_i}\\
+    &\cong \mathrm{Mat}_{m_{triv}}(\mathbb{C}) \oplus \mathrm{Mat}_{m_{pauli}}(\mathbb{C}) \oplus \bigoplus_{i = 2}^9 \mathrm{Mat}_{m_i}(\mathbb{C}) .
+\end{align}
+This corresponds to the fact that a $\mathcal{C}_3$-linear endomorphism cannot map a vector in $m_i V_i$ to a vector whose support intersects nontrivially with $m_j V_j$ when $i \neq j$.
+Notice that the twirled error channel is constructed to be $\mathcal{C}_3$-linear and thus admits such a decomposition
+\begin{align}
+    \Lambda_{eff} = M_{triv}\otimes I_{V_{triv}} \oplus M_{pauli} \otimes I_{V_{pauli}} \oplus M
+\end{align}
+in an appropriate basis.
+If $M_{triv}$ and $M_{pauli}$ are diagonalizable, then up to another change of basis we may write the effective error channel
+\begin{align}
+    \Lambda_{eff} = \Lambda_{triv} \oplus \Lambda_{pauli} \otimes I_{V_{pauli}} \oplus M
+\end{align}
+where $\Lambda_{triv}$ and $\Lambda_{pauli}$ are the diagonal matrices of eigenvalues for $M_{triv}$ and $M_{pauli}$ respectively.
+The final $M$ denotes the total contribution for all $8$ other irreps.
+As long as our initial state lies in the code space, as the logical stabilizer state $\ket{\bar{+}}$ does, the matrix $M$ is entirely inconsequential.
+This follows as such a state $\rho$ will have decomposition
+\begin{align}
+    \rho = \rho_{triv} \oplus \rho_{pauli} \oplus 0
+\end{align}
+for $\rho_{triv} \in m_{triv} V_{triv}$ and $\rho_{pauli} \in m_{pauli}V_{pauli}$.
+Thus the dynamics of the effective channel are succinctly described by the $m_{triv} + m_{pauli} = 301 + 2241 = 2542$ diagonal elements of $\Lambda_{triv}$ and $\Lambda_{pauli}$.
+While this is a much smaller number than $9^5$, it is much larger than the $1 + 1 = 2$ relevant eigenvalues in the one-qutrit case.
+
+With $\Lambda_{eff}$ diagonalized, it is quite simple to see what repeated application of the error channel will look like. Namely, we have the identity 
+\begin{align}
+    \Lambda_{eff}^n = \Lambda_{triv}^n \oplus \Lambda_{pauli}^n \otimes I_{V_{pauli}} \oplus M^n.
+\end{align}
+If $M_{triv}$ or $M_{pauli}$ is not diagonalizable, we use its Jordan form instead. A Jordan block of size $s$ with eigenvalue $\lambda$ then contributes terms $\binom{n}{j}\lambda^{n-j}$ with $j < s$ in place of the single power $\lambda^n$.
+
+%%% REP THEORY MOVED TO "rep theory appendix.tex" AIDAN 1/19/26
+
+

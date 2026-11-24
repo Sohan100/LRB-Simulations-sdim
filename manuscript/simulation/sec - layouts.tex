@@ -1,0 +1,42 @@
+\section{Layouts for a Superconducting QPU}
+\label{sub:ancilla_layouts}
+
+% Sec. IV of the restructured sim version (2026-11-19; style: jpw-review/sim/style-snap.md; outline: jpw-review/sim/outline-II-IV.md). Replaces the former Sec. 2.4 ("method - layouts.tex", kept unused). The two-ancilla layout is the square-lattice layout chosen by the user on 2026-11-17, the one-ancilla round is the five-moment round chosen on 2026-11-19, and panel (a) shows IQM Garnet (2026-11-18); run folders and sources: jpw-review/sim/qlib_new.py and paper-rework/a1-layout-figure/HANDOFF-B.md.
+Let us now turn to the hardware. A layout of the code on a QPU places the data and ancilla qutrits on the transmons of a chip and fixes the couplings that the circuits use. Besides the $q_2$--$q_3$ coupling that the logical gates need (\autoref{sub:code}) and the ancillas and couplings of the check rounds (\autoref{sub:lrbd_measures}), a layout with check rounds needs a check round that is safe against single faults: no single fault in a round may cause a logical error that this round and the next both miss. \autoref{fig:ancilla_layouts} shows terminal postselection and two layouts with check rounds that meet these requirements, and \autoref{tab:layouts} lists what each of them uses. In \autoref{sub:layout_terminal} we place terminal postselection on five transmons of an existing chip, in \autoref{sub:layout_one} we give each stabilizer its own ancilla next to its three data qutrits, at the price of one long-range coupling, and show that a square lattice cannot provide both, and in \autoref{sub:layout_two} we keep to a square lattice by letting the data qutrits take part in the check round.
+
+\input{fig - ancilla layouts}
+
+\begin{table}[tp]% single-column
+  \centering
+  \begin{tabular}{lccccc}
+    \hline\hline
+     & & & two-qutrit & gate & \\
+     & qutrits & couplings & gates & moments & readouts \\
+    \hline
+    terminal & 5 & 5 & -- & -- & -- \\
+    one-ancilla & 9 & 13 & 12 & 5 & 4 \\
+    two-ancilla & 7 & 8 & 24 & 19 & 4 \\
+    \hline\hline
+  \end{tabular}
+  \caption{Resources of terminal postselection and of the one-ancilla and two-ancilla layouts of \autoref{fig:ancilla_layouts}: the qutrits, the couplings used by any circuit (encoding, logical gates, check rounds), and the two-qutrit gates, gate moments and ancilla readouts of one check round. A gate moment is a set of gates on disjoint qutrits that run in parallel; a check round also has one reset moment and one readout moment in the one-ancilla layout, and one reset and two readout moments in the two-ancilla layout.}
+  \label{tab:layouts}
+\end{table}
+
+\subsection{Terminal Postselection on Five Transmons}
+\label{sub:layout_terminal}
+
+\autoref{fig:ancilla_layouts}(a) places terminal postselection on IQM's Garnet QPU~\cite{IQM240812433}: the five data qutrits occupy five transmons chosen so that the four couplings of the encoding circuit and the coupling $q_2$--$q_3$ of the logical gates, all five couplings that its circuits use (\autoref{tab:layouts}), are couplings of the chip.
+
+\subsection{One-Ancilla Layout}
+\label{sub:layout_one}
+
+The most direct way to supply the ancillas of uniform-interval postselection gives each stabilizer its own ancilla next to its three data qutrits. On the conventional surface-code grid, one data qutrit at the center of a square and four at its corners, each ancilla can neighbor all three data qutrits of its stabilizer when $q_1$, the one qutrit in all four generators, sits at the center (\autoref{fig:ancilla_layouts}(b)). Every stabilizer then acts on the center and two adjacent corners, so the ancilla $a_j$ on the site between them measures $G_j$ with one SUM gate or its inverse per data qutrit, between $H$ and $H^{-1}$ for the $X$-type generators (\autoref{fig:extraction_circuits}(a)--(d)). The round needs no gate between data qutrits, and \autoref{tab:layouts} gives its gates and its length. Of all orders of these gates that measure the four syndromes correctly, we use one with the smallest coefficient of $p^2$ in the logical error rate per round when check rounds run back to back and every round is postselected under both noise models of \autoref{sub:noise_models}, and the round is safe against single faults (\appref{app:rounds-one-ancilla}). In this layout, however, $q_2$ and $q_3$ sit at opposite corners, so the two-qutrit gates of $\bar H$ and $\bar S$ need a long-range coupling.
+
+One may ask whether a square lattice, the connectivity of Garnet, can give each stabilizer an ancilla next to its three data qutrits and still couple $q_2$ and $q_3$. It cannot. A square lattice is bipartite, so all neighbors of a site belong to the same sublattice. An ancilla next to the data qutrits of $G_3$ puts $q_0$, $q_1$ and $q_2$ on one sublattice, and an ancilla next to those of $G_1$ puts $q_0$, $q_1$ and $q_3$ on one sublattice. Then $q_2$ and $q_3$ share a sublattice, and no coupling of the lattice joins them. The same argument with $G_2$ and $G_4$ puts $q_2$ and $q_3$ on one sublattice again. On a square lattice at least one of $G_1$ and $G_3$, and at least one of $G_2$ and $G_4$, must therefore be measured by an ancilla that does not touch all of its data qutrits, and the missing values must reach that ancilla through other gates.
+
+\subsection{Two-Ancilla Layout}
+\label{sub:layout_two}
+
+The two-ancilla layout measures all four stabilizers in this way, with two ancillas (\autoref{fig:ancilla_layouts}(c)). The ancillas are named N and E after their positions in \autoref{fig:ancilla_layouts}(c); in each check round N measures $G_2$ and then $G_4$, and E measures $G_1$ and then $G_3$. The key idea is that a gate between two data qutrits, a data gate, can move a value from a qutrit that the ancilla does not touch onto one that it does, and can be undone afterwards. Let $z_j$ be the computational-basis value of $q_j$. To measure $G_2 = Z_1 Z_2 Z_4^{-1}$, for example, N first adds $z_2$, the value of its neighbor $q_2$. A data gate then sets $q_4$ to $z_4 - z_1$, N subtracts this value, and the data gate is undone, so that N holds $z_1 + z_2 - z_4$, the syndrome of $G_2$ (\autoref{fig:extraction_circuits}(e)). The $X$-type generators are collected in the same way between $H$ and $H^{-1}$ (\autoref{fig:extraction_circuits}(g), (h)). N and E are reset at the start of the round and read out after each of their two measurements, without a reset in between, so the second readout of each is its first readout plus the second syndrome, modulo three.
+
+This design has a price: 16 of the 24 two-qutrit gates of the round are data gates, the round has almost four times as many gate moments as the one-ancilla round (\autoref{tab:layouts}), and a fault on a data gate can reach two data qutrits. The gates are nevertheless ordered so that the round is safe against single faults in the sense of the opening of this section (\appref{app:rounds-relay}). In return for the longer round, the two-ancilla layout fits on the square lattice of Garnet, in 48 ways of mapping its seven qutrits onto transmons such that all eight of its couplings are couplings of the chip.

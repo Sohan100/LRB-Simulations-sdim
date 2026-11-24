@@ -1,0 +1,44 @@
+\subsection{Noise Models}
+\label{sub:noise_models}
+
+We benchmark the LRB-D protocol under two circuit-level noise models: the uniform depolarizing model built on Eq.~\eqref{eq:1-depol}, and a qutrit generalization of the SI1000 model introduced for superconducting qubit architectures in \cite{GidneyHoneycomb2021}. Both models are built entirely out of qutrit Pauli channels. This keeps every noisy circuit inside the stabilizer formalism and enables the efficient sampling methods described in \autoref{sub:sim_framework}.
+
+\subsubsection{Depolarizing Model}
+\label{subsub:depol_model}
+\texttt{sdim} implements the depolarizing channel of Eq.~\eqref{eq:1-depol} in its Weyl form: with probability $p$ it applies a uniformly random non-identity Pauli $X^a Z^b$ to the qutrit. The two conventions describe the same family of channels and are related by $p_{\mathrm{mix}} = \tfrac{9}{8}\,p$, because one ninth of the uniform Pauli mixture reproduces the input state. The two-qutrit channel used in the syndrome extraction circuits is defined the same way,
+\begin{equation}
+    \mathcal{E}^{(2)}_{\mathcal{D}}(p)(\rho) = (1-p)\,\rho + \frac{p}{80}\sum_{P \neq I \otimes I} P \rho\, P^\dagger,
+    \label{eq:2-depol}
+\end{equation}
+with $P$ ranging over the $80$ non-identity two-qutrit Paulis, and corresponds to the mixing form $(1-p_{\mathrm{mix}})\,\rho + \tfrac{p_{\mathrm{mix}}}{9} I$ with $p_{\mathrm{mix}} = \tfrac{81}{80}\,p$. In everything that follows, $p$ refers to the Weyl-form probability that the simulator actually applies a Pauli error. The placement of these channels in the depolarizing model is the one described in \autoref{sub:lrb_d} and illustrated in \autoref{fig:lrb_d_full}: $\mathcal{E}_{\mathcal{D}}(p)$ applied once to every qutrit involved in a logical Clifford at the end of its decomposed circuit, $\mathcal{E}^{(2)}_{\mathcal{D}}(p)$ after every two-qutrit gate in the syndrome extraction circuits, and $\mathcal{E}_{\mathcal{D}}(p)$ on the ancilla after the Hadamards in the $X$-type checks.
+
+\subsubsection{Qutrit SI1000 Model}
+\label{subsub:si1000_model}
+The depolarizing model treats every operation in the circuit as equally noisy. Real hardware does not. On superconducting processors the entangling gates, measurements, and resets are roughly an order of magnitude noisier than the single-qubit gates, and qubits that idle while a neighbor is measured or reset accumulate additional error. The SI1000 (superconducting-inspired) model of \cite{GidneyHoneycomb2021} captures this hierarchy with a single parameter $p$ that sets every rate in the circuit.
+
+We generalize SI1000 to qutrits by replacing each qubit channel with its natural qutrit counterpart. The depolarizing components become the qutrit channels of \autoref{subsub:depol_model}. The classical bit flips that SI1000 attaches to resets and measurements become uniform shift channels,
+\begin{equation}
+    \mathcal{F}_X(x)(\rho) = (1-x)\,\rho + \frac{x}{2}\left( X \rho X^\dagger + X^2 \rho\, (X^2)^\dagger \right),
+    \label{eq:flip-channel}
+\end{equation}
+together with the analogous phase channel $\mathcal{F}_Z(x)$, in which $Z$ and $Z^2$ replace $X$ and $X^2$. We use $\mathcal{F}_X$ around computational-basis resets and measurements, where a shift error changes the recorded outcome, and $\mathcal{F}_Z$ before $X$-basis measurements, where a phase error is what corrupts the readout. The full set of placement rules is summarized in \autoref{tab:si1000-noise}.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{l|l}
+    \hline
+    Circuit location & Injected channel \\
+    \hline
+    After each single-qutrit gate & $\mathcal{E}_{\mathcal{D}}(p/10)$ \\
+    After each two-qutrit gate & $\mathcal{E}^{(2)}_{\mathcal{D}}(p)$ \\
+    After each ancilla reset & $\mathcal{F}_X(2p)$ \\
+    Before each computational-basis measurement & $\mathcal{E}_{\mathcal{D}}(p)$ followed by $\mathcal{F}_X(5p)$ \\
+    Before each $X$-basis measurement & $\mathcal{E}_{\mathcal{D}}(p)$ followed by $\mathcal{F}_Z(5p)$ \\
+    Idling during a measurement or reset layer & $\mathcal{E}_{\mathcal{D}}(2p)$ \\
+    \hline
+  \end{tabular}
+  \caption{Placement rules for the qutrit SI1000 noise model. Every rate in the circuit is fixed by the single parameter $p$. The model requires $p \le 0.2$ so that the measurement flip rate $5p$ remains a valid probability.}
+  \label{tab:si1000-noise}
+\end{table}
+
+Two conventions accompany this model in our simulations. First, the encoded state preparation circuit and the terminal logical data readout are kept noiseless, so the injected noise isolates the benchmarked Clifford sequence and its stabilizer checks rather than the preparation of the initial state. Any residual preparation or readout imperfection would in any case be absorbed into the SPAM parameters of the RB decay fit. Second, we report SI1000 results in terms of the normalized noise strength $\lambda = 5p$, the largest single-location rate in the model, which also fixes the pairing between the encoded runs and the physical RB baseline used in \autoref{sub:si1000_results}.

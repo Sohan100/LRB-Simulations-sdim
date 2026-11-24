@@ -1,0 +1,258 @@
+% Appendix E (track hw). Former Appendix B (review of representation theory, coauthor text, lightly
+% edited) followed by the former main-text Sec. 3.2.6 (sub:irreps), rewritten, with the multiplicity
+% computation that the paper lacked. Changes of content: jpw-review/hw/content-changes.md, part H.
+\section{Representation Theory of the Twirled Channel}\label{sec:rep-theory}
+
+\autoref{sub:fit_model} states that the Clifford twirl of the noise has two eigenvalues for a physical qutrit and up to $2542$ for the encoded qutrit. This appendix derives these numbers. It first reviews the results on representations of finite groups that the derivation uses, following~\cite{sagan2001symmetric}, and then applies them to the logical Clifford group of the $[[5,1,2]]_3$ code.
+
+\subsection{Group Modules and Irreducible Representations}\label{app:rep-modules}
+
+Let $G$ denote a finite group with identity element $e$.
+
+A $G$-module is a finite dimensional vector space $V$ equipped with a group action $\cdot : G \times V \to V$ satisfying 
+\begin{enumerate}
+    \item \textbf{(Identity)} For all vectors $\ket{v} \in V$, the equality $e \cdot \ket{v} = \ket{v}$ is satisfied.
+    \item \textbf{(Linearity)} For all linear combinations $\alpha \ket{v} + \beta \ket{w}$ and all group elements $g \in G$, the equality $g \cdot (\alpha \ket{v}+\beta\ket{w}) = \alpha (g\cdot \ket{v}) + \beta (g \cdot \ket{w})$ is satisfied.
+    \item \textbf{(Compatibility)} For all group elements $g,h \in G$ and vectors $\ket{v} \in V$, the equality $(gh) \cdot \ket{v} = g\cdot (h \cdot \ket{v})$ is satisfied.
+\end{enumerate}
+The linearity axiom implies the existence of a map $\pi: G \to \mathrm{End}(V)$ mapping the group element $g$ to the linear endomorphism $\ket{v} \mapsto g\cdot \ket{v}$. 
+The identity and compatibility axioms imply that $\pi$ is actually a group homomorphism. 
+
+\begin{lemma}
+    We call a group homomorphism $\pi : G \to \mathrm{End}(V)$ a representation of $G$. If $\pi: G \to \mathrm{End}(V)$ is a representation, then $V$ is a $G$-module under 
+    \begin{align}
+        g \cdot \ket{v} = \pi(g)\ket{v}.
+    \end{align}
+    Moreover, if $V$ is a $G$-module, then the map $\pi(g)(\ket{v}) = g\cdot \ket{v}$ is a representation of $G$.
+\end{lemma}
+We therefore use the terms representation of $G$ and $G$-module interchangeably.
+As with all linear maps, representations are typically described by how each element of $G$ acts on each basis vector of $V$.
+% Alternatively, one can describe a representation by first describing how the group $G$ acts on some set $X$ and then extending the action to the free vector space $\mathbb{C}[X]$ by linearity.
+
+A representation can sometimes be reduced to a direct sum of smaller representations,
+\begin{align}
+    \pi(g) = \pi_0(g) \oplus \pi_1(g) \oplus \dots \oplus \pi_r(g) ,
+\end{align}
+with each $\pi_i$ a representation.
+In this case, we write $\pi = \pi_0 \oplus \dots \oplus \pi_r$.
+This corresponds to a decomposition of $G$-modules $V = V_0 \oplus \dots \oplus V_r$ where each $V_i$ is a $G$-module.
+If no such decomposition exists, then we call the representation (or $G$-module) irreducible.
+We abbreviate irreducible representation as irrep.
+
+\begin{theorem}[Maschke's Theorem \cite{sagan2001symmetric} Theorem 1.5.3] \label{thm:maschkes-theorem}
+    Every representation $\pi : G \to \mathrm{End}(V)$ decomposes into a direct sum
+    \begin{align}
+        \pi \cong m_0 \pi_0 \oplus m_1 \pi_1 \oplus \dots \oplus m_r \pi_r
+    \end{align}
+    where the $\pi_i$ are distinct irreducible representations of $G$ and $m_i \pi_i$ denotes the direct sum of $m_i$ copies of $\pi_i$. The integer $m_i$ is the multiplicity of $\pi_i$ in $\pi$.
+
+    Similarly, if $V$ is a finite dimensional $G$-module, then 
+    \begin{align}
+        V = m_0 V_0 \oplus \dots \oplus m_r V_r
+    \end{align}
+    where the $V_i$ are distinct irreducible $G$-modules.
+\end{theorem}
+Maschke's theorem requires that the characteristic of the underlying field does not divide $|G|$, which holds over $\mathbb{C}$.
+Its proof averages over the group, so an analog holds for compact Lie groups.
+The form of Schur's lemma used below requires in addition an algebraically closed field such as $\mathbb{C}$.
+
+\subsubsection{Schur's Lemma}
+
+Suppose that $V$ is a $G$-module. 
+We let $\mathrm{End}_G(V)$ denote all of the elements $T \in \mathrm{End}(V)$ such that for all $g \in G$
+\begin{align}
+    T \pi(g) = \pi(g)T.
+\end{align}
+Such elements $T$ are said to be invariant under the action of $G$, or $G$-linear.
+
+\begin{lemma}[Schur's Lemma \cite{sagan2001symmetric} Theorem 1.6.5]\label{lem:schurs-lemma}
+    Let $V$ and $W$ be $G$-modules and let $\pi_V$ and $\pi_W$ be the associated representations.
+    We define $\mathrm{Hom}_G(V, W)$ by $T \in \mathrm{Hom}_G(V, W)$ if for all $g \in G$
+    \begin{align}
+        T \pi_V(g) = \pi_W(g) T.
+    \end{align}
+    If $V$ and $W$ are irreducible, then exactly one of the following holds.
+    \begin{enumerate}
+        \item The $G$-modules $V$ and $W$ are not isomorphic and $\mathrm{Hom}_G(V,W) = 0$.
+        \item The $G$-modules $V$ and $W$ are isomorphic and $\mathrm{Hom}_G(V,W) \cong \mathbb{C}$ in the sense that $\mathrm{End}_G(V) = \{ \lambda I_V \mid \lambda \in \mathbb{C} \}$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{cor}[\cite{sagan2001symmetric} Theorem 1.7.9]\label{cor:schur-decomposition}
+    Let $V$ be a $G$-module such that
+    \begin{align}
+        V = m_0 V_0 \oplus \dots \oplus m_r V_r
+    \end{align}
+    with the $V_i$ distinct irreducible modules.
+    Let $d_i$ be the dimension of $V_i$.
+    Then the following hold.
+    \begin{enumerate}
+        \item The dimension of $V$ is given by $\mathrm{dim}(V) = m_0 d_0 + \dots + m_r d_r$.
+        \item \label{item:artin-wedderburn} The endomorphism algebra of $V$ is isomorphic to the direct sum
+        \begin{align}
+            \mathrm{End}_G(V) \cong \bigoplus_{i = 0}^r \mathrm{End}(\mathbb{C}^{m_i}).
+        \end{align}
+        \item The endomorphism algebra $\mathrm{End}_G(V)$ has dimension $m_0^2 + m_1^2 + \dots + m_r^2$.
+    \end{enumerate}
+\end{cor}
+
+\begin{proof}
+    We prove only item~\ref{item:artin-wedderburn}, the one used below.
+    From the decomposition of $V$, we get the equality
+    \begin{align}
+        \mathrm{End}_G(V) \cong \bigoplus_{i,j = 0}^r \mathrm{Hom}_G(m_iV_i,m_jV_j).
+    \end{align}
+    The elements of $\mathrm{Hom}_G(m_i V_i, m_j V_j)$ can be thought of as $m_i \times m_j$ matrices whose entries are in $\mathrm{Hom}_G(V_i, V_j)$. 
+    However, if $i \neq j$, then by Schur's lemma we know that $\mathrm{Hom}_G(V_i, V_j)$ only contains the zero map. 
+    Thus, all of the terms in the direct sum for $i \neq j$ are zero and can be ignored. 
+    When $i = j$, the elements of $\mathrm{Hom}_G(V_i,V_i) = \mathrm{End}_G(V_i)$ are all multiples of the identity map. 
+    So, the elements $g_i \in \mathrm{End}_G(m_iV_i)$ can be written in the form
+    \begin{align}
+        g_i = M_i \otimes I_{V_i},
+    \end{align}
+    where $M_i \in \mathrm{End}(\mathbb{C}^{m_i})$ is an $m_i \times m_i$ matrix with complex entries. 
+    % Moreover, any such matrix $M_i$ defines an element $g_i = M_i \otimes I_{V_i} \in \mathrm{End}_G(m_i V_i)$.
+    A routine argument shows $\mathrm{End}_G(m_iV_i)$ is isomorphic to the matrix algebra $\mathrm{End}(\mathbb{C}^{m_i})$ under the map $g_i \mapsto M_i$.
+    Finally, we conclude that $\mathrm{End}_G(V) \cong \bigoplus_{i = 0}^r \mathrm{End}_G(m_i V_i)$ and hence
+    \begin{align}
+        \mathrm{End}_G(V) \cong \bigoplus_{i=0}^r \mathrm{End}(\mathbb{C}^{m_i}).
+    \end{align}
+\end{proof}
+
+The property of $\mathrm{End}_G(V)$ that we use is the following: if $T \in \mathrm{End}_G(V)$ and $\ket{v} \in m_i V_i$ is supported entirely in copies of the module $V_i$, then $T\ket{v} \in m_i V_i$ is also supported entirely in copies of $V_i$.
+The next lemma guarantees that a twirled map is of this kind.
+
+\begin{lemma}[Twirling] \label{lem:twirling}
+    Suppose $V$ is a finite-dimensional $G$-module with associated representation $\pi$, for $G$ finite. Given any $T \in \mathrm{End}(V)$, which need not be $G$-linear, the twirled map
+    \begin{align}
+        T_G = \frac{1}{|G|} \sum_{g \in G} \pi(g)^{-1} T \pi(g)
+    \end{align}
+    is an element of $\mathrm{End}_G(V)$.
+\end{lemma}
+
+\begin{proof}
+    Fix $g \in G$. Conjugating $T_G$ by $\pi(g)$ yields 
+    \begin{align}
+        \pi(g)^{-1} T_G \pi(g) &= \frac{1}{|G|} \sum_{h \in G} \pi(g)^{-1} \pi(h)^{-1} T \pi(h) \pi(g) \nonumber \\
+        &= \frac{1}{|G|} \sum_{h \in G} \pi(hg)^{-1} T \pi(hg).
+    \end{align}
+    Since the right coset $Gg$ is equal to $G$, we can reindex the sum to obtain 
+    \begin{align}
+        \pi(g)^{-1} T_G \pi(g) &= \frac{1}{|G|} \sum_{h \in G} \pi(hg)^{-1} T \pi(hg) \nonumber \\
+        &= \frac{1}{|G|} \sum_{h \in G} \pi(h)^{-1} T \pi(h) = T_G.
+    \end{align}
+    We conclude that $\pi(g)^{-1} T_G \pi(g) = T_G$ and hence $T_G \pi(g) = \pi(g) T_G$.
+\end{proof}
+
+\subsection{Character Theory}\label{app:rep-characters}
+
+By item~\ref{item:artin-wedderburn} of Corollary~\ref{cor:schur-decomposition} and Lemma~\ref{lem:twirling}, the structure of a twirled map is fixed by the multiplicity of each irrep in the representation.
+Character theory computes these multiplicities once the irreps are known.
+
+\subsubsection{Characters and Conjugacy Classes}
+
+If $\pi : G \to \mathrm{End}(V)$ is a representation, then the character $\chi_\pi : G \to \mathbb{C}$ of $\pi$ is defined by 
+\begin{align}
+    \chi_\pi(g) = \Tr \pi(g).
+\end{align}
+By the cyclic property of the trace, characters satisfy the property $\chi_\pi(h g h^{-1}) = \chi_\pi(g)$.
+Characters are therefore constant on the conjugacy classes.
+Such a function is called a class function.
+The space of class functions has dimension equal to the number of conjugacy classes of $G$, and it carries the inner product
+
+\begin{align}
+    \langle \chi, \tau \rangle = \frac{1}{|G|} \sum_{g \in G} \chi(g)^* \tau(g).
+\end{align}
+
+\begin{lemma}[Character Orthogonality \cite{sagan2001symmetric} Theorem 1.9.3] \label{lem:character-orthogonality}
+    If $\pi_1$ and $\pi_2$ are irreducible representations of the finite group $G$, then 
+    \begin{align}
+        \langle \chi_{\pi_1}, \chi_{\pi_2}\rangle = \begin{cases}
+            1 & \pi_1 \cong \pi_2, \\
+            0 & \text{otherwise}.
+        \end{cases}
+    \end{align}
+\end{lemma}
+
+\begin{cor}[\cite{sagan2001symmetric} Corollary 1.9.4] \label{cor:character-relations}
+    Let $\pi : G \to \mathrm{End}(V)$ be a representation and $\pi = m_0 \pi_0 \oplus \dots \oplus m_r \pi_r$ be the decomposition of the representation $\pi$ into irreps. The following hold.
+    \begin{enumerate}
+        \item The character $\chi_{\pi}$ can be written as $\chi_{\pi} = m_0 \chi_{\pi_0} + m_1 \chi_{\pi_1} + \dots + m_r \chi_{\pi_r}$.
+        \item \label{item:irrep-mult-test} The inner product $\langle \chi_{\pi}, \chi_{\pi_i}\rangle = m_i$ for all $0 \leq i \leq r$.
+        \item The inner product $\langle \chi_{\pi}, \chi_{\pi} \rangle = m_0^2 + \dots + m_r^2$. In particular this is always an integer.
+        \item The representation $\pi$ is irreducible if and only if $\langle \chi_{\pi}, \chi_{\pi} \rangle = 1$.
+        \item If $\tau$ is another representation of $G$, then $\pi$ and $\tau$ are isomorphic if and only if $\chi_{\pi}(g) = \chi_{\tau}(g)$ for all $g \in G$.
+    \end{enumerate}
+\end{cor}
+
+Lemma~\ref{lem:character-orthogonality} and Corollary~\ref{cor:character-relations} have two consequences that we use.
+First, the irrep characters are orthonormal and thus linearly independent.
+Together with the completeness of the irreducible characters, which span the space of class functions~\cite{sagan2001symmetric}, this shows that the irrep characters form a basis for that space and, in particular, that there are exactly as many irreps as there are conjugacy classes of $G$.
+Second, item~\ref{item:irrep-mult-test} of Corollary~\ref{cor:character-relations} gives the multiplicity of an irrep in any representation of $G$ as an inner product of characters.
+
+\subsection{The Logical Clifford Group of the \texorpdfstring{$[[5,1,2]]_3$}{[[5,1,2]]3} Code}
+\label{sub:irreps}
+
+% Former main-text Sec. 3.2.6 ("method - LRB-D.tex", lines 245-303 of the 438f6f16 mirror), rewritten. New here: the characters and the two inner products that give the multiplicities, and the table of all ten.
+% All numbers of this subsection: paper-rework/scratch/lead/irreps_check.py (output in jpw-review/hw/checks/irreps_check.out): conjugation representation of the 216-element group generated by the physical Hbar and Sbar, built with sdim's gate matrices; Burnside character table of the logical action; multiplicities 301, 260, 260 (dimension 1), 560, 560, 520 (dimension 2), 820 (dimension 3), 2160, 2160, 2241 (dimension 8, the last being V_pauli); sum of m*d = 59049; the group with Xbar and Zbar has 1944 elements, m_triv = 40, m_pauli = 261; its nine-element kernel on the code space is generated by G_2 and G_4.
+We now apply these results to the encoded qutrit. Let $\mathcal{H}$ be the $3^5$-dimensional Hilbert space of the five data qutrits and $\mathcal{S}$ the $3^{10}$-dimensional space of linear operators on $\mathcal{H}$, on which density operators live and noise channels act. Let $\bar{\mathcal{C}}_3$ be the group generated by the five-qutrit unitaries $\bar H$ and $\bar S$ of Eqs.~\eqref{eq:logical_H} and~\eqref{eq:logical_HS}, taken up to global phases. It has $216$ elements, and its action on the code space maps it one-to-one onto the single-qutrit Clifford group $\mathcal{C}_3$. Conjugation,
+\begin{equation}
+    \bar{\pi}(C)(\rho) = \bar{C} \rho\, \bar{C}^\dagger ,
+\end{equation}
+where $\bar C \in \bar{\mathcal{C}}_3$ is the unitary that implements $C \in \mathcal{C}_3$ on the logical qutrit, is therefore a representation of $\mathcal{C}_3$ on $\mathcal{S}$. The module of this representation is the operator space $\mathcal{S}$ and not $\mathcal{H}$.
+
+% TODO(authors): cite the paper that lists the conjugacy classes of the single-qutrit Clifford group (was a red author note in the text; jpw-review/OPEN-QUESTIONS.md, item 7).
+Up to global phases, $\mathcal{C}_3$ has $10$ conjugacy classes, of sizes $1$, $8$, $9$, $12$, $12$, $24$, $24$, $36$, $36$ and $54$, and hence $10$ irreps (\autoref{tab:irreps}). Two of them matter here. The first is the trivial irrep $V_{\mathrm{triv}}$. The second is the eight-dimensional irrep $V_{\mathrm{pauli}}$ in which $\mathcal{C}_3$ conjugates the eight traceless Pauli operators of one qutrit. The operators of one qutrit decompose as $V_{\mathrm{triv}} \oplus V_{\mathrm{pauli}}$, which is the origin of the two eigenvalues of Eq.~\eqref{eq:twirl_irrep}. By Theorem~\ref{thm:maschkes-theorem}, the operators of five qutrits decompose as
+\begin{equation}
+    \mathcal{S} \cong m_{\mathrm{triv}} V_{\mathrm{triv}} \oplus m_{\mathrm{pauli}} V_{\mathrm{pauli}} \oplus \bigoplus_{i = 2}^{9} m_i V_i ,
+    \label{eq:irrep-decomposition}
+\end{equation}
+where $V_2, \dots, V_9$ are the other eight irreps.
+
+The multiplicities follow from item~\ref{item:irrep-mult-test} of Corollary~\ref{cor:character-relations}. Conjugation by a unitary $U$ acts on the operator space as $U \otimes U^{*}$, whose trace is $\lvert \Tr U \rvert^2$, so the character of $\bar\pi$ is $\chi_{\bar\pi}(C) = \lvert \Tr \bar C \rvert^2$. In the same way the character of one-qutrit conjugation is $\lvert \Tr C \rvert^2$, with $C$ taken as a $3 \times 3$ unitary, and the character of $V_{\mathrm{pauli}}$ is $\chi_{\mathrm{pauli}}(C) = \lvert \Tr C \rvert^2 - 1$. The two multiplicities are therefore
+\begin{equation}
+  \begin{aligned}
+    m_{\mathrm{triv}} &= \frac{1}{216} \sum_{C \in \mathcal{C}_3} \lvert \Tr \bar C \rvert^2 = 301 , \\
+    m_{\mathrm{pauli}} &= \frac{1}{216} \sum_{C \in \mathcal{C}_3} \left( \lvert \Tr C \rvert^2 - 1 \right) \lvert \Tr \bar C \rvert^2 = 2241 ,
+  \end{aligned}
+  \label{eq:multiplicities}
+\end{equation}
+which we evaluated numerically from the $216$ five-qutrit unitaries. \autoref{tab:irreps} lists the multiplicities of all ten irreps, for which we computed the remaining characters from the multiplication table of the group. They satisfy $\sum_i m_i \dim V_i = 3^{10}$. For one physical qutrit, $m_{\mathrm{triv}} = m_{\mathrm{pauli}} = 1$ and all other multiplicities vanish.
+
+\begin{table*}[tp]
+  \centering
+  \begin{tabular}{l|cccccccccc}
+    \hline
+    Irrep & $V_{\mathrm{triv}}$ & $V_2$ & $V_3$ & $V_4$ & $V_5$ & $V_6$ & $V_7$ & $V_8$ & $V_9$ & $V_{\mathrm{pauli}}$ \\
+    \hline
+    Dimension & 1 & 1 & 1 & 2 & 2 & 2 & 3 & 8 & 8 & 8 \\
+    Multiplicity & 301 & 260 & 260 & 560 & 560 & 520 & 820 & 2160 & 2160 & 2241 \\
+    \hline
+  \end{tabular}
+  \caption{The ten irreps of the single-qutrit Clifford group $\mathcal{C}_3$ and their multiplicities in the conjugation representation $\bar\pi$ of the group generated by $\bar H$ and $\bar S$ on the $3^{10}$-dimensional operator space of the five data qutrits.}
+  \label{tab:irreps}
+\end{table*}
+
+The simulated gate set generates a larger group. It applies the logical Pauli operators as $\bar X = X_0 X_3$ and $\bar Z = Z_0 Z_2$ (Eq.~\eqref{eq:logicalPauli}), which differ from the elements of $\bar{\mathcal{C}}_3$ with the same logical action by the stabilizers $G_4$ and $G_2$. The group generated by $\bar H$, $\bar S$, $\bar X$ and $\bar Z$ thus consists of the products of the elements of $\bar{\mathcal{C}}_3$ with the nine products of powers of $G_2$ and $G_4$. It has $1944$ elements and acts on the code space as $\bar{\mathcal{C}}_3$ does. The same computation for this group gives $m_{\mathrm{triv}} = 40$ and $m_{\mathrm{pauli}} = 261$.
+
+These multiplicities bound the number of eigenvalues that a decay can contain. Let $\mathrm{End}_{\mathcal{C}_3}(\mathcal{S})$ be the set of linear maps on $\mathcal{S}$ that commute with $\bar\pi$. By item~\ref{item:artin-wedderburn} of Corollary~\ref{cor:schur-decomposition} it is isomorphic, as an algebra, to a direct sum of matrix algebras,
+\begin{align}
+    \mathrm{End}_{\mathcal{C}_3}(\mathcal{S}) &\cong \mathrm{Mat}_{m_{\mathrm{triv}}}(\mathbb{C}) \otimes I_{V_{\mathrm{triv}}} \nonumber \\
+    &\quad \oplus \mathrm{Mat}_{m_{\mathrm{pauli}}}(\mathbb{C})\otimes I_{V_{\mathrm{pauli}}} \nonumber \\
+    &\quad \oplus \bigoplus_{i = 2}^9 \mathrm{Mat}_{m_i} (\mathbb{C}) \otimes I_{V_i} ,
+\end{align}
+so that such a map cannot take a vector of $m_i V_i$ to a vector with a component in $m_j V_j$ for $j \neq i$. The twirled error channel $\Lambda_{\mathrm{eff}}$ is a map of this kind by Lemma~\ref{lem:twirling}, and in a suitable basis it reads
+\begin{equation}
+    \Lambda_{\mathrm{eff}} = M_{\mathrm{triv}}\otimes I_{V_{\mathrm{triv}}} \oplus M_{\mathrm{pauli}} \otimes I_{V_{\mathrm{pauli}}} \oplus M ,
+\end{equation}
+where $M_{\mathrm{triv}}$ and $M_{\mathrm{pauli}}$ are square matrices of sizes $m_{\mathrm{triv}}$ and $m_{\mathrm{pauli}}$ and $M$ collects the other eight irreps. If $M_{\mathrm{triv}}$ and $M_{\mathrm{pauli}}$ are diagonalizable, a further change of basis gives
+\begin{equation}
+  \begin{aligned}
+    \Lambda_{\mathrm{eff}} &= \Lambda_{\mathrm{triv}} \oplus \Lambda_{\mathrm{pauli}} \otimes I_{V_{\mathrm{pauli}}} \oplus M , \\
+    \Lambda_{\mathrm{eff}}^{\,t} &= \Lambda_{\mathrm{triv}}^{\,t} \oplus \Lambda_{\mathrm{pauli}}^{\,t} \otimes I_{V_{\mathrm{pauli}}} \oplus M^{t} ,
+  \end{aligned}
+  \label{eq:twirl-logical}
+\end{equation}
+with $\Lambda_{\mathrm{triv}}$ and $\Lambda_{\mathrm{pauli}}$ the diagonal matrices of their eigenvalues and $t$ the number of applications of the channel.
+
+The block $M$ does not act on a state of the code space. The operators supported on the code space transform under $\bar\pi$ as the operators of one qutrit, so a code state such as $\ket{\bar{+}}\bra{\bar{+}}$ decomposes as $\rho = \rho_{\mathrm{triv}} \oplus \rho_{\mathrm{pauli}} \oplus 0$ with $\rho_{\mathrm{triv}} \in m_{\mathrm{triv}} V_{\mathrm{triv}}$ and $\rho_{\mathrm{pauli}} \in m_{\mathrm{pauli}}V_{\mathrm{pauli}}$. By Eq.~\eqref{eq:twirl-logical} its evolution under repeated application of $\Lambda_{\mathrm{eff}}$ contains only the powers of the diagonal elements of $\Lambda_{\mathrm{triv}}$ and $\Lambda_{\mathrm{pauli}}$. There are $m_{\mathrm{triv}} + m_{\mathrm{pauli}} = 301 + 2241 = 2542$ of them for $\bar{\mathcal{C}}_3$, and $40 + 261 = 301$ for the group that the simulated gate set generates, against $1 + 1 = 2$ for a physical qutrit. If $M_{\mathrm{triv}}$ or $M_{\mathrm{pauli}}$ is not diagonalizable, its Jordan form takes the place of the diagonal matrix, and a Jordan block of size $s$ with eigenvalue $\lambda$ contributes the terms $\binom{t}{j}\lambda^{t-j}$ with $j < s$ in place of the single power $\lambda^t$.

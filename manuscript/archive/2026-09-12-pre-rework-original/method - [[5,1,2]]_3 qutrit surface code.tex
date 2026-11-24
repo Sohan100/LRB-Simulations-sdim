@@ -1,0 +1,88 @@
+\subsection{$[[5,1,2]]_3$ Qutrit Surface Code}
+
+\subsubsection{20-Qutrit IQM Garnet QPU}
+
+Our experiments are performed on IQM's superconducting 20-qutrit Garnet QPU.  Each physical unit is a transmon circuit operated as a three-level system with computational basis states $\{\ket{0},\ket{1},\ket{2}\}$, coupled via tunable superconducting couplers that generate a ZZ-type interaction.  By applying a magnetic
+flux pulse to the coupler one implements a fast, resonant CZ-type gate with typical durations in the range of $20$--$40\,\mathrm{ns}$, while
+the effective ZZ interaction can be turned off during idle periods. Single-qutrit Clifford gates are implemented by microwave drives on the
+$0\!\leftrightarrow\!1$ and $1\!\leftrightarrow\!2$ transitions, and two-qutrit entangling gates are realized using parametrically driven controlled-phase operations on the couplers. \textcolor{red}{ASK NOAH FOR FIGURES AND CONTENT REGARDING IQM QPU}.
+
+From this device we select a connected $5$-qutrit patch and encode a single logical qutrit into these five data qutrits using the $[[5,1,2]]_3$ error-detection code defined in \autoref{sec: error detection code}. We then implement transversal Clifford gates within a modified LRB protocol to garner estimates for the average error rate of our logical Clifford gates. However, we don't use the standard qudit surface code and folded code definitions for stabilizers and logical operators, as shown in \autoref{sec: qudit surface code}, \cite{Moussa2016} and \autoref{sec: error detection code}. In \autoref{sec: error detection code} we explain our modifications and the motivation behind them. 
+
+
+\subsubsection{$[[5,1,2]]_3$ Qutrit Error Detection Code} \label{sec: error detection code}
+
+The logical qutrit is encoded using the $[[5,1,2]]_3$ quantum error-detection code obtained from a surface-code patch with five data qutrits and four stabilizer generators \cite{Moussa2016}. Let
+$X_j$ and $Z_j$ denote the generalized Pauli operators acting on
+qutrit $j$, with $X_j^{-1}=X_j^\dagger$ and $Z_j^{-1}=Z_j^\dagger$. The
+code space is defined as the simultaneous $+1$ eigenspace of
+\begin{align}
+  G_1 &= Z_0 \otimes Z_1^{-1} \otimes Z_3^{-1}, \label{eq:s1}\\
+  G_2 &= Z_1 \otimes Z_2 \otimes Z_4^{-1}, \\
+  G_3 &= X_0 \otimes X_1 \otimes X_2^{-1}, \\
+  G_4 &= X_1^{-1} \otimes X_3 \otimes X_4^{-1},
+  \label{eq:s4}
+\end{align}
+yielding a $[[5,1,2]]_3$ stabilizer code: five physical qutrits, one logical qutrit, and distance $d=2$. A convenient choice of logical Pauli operators is
+\begin{equation}
+  \bar Z = Z_0 \otimes Z_2, \qquad
+  \bar X = X_0 \otimes X_3,
+  \label{eq:logicalPauli}
+\end{equation}
+which commute with all $G_i$ and generate the logical Pauli group modulo the stabilizer.
+
+Following the folded-surface-code construction of
+\cite{Moussa2016}, we realize a logical single-qutrit Clifford generating set $\{\bar H,\bar S\}$ in constant-depth transversal form. In our hardware-aware
+implementation we use
+\begin{align}
+  \bar H &=
+  (H_0 \otimes H_1^{-1} \otimes H_2 \otimes H_3 \otimes H_4)
+  (I_0 \otimes I_1 \otimes \mathrm{SWAP}_{2,3} \otimes I_4), \\
+  \bar S &= S_0 \otimes S_1^{-1} \otimes CZ_{2\rightarrow 3} \otimes S_4,
+\end{align}
+where subscripts label physical qutrits, $H$ and $S$ are single-qutrit Clifford generators, and $CZ_{2\rightarrow 3}$ is a controlled-phase gate with control on qutrit~2 and target on qutrit~3. Compared to the canonical folded-code realization, these definitions are adjusted to minimize the number of local $\mathrm{SWAP}$ operations required on the QPU. As shown in \autoref{fig: logical H} and \autoref{fig: logical S}, we avoid any long range 2-qutrit gates when defining the logical Clifford gates and therefore avoid the folding operation altogether, described in \autoref{sec: qudit surface code} and \cite{Moussa2016}. The conjugation action of the logical Cliffords give us the following conjugation relations: writing $G_Z$ ($G_X$) for a generic $Z$-type ($X$-type) stabilizer generator, we have
+\begin{table}[H]
+  \centering
+  \begin{tabular}{c|c}
+    \hline
+    Conjugation of Stabilizers
+      & Conjugation of Logical Paulis\\
+    \hline
+    $\bar H G_Z \bar H^\dagger = G_X^\dagger$
+      & $\bar H \bar Z \bar H^\dagger = \bar X^\dagger$ \\
+    $\bar H G_X \bar H^\dagger = G_Z$
+      & $\bar H \bar X \bar H^\dagger = \bar Z$ \\
+    $\bar S G_Z \bar S^\dagger = G_Z$
+      & $\bar S \bar Z \bar S^\dagger = \bar Z$ \\
+    $\bar S G_X \bar S^\dagger = G_X G_Z$
+      & $\bar S \bar X \bar S^\dagger = \bar X \bar Z$ \\
+    \hline
+  \end{tabular}
+  \caption{Conjugation action of the logical single qudit Clifford group generators on
+  stabilizers (left) and logical Pauli operators (right) for the  $[[5,1,2]]_3$ code.}
+  \label{tab:clifford-conjugation}
+\end{table}
+These relations show that $\bar H$ and $\bar S$ map the stabilizer group to itself and implement the usual Clifford action on the logical Pauli operators for the $[[5,1,2]]_3$ code.
+
+\input{fig - 5-qutrit code}
+
+
+\subsubsection{Encoding Circuit}
+
+To initialize the system in the code space, we employ a specific unitary circuit that maps the physical ground state $\ket{0}^{\otimes 5}$ to the logical state $\ket{\bar{+}}$. This state corresponds to the $+1$ eigenstate of the logical Pauli operator $\overline{X} = X_0 \otimes X_3$, defined in Eq.~\eqref{eq:logicalPauli}.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{quantikz}
+      \lstick{$q_0: \ket{0}$} & \qw & \qw & \gate{X_3} & \gate{X_3} & \qw \\
+      \lstick{$q_1: \ket{0}$} & \qw & \gate{X_3^{\dagger}} & \ctrl{-1} & \qw & \qw \\
+      \lstick{$q_2: \ket{0}$} & \gate{H_3^{\dagger}} & \ctrl{-1} & \gate{X_3} & \qw & \qw \\
+      \lstick{$q_3: \ket{0}$} & \gate{H_3^{\dagger}} & \qw & \qw & \ctrl{-3}  & \qw \\
+      \lstick{$q_4: \ket{0}$} & \gate{H_3^{\dagger}} & \qw & \ctrl{-2}  & \qw  & \qw
+    \end{quantikz}
+    \caption{Non-fault-tolerant encoding circuit for the $[[5,1,2]]_3$ surface code. The circuit maps the physical state $\ket{0}^{\otimes 5}$ to the logical state $\ket{\bar{+}}$, which is the $+1$ eigenstate of the logical $\bar{X}$ operator. The gates denoted are qutrit Hadamard ($H_3$) and Generalized SUM/CNOT gates. Errors occurring during state preparation are accounted for as SPAM errors in the LRB protocol.}
+    \label{fig:encoding_circuit}
+\end{figure}
+
+The encoding circuit shown in \autoref{fig:encoding_circuit} is a non-fault-tolerant state preparation sequence to minimize the use of ancillas and physical gate count. In the context of LRB, the quality of the encoding step is classified under State Preparation and Measurement (SPAM) errors. As established in standard RB theory, these SPAM errors are absorbed into the $A$ and $B$ parameters of the fidelity decay curve (Eq.~\eqref{eq:fseq}) and do not affect the extracted decay parameter $f$ or the estimated gate fidelity \cite{Magesan2011PRL,Magesan2012PRA}. Consequently, a compact, non-fault-tolerant encoding is sufficient for providing a consistent entry point into the logical code space for benchmarking purposes.
+

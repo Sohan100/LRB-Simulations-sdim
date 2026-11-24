@@ -1,0 +1,89 @@
+\documentclass[aps,prxquantum,reprint,superscriptaddress,amsmath,amssymb,floatfix]{revtex4-2}
+\usepackage{quantikz}
+\usepackage[compatibility=false,font=small,labelsep=period,singlelinecheck=false]{caption}
+\DeclareCaptionJustification{apsjust}{\leftskip=0pt\rightskip=0pt\parfillskip=0pt plus 1fil\relax}% justified, last line flush left, as REVTeX
+\captionsetup{justification=apsjust}
+\captionsetup[figure]{name=FIG.}
+\captionsetup[table]{name=TABLE,position=below}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{tikz}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usetikzlibrary{calc,arrows.meta}
+
+\usepackage{graphicx} 
+\usepackage{amssymb,amsthm}
+
+\DeclareMathOperator{\Tr}{\mathrm{Tr}}
+
+\usetikzlibrary{calc}     
+
+\usepackage{hyperref}
+\definecolor{LightBlue}{HTML}{00A6D6} % A standard "LightBlue" RGB
+\usepackage{cleveref}
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{cor}{Corollary}[theorem]
+
+\usepackage{xcolor}
+
+% Shared TikZ colors, sizes, and figure macros for all figures.
+\input{tikz preamble}
+
+% Cross-reference names: \autoref for sections, figures, tables and appendices; equations as Eq.~\eqref{...}.
+\renewcommand{\sectionautorefname}{Sec.}
+\renewcommand{\subsectionautorefname}{Sec.}
+\renewcommand{\subsubsectionautorefname}{Sec.}
+\renewcommand{\figureautorefname}{Fig.}
+\renewcommand{\tableautorefname}{Table}
+\renewcommand{\appendixautorefname}{Appendix}
+\newcommand{\appref}[1]{Appendix~\ref{#1}}% pointers to appendix sections
+
+% --- title block ---
+\newcommand{\ACE}[1]{{\color{red}#1}} % Feel free to move this -Aidan
+
+\begin{document}
+\title{Logical Randomized Benchmarking on a Qutrit Surface Code}
+
+% ORCID of S. Ghosh: 0000-0003-1318-5502 (REVTeX has no ORCID field; add it at submission).
+\author{Sohan Ghosh}
+\email{sohghosh@ucdavis.edu}
+\affiliation{Department of Physics and Astronomy, University of California Davis, Davis, CA}
+\author{Chuan-Hong Liu}
+\affiliation{Quantum Nanoelectronics Laboratory, University of California, Berkeley, CA}
+\author{Noah Goss}
+\email{noahgoss@berkeley.edu}
+\affiliation{Quantum Nanoelectronics Laboratory, University of California, Berkeley, CA}
+\author{Adeeb Kabir}
+\email{ask171@scarletmail.rutgers.edu}
+\affiliation{Department of Computer Science, Rutgers University, New Brunswick, New Jersey}
+\author{Aidan Epperly}
+\affiliation{Department of Physics and Astronomy, University of California Davis, Davis, CA}
+\author{Yipeng Huang}
+\affiliation{Department of Computer Science, Rutgers University, New Brunswick, New Jersey}
+\author{Irfan Siddiqi}
+\affiliation{Quantum Nanoelectronics Laboratory, University of California, Berkeley, CA}
+\author{Isaac Kim}
+\email{ikekim@ucdavis.edu}
+\affiliation{Department of Physics and Astronomy, University of California Davis, Davis, CA}
+
+
+\date{\today}
+
+
+% Simulation version of the manuscript, uploaded 2026-11-23 up to the end of the Introduction; the
+% remaining sections follow. The previous manuscript is kept in archive/manuscript-2026-11-23/.
+\begin{abstract}
+Encoding quantum information pays only below the pseudo-threshold, the physical error rate at which a logical gate and a physical gate fail equally often. For qutrits, the pseudo-threshold of a logical gate under circuit-level noise is not known. We determine it in simulation for the logical Clifford gates of the $[[5,1,2]]_3$ code, a five-qutrit surface-code patch of distance two, using logical randomized benchmarking with postselection on trivial syndromes in place of error correction. The logical qutrit of the accepted shots has a lower error rate than a physical qutrit whose Clifford gates are built from the same primitive gates, up to a two-qutrit gate error probability of $p^\star = 0.0313(6)$ under a superconducting-inspired noise model (SI1000) and $0.0501(26)$ under standard depolarizing noise (SD6). These pseudo-thresholds are 2.6 and 1.7 times those of the qubit $[[5,1,2]]$ code simulated in the same way. The price is acceptance: near these error rates almost every shot is rejected in all but the shortest sequences, and postselecting fewer syndrome-extraction rounds keeps more shots but lowers the pseudo-threshold. Encoding a qutrit in this distance-two code with postselection thus pays up to two-qutrit gate error probabilities of a few percent.
+\end{abstract}
+\maketitle
+
+\input{introduction}
+
+\bibliographystyle{apsrev4-2}
+\bibliography{references}
+
+\end{document}

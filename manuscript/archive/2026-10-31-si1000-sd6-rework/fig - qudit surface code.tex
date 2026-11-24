@@ -1,0 +1,166 @@
+% ============================================================
+% fig - qudit surface code.tex
+% Figure: qudit surface code stabilizers and distance-5 patch.
+% Shared colors and sizes come from 'tikz preamble.tex'.
+% All three panels are drawn at the same scale (\SCscale) with a
+% unit lattice cell, so stabilizer close-ups and the full patch
+% stay proportional.
+% ============================================================
+
+% ---------- local helpers for this figure only ----------
+\newcommand{\SCscale}{1.5}
+\newcommand{\SCctx}{black!30}          % context lattice edges in close-ups
+\newcommand{\SCgrid}{0.9pt}            % lattice line width
+\newcommand{\SCctxline}{0.6pt}          % context lattice line width
+\newcommand{\SCpatchline}{1.0pt}       % stabilizer patch outline width
+
+% One qudit: white circle + orientation wedge (0 = right, 90 = up).
+\newcommand{\SCqudit}[3]{% position, wedge angle, label
+  \WedgeArrow{#1}{#2}
+  \draw[line width=\qdLine,fill=white] (#1) circle (\qdR);
+  \node[font=\numFont] at (#1) {#3};
+}
+
+\begin{figure}[H]
+  \centering
+  \captionsetup[subfigure]{justification=centering}
+  % Left column: the two stabilizer close-ups, drawn on a 2x2-cell window.
+  \begin{minipage}[t]{0.34\textwidth}
+    \vspace{0pt}
+    % -------- (a) Vertex / X-type check --------
+    \begin{subfigure}[t]{\linewidth}
+      \centering
+      \begin{tikzpicture}[line cap=round,line join=round,scale=\SCscale]
+        % context lattice
+        \foreach \y in {0,1,2} \draw[\SCctx,line width=\SCctxline] (0,\y) -- (2,\y);
+        \foreach \x in {0,1,2} \draw[\SCctx,line width=\SCctxline] (\x,0) -- (\x,2);
+        % stabilizer patch: diamond over the four edge midpoints
+        \path[fill=Xvivid,draw=Xcol!55!black,line width=\SCpatchline]
+          (1,1.5) -- (1.5,1) -- (1,0.5) -- (0.5,1) -- cycle;
+        % the four edges of the central vertex, at full strength
+        \draw[line width=\SCgrid] (0,1) -- (2,1);
+        \draw[line width=\SCgrid] (1,0) -- (1,2);
+        % qudits
+        \SCqudit{1,1.5}{90}{n}
+        \SCqudit{1.5,1}{0}{e}
+        \SCqudit{1,0.5}{90}{s}
+        \SCqudit{0.5,1}{0}{w}
+      \end{tikzpicture}
+      \caption{Vertex stabilizer generator \mbox{$G_X=X^{\dagger}_n \otimes X_w \otimes X^{\dagger}_e \otimes X_s$}.}
+      \label{fig:vertex}
+    \end{subfigure}
+
+    \vspace{1.2ex}
+
+    % -------- (b) Face / Z-type check --------
+    \begin{subfigure}[t]{\linewidth}
+      \centering
+      \begin{tikzpicture}[line cap=round,line join=round,scale=\SCscale]
+        % context lattice: neighboring edges plus the window frame
+        \foreach \y in {0.5,1.5} \draw[\SCctx,line width=\SCctxline] (0,\y) -- (2,\y);
+        \foreach \x in {0.5,1.5} \draw[\SCctx,line width=\SCctxline] (\x,0) -- (\x,2);
+        \draw[\SCctx,line width=\SCctxline] (0,0) rectangle (2,2);
+        % stabilizer patch: diamond over the four edge midpoints of the face
+        \path[fill=Zvivid,draw=Zcol!60!black,line width=\SCpatchline]
+          (1,1.5) -- (1.5,1) -- (1,0.5) -- (0.5,1) -- cycle;
+        % the face itself, at full strength
+        \draw[line width=\SCgrid] (0.5,0.5) rectangle (1.5,1.5);
+        % qudits
+        \SCqudit{1,1.5}{0}{n}
+        \SCqudit{1.5,1}{90}{e}
+        \SCqudit{1,0.5}{0}{s}
+        \SCqudit{0.5,1}{90}{w}
+      \end{tikzpicture}
+      \caption{Face stabilizer generator \mbox{$G_Z = Z_n \otimes Z_w \otimes Z^{\dagger}_e \otimes Z^{\dagger}_s$}.}
+      \label{fig:face}
+    \end{subfigure}
+  \end{minipage}
+  \hfill
+  % Right column: the distance-5 patch at the same scale.
+  \begin{minipage}[t]{0.62\textwidth}
+    \vspace{0pt}
+    \begin{subfigure}[t]{\linewidth}
+      \centering
+      \begin{tikzpicture}[line cap=round,line join=round,scale=\SCscale]
+        \newcommand{\nCols}{5}
+        \newcommand{\nRows}{5}
+        \newcommand{\xLabelOffset}{0.52}
+        \newcommand{\zLabelDy}{0.42}
+
+        % top X-type boundary triangles
+        \foreach \i in {0,...,\numexpr\nCols-2\relax} {
+          \path[fill=Xvivid, draw=none]
+            (\i+0.5,\nRows) -- (\i+1,\nRows-0.5) -- (\i+1.5,\nRows) -- cycle;
+        }
+        % interior X-type diamonds
+        \foreach \x in {1,...,\numexpr\nCols-1\relax} {
+          \foreach \y in {2,...,\numexpr\nRows-1\relax} {
+            \path[fill=Xvivid, draw=none]
+              (\x,\y+0.5) -- (\x+0.5,\y) -- (\x,\y-0.5) -- (\x-0.5,\y) -- cycle;
+          }
+        }
+        % Z-type cells: left triangles, interior diamonds, right triangles
+        \foreach \y in {2,...,\numexpr\nRows\relax} {
+          \path[fill=Zvivid, draw=none]
+            (0.5,\y) -- (1,\y-0.5) -- (0.5,\y-1) -- cycle;
+        }
+        \foreach \x in {1,...,\numexpr\nCols-2\relax} {
+          \foreach \y in {2,...,\numexpr\nRows\relax} {
+            \path[fill=Zvivid, draw=none]
+              (\x+0.5,\y) -- (\x+1,\y-0.5) -- (\x+0.5,\y-1) -- (\x,\y-0.5) -- cycle;
+          }
+        }
+        \foreach \y in {2,...,\numexpr\nRows\relax} {
+          \path[fill=Zvivid, draw=none]
+            (\nCols-0.5,\y) -- (\nCols-1,\y-0.5) -- (\nCols-0.5,\y-1) -- cycle;
+        }
+
+        % bottom X-type boundary triangles
+        \foreach \i in {0,...,\numexpr\nCols-2\relax} {
+          \path[fill=Xvivid, draw=none]
+            (\i+0.5,1) -- (\i+1,1.5) -- (\i+1.5,1) -- cycle;
+        }
+
+        % lattice
+        \foreach \y in {1,...,\nRows}
+          \draw[line width=\SCgrid] (0.5,\y)--(\nCols-0.5,\y);
+        \foreach \x in {1,...,\numexpr\nCols-1\relax}
+          \draw[line width=\SCgrid] (\x,1)--(\x,\nRows);
+
+        % qudits with orientation wedges (right on horizontal edges, up on vertical)
+        \newcounter{scqid}\setcounter{scqid}{0}
+        \foreach \j in {0,...,8} {
+          \pgfmathsetmacro\yy{\nRows - 0.5*\j}
+          \ifodd\j\relax
+            \foreach \x in {1,...,\numexpr\nCols-1\relax} {
+              \stepcounter{scqid}
+              \SCqudit{\x,\yy}{90}{\arabic{scqid}}
+            }
+          \else
+            \foreach \x in {0,...,\numexpr\nCols-1\relax} {
+              \stepcounter{scqid}
+              \SCqudit{\x+0.5,\yy}{0}{\arabic{scqid}}
+            }
+          \fi
+        }
+
+        % boundary labels
+        \foreach \j in {0,2,4,6,8} {
+          \pgfmathsetmacro\yy{\nRows - 0.5*\j}
+          \node[text=Xcol!80!black] at (0.5-\xLabelOffset,\yy) {\labelFont $X$};
+        }
+        \foreach \x in {0,...,\numexpr\nCols-1\relax} {
+          \node[text=Zcol!85!black] at (\x+0.5,\nRows+\zLabelDy) {\labelFont $Z$};
+        }
+      \end{tikzpicture}
+      \caption{Qudit surface-code patch with $X$-type/$Z$-type checks.}
+      \label{fig:patch}
+    \end{subfigure}
+  \end{minipage}
+
+  \caption{Definition of the qudit surface code.
+  (a) $X$-type generalized qudit Pauli stabilizer: $X$ acts on outgoing edges, $X^\dagger$ on incoming edges.
+  (b) $Z$-type generalized qudit Pauli stabilizer: $Z$ acts on clockwise edges, $Z^\dagger$ on counter-clockwise edges.
+  (c) Distance-5 qudit surface code on a directed planar graph with vertex-based $X$-type and face-based $Z$-type stabilizers. Logical $\bar{X}$ connects two smooth boundaries (truncated $X$-stabilizers) and logical $\bar{Z}$ connects two rough boundaries (truncated $Z$-stabilizers). The logical operators commute with the stabilizer group.}
+  \label{fig:qudit-surface-code}
+\end{figure}

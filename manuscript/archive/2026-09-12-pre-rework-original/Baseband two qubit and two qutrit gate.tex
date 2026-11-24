@@ -1,0 +1,227 @@
+Both Marxer et al.~\cite{Marxer2023} and Luo et al.~\cite{Luo2023}
+implement entangling gates by applying a baseband flux pulse to a
+tunable transmon coupler. The pulse changes the interaction between
+two data transmons and thereby controls their relative phases.
+The relevant quantity is the \emph{conditional phase}: the phase of
+a joint state after subtracting the phases attributable to the
+individual systems. If a diagonal operation maps
+$\ket{ij}\rightarrow e^{i\theta_{ij}}\ket{ij}$, the conditional
+phase is
+\begin{equation}
+    \phi_{ij}
+    = \theta_{ij}-\theta_{i0}-\theta_{0j}+\theta_{00}.
+    \label{eq:conditional-phase}
+\end{equation}
+This quantity is invariant under local diagonal corrections and
+therefore characterizes the entangling part of the operation.
+A two-qubit CZ gate requires $\phi_{11}=\pi$, whereas the
+generalized two-qutrit CZ gate requires a prescribed pattern of
+four conditional phases.
+
+\paragraph{Two-qubit CZ through a coherent excursion.}
+
+In Marxer's implementation, the qubits are biased near the
+$\ket{11}\leftrightarrow\ket{20}$ resonance. The coupler index is
+omitted in this notation. Using the approximate transmon spectrum,
+\begin{equation}
+    \frac{E_{11}}{\hbar}\simeq\omega_1+\omega_2,
+    \qquad
+    \frac{E_{20}}{\hbar}\simeq2\omega_1+\alpha_1,
+\end{equation}
+where $\omega_1$ and $\omega_2$ are the qubit transition angular
+frequencies and $\alpha_1<0$ is the first transmon's anharmonicity.
+The corresponding detuning is
+\begin{equation}
+    \delta
+    = \frac{E_{20}-E_{11}}{\hbar}
+    \simeq\omega_1-\omega_2+\alpha_1.
+\end{equation}
+A flux pulse applied to the coupler activates the effective
+exchange interaction while the qubit biases remain fixed.
+After subtracting the energy of $\ket{11}$, a minimal model for
+the relevant subspace is
+\begin{equation}
+    \frac{H_{\mathrm{sub}}(t)}{\hbar}
+    =
+    \begin{pmatrix}
+        0 & G(t)\\
+        G(t) & \delta(t)
+    \end{pmatrix}_{\{\ket{11},\ket{20}\}},
+    \qquad
+    G\simeq\sqrt{2}\,g_{\mathrm{eff}}.
+    \label{eq:two-state-model}
+\end{equation}
+The factor $\sqrt{2}$ arises from the transmon ladder-operator
+matrix element. Coupler dressing can modify both the effective
+coupling and detuning during the pulse.
+
+For constant coupling at exact resonance, $\delta=0$, the
+evolution from $\ket{11}$ is
+\begin{equation}
+    \ket{\psi(t)}
+    = \cos(Gt)\ket{11}-i\sin(Gt)\ket{20}.
+\end{equation}
+At $T=\pi/G$, the population completes a round trip and
+\begin{equation}
+    \ket{\psi(T)}=-\ket{11}.
+\end{equation}
+Although the population returns to its initial value, the
+amplitude acquires a phase of $\pi$. This distinction between
+population return and amplitude return provides the essential
+intuition for the gate: the auxiliary state $\ket{20}$ allows a
+cyclic excursion that changes the phase of the computational
+state $\ket{11}$.
+
+For a constant detuned pulse, the same model gives
+\begin{equation}
+    \Omega=\sqrt{\delta^2+4G^2},
+    \qquad
+    T=\frac{2\pi}{\Omega},
+    \qquad
+    \ket{11}\rightarrow
+    e^{i(\pi-\delta T/2)}\ket{11},
+    \label{eq:detuned-return}
+\end{equation}
+in the chosen frame. Thus, population return alone does not
+guarantee the desired conditional phase. The experimental pulse
+is shaped and slightly detuned, so
+Eqs.~\eqref{eq:two-state-model}--\eqref{eq:detuned-return}
+provide intuition rather than a complete model of the waveform.
+The pulse must be calibrated to suppress final leakage and
+satisfy
+\begin{equation}
+    \theta_{11}-\theta_{10}-\theta_{01}+\theta_{00}
+    =\pi \pmod{2\pi}.
+\end{equation}
+After correcting the local phases, the resulting operation is
+\begin{equation}
+    U_{\mathrm{CZ}}=\operatorname{diag}(1,1,1,-1).
+\end{equation}
+Marxer et al.\ implement this evolution using a Slepian-shaped
+coupler pulse, with a $22\,\mathrm{ns}$ interaction time and a
+$33\,\mathrm{ns}$ duration including padding~\cite{Marxer2023}.
+
+\paragraph{Two-qutrit controlled phase through energy shifts.}
+
+Luo's experiment uses $\ket{0}$, $\ket{1}$, and $\ket{2}$ of each
+data transmon as logical states. An effective description follows
+the dressed computational states as the coupler frequency changes.
+Let $E_{ij}$ denote their energies, with the ground-state coupler
+index suppressed, and define
+\begin{equation}
+    \chi_{ij}(t)
+    =
+    \frac{
+        E_{ij}(t)-E_{i0}(t)-E_{0j}(t)+E_{00}(t)
+    }{\hbar},
+    \qquad i,j\in\{1,2\}.
+    \label{eq:cross-kerr}
+\end{equation}
+After removing local energy contributions, the effective
+conditional Hamiltonian is
+\begin{equation}
+    \frac{H_{\mathrm{cond}}(t)}{\hbar}
+    =
+    \sum_{i,j=1}^{2}
+    \chi_{ij}(t)\proj{ij}.
+\end{equation}
+Within this diagonal description, the accumulated phases are
+\begin{equation}
+    \phi_{ij}
+    =-\int_0^T\chi_{ij}(t)\,dt,
+    \label{eq:integrated-phase}
+\end{equation}
+where the sign follows the convention
+$U=\mathcal{T}\exp[-(i/\hbar)\int_0^T H(t)\,dt]$.
+
+The physical origin of these conditional shifts is multilevel
+hybridization: a joint state's energy differs from the sum of
+the corresponding individual energies. Changing the coupler
+frequency controls this nonadditivity. Pulse amplitude therefore
+controls the phase rates, while pulse duration controls the
+accumulated angles. Equation~\eqref{eq:integrated-phase} includes
+the contributions from both the ramps and the plateau.
+Experimentally, the interaction shifts are calibrated using
+conditional Ramsey measurements, which compare phase evolution
+for different states of the other qutrit~\cite{Luo2023}.
+
+The target operation is the generalized qutrit CZ,
+\begin{equation}
+    U_{\mathrm{CZ}_3}\ket{ij}
+    =e^{i2\pi ij/3}\ket{ij},
+    \qquad i,j\in\{0,1,2\}.
+\end{equation}
+Its four nontrivial conditional phases satisfy
+\begin{equation}
+    \begin{pmatrix}
+        \phi_{11} & \phi_{12}\\
+        \phi_{21} & \phi_{22}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        2\pi/3 & 4\pi/3\\
+        4\pi/3 & 2\pi/3
+    \end{pmatrix}
+    \pmod{2\pi}.
+    \label{eq:qutrit-target}
+\end{equation}
+
+Luo et al.\ construct this pattern using two identical coupler
+flux pulses, separated and followed by simultaneous
+$\ket{1}\leftrightarrow\ket{2}$ microwave swaps on both qutrits.
+The time-ordered sequence is
+\begin{equation}
+    \text{flux pulse}
+    \;\longrightarrow\;
+    \text{swaps}
+    \;\longrightarrow\;
+    \text{flux pulse}
+    \;\longrightarrow\;
+    \text{swaps}.
+\end{equation}
+Suppose one flux pulse contributes conditional phases
+$(a,b,c,d)$ to
+$(\ket{11},\ket{12},\ket{21},\ket{22})$.
+For ideal swaps, and up to local phase corrections, the complete
+sequence contributes
+\begin{equation}
+    (\phi_{11},\phi_{12},\phi_{21},\phi_{22})
+    =(a+d,\;b+c,\;b+c,\;a+d).
+    \label{eq:phase-pairing}
+\end{equation}
+For example, an input $\ket{11}$ samples the $\ket{11}$
+interaction shift during the first pulse and the $\ket{22}$
+shift during the second. An input $\ket{22}$ samples the same
+shifts in reverse order. The swaps therefore enforce equality
+within each pair and reduce the calibration to two phase sums:
+\begin{equation}
+    a+d=\frac{2\pi}{3},
+    \qquad
+    b+c=\frac{4\pi}{3}
+    \pmod{2\pi}.
+\end{equation}
+
+In the paper's qutrit--coupler--qutrit notation, the resulting
+operation on the dressed computational manifold is
+\begin{equation}
+\begin{aligned}
+    U_{\mathrm{Cphase}}
+    ={}&
+    e^{i2\pi/3}
+    \left(\proj{101}+\proj{202}\right)\\
+    &+
+    e^{-i2\pi/3}
+    \left(\proj{102}+\proj{201}\right)\\
+    &+
+    \sum_{\substack{
+        i,j\in\{0,1,2\}\\
+        i=0\ \mathrm{or}\ j=0
+    }}
+    \proj{i0j}.
+\end{aligned}
+\end{equation}
+The middle zero denotes the ground-state coupler label.
+The final sum specifies that states with either qutrit in
+$\ket{0}$ acquire no conditional phase after local corrections.
+The equality $e^{-i2\pi/3}=e^{i4\pi/3}$ makes the connection to
+Eq.~\eqref{eq:qutrit-target} explicit~\cite{Luo2023}.

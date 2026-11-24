@@ -1,0 +1,15 @@
+\subsection{Conventions}
+\label{sub:conventions}
+
+% Sec. 2.1 (track hw). Gate definitions taken from the former Background (bg - Qudit Pauli Group.tex, bg - Qudit Clifford Group.tex), which is now Appendix A.
+All qudits in this paper have a prime local dimension $q$, with $q = 3$ (qutrits) except in the qubit comparison, where $q = 2$. Let $\omega = e^{2\pi i/q}$, and let $\ket{j}$ with $j \in \{0, \dots, q-1\}$ be the computational basis. The Pauli operators $X$ and $Z$ and the Clifford gates $H$, $S$, SUM and CZ act as
+\begin{widetext}
+\begin{equation}
+  \begin{aligned}
+    X\ket{j} &= \ket{j+1}, &\quad Z\ket{j} &= \omega^{j}\ket{j}, &\quad H\ket{j} &= \frac{1}{\sqrt{q}}\sum_{l=0}^{q-1}\omega^{jl}\ket{l}, \\
+    S\ket{j} &= \omega^{j(j-1)/2}\ket{j}, &\quad \mathrm{SUM}\,\ket{j}\ket{l} &= \ket{j}\ket{j+l}, &\quad \mathrm{CZ}\,\ket{j}\ket{l} &= \omega^{jl}\ket{j}\ket{l},
+  \end{aligned}
+  \label{eq:conventions}
+\end{equation}
+\end{widetext}
+with all arithmetic modulo $q$ (\autoref{app:background} lists their conjugation rules). The form of $S$ holds for odd $q$. SUM adds the value of its first qutrit, the control, to its second, the target, and SWAP exchanges two qutrits. A subscript on a gate names the qutrit, or the pair of qutrits, it acts on. We measure in the $X$ basis by applying $H^{-1}$ and then measuring in the computational basis, so the outcome $j$ belongs to the $X$ eigenvalue $\omega^{-j}$.

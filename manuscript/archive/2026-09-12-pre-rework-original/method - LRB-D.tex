@@ -1,0 +1,240 @@
+\subsection{Logical Randomized Benchmarking with Detection (LRB-D)}
+\label{sub:lrb_d}
+
+Standard Logical Randomized Benchmarking (LRB) characterizes the performance of a code by actively correcting errors using decoder feedback throughout the Clifford sequence \cite{Combes2017}. However, the $[[5,1,2]]_3$ code utilized in this work is a distance $d=2$ code. While it can detect the presence of any single-qutrit error, it cannot identify the specific error location and type without ambiguity. Consequently, the code violates the Knill-Laflamme error correction conditions for generic single-qutrit errors, making faithful error correction impossible.
+
+To address this, we employ a detection-only variant of the protocol, denoted as LRB-D. Instead of attempting to correct errors and return the system to the code space, LRB-D treats the stabilizer measurements as a filter. We post-select exclusively on shots where the system remains in the code space. Thereby, discarding any experimental runs (shots) where a non-trivial error syndrome is detected. This effectively benchmarks the code's ability to preserve the logical information in the absence of detectable errors.
+
+We initially simulate this protocol on the \texttt{sdim} qudit stabilizer simulator before executing it on hardware. This numerical validation allows us to verify the expected logical fidelity decay and the effectiveness of the post-selection filter under controlled noise models, establishing a necessary performance baseline prior to running the protocol on the IQM Garnet QPU.
+
+\subsubsection{LRB-D Protocol}
+The LRB-D protocol proceeds as follows, illustrated in \autoref{fig:lrb_d_full}:
+
+\begin{enumerate}
+    \item \textbf{Logical State Preparation:} Using the circuit in \autoref{fig:encoding_circuit}, the system is encoded into the logical state $\ket{\bar{+}}$, the $+1$ eigenstate of the logical $\bar{X}$ operator.
+    
+    \item \textbf{Random Logical Clifford Sequence:} A sequence of $m$ logical Clifford gates, $\mathcal{C} = \{\bar C_1, \bar C_2, \dots, \bar C_m\}$, sampled uniformly from the logical single-qutrit Clifford group, is applied to the encoded state.
+    
+    \textit{Simulation: To model the noisy experimental conditions, we insert the single-qudit noise channel of the chosen noise model (\autoref{sub:noise_models}) on the qudits involved in each logical operation. In the depolarizing model the channel is applied once to every involved qudit at the end of the decomposed logical gate, as illustrated in \autoref{fig:lrb_b}, while in the SI1000 model noise follows every physical gate at the rates of \autoref{tab:si1000-noise}.}
+    
+    \item \textbf{Inversion:} The sequence is inverted by applying $\bar C_{inv} = (\prod_{i=1}^m \bar C_i)^{-1}$. In the absence of logical errors, this returns the system to the $\ket{\bar{+}}$ state.
+    
+    \textit{Simulation: The inversion gate is treated identically to the random sequence, with the same local noise insertion applied to the relevant qudits immediately following the decomposed physical gates that make up the logical inverse.}
+    
+    \item \textbf{Stabilizer Measurement and Post-selection (Terminal and Intermediate Check):} 
+    We measure the code stabilizers $G_1, \dots, G_4$ utilizing the syndrome extraction circuits depicted in \autoref{fig:lrb_c} and \autoref{fig:lrb_d}. This verification is implemented either as a single \emph{terminal check} immediately preceding the logical readout, or at \emph{arbitrary intervals} interspersed within the Clifford sequence $\{\bar C_1, \bar C_2, \dots, \bar C_m\}$. In the terminal-only case no ancilla circuits are run, and the check is instead evaluated classically from the terminal $X$-basis data readout, which determines the two $X$-type stabilizers alongside the logical measurement. The intermediate strategy utilizes continuous error detection by filtering the state trajectory, allowing only error-free shots to propagate to the subsequent gate. We strictly post-select on the trivial ``no-error'' syndrome across the checks performed:
+    \begin{equation}
+        \text{Keep shot if: } \forall k \in \{1, \dots, 4\}, \quad \text{outcome}(G_k) = 0 \pmod 3
+    \end{equation}
+    Any shot yielding a non-trivial syndrome (corresponding to eigenvalues $\omega$ or $\omega^2$, or integer outcomes 1 and 2) is discarded. This post-selection acts as a filter, excluding trajectories contaminated by detectable physical errors to isolate the logical gate fidelity.
+
+    \textit{Simulation: In the numerical simulation of the syndrome extraction, we model interaction errors by inserting the two-qutrit channel $\mathcal{E}^{(2)}_{\mathcal{D}}$ of \autoref{sub:noise_models} immediately following every two-qudit gate (generalized $CX$ or $CX^\dagger$) interacting the ancilla and data qutrits. The single-qutrit channel is likewise applied to the ancilla immediately following the Hadamard gates ($H_3, H_3^{-1}$) in the $X$-type stabilizer circuits, as illustrated in \autoref{fig:lrb_d}. Under the SI1000 model the resets, readouts, and idling qutrits in these circuits carry the additional channels listed in \autoref{tab:si1000-noise}.}
+    
+    
+    \item \textbf{Logical Measurement:} For the surviving shots, we execute the logical readout by measuring $q_0$ and $q_3$ in the $X$ basis as the logical operator is defined as $\bar{X} = X_0 \otimes X_3$. We obtain outcomes $m_0, m_3 \in \{0, 1, 2\}$. The logical measurement result $m_{\bar{X}}$ is determined by the modular sum of these physical outcomes:
+    \begin{equation}
+        m_{\bar{X}} = (m_0 + m_3) \pmod 3
+    \end{equation}
+    We then calculate the expectation value $\langle \bar{X} \rangle$ of the logical measurement, where the result $m_{\bar{X}}=0$ corresponds to the target eigenvalue $+1$:
+    \begin{equation}
+        \langle \bar{X} \rangle = P_0(1) + P_1(\omega) + P_2(\omega^2)
+    \end{equation}
+    Here, $P_j$ is the proportion of post-selected shots yielding the logical outcome $j$.
+\end{enumerate}
+\begin{figure}[H]
+    \centering
+    % --- Row 1: Parts (a) and (b) ---
+    \begin{subfigure}[b]{0.63\textwidth}
+        \centering
+        \scalebox{0.72}{
+        \begin{quantikz}
+          \lstick{$\ket{0}$} & 
+            \gate[wires=5]{\textcolor{LightBlue}{\ket{\bar{+}}\bra{\bar{+}}}} &
+            \gate[wires=5]{\textcolor{red}{\bar C_1}} &
+            \gate[wires=5]{\textcolor{purple}{\Lambda_{\mathcal{E}_{\mathcal{D}}}}} &
+            \gate[wires=5]{\textcolor{red}{\bar C_2}} &
+            \gate[wires=5]{\textcolor{purple}{\Lambda_{\mathcal{E}_{\mathcal{D}}}}} &
+            \push{\dots} & \gate[wires=5]{\textcolor{red}{\bar C_m}} &
+            \gate[wires=5]{\textcolor{purple}{\Lambda_{\mathcal{E}_{\mathcal{D}}}}} &
+            \gate[wires=5]{\textcolor{red}{\bar C_{1:m}^{-1}}} &
+            \gate[wires=5]{\textcolor{purple}{\Lambda_{\mathcal{E}_{\mathcal{D}}}}} &
+            \meter{} &
+            \qw \\
+          \lstick{$\ket{0}$} & & & & & & \push{\dots} & & & & & \meter{} &\qw \\
+          \lstick{$\ket{0}$} & & & & & & \push{\dots} & & & & & \meter{} &\qw \\
+          \lstick{$\ket{0}$} & & & & & & \push{\dots} & & & & & \meter{} &\qw \\
+          \lstick{$\ket{0}$} & & & & & & \push{\dots} & & & & & \meter{} &\qw \\
+        \end{quantikz}
+        }
+        \vspace{-0.4cm}
+        \caption{Simulated LRB-D circuit with local noise insertion}
+        \label{fig:lrb_a}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.35\textwidth}
+    
+        \centering
+        \raisebox{0.8cm}{
+        \scalebox{0.7}{
+        \begin{quantikz}
+          \lstick{$q_0: \ket{0}$} & \gate{S_3} & \gate{\textcolor{purple}{\mathcal{E}_{\mathcal{D}}}} & \qw \\
+          \lstick{$q_1: \ket{0}$} & \gate{S_3^{-1}} & \gate{\textcolor{purple}{\mathcal{E}_{\mathcal{D}}}} & \qw \\
+          \lstick{$q_2: \ket{0}$} & \ctrl{1} & \gate{\textcolor{purple}{\mathcal{E}_{\mathcal{D}}}} & \qw  \\
+          \lstick{$q_3: \ket{0}$} & \gate{Z_3} & \gate{\textcolor{purple}{\mathcal{E}_{\mathcal{D}}}} & \qw \\  
+          \lstick{$q_4: \ket{0}$} & \gate{S_3} & \gate{\textcolor{purple}{\mathcal{E}_{\mathcal{D}}}}& \qw
+        \end{quantikz}
+        }
+        }
+        \caption{$\mathcal{E}_{\mathcal{D}}$ on qutrits involved \newline in $\bar C_i$}
+        \vspace{-0.4cm}
+        \label{fig:lrb_b}
+    \end{subfigure}
+    \hspace{-1.0cm}
+    \vspace{0.2cm}
+
+    % --- Row 2: Parts (c) and (d) ---
+    % Note: No \centering here inside the row logic, effectively.
+    % The trailing \hfill at the very end of the row pushes these two to the left.
+    
+    % Part (c): Z-type Stabilizers
+    \hspace{-2.6cm}
+    \begin{subfigure}[b]{0.45\textwidth} % Reduced width slightly to ensure fit
+        \centering
+        % G1
+       
+        \scalebox{0.58}{
+        \begin{quantikz}
+          \lstick{$q_0$} & \ctrl{5} & \gate[wires=6]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_1$} & \qw & \qw & \ctrl{4} & \gate[wires=5]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw & \qw \\
+          \lstick{$q_2$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_3$} & \qw & \qw & \qw & \qw & \ctrl{2} & \gate[wires=3]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw \\  
+          \lstick{$q_4$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$a: \ket{0}$} & \gate{X_3} & \qw & \gate{X_3^{\dagger}} & \qw & \gate{X_3^{\dagger}} & \qw & \meter{} & \qw
+        \end{quantikz}
+        }
+        \par \vspace{0.4cm}
+        % G2
+        \scalebox{0.58}{
+        \begin{quantikz}
+          \lstick{$q_0$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_1$} & \ctrl{4} & \gate[wires=5]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw & \qw & \qw & \qw \\
+          \lstick{$q_2$} & \qw & \qw & \ctrl{3} & \gate[wires=4]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw & \qw \\
+          \lstick{$q_3$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw  \\  
+          \lstick{$q_4$} & \qw & \qw & \qw & \qw & \ctrl{1} & \gate[wires=2]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw \\
+          \lstick{$a: \ket{0}$} & \gate{X_3} & \qw & \gate{X_3} & \qw & \gate{X_3^{\dagger}} & \qw & \meter{} & \qw
+        \end{quantikz}
+        }
+        \captionsetup{margin={0.4cm, 0.4cm}}
+        \caption{Syndrome extraction circuits for $Z$-type stabilizers: $Z_0Z_1^{-1}Z_3^{-1}$ and $Z_1Z_2Z_4^{-1}$}
+        
+        \label{fig:lrb_c}
+    \end{subfigure}
+    \hspace{-.5cm} % Small fixed gap between c and d
+    % Part (d): X-type Stabilizers
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        % G3
+        \scalebox{0.58}{
+        \begin{quantikz}
+          \lstick{$q_0$} & \qw & \qw & \gate{X_3} & \gate[wires=6]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\ % Added extra & \qw
+          \lstick{$q_1$} & \qw & \qw & \qw & \qw & \gate{X_3} & \gate[wires=5]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw & \qw & \qw & \qw \\ % Added extra & \qw
+          \lstick{$q_2$} & \qw & \qw & \qw & \qw & \qw & \qw & \gate{X_3^{\dagger}} & \gate[wires=4]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw & \qw \\ % Added extra & \qw
+          \lstick{$q_3$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\ % Added extra & \qw 
+          \lstick{$q_4$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\ % Added extra & \qw
+          \lstick{$a: \ket{0}$} & \gate{H_3} & \gate{\textcolor{purple}{\mathcal{E}_{\mathcal{D}}}} & \ctrl{-5} & \qw & \ctrl{-4} & \qw & \ctrl{-3} & \qw & \gate{H_3^{-1}} & \gate{\textcolor{purple}{\mathcal{E}_{\mathcal{D}}}} & \meter{} & \qw
+        \end{quantikz}
+        }
+        \par \vspace{0.4cm}
+        % G4
+        \scalebox{0.58}{
+        \begin{quantikz}
+          \lstick{$q_0$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\ % Added extra & \qw
+          \lstick{$q_1$} & \qw & \qw & \gate{X_3^{\dagger}} & \gate[wires=5]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\ % Added extra & \qw
+          \lstick{$q_2$} & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw & \qw \\ % Added extra & \qw
+          \lstick{$q_3$} & \qw & \qw & \qw & \qw & \gate{X_3} & \gate[wires=3]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw & \qw & \qw & \qw \\ % Added extra & \qw 
+          \lstick{$q_4$} & \qw & \qw & \qw & \qw & \qw & \qw & \gate{X_3^{\dagger}} & \gate[wires=2]{\textcolor{purple}{\mathcal{E}^{(2)}_{\mathcal{D}}}} & \qw & \qw & \qw  & \qw \\ % Added extra & \qw
+          \lstick{$a: \ket{0}$} & \gate{H_3} & \gate{\textcolor{purple}{\mathcal{E}_{\mathcal{D}}}} & \ctrl{-4} & \qw & \ctrl{-2} & \qw & \ctrl{-1} & \qw & \gate{H_3^{-1}} & \gate{\textcolor{purple}{\mathcal{E}_{\mathcal{D}}}} & \meter{} & \qw
+        \end{quantikz}
+        }
+        \captionsetup{margin={1cm, -1.2cm}}
+        \caption{Syndrome extraction circuits for $X$-type stabilizers: $X_0X_1X_2^{-1}$ and $X_1^{-1}X_3X_4^{-1}$}
+        \label{fig:lrb_d}
+    \end{subfigure}
+    \hfill % <--- This pushes (c) and (d) to the left
+
+    \caption{Overview of the simulated LRB-D protocol. (a) The full protocol circuit illustrating the $\ket{\bar +}$ initialization, the random logical Clifford sequence, inversion, and measurement, with effective single qutrit depolarizing noise $\Lambda_{\mathcal{E}_{\mathcal{D}}}$ inserted after each gate. (b) A detailed view of the physical simulation model, where single-qutrit depolarizing errors $\mathcal{E}_{\mathcal{D}}$ are applied after every physical gate in a decomposition. (c) Syndrome extraction circuits for Z-type stabilizers, incorporating two-qutrit depolarizing noise $\mathcal{E}^{(2)}_{\mathcal{D}}$ after entangling gates. (d) Syndrome extraction circuits for X-type stabilizers, featuring additional single-qutrit noise on the ancilla. These circuits enable post-selection at either the terminal step or intermediate intervals. The noise boxes are drawn for the depolarizing model, and the same insertion points anchor the SI1000 placements of \autoref{tab:si1000-noise}.}
+    \label{fig:lrb_d_full}
+\end{figure}
+
+\subsubsection{Post-selection Intervals}
+A critical parameter in LRB-D is the frequency of stabilizer checks. In a standard distance $d \ge 3$ code, error correction would ideally occur after every logical gate to prevent error accumulation. In our detection setting, we explore two regimes of post-selection intervals:
+
+\begin{itemize}
+    \item \textbf{Terminal Post-selection:} Stabilizers are measured only at the end of the sequence, immediately before the logical readout. This minimizes the circuit overhead and potential errors introduced by the syndrome extraction circuit itself, but allows physical errors to accumulate and potentially evolve into undetectable logical errors (e.g., a weight-2 logical operator) during the sequence.
+    
+    \item \textbf{Intermediate Post-selection:} Stabilizers are measured at fixed $k$ intervals (e.g., after every logical Clifford or every 5 logical Cliffords). This filters out error trajectories earlier, preventing physical errors from compounding into logical errors. While this approach significantly reduces the yield (the fraction of accepted shots), it provides a more rigorous benchmark of the logical gate fidelity by ensuring the state remains in the code space throughout the computation.
+\end{itemize}
+
+By comparing the decay rates under these different post-selection regimes, LRB-D allows us to characterize the effective logical noise channel and verify the suppression of logical errors relative to the physical baseline.
+
+
+\subsubsection{Irreducible Representations and Syndrome Dynamics}
+\label{sub:irreps}
+
+The behavior of the twirled error channel in the logical setting can be explained by studying the representation theory of the Clifford group.
+A short review of the relevant representation theory is included in \Cref{sec:rep-theory}.
+
+The logical Clifford group $\bar{C}_3$ defines a representation of the Clifford group $C_3$.
+Importantly, the module corresponding to this representation is not the $3^5$ dimensional physical space $\mathcal{H}_{phys}$, but instead the $9^5$ dimensional space $\mathcal{B}({\mathcal{H}_{phys}})$.
+To avoid confusion, we will denote by $\mathcal{S}_{phys}$ the space of linear maps $\mathcal{B}(\mathcal{H}_{phys})$.
+The representation $\bar{\pi} : C_3 \to 
+\mathrm{End}(\mathcal{S}_{phys})$ defined by the logical Clifford group is the typical conjugation
+$$
+\bar{\pi}(C)(\rho) = C \rho C^\dagger.
+$$
+By Maschke's theorem, $\mathcal{S}_{phys}$ decomposes as a direct sum of irreducible representations (irreps).
+While there are $10$ irreps of the Clifford group---one for each conjugacy class \ACE{cite the paper that lists conjugacy classes}---only two of them are important to us.
+The first is the trivial irrep $V_{triv}$ and the second is the eight dimensional irrep $V_{pauli}$ coming from conjugation of the $8$ traceless Pauli matrices.
+The remaining irreps will be denoted as $V_i$ for $i \geq 2$. In this notation, we obtain the decomposition
+\begin{align}
+    \mathcal{S}_{phys} \cong m_{triv} V_{triv} \oplus m_{pauli} V_{pauli} \oplus \bigoplus_{i = 2}^{9} m_i V_i
+\end{align}
+where the $m_i$ denote the multiplicity of each irrep in the direct sum.
+Using the orthogonality of characters, we can compute $m_{triv} = 201$ and $m_{pauli} = 2241$.
+Noting that in the one-qutrit case each of the multiplicities above is $1$, we can already see a stark difference between the five- and one-qutrit cases.
+
+Let $\mathrm{End}_{\bar{C}_3}(\mathcal{S}_{phys})$ denote the subset of linear maps $T : \mathcal{S}_{phys} \to \mathcal{S}_{phys}$ that commute with the action of $C_3$.
+A corollary of Schur's lemma tells us that $\mathrm{End}_{\bar{C}_3}(\mathcal{S}_{phys})$ is isomorphic, as an algebra, to a direct sum of matrix algebras as in
+\begin{align}
+    \mathrm{End}_{\bar{C}_3}(\mathcal{S}_{phys}) &\cong \mathrm{Mat}_{m_{triv}}(\mathbb{C}) \otimes I_{V_{triv}} \oplus \mathrm{Mat}_{m_{pauli}}(\mathbb{C})\otimes I_{V_{pauli}} \oplus \bigoplus_{i = 2}^9 \mathrm{Mat}_{m_i} (\mathbb{C}) \otimes I_{V_i}\\
+    &\cong \mathrm{Mat}_{m_{triv}}(\mathbb{C}) \oplus \mathrm{Mat}_{m_{pauli}}(\mathbb{C}) \oplus \bigoplus_{i = 2}^9 \mathrm{Mat}_{m_i}(\mathbb{C}) .
+\end{align}
+This corresponds to the fact that a $C_3$-linear endomorphism cannot map a vector in $m_i V_i$ to a vector whose support intersects nontrivially with $m_j V_j$ when $i \neq j$.
+Notice that the twirled error channel is constructed to be $C_3$-linear and thus admits such a decomposition
+\begin{align}
+    \Lambda_{eff} = M_{triv}\otimes I_{V_{triv}} \oplus M_{pauli} \otimes I_{V_{pauli}} \oplus M
+\end{align}
+in an appropriate basis.
+Up to another change of basis, we may write the effective error channel
+\begin{align}
+    \Lambda_{eff} = \Lambda_{triv} \oplus \Lambda_{pauli} \otimes I_{V_{pauli}} \oplus M
+\end{align}
+where $\Lambda_{triv}$ and $\Lambda_{pauli}$ are the diagonal matrices of eigenvalues for $M_{triv}$ and $M_{pauli}$ respective.
+The final $M$ denotes the total contribution for all $8$ other irreps.
+As long as our initial state is a stabilizer state, the matrix $M$ is entirely inconsequential.
+This follows as a stabilizer state $\rho$ will have decomposition 
+\begin{align}
+    \rho = \rho_{triv} \oplus \rho_{pauli} \oplus 0
+\end{align}
+for $\rho_{triv} \in m_{triv} V_{triv}$ and $\rho_{pauli} \in m_{pauli}V_{pauli}$.
+Thus the dynamics of the effective channel are succinctly described by the $m_{triv} + m_{pauli} = 201 + 2241 = 2442$ diagonal elements of $\Lambda_{triv}$ and $\Lambda_{pauli}$.
+While this is a much smaller number than $9^5$, it is much larger than the $1 + 1 = 2$ relevant eigenvalues in the one-qutrit case.
+
+With $\Lambda_{eff}$ diagonalized, it is quite simple to see what repeated application of the error channel will look like. Namely, we have the identity 
+\begin{align}
+    \Lambda_{eff}^k = \Lambda_{triv}^k \oplus \Lambda_{pauli}^k \otimes I_{V_{pauli}} \oplus M^k.
+\end{align}
+
+%%% REP THEORY MOVED TO "rep theory appendix.tex" AIDAN 1/19/26
+
+

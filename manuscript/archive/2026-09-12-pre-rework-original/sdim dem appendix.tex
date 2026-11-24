@@ -1,0 +1,34 @@
+\section{The \texttt{sdim} Simulator and Detector Error Model Sampling}
+\label{sec:sdim-dem}
+
+This appendix describes the simulation machinery behind the numerical results, namely the \texttt{sdim} qudit stabilizer simulator and the compact $q$-ary detector error model (DEM) backend used for the SI1000 sweep.
+
+\subsection{Qudit stabilizer simulation}
+
+\texttt{sdim} \cite{sdim} is a tableau-based stabilizer simulator for prime-dimensional qudits. It generalizes the binary tableau formalism of \cite{Aaronson2004} to arithmetic over $\mathbb{Z}_q$, representing stabilizer generators as Weyl operators $\omega^c X^{\mathbf{a}} Z^{\mathbf{b}}$ with exponent vectors $\mathbf{a}, \mathbf{b} \in \mathbb{Z}_q^n$ \cite{Gottesman1999,Hostens2005}. Clifford gates act on the tableau by linear updates of these exponent vectors, and computational or Fourier-basis measurements are handled by the qudit analog of the usual stabilizer measurement rules. All circuits in this work use $q=3$.
+
+Noise is included through parameterized Pauli channels, inserted as explicit noise operations in the circuit. The single-qutrit operation carries a channel tag and a probability. The depolarizing tag applies a uniformly random non-identity $X^a Z^b$ with the stated probability, the shift tag applies a uniformly random non-identity power of $X$, and the phase tag applies a uniformly random non-identity power of $Z$, matching the channels defined in \autoref{sub:noise_models}. The two-qutrit operation applies a uniformly random non-identity two-qutrit Pauli, or samples from an explicitly supplied distribution over all $81$ two-qutrit Paulis.
+
+Rather than rerunning the tableau algorithm shot by shot, \texttt{sdim} samples in the Pauli frame picture. A single noiseless reference shot is simulated with the full tableau algorithm. For every additional shot, only a Pauli frame, one pair of exponents $(a_i, b_i)$ per qutrit, is propagated through the Clifford circuit. Noise operations update the frame stochastically, and each measurement returns the reference outcome shifted by the frame content on the measured qutrit modulo three. This separates the polynomially expensive stabilizer computation, done once, from the cheap per-shot frame propagation.
+
+\subsection{Detectors and logical observables}
+
+A detector is a linear combination of measurement records, $D = \sum_i c_i m_i \bmod 3$ with integer coefficients $c_i$, chosen so that $D$ takes a fixed known value on every noiseless execution of the circuit. A logical observable is the same kind of expression, except that its value carries logical information instead of being fixed. This is the qudit generalization of the detector formalism introduced by Stim for qubit circuits \cite{Gidney2021Stim}, with sums modulo two replaced by sums modulo three and with coefficients in $\{\pm 1\}$ to account for daggered stabilizer components.
+
+Our LRB-D circuits declare one detector per stabilizer check, labeled by the check round and the ancilla wire. Since every ancilla is freshly reset before its syndrome extraction block, the noiseless value of each ancilla readout is zero, and the detector is simply that readout. The post-selection rule of the protocol, keeping only shots in which every check returns the trivial syndrome, is then exactly the statement that every detector vanished. The terminal logical observable is $m_0 + m_3 \bmod 3$ evaluated on the final $X$-basis readouts of qutrits $q_0$ and $q_3$, matching $\bar{X} = X_0 \otimes X_3$. In the terminal-only protocol, where all five data qutrits are read out directly in the $X$ basis, the two $X$-type stabilizers are declared as detectors with the coefficient patterns $m_0 + m_1 - m_2$ and $m_3 - m_1 - m_4$, mirroring $G_3$ and $G_4$.
+
+\subsection{Compiling the detector error model}
+
+A detector error model is a list of the independent fault locations in the circuit, each with its firing probability and its effect on every detector and logical observable. The key structural fact is linearity. A fault $X^a Z^b$ inserted at some location propagates through the remaining Clifford circuit to a final Pauli whose exponents depend linearly on $(a,b)$, and detector values are themselves linear in the measurement outcomes modulo three. Consequently the shift that a fault induces on any detector is
+\begin{equation}
+    \Delta D = a\, r_X + b\, r_Z \bmod 3,
+\end{equation}
+where $r_X$ and $r_Z$ are the responses to the unit faults $X$ and $Z$ at that location. A two-qutrit fault location behaves the same way with four unit responses. It therefore suffices to probe each noise location with two unit faults for a single-qutrit channel or four for a two-qutrit channel.
+
+Compilation proceeds directly through the frame simulator. For every noise location and every unit component, we run the frame simulation with exactly that one unit fault inserted and all other noise disabled, and record the difference of every detector and logical observable against a fault-free baseline, modulo three. The probing runs are batched, and the result is a sparse table that maps each location and unit component to the list of detectors and logical observables it shifts, together with the coefficient of the shift. Locations whose channel probability is zero are dropped. The compiled model is cached per circuit, so the probing cost is paid once for each annotated circuit regardless of how many shots are later sampled.
+
+\subsection{Sampling and exactness}
+
+Sampling the compiled model is elementary. For each shot, every active location fires independently with its probability. When a location fires, the fault exponents are drawn according to its channel, a uniformly random non-zero pair $(a,b)$ for depolarizing noise, a non-zero $a$ alone for the shift channel, a non-zero $b$ alone for the phase channel, and a uniformly random non-zero four-tuple for the two-qutrit channel. The corresponding responses, scaled by the drawn exponents, are accumulated into the detector and logical event arrays modulo three. A shot is accepted precisely when every accumulated detector value is zero, and the logical outcome is the reference outcome shifted by the accumulated logical response.
+
+Because our noise models consist entirely of Pauli channels acting inside a Clifford circuit, and because faults compose additively in the frame picture, this procedure reproduces exactly the joint distribution of detector and logical events that direct frame simulation would produce. Nothing is approximated. What changes is the cost profile. After the one-time compilation, the per-shot work is proportional to the number of active noise locations and the sparsity of their responses, and is independent of the stabilizer computation itself. This is what made the SI1000 production grid of \autoref{sub:si1000_results} affordable across its 45 stabilizer check schedules.

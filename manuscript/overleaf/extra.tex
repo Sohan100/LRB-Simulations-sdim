@@ -1,0 +1,267 @@
+\section{Background}
+
+\subsection{Randomized Benchmarking (RB)}
+The randomized benchmarking (RB) procedure~\cite{RBRef} is a Monte Carlo method that, given the error rates of a noisy quantum gate set, produces a decay parameter $\alpha \in [0,1]$ such that $f(D) = B\,\alpha^D$ approximates the probability that a circuit of depth $D$ returns a correct (non-erroneous) result, where $B$ is a constant. This $\alpha$ may be obtained from either hardware experiments or idealized simulations with specified error parameters. The work in \cite{Ref14,Ref50,Ref51} establishes that a simulated $\alpha$ using only Clifford circuits and depolarizing noise (with an appropriately chosen failure probability) can still approximate the success probabilities of a hardware implementation undergoing more general errors. Furthermore, it is robust enough to reproduce the success probability of systems with gate-dependent errors by using an appropriately chosen gate-independent error probability~\cite{Ref66}. Altogether, the $\alpha$ parameter is a powerful summary of the average gate-fidelity decay rate, and RB is a task well suited for stabilizer simulation and Pauli frame sampling.
+
+Each RB circuit is a random sequence of Clifford gates at a given depth, with each gate followed by a depolarizing error (see Figure~12). This sequence is then followed by a (noiseless) inverse Clifford sequence, one more depolarizing error, and a final measurement. Assuming a fixed qudit dimension $d$ and a gate-independent error probability $p$, the value of $\alpha$ is determined by the set of circuit depths and the number of random circuits sampled at each depth. The basic RB protocol is as follows:
+\begin{enumerate}
+    \item Generate random circuits of the above form, parameterized by the circuit depth $D$ and the number of random circuits at each depth.
+    \item Simulate each circuit for a large, fixed number of shots. For the $k$-th random circuit of depth $D$, the (normalized) outcomes form a probability distribution $P_{D,k}$ over $\{0,1,\ldots,d-1\}$.
+    \item These probabilities yield fidelities $f_{D,k} = \left|\sum_{j=0}^{\,d-1} P_{D,k}(j)\,\omega^j \right|$.
+    \item Average the fidelities over $k$. The resulting $f_D$ is the average fidelity of a depth-$D$ circuit with this noisy gate set. Work from \cite{Ref66} guarantees that $f_D$ decays exponentially with $D$, and so a curve fit can extract $\alpha$.
+\end{enumerate}
+
+\subsection{Modified Qutrit Surface Code -- Folded Surface Code}
+Quantum stabilizer error-correcting codes (QECCs) encode $k$ logical qudits into $n$ physical qudits~\cite{Ref32}. They are defined by a set of Pauli stabilizers that preserve a subspace (the codespace). Non-destructive measurements of these stabilizers (syndrome measurements, often performed via an ancilla qudit as in Figure~11a) reveal which error has occurred, allowing it to be corrected by an appropriate recovery operation.
+
+In contrast, quantum \emph{detection} codes are encodings whose stabilizer measurements are only robust enough to indicate \emph{whether} an error has occurred, without revealing which error. In other words, any error taking the system out of the codespace can be detected, but the syndrome does not distinguish the error type. The code we consider is a $[[5,1,2]]_3$ detection code, which is a modified five-qutrit surface code (a folded surface code variant) studied by Moussa~\cite{Moussa}. This code encodes one logical qutrit into five physical qutrits (distance $2$, detecting up to one error but not correcting it). It is defined by the following stabilizer generators:
+\begin{equation}
+    \begin{aligned}
+        G_1 &= Z_1 \otimes Z_2^{-1} \otimes Z_4^{-1},\\
+        G_2 &= Z_2 \otimes Z_3 \otimes Z_5^{-1},\\
+        G_3 &= X_1 \otimes X_2 \otimes X_3^{-1},\\
+        G_4 &= X_2^{-1} \otimes X_3 \otimes X_5^{-1}\,,
+    \end{aligned}
+\end{equation}
+where each $X_i$ and $Z_i$ is the generalized Pauli $X$ or $Z$ operator acting on qudit $i$ (with $X^{-1}$ and $Z^{-1}$ denoting the inverse operators).
+
+
+\subsection{Logical Randomized Benchmarking (LRB)}
+LIn practice, performing full error correction after every logical gate
+in a sequence can be demanding, especially if one is testing a
+small-distance code or doing a simulation. An alternative approach, and
+the one we focus on here, is Detection-Based Logical RB (LRB-D) – a
+variant of LRB that uses error detection and post-selection instead of
+full correction.\cite{Harper2019FTIBM,Lacroix2025ColorCode} The LRB-D
+protocol is tailored for an error-detecting code (like our [[5,1,2]]$_3$
+code, which can detect a single error but not necessarily correct it).
+In LRB-D, we do not attempt to actively correct errors during the
+sequence; instead, we monitor the stabilizers to detect if an error has
+occurred, and we discard those experimental runs from the data. By
+post-selecting only the runs where no error was detected throughout the
+circuit, we ensure that the remaining data reflect the performance of
+error-free logical executions. This yields a well-defined decay curve
+despite not applying corrections. The procedure for LRB-D is as follows:
+
+Logical State Preparation: Encode the qudit into the logical
+$|\bar{0}\rangle$ state of the code (or another reference logical state
+as needed). All stabilizers are initially satisfied (no error syndrome).
+
+Random Logical Gates with Detection: Apply a random logical Clifford
+$\bar{C}j$, which acts on the encoded state by some pattern of physical
+gates. After each logical gate (or at least at the end of the entire
+sequence, depending on the chosen variant), perform a round of
+stabilizer measurements without correcting any errors. In our detection
+code, measuring all stabilizers will reveal if any single error has
+occurred by yielding a non-trivial syndrome outcome (since the code
+distance is 2, any single physical error flips one or more stabilizers).
+We use ancilla-assisted measurements for each stabilizer (as
+illustrated in the user’s stabilizer circuit diagram), obtaining a
+binary/trinary outcome for each $G_i$. If any stabilizer indicates an
+error (syndrome $\neq 0$), we flag this run as a failure. In LRB-D, a
+flagged run is simply discarded (post-selected out) rather than
+corrected. The sequence then proceeds to the next gate $\bar{C}{j+1}$ on
+fresh runs that are still error-free.
+
+Logical Inversion: After $m$ logical gates (assuming the run has not been
+discarded by an earlier detection event), apply the composite inverse
+$\bar{C}_{\text{inv}} = (\bar{C}_m \cdots \bar{C}_1)^{-1}$, which
+ideally brings the encoded state back to $|\bar{0}\rangle$.
+
+Logical Measurement: Measure a logical operator (for example, the logical
+$Z$) on the encoded qudit. This can be done by measuring the relevant
+physical qudits and interpreting the combined result as the logical
+outcome (e.g., for a logical $\bar{Z}$ composed of $Z_1 Z_2$ on two
+specific qudits, one would sum those two physical measurement results
+mod $d$ to get the logical measurement). Record whether the logical
+measurement indicates the correct final state (which, in an ideal
+noise-free run, would always be the initial logical state).
+
+Repetition and Averaging: Repeat the above for many random sequences at
+the given length $m$, and for various lengths $m$. For each sequence
+length, consider only the runs that never triggered an error syndrome
+(all un-flagged runs). Compute the fraction of those runs that yield the
+correct logical measurement. This gives the logical survival probability
+at sequence length $m$. Fit these survival probabilities to an
+exponential curve to extract the logical decay parameter
+$\bar{\alpha}_{\text{det}}$ for the detection-based protocol.
+
+The motivation for LRB-D is that by catching errors early (via the
+stabilizer checks) and filtering them out, the noise can be made
+effectively memoryless (Markovian) from the perspective of the surviving
+runs. If one were to only check the stabilizers at the very end of the
+sequence (a terminal detection only), an error that occurred early in
+the sequence could propagate through the subsequent logical operations
+and potentially be masked or compounded by later errors. This situation
+leads to non-Markovian noise: the probability of error in later gates is
+no longer independent of what happened in earlier gates (since an
+undetected error is hanging around, influencing the state). Indeed, our
+simulations of a terminal-check only LRB on the [[5,1,2]]$3$ code showed
+deviations from a simple exponential decay – the survival probability
+curve was not purely exponential, indicating that some history-dependent
+error accumulation was occurring.\cite{Ceasura2022NonExpLRB} By
+contrast, in LRB-D where intermediate stabilizer checks are performed,
+any run that would develop non-Markovian error buildup is removed from
+the sample as soon as the first error occurs. The remaining ensemble of
+runs (those with no detected errors) behaves as if each logical gate
+either succeeds or fails independently, much like in standard RB. As a
+result, the averaged logical fidelity of these post-selected runs decays
+exponentially with the number of gates, yielding a well-behaved RB
+curve.\cite{Wallman2018RB} The trade-off is that as $m$ grows, the
+probability that a given run has no errors drops, so a larger number of
+runs must be sampled to gather statistics (many runs get discarded when
+even a single fault is detected). Nonetheless, this detection-based
+approach is very useful in the near term, especially for small codes: it
+sidesteps the need for a full decoder and recovery operation, yet still
+allows one to benchmark the logical error rate. By comparing the logical
+RB decay rate $\bar{\alpha}{\text{det}}$ to the physical RB decay
+$\alpha$, one can directly see the error suppression (or lack thereof)
+provided by the code. In our experiments, we indeed observe that
+post-selecting on error-free syndrome outcomes yields higher fidelity
+logical operations (slower decay) than the unencoded qutrit, although
+the benefit comes at the cost of throwing away those runs where the code
+detected an error occurred. This approach provides a glimpse into the
+efficacy of the code and error-detection scheme, and whether simple
+post-selection can approach the performance of full fault-tolerant error
+correction in the early fault-tolerance regime.
+
+Overall, LRB-D demonstrates how intermediate stabilizer measurements can
+be leveraged to enforce Markovian error behavior in a logical circuit.
+By catching errors as they happen and filtering them out, we obtain an
+exponential decay in logical fidelity that can be quantified just like
+in standard RB. This forms a crucial part of our analysis of the
+[[5,1,2]]$_3$ qutrit code’s performance, bridging the gap between
+physical gate benchmarking and full logical error characterization.
+\cite{Combes2017LRB,Harper2019FTIBM,Lacroix2025ColorCode}
+
+\subsubsection{Advantages of LRB (compared to physical RB and GST).}
+\begin{itemize}
+  \item \textbf{Directly probes logical performance.}
+  LRB measures errors at the logical level, after encoding and any
+  recovery procedures, rather than just characterizing physical gates.
+  This makes it better aligned with the ultimate goal of fault-tolerant
+  architectures, which is to protect logical information.
+
+  \item \textbf{RB-style robustness and simplicity.}
+  Like standard RB, LRB yields (under reasonable assumptions) an
+  approximately exponential decay characterized by a single parameter
+  $\bar{\alpha}$, and is relatively insensitive to SPAM errors. This
+  makes analysis and fitting much simpler than full process
+  reconstruction.
+
+  \item \textbf{Quantitative comparison of logical vs.\ physical error.}
+  By comparing the logical decay parameter $\bar{\alpha}$ to the
+  physical parameter $\alpha$ obtained from unencoded RB, one can
+  directly quantify the suppression (or amplification) of errors due to
+  encoding and error handling in the code.
+
+  \item \textbf{Less resource-intensive than GST.}
+  Gate-set tomography (GST) provides a detailed, gate-by-gate
+  reconstruction of noise, but requires a large number of tailored
+  circuits and heavy classical postprocessing. LRB instead compresses
+  logical noise into a small number of decay parameters, requiring fewer
+  assumptions about detailed noise structure but also fewer resources.
+
+  \item \textbf{Code- and architecture-agnostic.}
+  The basic structure of LRB is generic and can be implemented with
+  different codes and hardware platforms, as long as one has access to a
+  set of logical Clifford gates and stabilizer measurements.
+\end{itemize}
+
+\subsubsection{Disadvantages and limitations of LRB.}
+\begin{itemize}
+  \item \textbf{Requires a working code and logical gate set.}
+  LRB assumes that one already has an implemented quantum code, logical
+  Clifford operations, and stabilizer measurement routines. It does not
+  help in the regime where the code or logical operations themselves are
+  still being brought up.
+
+  \item \textbf{Limited noise diagnostics.}
+  LRB compresses the logical noise into one (or a few) decay parameters.
+  Unlike GST, it does not provide a full process-level description of
+  each logical gate, so it gives less detailed information about the
+  structure or correlations of logical noise.
+
+  \item \textbf{Assumptions inherited from RB.}
+  Standard RB analysis typically assumes time-stationary, approximately
+  Markovian, and only weakly gate-dependent noise. LRB inherits these
+  assumptions at the logical level; strong non-Markovian effects,
+  leakage out of the codespace, or highly gate-dependent logical noise
+  can lead to deviations from simple exponential decay and complicate
+  interpretation.
+
+  \item \textbf{Experimental overhead.}
+  Implementing LRB requires repeated encoding, application of logical
+  Clifford sequences, stabilizer measurements, and decoding or logical
+  readout. This can be significantly more resource-intensive per sample
+  than running physical RB, especially for large codes with many
+  stabilizers.
+
+  \item \textbf{Interpretation depends on the chosen recovery scheme.}
+  The extracted logical decay parameter $\bar{\alpha}$ depends on how
+  error correction or detection is implemented (e.g.\ full correction,
+  repeated syndrome extraction, or post-selection-based schemes like
+  LRB-D). Different recovery strategies can yield different effective
+  logical noise channels, which must be carefully accounted for when
+  comparing logical and physical error rates.
+\end{itemize}
+
+
+
+
+\subsection{Irreps}
+Unlike physical RB, where the single-qutrit Clifford group forms a unitary 2-design over the entire physical Hilbert space $\mathcal{H}_{phys}$, the logical single-qudit Clifford group $\bar{\mathcal{C}}_1$ does not. The physical Hilbert space of $n=5$ qutrits ($d_{phys} = 243$) decomposes into the direct sum of the logical code space $\mathcal{H}_L$ and the orthogonal syndrome subspaces $\mathcal{H}_{s}$:
+\begin{equation}
+    \mathcal{H}_{phys} = \mathcal{H}_L \oplus \bigoplus_{s \in \mathcal{S} \setminus \{0\}} \mathcal{H}_{s}
+\end{equation}
+where $\mathcal{S}$ denotes the set of $3^{n-k} = 81$ distinct syndromes. The code space $\mathcal{H}_L$ corresponds to the trivial syndrome $s=0$.
+
+The action of a logical gate $\bar{C} \in \bar{\mathcal{C}}_1$ on this full space preserves the tensor product structure of logical information and syndrome information. However, as noted in \autoref{tab:clifford-conjugation}, logical Clifford generators such as $\bar{H}$ and $\bar{S}$ map $Z$-type stabilizers to $X$-type stabilizers and vice-versa. Consequently, the group $\bar{\mathcal{C}}_1$ forms a unitary 2-design on the logical subsystem $\mathcal{H}_L$, while it \emph{permutes} the set of syndrome subspaces $\{\mathcal{H}_s\}$.
+
+This structure implies that the standard RB assumption fails for the full map as the twirled noise channel is not a global depolarizing channel. Under the logical single-qutrit Clifford group twirl, the effective error channel $\Lambda_{eff}$ assumes a partitioned structure with respect to the code and syndrome subspaces:
+\begin{equation}
+    \Lambda_{eff} = \begin{pmatrix} 
+    \mathcal{E}_{L} & \mathcal{E}_{S \to L} \\
+    \mathcal{E}_{L \to S} & \mathcal{E}_{S} 
+    \end{pmatrix}
+\end{equation}
+Here, $\mathcal{E}_{L}$ represents the logical depolarizing channel within the code space. The block $\mathcal{E}_{S}$ describes the mixing dynamics within and between syndrome subspaces, governed by the syndrome permutation action. The off-diagonal terms $\mathcal{E}_{L \to S}$ and $\mathcal{E}_{S \to L}$ represent leakage (leaving the code space) and seepage (returning to the code space), respectively.
+
+In the context of LRB-D, this structure dictates the fidelity decay in two distinct regimes:
+
+\begin{enumerate}
+    \item \textbf{Terminal Post-selection:} When stabilizers are measured only at the end of a sequence of length $m$, the system is allowed to traverse the full Hilbert space. The sequence fidelity, in \autoref{eq:terminal_decay} is given by the expectation value of the projection onto the target state after the full evolution. Because the twirled channel is not a single scalar in the full space, the decay is a sum of exponentials determined by the spectrum of $\Lambda_{eff}$:
+    \begin{equation}
+        \mathcal{F}_{seq}(m) = A_L \lambda_L^m + \sum_{j \in \text{Orbits}} A_{S_j} \lambda_{S_j}^m + B
+        \label{eq:terminal_decay}
+    \end{equation}
+    The summation runs over the distinct orbits of the syndrome permutation representation. The physical factors contributing to this multi-exponential decay are:
+    \begin{itemize}
+        \item $\lambda_L$: The \textit{logical eigenvalue}, representing the fidelity of operations restricted strictly to the code space.
+        \item $\lambda_{S_j}$: The \textit{syndrome orbit eigenvalues}. The 81 syndrome subspaces do not decay independently; they are permuted by the logical Clifford group into disjoint sets called orbits (e.g., an orbit containing all single-qudit error syndromes). All syndromes within an orbit $j$ mix rapidly and share a common effective decay rate $\lambda_{S_j}$.
+        \item $A_{S_j}$: Coefficients proportional to the magnitude of the \textit{leakage and seepage coupling}. A non-zero $A_{S_j}$ indicates that the system can leak out of the code space ($\mathcal{E}_{L \to S}$), \emph{shuttle} through the specific syndrome orbit $j$, and seep back into the code space ($\mathcal{E}_{S \to L}$) before the terminal measurement.
+    \end{itemize}
+    This \emph{memory} of the syndrome trajectory introduces non-Markovian deviations from the single-exponential fit, as the probability of returning to the code space depends on the specific path taken through the syndrome subspaces.
+
+    \item \textbf{Intermediate Post-selection:} Stabilizers are measured at intervals of $k$ gates. We distinguish between the strict and arbitrary interval cases:
+    
+    \textbf{Case I: Strict Interval ($k=1$).}
+    Checking stabilizers after \emph{every} Clifford gate applies the projector $P_L$ onto the code space at every step. The effective evolution is given by:
+    \begin{equation}
+        \Phi_1 = P_L \Lambda_{eff} P_L \equiv \mathcal{E}_L
+        \label{eq:strict_evolution}
+    \end{equation}
+    By immediately discarding any leakage ($\mathcal{E}_{L \to S}$), this regime rigorously forbids any excursion into the syndrome space. Since $\bar{\mathcal{C}}_1$ restricted to $\mathcal{H}_L$ is a unitary 2-design, $\mathcal{E}_L$ is guaranteed to be a simple logical depolarizing channel, yielding a pure single-exponential decay $A p^m + B$ that characterizes the code-space interactions only.
+
+    \textbf{Case II: Arbitrary Interval ($k > 1$).}
+    For a check interval $k$, the effective map over one interval is:
+    \begin{equation}
+        \Phi_k = P_L (\Lambda_{eff})^k P_L
+        \label{eq:interval_evolution}
+    \end{equation}
+    While the decay remains exponential in the number of intervals, $M$, the base parameter $\lambda_{eff}^{(k)}$ is \emph{contaminated} by higher-order leakage-return terms. Expanding $(\Lambda_{eff})^k$ reveals contributions such as:
+    \begin{equation}
+        \Phi_k \approx (\mathcal{E}_L)^k + \sum_{j} \mathcal{E}_{L \to S} (\mathcal{E}_{S_j})^{k-2} \mathcal{E}_{S \to L}
+        \label{eq:contamination}
+    \end{equation}
+    The first term $(\mathcal{E}_L)^k$ is the desired logical decay. The second term represents shots that leak out, shuttle through syndrome orbit $j$, and seep back in \emph{within} the interval window. Consequently, for $k > 1$, the extracted fidelity captures both the logical error rate and the integrated memory of these hidden shuttling loops. As $k$ increases, the protocol transitions continuously from the Markovian logical regime ($k=1$) toward the non-Markovian terminal regime.

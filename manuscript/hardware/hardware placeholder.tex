@@ -1,0 +1,21 @@
+% hardware placeholder.tex (hw version only; CONTRACT Sec. 6). The shared core (Methods, Results,
+% Appendices A to G) names no device and no experiment; the device text of the former Sec. 3.1.1
+% waits here, unchanged, for the experimental results.
+\section{Hardware Implementation}
+\label{sec:hardware}
+
+% from "method - [[5,1,2]]_3 qutrit surface code.tex", lines 5-11 of the 438f6f16 mirror (former Sec. 3.1.1, "20-Qutrit IQM Garnet QPU"). The first paragraph (lines 5-9) is unchanged. The second (line 11) is shortened to one sentence and kept in full in the comment below it; the sentence that cites the baseband-gate appendix is new (CONTRACT Sec. 6).
+% TODO(authors): which ancilla layout does the Garnet coupler map support (q1 at the center with one ancilla per stabilizer and a long-range q2-q3 coupler for the logical gates, or q2 at the center with q2 and q3 diagonal neighbors and two sites each for G1 and G4)? (from introduction.tex, line 9, and results - circuit-level noise.tex, line 8)
+Our experiments are performed on IQM's superconducting 20-qutrit Garnet QPU.  Each physical unit is a transmon circuit operated as a three-level system with computational basis states $\{\ket{0},\ket{1},\ket{2}\}$, coupled via tunable superconducting couplers that generate a ZZ-type interaction.  By applying a magnetic
+flux pulse to the coupler one implements a fast, resonant CZ-type gate with typical durations in the range of $20$--$40\,\mathrm{ns}$, while
+the effective ZZ interaction can be turned off during idle periods. Single-qutrit Clifford gates are implemented by microwave drives on the
+% TODO(authors): parametric drive or baseband flux pulse for the Garnet CZ? The previous sentence and the appendix sec:baseband-gates describe a flux pulse on the coupler; that appendix is not referenced from the main text.
+$0\!\leftrightarrow\!1$ and $1\!\leftrightarrow\!2$ transitions, and two-qutrit entangling gates are realized using parametrically driven controlled-phase operations on the couplers. \textcolor{red}{ASK NOAH FOR FIGURES AND CONTENT REGARDING IQM QPU}.
+
+From this device we select a connected patch and encode a single logical qutrit using the $[[5,1,2]]_3$ code of \autoref{sub:code}. \autoref{sec:baseband-gates} reviews baseband two-qubit and two-qutrit gates.
+% Former second paragraph of Sec. 3.1.1, kept for the authors (its content is now in Secs. 2.2 and 2.3):
+% From this device we select a connected $5$-qutrit patch and encode a single logical qutrit into these five data qutrits using the $[[5,1,2]]_3$ error-detection code defined in \autoref{sec: error detection code}. We then implement transversal Clifford gates within a modified LRB protocol to garner estimates for the average error rate of our logical Clifford gates. However, we don't use the standard qudit surface code and folded code definitions for stabilizers and logical operators, as shown in \autoref{sec: qudit surface code}, \cite{Moussa2016} and \autoref{sec: error detection code}. In \autoref{sec: error detection code} we explain our modifications and the motivation behind them. 
+
+\subsection{Hardware Results}
+\label{sub:hardware_results}
+% TODO(authors): experimental results. This empty heading replaces the stub "results - IQM QPU.tex".

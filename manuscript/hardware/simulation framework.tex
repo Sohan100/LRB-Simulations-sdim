@@ -1,0 +1,24 @@
+\subsection{Simulations}
+\label{sub:sim_framework}
+
+% Sec. 2.7 (track hw). Circuit generation, detector declarations and the comparison of the two sampling backends are in Appendix F ("sdim dem appendix.tex"). The run inventory of the former results Sec. 4.1 and of the former qubit subsection is tab:runs.
+We simulate every circuit with \texttt{sdim}~\cite{sdim}, version 1.4.0, a stabilizer simulator for qudits of prime dimension. To make $10^6$ or more shots per sequence and depth affordable, we sample each circuit through a detector error model (DEM), a structure introduced for qubit circuits by Stim~\cite{Gidney2021Stim}. A detector is a combination of measurement outcomes that takes a fixed value in the absence of noise. Our detectors are the ancilla readouts of the check rounds and, for terminal postselection, the two $X$-type stabilizer values. The DEM lists, for every noise channel of a circuit, its probability and the shifts it causes in the detectors and in the logical outcome. Because all our channels are Pauli channels in Clifford circuits, sampling the DEM reproduces the joint distribution of detectors and logical outcome without approximation. After the model is built, the work per shot is proportional to the expected number of faults in the circuit, and no stabilizer computation is repeated (\autoref{sec:sdim-dem}).
+
+% Run inventory checked against the run folders by jpw-review/hw/checks/check_runs_table.py (.out): code_name.txt, noise_model.txt, num_cliffs.txt, shots.txt, depths.txt, probs.txt and check_unif.txt of the 16 runs; RB shots: NORMAL_RB_SHOTS in src/lrb/lrb_simulation.py.
+\begin{table}[tb]
+  \centering
+  \small
+  \begin{tabular}{l|l|p{6.0cm}|p{2.7cm}|c}
+    \hline
+    Runs & Code & Values of $p$ & Depths $m$ & Shots \\
+    \hline
+    Production & qutrit, qubit & $0$; $(1, 2, 5)\times10^{-4}$; $(1, 2, 5, 7.5)\times10^{-3}$; $(1, 1.25, 1.5, 2, 3, 4, 5)\times10^{-2}$ & 0, 2, 4, 6, 10, 14, 18, 20, 22 & $10^6$ \\
+    High-$p$ extension & qutrit & SI1000: $0.015$ to $0.035$ in steps of $0.0025$; $0.04$; $0.045$; $0.05$. SD6: $0.025$ to $0.06$ in steps of $0.005$ & 0, 1, 2, 3, 4, 6 & $2\times10^7$ \\
+    Refinement & qubit & SI1000: $0.002$ to $0.013$ in steps of $0.0005$. SD6: $0.006$ to $0.026$ in steps of $0.001$, and in the two-ancilla layout also $0.003$ to $0.0055$ in steps of $0.0005$ & as production & $10^6$ \\
+    \hline
+  \end{tabular}
+  \caption{Simulation runs. $p$ is the two-qutrit gate error probability, $m$ the depth and $k$ the postselection interval. Each row stands for one run per layout and noise model, four runs for each code. Shots are per sequence and depth, for the LRB-D circuits and for the circuits of terminal postselection; every baseline uses $10^4$ shots per sequence and depth. Each run draws 30 random sequences for LRB-D and 30 independent ones for its baseline. The production and refinement runs evaluate the intervals $k = 1$ to $22$, and the extension runs $k = 1$ to $6$.}
+  \label{tab:runs}
+\end{table}
+
+The simulations consist of production runs, which cover the whole range of $p$, and of additional runs near the pseudo-thresholds (\autoref{tab:runs}). Each run fixes a layout and a noise model. Its random sequences of logical Cliffords are as long as its largest depth, the circuit of depth $m$ uses the first $m$ Cliffords of a sequence, and the same sequences serve every value of $p$ and terminal postselection. Near the pseudo-thresholds the production runs reject almost every shot at the larger depths (\autoref{sub:interval_results}), so one high-$p$ extension run per layout and noise model samples twenty times more shots at depths $m \le 6$, with new sequences. Its fits, for LRB-D and for the baseline, replace the production fits at $p \ge p_{\mathrm{split}}$, with $p_{\mathrm{split}} = 0.015$ under SI1000 and $0.025$ under SD6, and for $k \ge 2$ its LRB-D fits use only the even depths (\autoref{app:campaign} gives this rule and its reason). \autoref{sub:qubit_code} describes the runs of the qubit comparison.
