@@ -124,7 +124,7 @@ Checks:
 | `Run-2026-11-19-12-52-21-folded_qutrit_prod5b-single-ancilla-sd6-sdim140-highp-ext` | `Run-2026-10-30-05-58-58-folded_qutrit-single-ancilla-sd6-sdim140-highp-ext` |
 
 - Profile `folded_qutrit_prod5b`: class `FoldedQutritProd5bDetectionCode`, generator mode `--ancilla-mode single-prod5b`.
-- All code is in the worktree `/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/one-ancilla-prod5b`, branch `claude/one-ancilla-prod5b`, uncommitted. Production profiles and checkpoint fingerprints are untouched.
+- The code was written in the worktree `one-ancilla-prod5b` and is now part of `src/lrb/` (merged 2026-11-24). Production profiles and checkpoint fingerprints are untouched.
 - `scripts/make_round_variant.py` built each run from its source run:
   - It decodes the Clifford words of every sequence from the source circuit files and regenerates the source from them.
   - Every sequence matched the source files byte for byte (LRB and LRB_const0, at the first, middle and last p).

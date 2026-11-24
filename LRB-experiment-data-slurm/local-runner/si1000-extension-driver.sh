@@ -2,7 +2,7 @@
 # Keep the SI1000 high-p extension running in 30-minute debug jobs until both
 # runs are complete, then merge them into the thresholds and rewrite
 # comparisons/pseudo-thresholds-current.{md,csv}. Runs detached so it
-# survives Claude restarts:
+# survives session restarts:
 #   setsid nohup bash LRB-experiment-data-slurm/local-runner/si1000-extension-driver.sh \
 #       >> LRB-experiment-data-slurm/local-runner/si1000-extension-driver.log 2>&1 &
 set -u

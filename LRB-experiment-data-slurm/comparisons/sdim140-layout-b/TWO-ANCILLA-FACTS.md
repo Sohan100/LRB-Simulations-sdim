@@ -9,7 +9,7 @@ User decisions, 2026-11-17:
 - "We will just replace the 2 ancilla version with this".
 - The terminal-postselection layout has exactly IQM Garnet's connectivity ("no more no less").
 
-Code: worktree `a1-square-layout`, branch `claude/a1-square-layout`, uncommitted.
+Code: `src/lrb/code_definitions.py` and `src/lrb/code_simulation_profiles.py` (written in the worktree `a1-square-layout`, merged into the main code on 2026-11-24).
 Profiles: `folded_qutrit_layout_b`, `folded_qubit_layout_b` (internal names).
 
 ## Layout and circuits

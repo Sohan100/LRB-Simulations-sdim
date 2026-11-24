@@ -3,7 +3,7 @@
 # runs, same grids as the qutrit campaign) in 30-minute debug jobs until every
 # run is complete, then validate each run. Jobs are submitted from the qubit
 # worktree so they use its code; the worktree's LRB-experiment-data-slurm is a
-# symlink to this data folder. Runs detached so it survives Claude restarts:
+# symlink to this data folder. Runs detached so it survives session restarts:
 #   setsid nohup bash LRB-experiment-data-slurm/local-runner/qubit-campaign-driver.sh \
 #       >> LRB-experiment-data-slurm/local-runner/qubit-campaign-driver.log 2>&1 &
 # Stop it with: touch LRB-experiment-data-slurm/local-runner/QUBIT_STOP

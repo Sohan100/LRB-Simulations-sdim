@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Overleaf copies stay byte-identical to the Overleaf commits
+manuscript/overleaf/** -text
+manuscript/archive/** -text

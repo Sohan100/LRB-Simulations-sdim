@@ -4,7 +4,7 @@
 # jobs until every run is complete, then validate each run. Same production grids
 # as the conventional-site campaign; extension/refinement runs are added later.
 # Jobs are submitted from the a1-square-layout worktree (branch
-# claude/a1-square-layout) so they use its code; its LRB-experiment-data-slurm is a
+# a1-square-layout) so they use its code; its LRB-experiment-data-slurm is a
 # symlink to this data folder. Runs detached:
 #   setsid nohup bash LRB-experiment-data-slurm/local-runner/layout-b-campaign-driver.sh \
 #       >> LRB-experiment-data-slurm/local-runner/layout-b-campaign-driver.log 2>&1 &

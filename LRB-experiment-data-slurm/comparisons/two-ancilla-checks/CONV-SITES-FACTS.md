@@ -9,7 +9,7 @@ conventional sites".**
 Every statement about the new two-ancilla layout should follow from this file. Scripts and
 outputs are in this folder unless stated; code is in the worktree
 `/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/conventional-sites`
-(branch `claude/conventional-sites-relay`, uncommitted): `src/lrb/code_definitions.py`
+(merged into the main code since): `src/lrb/code_definitions.py`
 (`FoldedQutritConventionalSitesDetectionCode`, `FoldedQubitConventionalSitesDetectionCode`),
 `src/lrb/code_simulation_profiles.py` (profiles `folded_qutrit_conv_sites`,
 `folded_qubit_conv_sites`), `tests/test_conventional_sites_code.py`.

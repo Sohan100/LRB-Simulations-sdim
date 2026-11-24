@@ -85,7 +85,7 @@ the link is kept out of the repository.
 ## Collaboration and repo setup
 
 - Plan to consolidate everything into the existing LRBD GitHub repo:
-  - Meeting notes (via Granola, potentially auto-piped through Claude)
+  - Meeting notes (via Granola, potentially piped in automatically)
   - Simulation code
   - Paper LaTeX source files
   - To-do list and async discussion threads

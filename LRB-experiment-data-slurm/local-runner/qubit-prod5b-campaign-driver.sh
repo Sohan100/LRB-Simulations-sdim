@@ -6,7 +6,7 @@
 # SI1000 and SD6 production and their threshold refinements. Runs in 30-minute debug jobs until
 # every run is complete, then validates each run.
 # validates each run. Jobs are submitted from the one-ancilla-prod5b worktree (branch
-# claude/one-ancilla-prod5b) so they use its code; its LRB-experiment-data-slurm is a
+# one-ancilla-prod5b) so they use its code; its LRB-experiment-data-slurm is a
 # symlink to this data folder. Runs detached:
 #   setsid nohup bash LRB-experiment-data-slurm/local-runner/qubit-prod5b-campaign-driver.sh \
 #       >> LRB-experiment-data-slurm/local-runner/qubit-prod5b-campaign-driver.log 2>&1 &
