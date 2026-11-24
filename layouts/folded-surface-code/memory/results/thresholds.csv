@@ -1,0 +1,17 @@
+noise,code,d_pair,p_cross
+SD6,folded,3-5,0.00951
+SD6,folded,5-7,0.00804
+SD6,folded,7-9,0.00685
+SD6,folded,9-11,0.00699
+SD6,rotated,3-5,
+SD6,rotated,5-7,0.00859
+SD6,rotated,7-9,0.00688
+SD6,rotated,9-11,0.00733
+SI1000,folded,3-5,0.00754
+SI1000,folded,5-7,0.00606
+SI1000,folded,7-9,0.00548
+SI1000,folded,9-11,0.00506
+SI1000,rotated,3-5,0.00780
+SI1000,rotated,5-7,0.00700
+SI1000,rotated,7-9,0.00555
+SI1000,rotated,9-11,0.00539

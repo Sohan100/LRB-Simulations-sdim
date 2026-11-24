@@ -1,0 +1,25 @@
+% Shared TikZ styles for the folded-surface-code layout pictures that gen_layout.py writes
+% into figures/. Written by hand.
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc}
+\definecolor{SwapCol}{HTML}{8E44AD}   % the purple of the LRB paper palette
+\definecolor{TopNavy}{RGB}{16,16,120}
+\tikzset{
+  botline/.style={draw=black!45},
+  topline/.style={draw=TopNavy},
+  pairline/.style={draw=SwapCol},
+  botanc/.style={draw=black!62,fill=black!7},
+  topanc/.style={draw=TopNavy,fill=blue!10},
+  foldq/.style={draw=black,fill=yellow!55},
+  botq/.style={draw=black,fill=white},
+  topq/.style={draw=black,fill=black!14},
+  qlabel/.style={inner sep=0pt,text=black},
+  anclabel/.style={inner sep=0pt},
+  botanctext/.style={text=black!62},
+  topanctext/.style={text=TopNavy},
+  foldline/.style={draw=red!75!black,line width=0.9pt,dash pattern=on 4pt off 3pt},
+  foldtext/.style={text=red!75!black,font=\footnotesize},
+  dim/.style={draw=black!75,line width=0.4pt,{Latex[length=1.4mm,width=1.1mm]}-{Latex[length=1.4mm,width=1.1mm]}},
+  dimtext/.style={font=\footnotesize,text=black!85,inner sep=2pt},
+  panel/.style={font=\small},
+}

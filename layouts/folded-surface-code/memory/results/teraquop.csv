@@ -1,0 +1,17 @@
+noise,p,code,d,qubits
+SD6,0.0005,folded,17,1089
+SD6,0.0005,rotated,21,881
+SD6,0.001,folded,23,2025
+SD6,0.001,rotated,29,1681
+SD6,0.0015,folded,31,3721
+SD6,0.0015,rotated,39,3041
+SD6,0.002,folded,39,5929
+SD6,0.002,rotated,49,4801
+SI1000,0.0005,folded,19,1369
+SI1000,0.0005,rotated,23,1057
+SI1000,0.001,folded,25,2401
+SI1000,0.001,rotated,33,2177
+SI1000,0.0015,folded,35,4761
+SI1000,0.0015,rotated,45,4049
+SI1000,0.002,folded,47,8649
+SI1000,0.002,rotated,59,6961

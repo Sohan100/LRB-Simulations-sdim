@@ -1,0 +1,612 @@
+[
+ {
+  "d": 2,
+  "data": 5,
+  "fold_qubits": 3,
+  "pairs": 1,
+  "ancillas": 4,
+  "qubits": 9,
+  "couplers_check": 12,
+  "couplers_top_fold": 4,
+  "couplers_pair": 1,
+  "couplers": 13,
+  "crossovers": 2,
+  "crossover_kinds": [
+   [
+    "bottom",
+    "top"
+   ]
+  ],
+  "coupler_lengths": [
+   0.707106781,
+   1.0
+  ],
+  "max_crossovers_per_coupler": 1,
+  "min_site_spacing": 0.707106781,
+  "max_degree_data": 4,
+  "max_degree_ancilla": 3,
+  "degree_histogram": {
+   "a": {
+    "3": 4
+   },
+   "q": {
+    "2": 2,
+    "3": 2,
+    "4": 1
+   }
+  },
+  "planar": true,
+  "planar_without_pair_couplers": true,
+  "bipartite": false,
+  "three_groups_ok": true,
+  "layer_exchange_symmetry": true,
+  "clifford_q2": {
+   "H": {
+    "pattern": "F on every qubit",
+    "logical": "X_L -> Z_L^-1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P on every fold qubit; CZ on every pair",
+    "logical": "X_L -> X_L Z_L^-1, Z_L -> Z_L"
+   }
+  },
+  "clifford_q3": {
+   "H": {
+    "pattern": "F on even rows, F^-1 on odd rows",
+    "logical": "X_L -> Z_L^+1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P^((-1)^k) on fold qubit (k,k); CZ on every pair",
+    "logical": "X_L -> X_L Z_L^+1, Z_L -> Z_L"
+   }
+  },
+  "fold_maps_X_checks_to_Z_checks": true,
+  "checks_per_layer_and_type": {
+   "bottom": {
+    "X": 1,
+    "Z": 1
+   },
+   "top": {
+    "X": 1,
+    "Z": 1
+   }
+  },
+  "distance_exhaustive": 2,
+  "contains_previous_distance": false
+ },
+ {
+  "d": 3,
+  "data": 13,
+  "fold_qubits": 5,
+  "pairs": 4,
+  "ancillas": 12,
+  "qubits": 25,
+  "couplers_check": 40,
+  "couplers_top_fold": 8,
+  "couplers_pair": 4,
+  "couplers": 44,
+  "crossovers": 12,
+  "crossover_kinds": [
+   [
+    "bottom",
+    "top"
+   ]
+  ],
+  "coupler_lengths": [
+   0.707106781,
+   1.0
+  ],
+  "max_crossovers_per_coupler": 1,
+  "min_site_spacing": 0.707106781,
+  "max_degree_data": 5,
+  "max_degree_ancilla": 4,
+  "degree_histogram": {
+   "a": {
+    "3": 8,
+    "4": 4
+   },
+   "q": {
+    "2": 2,
+    "3": 2,
+    "4": 7,
+    "5": 2
+   }
+  },
+  "planar": false,
+  "planar_without_pair_couplers": true,
+  "bipartite": false,
+  "three_groups_ok": true,
+  "layer_exchange_symmetry": true,
+  "clifford_q2": {
+   "H": {
+    "pattern": "F on every qubit",
+    "logical": "X_L -> Z_L^-1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P on every fold qubit; CZ on every pair",
+    "logical": "X_L -> X_L Z_L^-1, Z_L -> Z_L"
+   }
+  },
+  "clifford_q3": {
+   "H": {
+    "pattern": "F on even rows, F^-1 on odd rows",
+    "logical": "X_L -> Z_L^+1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P^((-1)^k) on fold qubit (k,k); CZ^((-1)^x) on the pair of (x,y)",
+    "logical": "X_L -> X_L Z_L^+1, Z_L -> Z_L"
+   }
+  },
+  "fold_maps_X_checks_to_Z_checks": true,
+  "checks_per_layer_and_type": {
+   "bottom": {
+    "X": 3,
+    "Z": 3
+   },
+   "top": {
+    "X": 3,
+    "Z": 3
+   }
+  },
+  "distance_exhaustive": 3,
+  "contains_previous_distance": true
+ },
+ {
+  "d": 4,
+  "data": 25,
+  "fold_qubits": 7,
+  "pairs": 9,
+  "ancillas": 24,
+  "qubits": 49,
+  "couplers_check": 84,
+  "couplers_top_fold": 12,
+  "couplers_pair": 9,
+  "couplers": 93,
+  "crossovers": 30,
+  "crossover_kinds": [
+   [
+    "bottom",
+    "top"
+   ]
+  ],
+  "coupler_lengths": [
+   0.707106781,
+   1.0
+  ],
+  "max_crossovers_per_coupler": 1,
+  "min_site_spacing": 0.707106781,
+  "max_degree_data": 5,
+  "max_degree_ancilla": 4,
+  "degree_histogram": {
+   "a": {
+    "3": 12,
+    "4": 12
+   },
+   "q": {
+    "2": 2,
+    "3": 2,
+    "4": 13,
+    "5": 8
+   }
+  },
+  "planar": false,
+  "planar_without_pair_couplers": true,
+  "bipartite": false,
+  "three_groups_ok": true,
+  "layer_exchange_symmetry": true,
+  "clifford_q2": {
+   "H": {
+    "pattern": "F on every qubit",
+    "logical": "X_L -> Z_L^-1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P on every fold qubit; CZ on every pair",
+    "logical": "X_L -> X_L Z_L^-1, Z_L -> Z_L"
+   }
+  },
+  "clifford_q3": {
+   "H": {
+    "pattern": "F on even rows, F^-1 on odd rows",
+    "logical": "X_L -> Z_L^+1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P^((-1)^k) on fold qubit (k,k); CZ^((-1)^x) on the pair of (x,y)",
+    "logical": "X_L -> X_L Z_L^+1, Z_L -> Z_L"
+   }
+  },
+  "fold_maps_X_checks_to_Z_checks": true,
+  "checks_per_layer_and_type": {
+   "bottom": {
+    "X": 6,
+    "Z": 6
+   },
+   "top": {
+    "X": 6,
+    "Z": 6
+   }
+  },
+  "distance_exhaustive": 4,
+  "contains_previous_distance": true
+ },
+ {
+  "d": 5,
+  "data": 41,
+  "fold_qubits": 9,
+  "pairs": 16,
+  "ancillas": 40,
+  "qubits": 81,
+  "couplers_check": 144,
+  "couplers_top_fold": 16,
+  "couplers_pair": 16,
+  "couplers": 160,
+  "crossovers": 56,
+  "crossover_kinds": [
+   [
+    "bottom",
+    "top"
+   ]
+  ],
+  "coupler_lengths": [
+   0.707106781,
+   1.0
+  ],
+  "max_crossovers_per_coupler": 1,
+  "min_site_spacing": 0.707106781,
+  "max_degree_data": 5,
+  "max_degree_ancilla": 4,
+  "degree_histogram": {
+   "a": {
+    "3": 16,
+    "4": 24
+   },
+   "q": {
+    "2": 2,
+    "3": 2,
+    "4": 19,
+    "5": 18
+   }
+  },
+  "planar": false,
+  "planar_without_pair_couplers": true,
+  "bipartite": false,
+  "three_groups_ok": true,
+  "layer_exchange_symmetry": true,
+  "clifford_q2": {
+   "H": {
+    "pattern": "F on every qubit",
+    "logical": "X_L -> Z_L^-1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P on every fold qubit; CZ on every pair",
+    "logical": "X_L -> X_L Z_L^-1, Z_L -> Z_L"
+   }
+  },
+  "clifford_q3": {
+   "H": {
+    "pattern": "F on even rows, F^-1 on odd rows",
+    "logical": "X_L -> Z_L^+1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P^((-1)^k) on fold qubit (k,k); CZ^((-1)^x) on the pair of (x,y)",
+    "logical": "X_L -> X_L Z_L^+1, Z_L -> Z_L"
+   }
+  },
+  "fold_maps_X_checks_to_Z_checks": true,
+  "checks_per_layer_and_type": {
+   "bottom": {
+    "X": 10,
+    "Z": 10
+   },
+   "top": {
+    "X": 10,
+    "Z": 10
+   }
+  },
+  "distance_exhaustive": 5,
+  "contains_previous_distance": true
+ },
+ {
+  "d": 6,
+  "data": 61,
+  "fold_qubits": 11,
+  "pairs": 25,
+  "ancillas": 60,
+  "qubits": 121,
+  "couplers_check": 220,
+  "couplers_top_fold": 20,
+  "couplers_pair": 25,
+  "couplers": 245,
+  "crossovers": 90,
+  "crossover_kinds": [
+   [
+    "bottom",
+    "top"
+   ]
+  ],
+  "coupler_lengths": [
+   0.707106781,
+   1.0
+  ],
+  "max_crossovers_per_coupler": 1,
+  "min_site_spacing": 0.707106781,
+  "max_degree_data": 5,
+  "max_degree_ancilla": 4,
+  "degree_histogram": {
+   "a": {
+    "3": 20,
+    "4": 40
+   },
+   "q": {
+    "2": 2,
+    "3": 2,
+    "4": 25,
+    "5": 32
+   }
+  },
+  "planar": false,
+  "planar_without_pair_couplers": true,
+  "bipartite": false,
+  "three_groups_ok": true,
+  "layer_exchange_symmetry": true,
+  "clifford_q2": {
+   "H": {
+    "pattern": "F on every qubit",
+    "logical": "X_L -> Z_L^-1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P on every fold qubit; CZ on every pair",
+    "logical": "X_L -> X_L Z_L^-1, Z_L -> Z_L"
+   }
+  },
+  "clifford_q3": {
+   "H": {
+    "pattern": "F on even rows, F^-1 on odd rows",
+    "logical": "X_L -> Z_L^+1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P^((-1)^k) on fold qubit (k,k); CZ^((-1)^x) on the pair of (x,y)",
+    "logical": "X_L -> X_L Z_L^+1, Z_L -> Z_L"
+   }
+  },
+  "fold_maps_X_checks_to_Z_checks": true,
+  "checks_per_layer_and_type": {
+   "bottom": {
+    "X": 15,
+    "Z": 15
+   },
+   "top": {
+    "X": 15,
+    "Z": 15
+   }
+  },
+  "contains_previous_distance": true
+ },
+ {
+  "d": 7,
+  "data": 85,
+  "fold_qubits": 13,
+  "pairs": 36,
+  "ancillas": 84,
+  "qubits": 169,
+  "couplers_check": 312,
+  "couplers_top_fold": 24,
+  "couplers_pair": 36,
+  "couplers": 348,
+  "crossovers": 132,
+  "crossover_kinds": [
+   [
+    "bottom",
+    "top"
+   ]
+  ],
+  "coupler_lengths": [
+   0.707106781,
+   1.0
+  ],
+  "max_crossovers_per_coupler": 1,
+  "min_site_spacing": 0.707106781,
+  "max_degree_data": 5,
+  "max_degree_ancilla": 4,
+  "degree_histogram": {
+   "a": {
+    "3": 24,
+    "4": 60
+   },
+   "q": {
+    "2": 2,
+    "3": 2,
+    "4": 31,
+    "5": 50
+   }
+  },
+  "planar": false,
+  "planar_without_pair_couplers": true,
+  "bipartite": false,
+  "three_groups_ok": true,
+  "layer_exchange_symmetry": true,
+  "clifford_q2": {
+   "H": {
+    "pattern": "F on every qubit",
+    "logical": "X_L -> Z_L^-1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P on every fold qubit; CZ on every pair",
+    "logical": "X_L -> X_L Z_L^-1, Z_L -> Z_L"
+   }
+  },
+  "clifford_q3": {
+   "H": {
+    "pattern": "F on even rows, F^-1 on odd rows",
+    "logical": "X_L -> Z_L^+1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P^((-1)^k) on fold qubit (k,k); CZ^((-1)^x) on the pair of (x,y)",
+    "logical": "X_L -> X_L Z_L^+1, Z_L -> Z_L"
+   }
+  },
+  "fold_maps_X_checks_to_Z_checks": true,
+  "checks_per_layer_and_type": {
+   "bottom": {
+    "X": 21,
+    "Z": 21
+   },
+   "top": {
+    "X": 21,
+    "Z": 21
+   }
+  },
+  "contains_previous_distance": true
+ },
+ {
+  "d": 8,
+  "data": 113,
+  "fold_qubits": 15,
+  "pairs": 49,
+  "ancillas": 112,
+  "qubits": 225,
+  "couplers_check": 420,
+  "couplers_top_fold": 28,
+  "couplers_pair": 49,
+  "couplers": 469,
+  "crossovers": 182,
+  "crossover_kinds": [
+   [
+    "bottom",
+    "top"
+   ]
+  ],
+  "coupler_lengths": [
+   0.707106781,
+   1.0
+  ],
+  "max_crossovers_per_coupler": 1,
+  "min_site_spacing": 0.707106781,
+  "max_degree_data": 5,
+  "max_degree_ancilla": 4,
+  "degree_histogram": {
+   "a": {
+    "3": 28,
+    "4": 84
+   },
+   "q": {
+    "2": 2,
+    "3": 2,
+    "4": 37,
+    "5": 72
+   }
+  },
+  "planar": false,
+  "planar_without_pair_couplers": true,
+  "bipartite": false,
+  "three_groups_ok": true,
+  "layer_exchange_symmetry": true,
+  "clifford_q2": {
+   "H": {
+    "pattern": "F on every qubit",
+    "logical": "X_L -> Z_L^-1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P on every fold qubit; CZ on every pair",
+    "logical": "X_L -> X_L Z_L^-1, Z_L -> Z_L"
+   }
+  },
+  "clifford_q3": {
+   "H": {
+    "pattern": "F on even rows, F^-1 on odd rows",
+    "logical": "X_L -> Z_L^+1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P^((-1)^k) on fold qubit (k,k); CZ^((-1)^x) on the pair of (x,y)",
+    "logical": "X_L -> X_L Z_L^+1, Z_L -> Z_L"
+   }
+  },
+  "fold_maps_X_checks_to_Z_checks": true,
+  "checks_per_layer_and_type": {
+   "bottom": {
+    "X": 28,
+    "Z": 28
+   },
+   "top": {
+    "X": 28,
+    "Z": 28
+   }
+  },
+  "contains_previous_distance": true
+ },
+ {
+  "d": 9,
+  "data": 145,
+  "fold_qubits": 17,
+  "pairs": 64,
+  "ancillas": 144,
+  "qubits": 289,
+  "couplers_check": 544,
+  "couplers_top_fold": 32,
+  "couplers_pair": 64,
+  "couplers": 608,
+  "crossovers": 240,
+  "crossover_kinds": [
+   [
+    "bottom",
+    "top"
+   ]
+  ],
+  "coupler_lengths": [
+   0.707106781,
+   1.0
+  ],
+  "max_crossovers_per_coupler": 1,
+  "min_site_spacing": 0.707106781,
+  "max_degree_data": 5,
+  "max_degree_ancilla": 4,
+  "degree_histogram": {
+   "a": {
+    "3": 32,
+    "4": 112
+   },
+   "q": {
+    "2": 2,
+    "3": 2,
+    "4": 43,
+    "5": 98
+   }
+  },
+  "planar": false,
+  "planar_without_pair_couplers": true,
+  "bipartite": false,
+  "three_groups_ok": true,
+  "layer_exchange_symmetry": true,
+  "clifford_q2": {
+   "H": {
+    "pattern": "F on every qubit",
+    "logical": "X_L -> Z_L^-1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P on every fold qubit; CZ on every pair",
+    "logical": "X_L -> X_L Z_L^-1, Z_L -> Z_L"
+   }
+  },
+  "clifford_q3": {
+   "H": {
+    "pattern": "F on even rows, F^-1 on odd rows",
+    "logical": "X_L -> Z_L^+1, Z_L -> X_L^-1"
+   },
+   "S": {
+    "pattern": "P^((-1)^k) on fold qubit (k,k); CZ^((-1)^x) on the pair of (x,y)",
+    "logical": "X_L -> X_L Z_L^+1, Z_L -> Z_L"
+   }
+  },
+  "fold_maps_X_checks_to_Z_checks": true,
+  "checks_per_layer_and_type": {
+   "bottom": {
+    "X": 36,
+    "Z": 36
+   },
+   "top": {
+    "X": 36,
+    "Z": 36
+   }
+  },
+  "contains_previous_distance": true
+ }
+]
