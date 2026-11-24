@@ -1,0 +1,10 @@
+Code capacity [[5,1,2]]_3, i.i.d. single-qutrit depolarizing (p/8 per X^aZ^b), perfect checks, exact arithmetic
+  stabilizers commute, logicals commute with stabilizers, <XL,ZL> != 0: True
+  p=0.001  Z+X a_det=0.9950 1-S_det=6.270e-08 1-S*(a_det)=6.270e-08 mass(q>q0)=0.0e+00 mass(q==q0, D!=0)=0.0e+00 MAP fail=5.0309e-04 ties={'0 & one nonzero': 30, '1 & 2 only': 0, 'three-way': 0} P(D,l)=P(-D,-l) exactly: True
+  p=0.01   Z+X a_det=0.9510 1-S_det=6.450e-06 1-S*(a_det)=6.450e-06 mass(q>q0)=0.0e+00 mass(q==q0, D!=0)=0.0e+00 MAP fail=5.3037e-03 ties={'0 & one nonzero': 30, '1 & 2 only': 0, 'three-way': 0} P(D,l)=P(-D,-l) exactly: True
+    frontier S*: 0.95->0.99999, 0.98->0.99987, 0.99->0.99972, 1->0.99470
+  p=0.05   Z+X a_det=0.7741 1-S_det=1.837e-04 1-S*(a_det)=1.837e-04 mass(q>q0)=0.0e+00 mass(q==q0, D!=0)=0.0e+00 MAP fail=3.2044e-02 ties={'0 & one nonzero': 30, '1 & 2 only': 0, 'three-way': 0} P(D,l)=P(-D,-l) exactly: True
+  p=0.001  X   a_det=0.9963 1-S_det=5.636e-07 1-S*(a_det)=5.636e-07 mass(q>q0)=0.0e+00 mass(q==q0, D!=0)=0.0e+00 MAP fail=1.4992e-03 ties={'0 & one nonzero': 6, '1 & 2 only': 0, 'three-way': 0} P(D,l)=P(-D,-l) exactly: True
+  p=0.01   X   a_det=0.9631 1-S_det=5.732e-05 1-S*(a_det)=5.732e-05 mass(q>q0)=0.0e+00 mass(q==q0, D!=0)=0.0e+00 MAP fail=1.4916e-02 ties={'0 & one nonzero': 6, '1 & 2 only': 0, 'three-way': 0} P(D,l)=P(-D,-l) exactly: True
+    ratio MAP fail (X only)/(Z+X) at p=0.01: 2.812
+  p=0.05   X   a_det=0.8273 1-S_det=1.547e-03 1-S*(a_det)=1.547e-03 mass(q>q0)=0.0e+00 mass(q==q0, D!=0)=0.0e+00 MAP fail=7.2891e-02 ties={'0 & one nonzero': 6, '1 & 2 only': 0, 'three-way': 0} P(D,l)=P(-D,-l) exactly: True

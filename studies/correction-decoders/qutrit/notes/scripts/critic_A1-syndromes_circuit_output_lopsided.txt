@@ -1,0 +1,13 @@
+======================================================================
+Circuit-level posterior structure of 'ambiguous' signatures
+  memory R=6 V1: post in [0.95,1): rej 8.150, minority 0.100 | post in [0.8,0.95): rej 0.325, minority 0.025 | post in [0.6,0.8): rej 48.000, minority 11.600 | post in [0.0,0.6): rej 62.350, minority 30.950
+  memory R=4 V1: post in [0.95,1): rej 8.150, minority 0.100 | post in [0.8,0.95): rej 0.325, minority 0.025 | post in [0.6,0.8): rej 48.000, minority 11.600 | post in [0.0,0.6): rej 39.800, minority 19.750
+  memory R=6 V2: post in [0.95,1): rej 37.750, minority 0.700 | post in [0.8,0.95): rej 0.000, minority 0.000 | post in [0.6,0.8): rej 2.100, minority 0.525 | post in [0.0,0.6): rej 155.325, minority 77.050
+  memory R=4 V2: post in [0.95,1): rej 26.350, minority 0.500 | post in [0.8,0.95): rej 0.000, minority 0.000 | post in [0.6,0.8): rej 1.500, minority 0.375 | post in [0.0,0.6): rej 109.775, minority 54.450
+  LRB seq 0 m=0 V1: post in [0.95,1): rej 2.850, minority 0.100 | post in [0.8,0.95): rej 0.325, minority 0.025 | post in [0.6,0.8): rej 38.700, minority 8.950 | post in [0.0,0.6): rej 0.000, minority 0.000
+  LRB seq 0 m=22 V1: post in [0.95,1): rej 259.675, minority 6.250 | post in [0.8,0.95): rej 85.150, minority 7.425 | post in [0.6,0.8): rej 204.500, minority 64.925 | post in [0.0,0.6): rej 334.675, minority 161.150
+  LRB seq 1 m=0 V1: post in [0.95,1): rej 2.850, minority 0.100 | post in [0.8,0.95): rej 0.325, minority 0.025 | post in [0.6,0.8): rej 38.700, minority 8.950 | post in [0.0,0.6): rej 0.000, minority 0.000
+  LRB seq 1 m=22 V1: post in [0.95,1): rej 270.600, minority 6.125 | post in [0.8,0.95): rej 79.475, minority 7.100 | post in [0.6,0.8): rej 218.275, minority 70.125 | post in [0.0,0.6): rej 327.650, minority 157.500
+  LRB seq 2 m=0 V1: post in [0.95,1): rej 2.850, minority 0.100 | post in [0.8,0.95): rej 0.325, minority 0.025 | post in [0.6,0.8): rej 38.700, minority 8.950 | post in [0.0,0.6): rej 0.000, minority 0.000
+  LRB seq 2 m=22 V1: post in [0.95,1): rej 238.275, minority 5.175 | post in [0.8,0.95): rej 133.000, minority 12.250 | post in [0.6,0.8): rej 192.900, minority 61.375 | post in [0.0,0.6): rej 345.750, minority 165.850
+total 5.2 s

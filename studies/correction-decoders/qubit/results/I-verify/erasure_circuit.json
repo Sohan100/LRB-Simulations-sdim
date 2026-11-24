@@ -1,0 +1,243 @@
+{
+ "num_seq": 6,
+ "depths": [
+  0,
+  2,
+  4,
+  6,
+  10,
+  22
+ ],
+ "locations": {
+  "cx_check": 3600,
+  "meas_idle": 9600,
+  "gate2_logical": 852
+ },
+ "ambiguous": {
+  "cx_check": 0,
+  "meas_idle": 0,
+  "gate2_logical": 0
+ },
+ "total_2q": 4452,
+ "total_all": 14052,
+ "distinct_signatures_per_location": {
+  "cx_check": [
+   4,
+   16
+  ],
+  "meas_idle": [
+   1,
+   4
+  ],
+  "gate2_logical": [
+   16,
+   16
+  ]
+ },
+ "other_channels_if_heralded": {
+  "meas_depol": [
+   0,
+   1800
+  ],
+  "gate1": [
+   0,
+   5194
+  ],
+  "reset_idle": [
+   0,
+   1320
+  ]
+ },
+ "example_cx70_round0_depth2": [
+  {
+   "pauli": "I7*I0",
+   "detectors(round,stab)": [],
+   "flips_L": false
+  },
+  {
+   "pauli": "I7*X0",
+   "detectors(round,stab)": [
+    [
+     1,
+     0
+    ]
+   ],
+   "flips_L": true
+  },
+  {
+   "pauli": "I7*Y0",
+   "detectors(round,stab)": [
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "flips_L": false
+  },
+  {
+   "pauli": "I7*Z0",
+   "detectors(round,stab)": [
+    [
+     1,
+     2
+    ]
+   ],
+   "flips_L": true
+  },
+  {
+   "pauli": "X7*I0",
+   "detectors(round,stab)": [
+    [
+     1,
+     0
+    ]
+   ],
+   "flips_L": true
+  },
+  {
+   "pauli": "X7*X0",
+   "detectors(round,stab)": [],
+   "flips_L": false
+  },
+  {
+   "pauli": "X7*Y0",
+   "detectors(round,stab)": [
+    [
+     1,
+     2
+    ]
+   ],
+   "flips_L": true
+  },
+  {
+   "pauli": "X7*Z0",
+   "detectors(round,stab)": [
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "flips_L": false
+  },
+  {
+   "pauli": "Y7*I0",
+   "detectors(round,stab)": [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "flips_L": true
+  },
+  {
+   "pauli": "Y7*X0",
+   "detectors(round,stab)": [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "flips_L": false
+  },
+  {
+   "pauli": "Y7*Y0",
+   "detectors(round,stab)": [
+    [
+     0,
+     2
+    ]
+   ],
+   "flips_L": true
+  },
+  {
+   "pauli": "Y7*Z0",
+   "detectors(round,stab)": [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     0
+    ]
+   ],
+   "flips_L": false
+  },
+  {
+   "pauli": "Z7*I0",
+   "detectors(round,stab)": [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "flips_L": false
+  },
+  {
+   "pauli": "Z7*X0",
+   "detectors(round,stab)": [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "flips_L": true
+  },
+  {
+   "pauli": "Z7*Y0",
+   "detectors(round,stab)": [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     0
+    ]
+   ],
+   "flips_L": false
+  },
+  {
+   "pauli": "Z7*Z0",
+   "detectors(round,stab)": [
+    [
+     0,
+     2
+    ]
+   ],
+   "flips_L": true
+  }
+ ]
+}

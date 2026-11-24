@@ -1,0 +1,4 @@
+R=0: faults 1288, det rej 84.100, hyb rej 22.525, det P(f|a) p^2 6.729, hyb P(f|a) p^2 396.705 (0 s)
+R=1: faults 2624, det rej 186.200, hyb rej 51.300, det P(f|a) p^2 21.698, hyb P(f|a) p^2 1394.855  increments: det 14.969, hyb 998.150 (1 s)
+R=2: faults 3960, det rej 288.300, hyb rej 80.075, det P(f|a) p^2 36.667, hyb P(f|a) p^2 2442.191  increments: det 14.969, hyb 1047.336 (2 s)
+R=3: faults 5296, det rej 390.400, hyb rej 108.850, det P(f|a) p^2 51.635, hyb P(f|a) p^2 3489.527  increments: det 14.969, hyb 1047.336 (4 s)

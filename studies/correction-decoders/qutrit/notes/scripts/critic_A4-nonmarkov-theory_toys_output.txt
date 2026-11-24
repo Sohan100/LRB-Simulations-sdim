@@ -1,0 +1,47 @@
+
+== catalog (C26)
+  216 strings -> 206 distinct unitaries mod phase; closed under products: False
+  frame potential t=2: 2.031121399177 (unitary 2-design iff 2); t=3: 7.321245 (3-design iff 6)
+  twirl of a random trace-decreasing map = a Id + b Dep: residual 5.8e-03, a=0.09187, b=0.60813
+
+== limits (C3): r(m) = tr[O E^m rho] / tr[E^m rho]
+  (i) Jordan block at the Perron eigenvalue 0.6: column sums [0.6 1.  0.3]; r(1,10,100,1000) = [0.6      0.130435 0.014778 0.001498]; m r(m) -> 1.4978 (= a/b = 1.5000): decays like 1/m, neither constant nor exponential, although the Perron eigenvalue's term enters N(m) = a^m
+  (ii) E = 0.9 x cyclic permutation (acceptance state independent): peripheral |lambda| = [0.9 0.9 0.9]; r(1..7) = [ 0. -1.  1.  0. -1.  1.  0.]: periodic, no limit
+  (iii) rho supported off the Perron block (lambda_1 = 0.9 on |0>): r(200) = -0.8000; the limit is set by the dominant eigenvalue that rho reaches (0.8), not by lambda_1
+
+== ratio (C5): exact enumeration over all sequences [group: full Clifford group, uniform]
+  state-independent acceptance: f = a/(a+b) = 0.949981
+     ratio of averages m=1,2: [0.9499811 -0.j 0.90246409-0.j] vs f^m = [0.9499811  0.90246409]
+     mean of per-sequence ratios m=1,2: [0.9499811 -0.j 0.90246409-0.j]; log-curvature ln r0 - 2 ln r1 + ln r2: ratio-of-averages +7.91e-16, mean-of-ratios +4.16e-16 (0 for one exponential through m = 0, 1, 2)
+  state-dependent acceptance: f = a/(a+b) = 0.890693
+     ratio of averages m=1,2: [0.89069309-0.j 0.79333419-0.j] vs f^m = [0.89069309 0.79333419]
+     mean of per-sequence ratios m=1,2: [0.8917744 -0.j 0.79037887-0.j]; log-curvature ln r0 - 2 ln r1 + ln r2: ratio-of-averages -7.77e-16, mean-of-ratios -6.16e-03 (0 for one exponential through m = 0, 1, 2)
+  MC, independent sequences per depth (n=20000 each), state-dependent acceptance, Re of mean ratio, m=1..20: single-exp chi2/dof = 31.38, log-quadratic chi2/dof = 5.48, curvature +7.14e-04
+
+== ratio (C5): exact enumeration over all sequences [catalog: repository 216-string catalog]
+  state-independent acceptance: f = a/(a+b) = 0.953430
+     ratio of averages m=1,2: [0.95300695-0.00037643j 0.90861786-0.00038233j] vs f^m = [0.95343039 0.90902951]
+     mean of per-sequence ratios m=1,2: [0.95300695-0.00037643j 0.90861786-0.00038233j]; log-curvature ln r0 - 2 ln r1 + ln r2: ratio-of-averages +4.35e-04, mean-of-ratios +4.35e-04 (0 for one exponential through m = 0, 1, 2)
+  state-dependent acceptance: f = a/(a+b) = 0.895178
+     ratio of averages m=1,2: [0.89406408-0.0004023j  0.80090702-0.00037549j] vs f^m = [0.89517825 0.80134411]
+     mean of per-sequence ratios m=1,2: [0.89415635-0.00043792j 0.79689962-0.00044171j]; log-curvature ln r0 - 2 ln r1 + ln r2: ratio-of-averages +1.95e-03, mean-of-ratios -3.28e-03 (0 for one exponential through m = 0, 1, 2)
+  MC, independent sequences per depth (n=20000 each), state-dependent acceptance, Re of mean ratio, m=1..20: single-exp chi2/dof = 24.02, log-quadratic chi2/dof = 4.14, curvature +6.09e-04
+
+real	0m28.284s
+user	0m26.532s
+sys	0m1.096s
+
+== mirror (C6): mirrored vs standard RB, gate-dependent noise; uniform over the group vs the repository catalog distribution
+  group order 216; catalog covers 206 elements; max catalog weight 3/216
+  [uniform]  stochastic mirrored: F(1,2,5,30) = [0.93423  0.872786 0.711654 0.129902]; windowed rates m=1->2 0.934230, 10->11 0.934230, 29->30 0.934230; max rel dev of one exponential on m>=4: 2.4e-14
+  [uniform]  stochastic standard: F(1,2,5,30) = [0.93423  0.902881 0.815194 0.347949]; windowed rates m=1->2 0.966444, 10->11 0.966519, 29->30 0.966519; max rel dev of one exponential on m>=4: 2.0e-12
+  [uniform]  coherent   mirrored: F(1,2,5,30) = [8.15454e-01 5.19008e-01 1.32278e-01 1.00000e-06]; windowed rates m=1->2 0.636465, 10->11 0.633943, 29->30 0.633943; max rel dev of one exponential on m>=4: 1.8e-06
+  [uniform]  coherent   standard: F(1,2,5,30) = [0.815454 0.727513 0.517658 0.030365]; windowed rates m=1->2 0.892157, 10->11 0.892757, 29->30 0.892757; max rel dev of one exponential on m>=4: 8.1e-09
+  [catalog]  stochastic mirrored: F(1,2,5,30) = [0.934123 0.872586 0.711247 0.129456]; windowed rates m=1->2 0.934123, 10->11 0.934123, 29->30 0.934123; max rel dev of one exponential on m>=4: 2.2e-14
+  [catalog]  stochastic standard: F(1,2,5,30) = [0.934123 0.902916 0.815272 0.348149]; windowed rates m=1->2 0.966593, 10->11 0.966537, 29->30 0.966537; max rel dev of one exponential on m>=4: 4.1e-09
+  [catalog]  coherent   mirrored: F(1,2,5,30) = [8.15576e-01 5.19024e-01 1.35321e-01 2.00000e-06]; windowed rates m=1->2 0.636390, 10->11 0.638767, 29->30 0.638767; max rel dev of one exponential on m>=4: 1.2e-06
+  [catalog]  coherent   standard: F(1,2,5,30) = [0.815576 0.729588 0.522434 0.032302]; windowed rates m=1->2 0.894568, 10->11 0.894640, 29->30 0.894640; max rel dev of one exponential on m>=4: 2.4e-08
+
+real	0m7.901s
+user	0m6.005s
+sys	0m1.102s

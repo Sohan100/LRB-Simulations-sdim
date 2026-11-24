@@ -1,0 +1,121 @@
+source,seq,depth,p,decomposed_lines,free_lines,free_mass_over_p,free_components_L0,free_components_empty,lines_whose_kept_parts_carry_wrong_L0,plain_warnings,plain_graph_equals_stripped_graph,stripped_changed,corr_raw_built,corr_raw_error,corr_stripped_built
+new,0,2,0.002,238,0,0.0,0,0,0,0,1,0,1,,1
+new,0,6,0.002,632,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,0,14,0.002,1449,2,20.6292177049878,2,0,2,0,1,2,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,0,22,0.002,2259,2,20.6292177049878,2,0,2,0,1,2,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,1,2,0.002,225,0,0.0,0,0,0,0,1,0,1,,1
+new,1,6,0.002,597,0,0.0,0,0,0,0,1,0,1,,1
+new,1,14,0.002,1383,3,30.9438265574817,3,0,3,0,1,3,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,1,22,0.002,2150,5,20.829404620925587,5,0,5,0,1,5,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,2,2,0.002,245,0,0.0,0,0,0,0,1,0,1,,1
+new,2,6,0.002,678,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,2,14,0.002,1450,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,2,22,0.002,2210,6,20.89613359290485,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,3,2,0.002,259,1,8.381662149691431,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,3,6,0.002,644,0,0.0,0,0,0,0,1,0,1,,1
+new,3,14,0.002,1348,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,3,22,0.002,2137,6,31.144013473419488,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,4,2,0.002,231,0,0.0,0,0,0,0,1,0,1,,1
+new,4,6,0.002,631,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,4,14,0.002,1365,0,0.0,0,0,0,0,1,0,1,,1
+new,4,22,0.002,2145,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,5,2,0.002,238,0,0.0,0,0,0,0,1,0,1,,1
+new,5,6,0.002,660,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,5,14,0.002,1371,0,0.0,0,0,0,0,1,0,1,,1
+new,5,22,0.002,2143,4,0.2669158879170519,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,6,2,0.002,283,3,0.20018691593778892,3,0,3,0,1,3,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,6,6,0.002,648,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,6,14,0.002,1425,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,6,22,0.002,2186,3,30.9438265574817,3,0,3,0,1,3,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,7,2,0.002,246,0,0.0,0,0,0,0,1,0,1,,1
+new,7,6,0.002,630,0,0.0,0,0,0,0,1,0,1,,1
+new,7,14,0.002,1403,5,20.829404620925587,5,0,5,0,1,5,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,7,22,0.002,2154,10,31.41092936133654,10,0,10,0,1,10,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,8,2,0.002,246,0,0.0,0,0,0,0,1,0,1,,1
+new,8,6,0.002,614,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,8,14,0.002,1367,9,10.848440628328003,9,0,9,0,1,9,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,8,22,0.002,2143,13,11.115356516245056,13,0,13,0,1,13,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,9,2,0.002,256,0,0.0,0,0,0,0,1,0,1,,1
+new,9,6,0.002,632,0,0.0,0,0,0,0,1,0,1,,1
+new,9,14,0.002,1336,0,0.0,0,0,0,0,1,0,1,,1
+new,9,22,0.002,2132,3,0.20018691593778892,3,0,3,0,1,3,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,10,2,0.002,274,1,8.381662149691431,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,10,6,0.002,637,1,8.381662149691431,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,10,14,0.002,1400,5,18.89645791812312,5,0,5,0,1,5,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,10,22,0.002,2148,5,18.89645791812312,5,0,5,0,1,5,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,11,2,0.002,259,1,8.381662149691431,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,11,6,0.002,661,4,8.58184906562922,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,11,14,0.002,1459,6,29.211066770617016,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,11,22,0.002,2241,11,50.040471391542596,11,0,11,0,1,11,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,12,2,0.002,231,0,0.0,0,0,0,0,1,0,1,,1
+new,12,6,0.002,620,0,0.0,0,0,0,0,1,0,1,,1
+new,12,14,0.002,1443,3,30.9438265574817,3,0,3,0,1,3,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,12,22,0.002,2209,4,41.2584354099756,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,13,2,0.002,273,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,13,6,0.002,618,0,0.0,0,0,0,0,1,0,1,,1
+new,13,14,0.002,1367,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,13,22,0.002,2127,2,20.6292177049878,2,0,2,0,1,2,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,14,2,0.002,267,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,14,6,0.002,668,2,20.6292177049878,2,0,2,0,1,2,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,14,14,0.002,1456,7,10.714982684369478,7,0,7,0,1,7,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,14,22,0.002,2194,14,11.182085488224319,14,0,14,0,1,14,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,15,2,0.002,258,0,0.0,0,0,0,0,1,0,1,,1
+new,15,6,0.002,647,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,15,14,0.002,1444,8,10.78171165634874,8,0,8,0,1,8,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,15,22,0.002,2229,11,10.981898572286529,11,0,11,0,1,11,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,16,2,0.002,231,0,0.0,0,0,0,0,1,0,1,,1
+new,16,6,0.002,664,3,0.20018691593778892,3,0,3,0,1,3,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,16,14,0.002,1445,4,10.514795768431688,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,16,22,0.002,2200,8,10.78171165634874,8,0,8,0,1,8,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,17,2,0.002,231,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,17,6,0.002,633,4,0.2669158879170519,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,17,14,0.002,1355,8,10.78171165634874,8,0,8,0,1,8,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,17,22,0.002,2100,9,21.096320508842638,9,0,9,0,1,9,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,18,2,0.002,273,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,18,6,0.002,652,0,0.0,0,0,0,0,1,0,1,,1
+new,18,14,0.002,1434,6,20.89613359290485,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,18,22,0.002,2177,6,20.89613359290485,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,19,2,0.002,208,0,0.0,0,0,0,0,1,0,1,,1
+new,19,6,0.002,604,0,0.0,0,0,0,0,1,0,1,,1
+new,19,14,0.002,1393,9,21.096320508842638,9,0,9,0,1,9,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+new,19,22,0.002,2138,10,31.41092936133654,10,0,10,0,1,10,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,0,2,0.002,243,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,0,6,0.002,627,4,10.514795768431688,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,0,14,0.002,1392,4,10.514795768431688,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,0,22,0.002,2132,9,21.096320508842638,9,0,9,0,1,9,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,1,2,0.002,273,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,1,6,0.002,695,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,1,14,0.002,1473,2,20.6292177049878,2,0,2,0,1,2,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,1,22,0.002,2206,5,20.829404620925587,5,0,5,0,1,5,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,2,2,0.002,238,0,0.0,0,0,0,0,1,0,1,,1
+B,2,6,0.002,631,0,0.0,0,0,0,0,1,0,1,,1
+B,2,14,0.002,1395,6,20.89613359290485,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,2,22,0.002,2166,10,21.163049480821904,10,0,10,0,1,10,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,3,2,0.002,251,0,0.0,0,0,0,0,1,0,1,,1
+B,3,6,0.002,631,0,0.0,0,0,0,0,1,0,1,,1
+B,3,14,0.002,1392,2,20.6292177049878,2,0,2,0,1,2,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,3,22,0.002,2177,7,31.21074244539875,7,0,7,0,1,7,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,4,2,0.002,283,3,0.20018691593778892,3,0,3,0,1,3,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,4,6,0.002,679,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,4,14,0.002,1476,5,10.581524740410952,5,0,5,0,1,5,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,4,22,0.002,2230,6,20.89613359290485,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,5,2,0.002,243,0,0.0,0,0,0,0,1,0,1,,1
+B,5,6,0.002,636,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,5,14,0.002,1410,2,20.6292177049878,2,0,2,0,1,2,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,5,22,0.002,2219,6,20.89613359290485,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,6,2,0.002,266,1,8.381662149691431,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,6,6,0.002,644,2,18.696271002185327,2,0,2,0,1,2,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,6,14,0.002,1385,6,18.96318689010238,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,6,22,0.002,2158,10,29.477982658534067,10,0,10,0,1,10,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,7,2,0.002,229,0,0.0,0,0,0,0,1,0,1,,1
+B,7,6,0.002,671,1,10.3146088524939,1,0,1,0,1,1,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,7,14,0.002,1404,5,10.581524740410952,5,0,5,0,1,5,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,7,22,0.002,2125,6,20.89613359290485,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,8,2,0.002,258,0,0.0,0,0,0,0,1,0,1,,1
+B,8,6,0.002,612,4,0.2669158879170519,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,8,14,0.002,1357,5,10.581524740410952,5,0,5,0,1,5,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,8,22,0.002,2161,6,20.89613359290485,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,9,2,0.002,264,0,0.0,0,0,0,0,1,0,1,,1
+B,9,6,0.002,635,4,0.2669158879170519,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,9,14,0.002,1410,4,0.2669158879170519,4,0,4,0,1,4,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1
+B,9,22,0.002,2198,6,20.89613359290485,6,0,6,0,1,6,0,ValueError: Encountered a decomposed error instruction with an undetectable component (0 detectors). This is not supported.,1

@@ -1,0 +1,238 @@
+{
+ "flag:parallel vs phys_rb_p": {
+  "ratio_at_grid": {
+   "0.0001": 0.28605447314440063,
+   "0.0005": 1.5329408718999302,
+   "0.001": 3.0921454980563645,
+   "0.002": 6.231717197713769,
+   "0.005": 14.691114299515995
+  },
+  "loglog_interpolated_pstar": 0.00033197526669917347,
+  "status": "crossing"
+ },
+ "flag:parallel vs phys_rb_5p": {
+  "ratio_at_grid": {
+   "0.0001": 0.05718555369213823,
+   "0.0005": 0.30687980287596023,
+   "0.001": 0.6193177169696933,
+   "0.002": 1.2501036620981927,
+   "0.005": 2.960283057057514
+  },
+  "loglog_interpolated_pstar": 0.0016045603614366776,
+  "status": "crossing"
+ },
+ "flag:sequential vs phys_rb_p": {
+  "ratio_at_grid": {
+   "0.0001": 1.6444989331680473,
+   "0.0005": 8.156580441940532,
+   "0.001": 15.700467370989912,
+   "0.002": 28.67221654976175,
+   "0.005": 52.79675457829573
+  },
+  "loglog_interpolated_pstar": null,
+  "status": "below grid"
+ },
+ "flag:sequential vs phys_rb_5p": {
+  "ratio_at_grid": {
+   "0.0001": 0.32875410408937433,
+   "0.0005": 1.632867805959331,
+   "0.001": 3.1446054571722453,
+   "0.002": 5.751744145655292,
+   "0.005": 10.638630593929946
+  },
+  "loglog_interpolated_pstar": 0.000305586942858358,
+  "status": "crossing"
+ },
+ "naive:parallel vs phys_rb_p": {
+  "ratio_at_grid": {
+   "0.0001": 2.533822269202693,
+   "0.0005": 3.6381163829558507,
+   "0.001": 4.995680510702716,
+   "0.002": 7.661262951721379,
+   "0.005": 14.49166277869062
+  },
+  "loglog_interpolated_pstar": null,
+  "status": "below grid"
+ },
+ "naive:parallel vs phys_rb_5p": {
+  "ratio_at_grid": {
+   "0.0001": 0.5065399880975866,
+   "0.0005": 0.7283153961819444,
+   "0.001": 1.000571755288729,
+   "0.002": 1.5368754018166546,
+   "0.005": 2.920093256218297
+  },
+  "loglog_interpolated_pstar": 0.0009987532764055502,
+  "status": "crossing"
+ },
+ "naive:sequential vs phys_rb_p": {
+  "ratio_at_grid": {
+   "0.0001": 3.8925215372846083,
+   "0.0005": 10.140825788428696,
+   "0.001": 17.16081505688619,
+   "0.002": 28.913828673137836,
+   "0.005": 50.30332765717519
+  },
+  "loglog_interpolated_pstar": null,
+  "status": "below grid"
+ },
+ "naive:sequential vs phys_rb_5p": {
+  "ratio_at_grid": {
+   "0.0001": 0.7781594775335909,
+   "0.0005": 2.0300943604533255,
+   "0.001": 3.437094667456739,
+   "0.002": 5.8002123592562835,
+   "0.005": 10.136201076459823
+  },
+  "loglog_interpolated_pstar": 0.00015234618225350554,
+  "status": "crossing"
+ },
+ "implementer_summary_pseudo_thresholds": {
+  "naive:sequential:mld vs phys_rb_p": {
+   "p_star": 0.0001,
+   "status": "below_grid",
+   "boot_lo": NaN,
+   "boot_hi": NaN
+  },
+  "naive:sequential:mld vs phys_rb_5p": {
+   "p_star": 0.00015234618225350554,
+   "status": "interpolated",
+   "boot_lo": 0.00013907274887681677,
+   "boot_hi": 0.0001673862916059247
+  },
+  "naive:parallel:mld vs phys_rb_p": {
+   "p_star": 0.0001,
+   "status": "below_grid",
+   "boot_lo": NaN,
+   "boot_hi": NaN
+  },
+  "naive:parallel:mld vs phys_rb_5p": {
+   "p_star": 0.0009987532764055502,
+   "status": "interpolated",
+   "boot_lo": 0.0008906756990926297,
+   "boot_hi": 0.0010896971543300818
+  },
+  "flag:sequential:mld vs phys_rb_p": {
+   "p_star": 0.0001,
+   "status": "below_grid",
+   "boot_lo": NaN,
+   "boot_hi": NaN
+  },
+  "flag:sequential:mld vs phys_rb_5p": {
+   "p_star": 0.000305586942858358,
+   "status": "interpolated",
+   "boot_lo": 0.0002913982659754599,
+   "boot_hi": 0.00032128572856542385
+  },
+  "flag:parallel:mld vs phys_rb_p": {
+   "p_star": 0.00033197526669917347,
+   "status": "interpolated",
+   "boot_lo": 0.0003165216098845492,
+   "boot_hi": 0.00034730316478536063
+  },
+  "flag:parallel:mld vs phys_rb_5p": {
+   "p_star": 0.0016045603614366776,
+   "status": "interpolated",
+   "boot_lo": 0.0015308004212214038,
+   "boot_hi": 0.001683150037140941
+  }
+ },
+ "implementer_model_crossings": {
+  "naive:sequential:mld": {
+   "e1": 0.7534662279286514,
+   "c2": 5115.0658139747065,
+   "c2_std": 77.89103707969525,
+   "c2_per_point": {
+    "0.0001": 5555.007199191158,
+    "0.0005": 5316.35051590985,
+    "0.001": 5017.327714363423
+   },
+   "phys_rb_p": {
+    "c_phys": 0.3361894160005674,
+    "p_star": null,
+    "note": "first-order term alone exceeds physical RB: no crossing"
+   },
+   "phys_rb_5p": {
+    "c_phys": 1.6767803469196843,
+    "p_star": 0.00018050874662618732,
+    "p_star_lo": 0.00017761177419506108,
+    "p_star_hi": 0.00018340508223462312
+   }
+  },
+  "naive:parallel:mld": {
+   "e1": 0.7534662279286514,
+   "c2": 931.3077877649524,
+   "c2_std": 28.852875577717676,
+   "c2_per_point": {
+    "0.0001": 986.0088855046466,
+    "0.0005": 940.9843196636169,
+    "0.001": 926.4681302719786
+   },
+   "phys_rb_p": {
+    "c_phys": 0.3361894160005674,
+    "p_star": null,
+    "note": "first-order term alone exceeds physical RB: no crossing"
+   },
+   "phys_rb_5p": {
+    "c_phys": 1.6767803469196843,
+    "p_star": 0.0009914167272313877,
+    "p_star_lo": 0.0009620880600719952,
+    "p_star_hi": 0.0010242501203938696
+   }
+  },
+  "flag:sequential:mld": {
+   "e1": 0.0,
+   "c2": 5393.390434033538,
+   "c2_std": 64.75767130744116,
+   "c2_per_point": {
+    "0.0001": 5530.077942200728,
+    "0.0005": 5488.177945118356,
+    "0.001": 5279.7120472029
+   },
+   "phys_rb_p": {
+    "c_phys": 0.3361894160005674,
+    "p_star": 6.233359518701532e-05,
+    "p_star_lo": 6.165059950884896e-05,
+    "p_star_hi": 6.314287442603145e-05
+   },
+   "phys_rb_5p": {
+    "c_phys": 1.6767803469196843,
+    "p_star": 0.0003108954130853968,
+    "p_star_lo": 0.00030748889974596883,
+    "p_star_hi": 0.00031493177907007154
+   }
+  },
+  "flag:parallel:mld": {
+   "e1": 0.0,
+   "c2": 1029.545400676989,
+   "c2_std": 10.443606340568625,
+   "c2_per_point": {
+    "0.0001": 961.9364903790117,
+    "0.0005": 1031.443549685651,
+    "0.001": 1039.8185896018376
+   },
+   "phys_rb_p": {
+    "c_phys": 0.3361894160005674,
+    "p_star": 0.00032654161320083827,
+    "p_star_lo": 0.0003230291346671276,
+    "p_star_hi": 0.00033001495305840515
+   },
+   "phys_rb_5p": {
+    "c_phys": 1.6767803469196843,
+    "p_star": 0.0016286609078308726,
+    "p_star_lo": 0.001611142048836533,
+    "p_star_hi": 0.0016459845585294153
+   }
+  }
+ },
+ "flag:parallel exact c2 crossing": {
+  "c2_exact_slope": 994.5184486067121,
+  "pstar_vs_pRB_p_pure_p2": 0.00034075687633022036,
+  "pstar_vs_pRB_5p_pure_p2": 0.0017037843816511016
+ },
+ "flag:sequential exact c2 crossing": {
+  "c2_exact_slope": 5538.091363319638,
+  "pstar_vs_pRB_p_pure_p2": 6.119238159279182e-05,
+  "pstar_vs_pRB_5p_pure_p2": 0.0003059619079639591
+ }
+}

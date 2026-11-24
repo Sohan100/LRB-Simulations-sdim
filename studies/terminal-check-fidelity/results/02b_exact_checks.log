@@ -1,0 +1,22 @@
+PASS  qubit si1000: step factors vs direct circuits, max |dP| = 2.2e-16
+PASS  qubit si1000 mirror: transfer matrix vs 3000 random sequences, max |z| = 0.69
+PASS  qubit si1000 compiled: transfer matrix vs 3000 random sequences, max |z| = 2.03
+PASS  qubit si1000: eps_pair / p^2 = 1.5838, 1.5835, 1.5835 at p = 1e-6, 1e-5, 1e-4
+PASS  qubit si1000: pair / single = 3.995 at p = 0.005
+PASS  qubit sd6: step factors vs direct circuits, max |dP| = 2.2e-16
+PASS  qubit sd6 mirror: transfer matrix vs 3000 random sequences, max |z| = 1.51
+PASS  qubit sd6 compiled: transfer matrix vs 3000 random sequences, max |z| = 1.46
+PASS  qubit sd6: eps_pair / p^2 = 39.9455, 39.9458, 39.9464 at p = 1e-6, 1e-5, 1e-4
+PASS  qubit sd6: pair / single = 3.983 at p = 0.005
+PASS  qutrit si1000: step factors vs direct circuits, max |dP| = 5.6e-16
+PASS  qutrit si1000 mirror: transfer matrix vs 3000 random sequences, max |z| = 1.36
+PASS  qutrit si1000 compiled: transfer matrix vs 3000 random sequences, max |z| = 3.07
+PASS  qutrit si1000: eps_pair / p^2 = 2.8271, 2.8247, 2.8254 at p = 1e-6, 1e-5, 1e-4
+PASS  qutrit si1000: pair / single = 4.023 at p = 0.005
+PASS  qutrit sd6: step factors vs direct circuits, max |dP| = 1.7e-16
+PASS  qutrit sd6 mirror: transfer matrix vs 3000 random sequences, max |z| = 2.41
+PASS  qutrit sd6 compiled: transfer matrix vs 3000 random sequences, max |z| = 1.02
+PASS  qutrit sd6: eps_pair / p^2 = 74.4356, 74.4447, 74.5142 at p = 1e-6, 1e-5, 1e-4
+PASS  qutrit sd6: pair / single = 4.083 at p = 0.005
+PASS  d = 2: sum of logical-mode rates = sum of stabilizer-mode rates for every block (4 logical modes, 3 stabilizer modes, 6 block rates)
+PASS  d = 3: sum of logical-mode rates = sum of stabilizer-mode rates for every block (9 logical modes, 8 stabilizer modes, 7 block rates)

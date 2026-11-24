@@ -1,0 +1,16 @@
+Pauli mode p=0.02, depth_idx=1: 60 shots, mismatching shots 0; rounds with a lookup correction 89/180; shots with >= 1 correction 51/60; lookup table covers 32 of 80 non-zero round syndromes
+Coherent mode theta=0.1: Re E[w^k] physical 0.2355 +- 0.0352, frame 0.2407 +- 0.0347
+Coherent mode theta=0.1: 150 shots; paired mean diff -0.0052 +- 0.0235; mean |diff| 0.1612; rms diff 0.2864; fraction |diff|>1e-9 0.667
+   sequence 0: mean diff -0.0278 +- 0.0269, mean |diff| 0.1024
+   sequence 1: mean diff +0.0191 +- 0.0416, mean |diff| 0.1640
+   sequence 2: mean diff -0.0068 +- 0.0504, mean |diff| 0.2173
+Coherent mode theta=0.1: Re E[w^k] physical 0.2048 +- 0.0171, frame 0.1710 +- 0.0169
+Coherent mode theta=0.1: 600 shots; paired mean diff +0.0338 +- 0.0119; mean |diff| 0.1658; rms diff 0.2922; fraction |diff|>1e-9 0.720
+   sequence 0: mean diff +0.0330 +- 0.0179, mean |diff| 0.1413
+   sequence 1: mean diff -0.0214 +- 0.0159, mean |diff| 0.1320
+   sequence 2: mean diff +0.0899 +- 0.0257, mean |diff| 0.2239
+elapsed 61.3 s
+
+real	1m2.017s
+user	1m0.985s
+sys	0m0.408s

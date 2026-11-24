@@ -1,0 +1,56 @@
+{
+ "C": {
+  "[[5,1,2]]_3 readout=seq gates/round=none": {
+   "per_round": {
+    "F1": 11.2,
+    "F2": 7223.745000000002,
+    "detect_rej1": 102.0999999999998,
+    "undetected1": 0.0
+   },
+   "T2": {
+    "F1": 22.399999999999995,
+    "F2": 6513.464374999995,
+    "detect_rej1": 196.19999999999993,
+    "undetected1": 0.0,
+    "effects": 765,
+    "signatures": 71649,
+    "faults": 2672
+   },
+   "T3": {
+    "F1": 33.599999999999994,
+    "F2": 13737.209374999997,
+    "detect_rej1": 298.2999999999997,
+    "undetected1": 0.0,
+    "effects": 1125,
+    "signatures": 236557,
+    "faults": 4008
+   }
+  },
+  "[[13,1,3]]_3 folded readout=par gates/round=none": {
+   "per_round": {
+    "F1": 0.0,
+    "F2": 338.463124999998,
+    "detect_rej1": 185.3000000000195,
+    "undetected1": 0.0
+   },
+   "T2": {
+    "F1": 0.0,
+    "F2": 506.03937499999967,
+    "detect_rej1": 346.59999999999616,
+    "undetected1": 0.0,
+    "effects": 2777,
+    "signatures": 3045873,
+    "faults": 7296
+   },
+   "T3": {
+    "F1": 0.0,
+    "F2": 844.5024999999977,
+    "detect_rej1": 531.9000000000157,
+    "undetected1": 0.0,
+    "effects": 4105,
+    "signatures": 7124297,
+    "faults": 10944
+   }
+  }
+ }
+}

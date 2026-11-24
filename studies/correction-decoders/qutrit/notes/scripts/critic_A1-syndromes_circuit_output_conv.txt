@@ -1,0 +1,25 @@
+======================================================================
+C2 with the repository DEM (unit noise after the encoder, depth 0)
+  LRB        X0: detectors {0: 1} logical {}
+  LRB        X1: detectors {0: 2, 1: 1} logical {}
+  LRB        X2: detectors {1: 1} logical {}
+  LRB        X3: detectors {0: 2} logical {}
+  LRB        X4: detectors {1: 2} logical {}
+  LRB        Z0: detectors {2: 2} logical {0: 1}
+  LRB        Z1: detectors {2: 2, 3: 1} logical {}
+  LRB        Z2: detectors {2: 1} logical {}
+  LRB        Z3: detectors {3: 2} logical {0: 1}
+  LRB        Z4: detectors {3: 1} logical {}
+  LRB_const0 X0: detectors {} logical {}
+  LRB_const0 X1: detectors {} logical {}
+  LRB_const0 X2: detectors {} logical {}
+  LRB_const0 X3: detectors {} logical {}
+  LRB_const0 X4: detectors {} logical {}
+  LRB_const0 Z0: detectors {0: 1} logical {0: 1}
+  LRB_const0 Z1: detectors {0: 1, 1: 2} logical {}
+  LRB_const0 Z2: detectors {0: 2} logical {}
+  LRB_const0 Z3: detectors {1: 1} logical {0: 1}
+  LRB_const0 Z4: detectors {1: 2} logical {}
+  ancilla detectors == <S,E>, observable == z0+z3: True
+  const0 detectors == -sigma_X, observable == z0+z3: True
+total 10.8 s

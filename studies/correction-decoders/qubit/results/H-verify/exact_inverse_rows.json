@@ -1,0 +1,8002 @@
+[
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.19815063076547199,
+  "AF": 0.00015057245728369251,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.2244885322446749,
+  "AF": 0.00016456928455551147,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.2243490805347324,
+  "AF": 0.00014972180599923915,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.41885391144327005,
+  "AF": 0.00023139832723041853,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.537588275459984,
+  "AF": 0.0002515286709601925,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.608910844007108,
+  "AF": 0.00023947922574987326,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.36956759185965266,
+  "AF": 0.00018964777001064775,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4743095431528006,
+  "AF": 0.00022314438521232758,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.537360437630596,
+  "AF": 0.00019844966115406177,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6088455274740843,
+  "AF": 0.00023183429046205314,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.29364635320584576,
+  "AF": 0.0001231252383702334,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.3209753202703508,
+  "AF": 0.0001312953127539193,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.32081881607787816,
+  "AF": 0.00010982474141802669,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.5007287371577389,
+  "AF": 0.00017180968576354137,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5982658701144893,
+  "AF": 0.0001954666493513675,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6538365594005497,
+  "AF": 0.0001851130168617609,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.4579427985681804,
+  "AF": 0.00013333204852765306,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5471264970842229,
+  "AF": 0.0001558352941415534,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5980569197297485,
+  "AF": 0.00014660373737012387,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6537854097541815,
+  "AF": 0.00017807385682390518,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.017634830145563184,
+  "AF": 9.305739407536002e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.024090136945466873,
+  "AF": 0.00012287588614254047,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.02398636854819422,
+  "AF": 0.00010947355354272472,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.11438167204087393,
+  "AF": 0.0004453071211729154,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.2134405340219668,
+  "AF": 0.000714528503671492,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.29113086788111303,
+  "AF": 0.0008180003598487524,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.08349987559262675,
+  "AF": 0.0002947277991681048,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.1557604391436041,
+  "AF": 0.0005061222485701137,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.21279737915694238,
+  "AF": 0.0005492057953840818,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.29090853736044575,
+  "AF": 0.0007823951711848019,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04663075061297212,
+  "AF": 0.00013357304329245805,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05829084366114722,
+  "AF": 0.00016334353624222417,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.058096388097163096,
+  "AF": 0.0001331144196272192,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.17764186066793283,
+  "AF": 0.0004211083611406423,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.27759614642305397,
+  "AF": 0.0006343249890608745,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.3466122732466355,
+  "AF": 0.000683046570964006,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.141780866096399,
+  "AF": 0.00027766028037508426,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.22149710514910054,
+  "AF": 0.0004266443994742074,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.27691698375206925,
+  "AF": 0.0004623437105525802,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.3464231327493471,
+  "AF": 0.000650863082108285,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.18664387578967678,
+  "AF": 0.00017850710575672768,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.211460885992584,
+  "AF": 0.00020079251919760894,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21125361402212406,
+  "AF": 0.00016691271340723033,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.39453250270758233,
+  "AF": 0.0002981551429523605,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5063862628170326,
+  "AF": 0.0003091379580424369,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5735552664516982,
+  "AF": 0.00031691084204572525,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3479755319987474,
+  "AF": 0.00022400973864717218,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.44668573169458137,
+  "AF": 0.000258439077603556,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5060976364944312,
+  "AF": 0.0002497164995226359,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.573430888622487,
+  "AF": 0.0002923405862914698,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2765594977118641,
+  "AF": 0.00015562251670751492,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.30231253232904526,
+  "AF": 0.0001732062708913839,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.3020694222484119,
+  "AF": 0.00012783616461654586,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.47160795479208784,
+  "AF": 0.00023626386806037495,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.563487304874003,
+  "AF": 0.0002526718059079618,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6158189840403315,
+  "AF": 0.00025845669410568813,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.431180331634695,
+  "AF": 0.0001640195588096248,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5152156745700025,
+  "AF": 0.00019113821104492306,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.563215609598337,
+  "AF": 0.00019588156082000433,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6157048302432456,
+  "AF": 0.00023385739583681812,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.015224916309560995,
+  "AF": 0.0001019387805218735,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.02080549693462194,
+  "AF": 0.00013906662904651103,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.020660950206842235,
+  "AF": 0.0001115946460568661,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.09876074564452199,
+  "AF": 0.0005314331725228364,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.18432031767885051,
+  "AF": 0.0008170791797993777,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.25136600897779393,
+  "AF": 0.001004241834359993,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07189778536676082,
+  "AF": 0.00031928329057200196,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.13429433622825487,
+  "AF": 0.0005394856676140572,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.1835596030920114,
+  "AF": 0.0006384307226347522,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.2509662458715141,
+  "AF": 0.0009108342771547193,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.040221092844015954,
+  "AF": 0.0001563522753643585,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05029713661722287,
+  "AF": 0.00020030999305259374,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.0500147134848212,
+  "AF": 0.00014180983170612228,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.15326593266823527,
+  "AF": 0.0005377757693576992,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.23954345257721144,
+  "AF": 0.0007626733828464749,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.29906588821688285,
+  "AF": 0.0008847984109142273,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.12206080412570854,
+  "AF": 0.00031340779821019947,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.19084730545764902,
+  "AF": 0.0004813765948523533,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.2387193556369263,
+  "AF": 0.0005708561649261992,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.29866840216106944,
+  "AF": 0.000788517762920745,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.19060695005934547,
+  "AF": 0.0001510363273803748,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.21595261888494072,
+  "AF": 0.0001731967818001215,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21579205565990442,
+  "AF": 0.00014462472467807538,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4029265465552181,
+  "AF": 0.0002633257074834763,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5171850305878238,
+  "AF": 0.000298846720174388,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5857283770422537,
+  "AF": 0.0002867953024195188,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.35543465462674895,
+  "AF": 0.00019331814826007717,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.456202373636749,
+  "AF": 0.00025412518566244924,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5168262959097557,
+  "AF": 0.0002291394378502887,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5856057354491808,
+  "AF": 0.00027369392564068556,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.28244258668097877,
+  "AF": 0.00013104346896123376,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.30874579649068035,
+  "AF": 0.00015108296193310937,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.3085444115411833,
+  "AF": 0.00011173926510978804,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.48165021050625567,
+  "AF": 0.00021045714578180158,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5755102165516772,
+  "AF": 0.0002409687107918441,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.628903283076076,
+  "AF": 0.00022769791753743705,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.4404071485727422,
+  "AF": 0.00014287969368088365,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5262071489847739,
+  "AF": 0.00018514249908797674,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5751794252280914,
+  "AF": 0.0001751644965736616,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.628799897791831,
+  "AF": 0.00021527307075185317,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.01603184181524466,
+  "AF": 8.913704842869906e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.021909950706744466,
+  "AF": 0.00012416616051987839,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.02179323281414453,
+  "AF": 9.993277356782841e-05,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10402724789923465,
+  "AF": 0.0004855968972899483,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.19422092886103756,
+  "AF": 0.0008170674361942492,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.26466381221850227,
+  "AF": 0.0009317961369252563,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07581553880787956,
+  "AF": 0.0002849908104248342,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.1414852009260044,
+  "AF": 0.0005480032221325821,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.19324746264135045,
+  "AF": 0.0005982833480436927,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.26427350433393076,
+  "AF": 0.0008750522695926443,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.042365182607358096,
+  "AF": 0.00013577987199566303,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.052981951322774834,
+  "AF": 0.000180455878786084,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05273969347459208,
+  "AF": 0.00012786245517583137,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.1614613942788133,
+  "AF": 0.0004942599149034062,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.25243083951806067,
+  "AF": 0.0007522469060800156,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.3149508153926703,
+  "AF": 0.0008002863164523607,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.1286817536794504,
+  "AF": 0.0002819129554503032,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.20111060636524153,
+  "AF": 0.00048129278372315145,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.25140086702470354,
+  "AF": 0.0005225157266571642,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.31459023577302136,
+  "AF": 0.0007455124592808799,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.18908219467681883,
+  "AF": 0.00017810321021672243,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.21421660092362432,
+  "AF": 0.0001936566175880514,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.2140789768866103,
+  "AF": 0.0001588855857375754,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.3996904961833394,
+  "AF": 0.00029986874300709943,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5130908814776451,
+  "AF": 0.00030640941003651787,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5810560291246362,
+  "AF": 0.0003607385322805984,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.35262781282403144,
+  "AF": 0.0002092831877356867,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.45259712547887104,
+  "AF": 0.00025874196990408673,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5127008288677285,
+  "AF": 0.0003070052888635452,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5809509610459849,
+  "AF": 0.0003516436381886758,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.28019453765186575,
+  "AF": 0.00015229871462828508,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.3062756508579224,
+  "AF": 0.00016475525439039833,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.30609079155253105,
+  "AF": 0.0001210370622280134,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.47780117290706775,
+  "AF": 0.00023154659638823682,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5709466562987886,
+  "AF": 0.0002479864642396322,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.623910496819162,
+  "AF": 0.0002745431507156045,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.4369196213100135,
+  "AF": 0.00015356837945330244,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5220423602584966,
+  "AF": 0.00018973195655358114,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5706060077346502,
+  "AF": 0.0002219239418427435,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6238253405259716,
+  "AF": 0.0002663611006452597,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.015712045845510857,
+  "AF": 0.00010365458143335777,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.02146566528461497,
+  "AF": 0.00013653351774379856,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.021366390423164138,
+  "AF": 0.00010860062136930842,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.1019277295670593,
+  "AF": 0.0005439595523439061,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.19044715924908104,
+  "AF": 0.0008273975602120602,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.25942634510839874,
+  "AF": 0.0011532267615722797,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07434944934866794,
+  "AF": 0.0003049700617212438,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.13874914925513743,
+  "AF": 0.0005498895679732368,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.1894102760449061,
+  "AF": 0.0007911959290524936,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.25908244823299337,
+  "AF": 0.0011083553494057143,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.0415301244479412,
+  "AF": 0.00015576632897935518,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.051920933905151324,
+  "AF": 0.00019364818579936828,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05170125240260374,
+  "AF": 0.00013701974919065355,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.15824093887085616,
+  "AF": 0.0005356344312860913,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.24750031655306826,
+  "AF": 0.0007644504172680161,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.3087867188787106,
+  "AF": 0.0009531036075506111,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.12617501862238076,
+  "AF": 0.00029969118750448594,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.19720166146871215,
+  "AF": 0.00048717069636966206,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.24645404379048927,
+  "AF": 0.0006552955500469255,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.30848572249638423,
+  "AF": 0.0009141064996081832,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.1833273875919966,
+  "AF": 0.0001884168657149429,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.20772775900705484,
+  "AF": 0.00019929820182633826,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.20751866587481765,
+  "AF": 0.00016674016092331297,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.38759313466278345,
+  "AF": 0.00027584264322235927,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.4974964003222419,
+  "AF": 0.0003669232743394114,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5633790353612769,
+  "AF": 0.00037589546504625325,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3418477898006339,
+  "AF": 0.00022206640630410718,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4387314459379299,
+  "AF": 0.0002806766099031316,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.4971148555234999,
+  "AF": 0.0002870341623272369,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5632936590127267,
+  "AF": 0.000318989682192966,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.27165259416738713,
+  "AF": 0.00016647084033890355,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.29696262473290425,
+  "AF": 0.00017479816378262826,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.296711025782595,
+  "AF": 0.00012971741081147778,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4632814416769673,
+  "AF": 0.00022933125489494507,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5535675615195909,
+  "AF": 0.00029993290589869274,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6049090558861728,
+  "AF": 0.0002990846827431561,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.4235492883440647,
+  "AF": 0.00016783577861779559,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5060580089695429,
+  "AF": 0.00021014770013251643,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5532117890864393,
+  "AF": 0.00022178924969862944,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6048072189705566,
+  "AF": 0.0002572707204484921,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.014563365081963164,
+  "AF": 0.00010530017966492248,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.019917174217416806,
+  "AF": 0.00013551556673080853,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.01977482429343277,
+  "AF": 0.00010920128322134445,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.09459195815298432,
+  "AF": 0.0004867726339948799,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.1765868867107712,
+  "AF": 0.0009482886405411306,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.24048176131315502,
+  "AF": 0.001160308766281409,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.06884194837908758,
+  "AF": 0.0003080772258053358,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.12841746745299953,
+  "AF": 0.0005733595612753407,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.17559032613728234,
+  "AF": 0.0007124066062698345,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.24020714947569063,
+  "AF": 0.0009709977105744074,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.03847871528468623,
+  "AF": 0.00016367630394356782,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.048133318350063,
+  "AF": 0.00019824405216114181,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.04784755340893525,
+  "AF": 0.00014061282758733604,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.1467171864010602,
+  "AF": 0.0005141377103857209,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.22940125568372796,
+  "AF": 0.0008874358838810832,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.28616018117964953,
+  "AF": 0.0010004429058248037,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.11680212857006478,
+  "AF": 0.00031234016509780135,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.18253324442646657,
+  "AF": 0.0005175540206507555,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.22833690419709754,
+  "AF": 0.0006290845711635146,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.2858133298118629,
+  "AF": 0.0008479225720730917,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.18811129187360923,
+  "AF": 0.0001798342302406311,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.21313976488885344,
+  "AF": 0.0001999699142051505,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21297731390025199,
+  "AF": 0.00016182673430256453,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.39768304421124084,
+  "AF": 0.00028746034614404015,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5104222384960685,
+  "AF": 0.0003688470788796652,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5780737458065737,
+  "AF": 0.0003434755053960317,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3508024778987194,
+  "AF": 0.000213550770410541,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4502090320874427,
+  "AF": 0.0002621280623381791,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5101169723529387,
+  "AF": 0.0002635907543832056,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5780386514768107,
+  "AF": 0.0002948704638954778,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2787532364881345,
+  "AF": 0.0001544826282561307,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.3047304394615736,
+  "AF": 0.00017296237906203797,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.3045126818507265,
+  "AF": 0.00012404987229173455,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4753907237249906,
+  "AF": 0.0002313926914824693,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5680044800173347,
+  "AF": 0.00028804065835527827,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6207037365810884,
+  "AF": 0.0002671179824633405,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.434656811030719,
+  "AF": 0.00015676068054981364,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5193171371562478,
+  "AF": 0.000193439077030977,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5676936144075806,
+  "AF": 0.00019833830775023027,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6206549676653257,
+  "AF": 0.0002354555805896664,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.015515149109790335,
+  "AF": 0.00010410599604887112,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.021213778618851445,
+  "AF": 0.0001409967628711489,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.021096045936914144,
+  "AF": 0.00010978667986025396,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10073132844639984,
+  "AF": 0.0005229153869083817,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.1879813454605945,
+  "AF": 0.0009829268071186162,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.25617026247187186,
+  "AF": 0.0010963512490722563,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07339675060938959,
+  "AF": 0.00030817990966222294,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.13687543363092644,
+  "AF": 0.000555299837540474,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.1871426370278308,
+  "AF": 0.0006774759969759474,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.2560506157680033,
+  "AF": 0.0009325532683147695,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04100636993944648,
+  "AF": 0.00015716083167455745,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.051302921088754914,
+  "AF": 0.0002034249200689658,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.0510439230866623,
+  "AF": 0.00013944693514121492,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.15635560005768034,
+  "AF": 0.0005363870718049664,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.24436958471760672,
+  "AF": 0.0008802116067670164,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.30489672598865086,
+  "AF": 0.0009237261710955215,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.12455342157872593,
+  "AF": 0.0003033315147360338,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.19461135202490454,
+  "AF": 0.0004939771163254393,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.24340333916604906,
+  "AF": 0.0005824030057845405,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.304726316517162,
+  "AF": 0.0008067489161151107,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.194400937344449,
+  "AF": 0.00017457121113212607,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.22025453832303485,
+  "AF": 0.00019185516600142671,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.22012517998914655,
+  "AF": 0.00015945385777914016,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.41095002111334394,
+  "AF": 0.0002765211045252881,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5274577920110683,
+  "AF": 0.0003097992133389044,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5973722596469698,
+  "AF": 0.00029518159256546034,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.36254543472114303,
+  "AF": 0.0002269493221625845,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.46533570227097776,
+  "AF": 0.00021566192024860008,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5272008877447925,
+  "AF": 0.00023565758034357345,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5973328294352213,
+  "AF": 0.00024826475542426047,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.28809271759983024,
+  "AF": 0.0001433216867386521,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.31492478480762937,
+  "AF": 0.00015814212861551817,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.314752409654868,
+  "AF": 0.00011870532184130099,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4912864225214051,
+  "AF": 0.0002096052400341026,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.58700113205968,
+  "AF": 0.000239930959819911,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6414675932836115,
+  "AF": 0.00022350964307289305,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.44925460260644523,
+  "AF": 0.00015950612344658223,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5367661336624536,
+  "AF": 0.00015679479363399492,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.586739551596933,
+  "AF": 0.0001727456190628125,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6414079732193753,
+  "AF": 0.0001918827031480789,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.016820668672233207,
+  "AF": 0.00010524554166217461,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.022989629886382472,
+  "AF": 0.00014051378090064836,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.022892327739823793,
+  "AF": 0.00011320095874462511,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10914950822081551,
+  "AF": 0.0005206325141846333,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.20370602213841324,
+  "AF": 0.0008625282489651067,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.27762520705327465,
+  "AF": 0.0009797944536192361,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07960006699033109,
+  "AF": 0.0003433108386046044,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.14855678052812407,
+  "AF": 0.0004764214483626868,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.20297477943605968,
+  "AF": 0.0006326134071840921,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.27748628579743395,
+  "AF": 0.0008152140901911243,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04447896295853982,
+  "AF": 0.00015178338275731814,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05562735185769506,
+  "AF": 0.00019309181058402587,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05541446113627265,
+  "AF": 0.00013981075404252528,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.169516920641581,
+  "AF": 0.0005036214720287751,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.26494819104828665,
+  "AF": 0.0007641080358397167,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.33059955054557105,
+  "AF": 0.0008040427418571329,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.13517964673995236,
+  "AF": 0.000323517994279363,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.2112313081799102,
+  "AF": 0.00041760253164108434,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.26410662573382815,
+  "AF": 0.0005300408532444684,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.3303825113818763,
+  "AF": 0.0006820991313514633,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.19334847861984322,
+  "AF": 0.00014584163695983816,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.21905164834978766,
+  "AF": 0.0001660873237162873,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21891108974623186,
+  "AF": 0.00013874334514408333,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.40870109308768127,
+  "AF": 0.00025282094007736974,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5245803999470146,
+  "AF": 0.0002699119377544254,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.594142044548246,
+  "AF": 0.0002626788928585556,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.36052117833981184,
+  "AF": 0.00018363275538012456,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4627806434473136,
+  "AF": 0.0002155628148819558,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5242843263433118,
+  "AF": 0.00021725319275792693,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.594031143923454,
+  "AF": 0.0002537062233013617,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.28651271722825383,
+  "AF": 0.00012441756865663573,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.31318247920309156,
+  "AF": 0.00014122090634056042,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.3130090223297747,
+  "AF": 0.00010591699271468764,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.48856704110827914,
+  "AF": 0.00019554850141611897,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5837667402409357,
+  "AF": 0.00021718764800426,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.637954713531266,
+  "AF": 0.0002075423590406384,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.44675016513496624,
+  "AF": 0.0001348330780611926,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.53380444245115,
+  "AF": 0.00015782567625147303,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5834875137742298,
+  "AF": 0.0001648026896672835,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.63785663169143,
+  "AF": 0.00019722231311174426,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.016605096077343538,
+  "AF": 8.769514485269903e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.022688039226588935,
+  "AF": 0.00012114602476340948,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.0225858666300835,
+  "AF": 9.829416769281268e-05,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10771041767403833,
+  "AF": 0.00047234388054402725,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.2010426812269893,
+  "AF": 0.000749050786983046,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.27409078888659555,
+  "AF": 0.0008684440119397217,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07849251879180152,
+  "AF": 0.0002761216324069401,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.14658966225211403,
+  "AF": 0.000474613096055535,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.2002291007354065,
+  "AF": 0.0005793950570223044,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.2737373978520027,
+  "AF": 0.0008275657811527861,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04388910925192935,
+  "AF": 0.0001312497674074752,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.0548719238230172,
+  "AF": 0.00017134778291886177,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.054661683545649035,
+  "AF": 0.000124147933021295,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.16721257777707438,
+  "AF": 0.00046581517865202916,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.26139130777540504,
+  "AF": 0.0006882389349722909,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.3262395352877207,
+  "AF": 0.0007422564952812476,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.13330811604757836,
+  "AF": 0.00027135001606399373,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.2083902184032215,
+  "AF": 0.00041859243602320823,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.26051064218093734,
+  "AF": 0.000501989462684646,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.32589571146610563,
+  "AF": 0.0006963809219589543,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.19589640486461726,
+  "AF": 0.00016739785334401403,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.22194900177988508,
+  "AF": 0.00019235868738251593,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.22178395098565581,
+  "AF": 0.0001694005923013822,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.41410740596210815,
+  "AF": 0.00026867125789923366,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5314456277915691,
+  "AF": 0.00032549618611919047,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6020190320010824,
+  "AF": 0.0002771448997191615,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3653060817435663,
+  "AF": 0.00022753784645549593,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.46892125126929773,
+  "AF": 0.00024878426349980715,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5312286234052185,
+  "AF": 0.00022717407826757893,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6019892258601562,
+  "AF": 0.0002874144026254119,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2902948660386219,
+  "AF": 0.00013663957583972291,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.31733389864417394,
+  "AF": 0.00015803894042064627,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.31714376272861367,
+  "AF": 0.00012566951970495246,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4950430754164065,
+  "AF": 0.00020581611275345625,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5914419458975183,
+  "AF": 0.00024608944160093817,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.646404131246721,
+  "AF": 0.0002153180213791437,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.45267795220192214,
+  "AF": 0.00015941464326527793,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5408873990781125,
+  "AF": 0.00017786850373956953,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5912164015907384,
+  "AF": 0.00016968108251440997,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6464042180791254,
+  "AF": 0.00022709533309510878,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.01715008184024151,
+  "AF": 0.00010187862958716592,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.0234394760509031,
+  "AF": 0.00014200239612935066,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.023317005762391905,
+  "AF": 0.00012168208242826887,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.11127637514681958,
+  "AF": 0.0005106537031054319,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.207515466585162,
+  "AF": 0.0009118272896352183,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.28324066962661154,
+  "AF": 0.000933802410757768,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.08111824426882168,
+  "AF": 0.00034797674105817143,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.1514856215834653,
+  "AF": 0.0005581698968972221,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.2068969382124625,
+  "AF": 0.0006180700029203889,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.2831566839621256,
+  "AF": 0.0009625263977170209,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04533568081673315,
+  "AF": 0.00014605178779702517,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05670081358520735,
+  "AF": 0.0001946107376992999,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.056465650110690435,
+  "AF": 0.0001498468918858398,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.17278407511289318,
+  "AF": 0.0004991715195769702,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.2699112916282138,
+  "AF": 0.0007888658255338728,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.3370938863783764,
+  "AF": 0.0007840643449473751,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.13776410768822223,
+  "AF": 0.00032705422559360176,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.2153545401995711,
+  "AF": 0.00048118224625344827,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.269181729091209,
+  "AF": 0.0005267645605689103,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.3371089733974979,
+  "AF": 0.0008256821431408336,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.1914095614649346,
+  "AF": 0.00016648108245601517,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.2168794438425834,
+  "AF": 0.00017316749635774853,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21673536321431355,
+  "AF": 0.000148755809824746,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.40466659506643926,
+  "AF": 0.00026039857715960674,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5194058896968629,
+  "AF": 0.0002966790136435388,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5882503001999327,
+  "AF": 0.0003495377455069591,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3569611653401937,
+  "AF": 0.00021876663990803453,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4582078743674204,
+  "AF": 0.00023914797883707917,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5190644664958081,
+  "AF": 0.00030120325018035023,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.588174322206428,
+  "AF": 0.0003481196526620157,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2836571835348305,
+  "AF": 0.00014176841012661164,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.31007890584301573,
+  "AF": 0.00014670683847031873,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.3098967367669845,
+  "AF": 0.00011350100089179511,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4837386123793225,
+  "AF": 0.00020255120080902902,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5779922502470329,
+  "AF": 0.00023893817051092692,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6316418087759622,
+  "AF": 0.00026281955090138475,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.44232496898241075,
+  "AF": 0.00015688586848178573,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5285202401932516,
+  "AF": 0.0001766535948109694,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5776942626244388,
+  "AF": 0.00021541044785755023,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6315881025366195,
+  "AF": 0.00026269496067176745,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.016187236438576127,
+  "AF": 9.83431778614459e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.022132657510474853,
+  "AF": 0.0001241532552333587,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.02202880713211464,
+  "AF": 0.00010345657191159783,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10510632045665892,
+  "AF": 0.00048019382453888965,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.1962070459729589,
+  "AF": 0.0008106052448217617,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.26741235503679445,
+  "AF": 0.0011350688053407495,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07659492464390195,
+  "AF": 0.00032357704781581074,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.14304022700771596,
+  "AF": 0.000519117527847583,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.19528554845007812,
+  "AF": 0.000789312554358528,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.26715995383023905,
+  "AF": 0.0011171194158770487,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.0428021428817836,
+  "AF": 0.00014717370096006612,
+  "rounds": 12
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05353205439393932,
+  "AF": 0.00017531680644472853,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05331379653644888,
+  "AF": 0.00013082876774079633,
+  "rounds": 11
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.16315953149905074,
+  "AF": 0.0004763913466395982,
+  "rounds": 6
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.25504874364729424,
+  "AF": 0.0007456309987136177,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.3183196391801184,
+  "AF": 0.0009269385471469858,
+  "rounds": 3
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.13005685355389882,
+  "AF": 0.0003110741622143015,
+  "rounds": 7
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.20331790215682186,
+  "AF": 0.00046193897928036335,
+  "rounds": 5
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.25411898032285063,
+  "AF": 0.0006468796356605284,
+  "rounds": 4
+ },
+ {
+  "seqset": "theirs",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.31812770598052525,
+  "AF": 0.0009184592153209465,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.1849322890203026,
+  "AF": 0.00019674347832383438,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.20955196819545624,
+  "AF": 0.00020989601578567146,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.20933781724857964,
+  "AF": 0.00017995620561779533,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.39098772892115946,
+  "AF": 0.00031101604035325866,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5017994800592588,
+  "AF": 0.000393400317083146,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5683229559430911,
+  "AF": 0.00037175979857024746,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.34485756624298075,
+  "AF": 0.0002383296071102958,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4426392931653561,
+  "AF": 0.00029615304783527617,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5014937978386048,
+  "AF": 0.00028492288164262756,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.568300816626076,
+  "AF": 0.00032791414736106747,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.27403329509840174,
+  "AF": 0.0001692486075182384,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.29957338432543007,
+  "AF": 0.0001797004493022376,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.2993197777373521,
+  "AF": 0.0001379583756990992,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.46734744278011076,
+  "AF": 0.0002459783139927879,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5583924326493679,
+  "AF": 0.00030998935820493386,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6102142683127482,
+  "AF": 0.0002924035265325157,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.42727838853318917,
+  "AF": 0.0001760817870339574,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5105374942655714,
+  "AF": 0.00021829491305404538,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5580779244701398,
+  "AF": 0.00021690657307643117,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6101780090385953,
+  "AF": 0.00026491206286860557,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.014878751277726924,
+  "AF": 0.00011096246642703445,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.020351773909005763,
+  "AF": 0.00014407234534349187,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.020204145649485954,
+  "AF": 0.0001189739950378746,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.09663815959058679,
+  "AF": 0.0005508183055027866,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.18028800164062445,
+  "AF": 0.0010272377480147995,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.24572390212575973,
+  "AF": 0.0011620701535587248,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07036027691035462,
+  "AF": 0.00033574375173981623,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.13133343522559343,
+  "AF": 0.0006111474101345218,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.1794573626687953,
+  "AF": 0.0007162591877866999,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.24564664740382805,
+  "AF": 0.001017049143217193,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.03931448245684084,
+  "AF": 0.00016801638417202473,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.04918770063674566,
+  "AF": 0.0002059232718089129,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.04889632366127626,
+  "AF": 0.0001512411038552241,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.14991469067364102,
+  "AF": 0.0005555188772479022,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.23430957019804707,
+  "AF": 0.0009267329631789359,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.29238874003735327,
+  "AF": 0.0009901538282455439,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.11937527812311229,
+  "AF": 0.00033259715579382176,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.18661025452523225,
+  "AF": 0.0005440767570025132,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.23334723961728793,
+  "AF": 0.0006228890471291696,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 0,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.2922645275634929,
+  "AF": 0.0008902562025749047,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.19067622333031553,
+  "AF": 0.0001713606902346537,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.2160077960396442,
+  "AF": 0.00019779776922735048,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21587027231028807,
+  "AF": 0.0001628364813911662,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.40301636713596084,
+  "AF": 0.0002874491443758378,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.517304987790126,
+  "AF": 0.0003069100972342425,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5859233499946915,
+  "AF": 0.00030369025596409374,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3555271651532198,
+  "AF": 0.0002163448026609393,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4563564704210832,
+  "AF": 0.00022282302617982033,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5169918000101558,
+  "AF": 0.0002746224168347184,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5857587909424711,
+  "AF": 0.00032086379285547047,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.28254802316774724,
+  "AF": 0.00014547639315872534,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.30884125396885115,
+  "AF": 0.00016525928435227608,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.30865959868281023,
+  "AF": 0.00012252440035010086,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4817911351618151,
+  "AF": 0.00022054013836336525,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5756630573782634,
+  "AF": 0.000241726210344428,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6291290836167444,
+  "AF": 0.0002382913164883014,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.44055072282317215,
+  "AF": 0.00015485133836184284,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5263923014712477,
+  "AF": 0.0001641551652369149,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5753980108822713,
+  "AF": 0.00020242180602677944,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6290034471932814,
+  "AF": 0.00023980958010096258,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.01604388429243054,
+  "AF": 0.00010076789028350259,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.021910175456561317,
+  "AF": 0.00014082435967179284,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.02180962385189275,
+  "AF": 0.00011229239452183247,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10400384152864961,
+  "AF": 0.00052475728011794,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.19417688454038703,
+  "AF": 0.0008297659239495942,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.26480153323180133,
+  "AF": 0.0009805296376495212,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07581896416349412,
+  "AF": 0.00031797489926516787,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.14156090644619782,
+  "AF": 0.0004794071710930209,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.19333651015536912,
+  "AF": 0.0007162388801984371,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.26428078510116304,
+  "AF": 0.0010191192594831032,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.042399965108691776,
+  "AF": 0.00015022950959432273,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05300136484639537,
+  "AF": 0.0001960761639752646,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05278337156783049,
+  "AF": 0.00014021319785958395,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.16150199857512768,
+  "AF": 0.0005141000785555094,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.2524413735060631,
+  "AF": 0.0007471002547337281,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.31517603162733643,
+  "AF": 0.0008345412748178373,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.12874560319456163,
+  "AF": 0.00030500398485839675,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.20124265905777924,
+  "AF": 0.00042548648727793505,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.25161824527444093,
+  "AF": 0.0006049080117824315,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 1,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.3147353531030451,
+  "AF": 0.000828444670442379,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.19112858669555705,
+  "AF": 0.00016323698908551063,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.21652851519784724,
+  "AF": 0.00018023204065647607,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.2163694119574164,
+  "AF": 0.00015783724519586405,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4040010943819734,
+  "AF": 0.00024929885652556576,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5185486607223901,
+  "AF": 0.00030134708161295347,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5873435885031502,
+  "AF": 0.0003096077798866793,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3564131409356636,
+  "AF": 0.000211147597375302,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.45740294537171433,
+  "AF": 0.0002457420270937749,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5182207315206667,
+  "AF": 0.00027452149162165285,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5871853075049537,
+  "AF": 0.00033126089787464274,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.28322183969375075,
+  "AF": 0.00013972793071983475,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.3095754725110221,
+  "AF": 0.0001514042083264181,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.3093897416235407,
+  "AF": 0.00011931847863122817,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4829465838875718,
+  "AF": 0.00019713915326032588,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5770450404463555,
+  "AF": 0.00023775445049852131,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6306450599653903,
+  "AF": 0.0002408961885738582,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.441626115399333,
+  "AF": 0.00015154442367910207,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5276330569437492,
+  "AF": 0.00017763785175191032,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5767636834911836,
+  "AF": 0.0002003283072331681,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6305321510251192,
+  "AF": 0.000248008641882884,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.016136888597579724,
+  "AF": 9.624568286744637e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.022041756456387934,
+  "AF": 0.00012863289672177658,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.021928251993151574,
+  "AF": 0.00010968145558126536,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10465300688163003,
+  "AF": 0.0004589496592386593,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.19534935102613826,
+  "AF": 0.0008160927264653177,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.2664359435747998,
+  "AF": 0.001003602129325749,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07631865373449376,
+  "AF": 0.00031055229908632793,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.14231158282421935,
+  "AF": 0.0005300902985814443,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.19446526764338243,
+  "AF": 0.0007174094945889876,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.2659335605336681,
+  "AF": 0.001056954070685964,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04264961737955148,
+  "AF": 0.0001447924787965821,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05330959687433342,
+  "AF": 0.000180092356363395,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05308813512005921,
+  "AF": 0.00013732814898977306,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.16246467375442344,
+  "AF": 0.0004619829334702632,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.2539571428243799,
+  "AF": 0.0007370684745437919,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.31708815705002147,
+  "AF": 0.0008469724326972952,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.12955234299678892,
+  "AF": 0.0002991255647789307,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.20239345272302742,
+  "AF": 0.00046209009878172826,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.2530813672945366,
+  "AF": 0.0005997331527651069,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 2,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.3166914745438041,
+  "AF": 0.000861260823087757,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.19000192553869183,
+  "AF": 0.0001574231117606501,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.215245242647798,
+  "AF": 0.00018541095049187076,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21510218326316918,
+  "AF": 0.00014968754643158435,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4016031499065892,
+  "AF": 0.00026630401449776055,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5155028883510088,
+  "AF": 0.00031387260378599557,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5838708425987409,
+  "AF": 0.00028323817807618515,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3543040344243086,
+  "AF": 0.0002036345682882016,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4546914046131762,
+  "AF": 0.00023231265633940945,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5152027485898608,
+  "AF": 0.0002279558272357482,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5837534953010045,
+  "AF": 0.00026880930629303874,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2815447823477366,
+  "AF": 0.00013534594748706712,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.30774846770259806,
+  "AF": 0.00015882747348721637,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.3075578266173257,
+  "AF": 0.00011441275686021522,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.48009361541807405,
+  "AF": 0.0002114482062217725,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.573643686726768,
+  "AF": 0.000248958786917989,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.626907623640745,
+  "AF": 0.00022646747314707024,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.4390027305271087,
+  "AF": 0.00014826973788357965,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5244927198380601,
+  "AF": 0.00017039306015306365,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5733642588730855,
+  "AF": 0.00017518973351178283,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6268058739954561,
+  "AF": 0.0002124263263220206,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.015906283335387055,
+  "AF": 9.261116547677192e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.021723716684336286,
+  "AF": 0.00013217576505975947,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.021619534654494673,
+  "AF": 0.00010317096813880529,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10313865797321342,
+  "AF": 0.0004890115022031767,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.1925959937760212,
+  "AF": 0.0008473274070271217,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.26260540105934904,
+  "AF": 0.0009198666361511538,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07521707507940517,
+  "AF": 0.0002979156200602766,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.14024912672903478,
+  "AF": 0.0004989144006842549,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.19178278232754883,
+  "AF": 0.0005962782680569872,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.26222650024640626,
+  "AF": 0.0008583034897769803,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04203228127866385,
+  "AF": 0.0001397352419843143,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05254711558248973,
+  "AF": 0.0001885999346413867,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05231884965843388,
+  "AF": 0.00013055427752815796,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.16013594727705535,
+  "AF": 0.0004945145907946136,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.2503346643824714,
+  "AF": 0.0007688120033850689,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.31249206804905344,
+  "AF": 0.0007945162480247754,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.1276605281887528,
+  "AF": 0.0002907398353243555,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.19942415472497887,
+  "AF": 0.00044057609655907213,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.24946596272767166,
+  "AF": 0.0005223749977403832,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 3,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.31213470708345714,
+  "AF": 0.0007342799733315252,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.190383282829137,
+  "AF": 0.00016243208276739632,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.21569242597158725,
+  "AF": 0.00018516097766997468,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21553958282829963,
+  "AF": 0.00015523695560461635,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4024426502372002,
+  "AF": 0.00029396627608883604,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.51652961135366,
+  "AF": 0.0003060377005041845,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5850686511865089,
+  "AF": 0.0002883999499241141,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.35497791541566714,
+  "AF": 0.0002196408555157564,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.45565414133046017,
+  "AF": 0.00024776233299185057,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5162443232964895,
+  "AF": 0.00023120737815624672,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.584973309987335,
+  "AF": 0.0002822244848401894,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2821107366902948,
+  "AF": 0.00013845947651529688,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.3083715373071758,
+  "AF": 0.00015697761164742128,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.30817991837294606,
+  "AF": 0.00011765971205113089,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4810695350542378,
+  "AF": 0.0002241393361069465,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5747830902122123,
+  "AF": 0.00023931538655019749,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6281823166189491,
+  "AF": 0.00022951464950740635,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.4398629085034108,
+  "AF": 0.00015751239177099488,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5255744009643623,
+  "AF": 0.00018022134010058533,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5745170807237382,
+  "AF": 0.00017663197782799033,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6281081200398027,
+  "AF": 0.0002241938744105869,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.015985977167585354,
+  "AF": 9.540791277036056e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.02184186857387597,
+  "AF": 0.00013172839634982103,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.021733144270375666,
+  "AF": 0.00010717128129560983,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10371147765420102,
+  "AF": 0.0005364798474017333,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.19353078249113434,
+  "AF": 0.0008279866242328735,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.2640091540100113,
+  "AF": 0.0009400280738736072,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.0755424581772536,
+  "AF": 0.0003221004115762993,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.14106112777721053,
+  "AF": 0.0005315198007267558,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.19276960111657623,
+  "AF": 0.0006063583962089959,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.26370649893852083,
+  "AF": 0.0009074177480785826,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.042244368955864656,
+  "AF": 0.00014292712624038804,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05281621573449541,
+  "AF": 0.00018616734302386777,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05258861780391113,
+  "AF": 0.0001345987271440343,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.1609660156918159,
+  "AF": 0.0005223007871879838,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.2515492683494522,
+  "AF": 0.0007399326853400151,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.3141227953356044,
+  "AF": 0.0008080426806374893,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.12826289261111923,
+  "AF": 0.00030970293814028293,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.20050396869949264,
+  "AF": 0.0004666236008762644,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.25073017401512654,
+  "AF": 0.0005280027659145703,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 4,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.3138666980173816,
+  "AF": 0.0007809580949825513,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.1941179308593952,
+  "AF": 0.00016546958430251803,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.2199351077344827,
+  "AF": 0.00018789448614176026,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21977209965637937,
+  "AF": 0.00015917412410093078,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.41032968676788883,
+  "AF": 0.00025463582542510204,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5266147845546042,
+  "AF": 0.0002824726378048569,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5964935631634727,
+  "AF": 0.0002656996279446652,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3620029544595866,
+  "AF": 0.00020661259698251248,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.46457545077162676,
+  "AF": 0.0002727285957925219,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5263817536714073,
+  "AF": 0.00022117776678250818,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5963697365555068,
+  "AF": 0.0002495332508571109,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2876542488925129,
+  "AF": 0.00013736753960826454,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.3144472228448726,
+  "AF": 0.0001555813702879132,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.3142510441771655,
+  "AF": 0.00011866375091323348,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4905278350613855,
+  "AF": 0.00019821964896726298,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5860413121511524,
+  "AF": 0.00022033279840137337,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6404886386097128,
+  "AF": 0.00021037242162262354,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.44856115639529875,
+  "AF": 0.00014834505560095296,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5359124824268392,
+  "AF": 0.00019095456857064455,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5858273008459032,
+  "AF": 0.0001693983121091788,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6403776894438664,
+  "AF": 0.00019422299582875038,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.016769659616864316,
+  "AF": 9.973899185240363e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.02292047956533904,
+  "AF": 0.0001373464867520392,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.022799988504517456,
+  "AF": 0.00011293699927721087,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10877280730354276,
+  "AF": 0.0004795731569586633,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.20287711353541965,
+  "AF": 0.000778932224318414,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.2767550742695506,
+  "AF": 0.0008829320970364168,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07933279840377333,
+  "AF": 0.00031140740557116734,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.1479341285511473,
+  "AF": 0.0006005907688705796,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.20223615337077955,
+  "AF": 0.000595451182036051,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.2763476184170015,
+  "AF": 0.0008152458129706054,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04432405172750295,
+  "AF": 0.00014527547507502573,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.0554352747698324,
+  "AF": 0.00018945462392331344,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05519532840014043,
+  "AF": 0.00013957929270318106,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.16889863267392952,
+  "AF": 0.00047577240724266864,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.26381143073807384,
+  "AF": 0.0006947174315275131,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.32943967575132516,
+  "AF": 0.0007554311894237055,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.13468727853628934,
+  "AF": 0.00029996626125943426,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.2104012971695903,
+  "AF": 0.0005078956204063386,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.2631348436434499,
+  "AF": 0.0005200324396996474,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 5,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.32904215327822506,
+  "AF": 0.0006866598280358809,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.18924777361969242,
+  "AF": 0.00016702223739332685,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.2143943058667114,
+  "AF": 0.00019377563236818316,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21425072411117047,
+  "AF": 0.00015795299272604587,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.40002455730168685,
+  "AF": 0.00029894647242025506,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.513522925892724,
+  "AF": 0.00030843787035199404,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5815739560212418,
+  "AF": 0.0003036183529347149,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.3528711278077089,
+  "AF": 0.00022401263828548395,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.45295238245230046,
+  "AF": 0.00024309954891101247,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5131512750859962,
+  "AF": 0.00023768731878676943,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5814720719831818,
+  "AF": 0.0002898905525478977,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2804264811930824,
+  "AF": 0.0001441354629865814,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.30653006876940425,
+  "AF": 0.0001653607851590316,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.3063368861124998,
+  "AF": 0.00012050098707340758,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4781984853350469,
+  "AF": 0.00023133106410393607,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.571419237911617,
+  "AF": 0.0002485708252408573,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6244315990930808,
+  "AF": 0.00024193050881856715,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.4372449640495323,
+  "AF": 0.00016153623529302947,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5224503729591075,
+  "AF": 0.0001806163261163978,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5710782543623334,
+  "AF": 0.00018148556305309818,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.624351767521486,
+  "AF": 0.00022943237162071172,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.015750607626581186,
+  "AF": 9.748601537798007e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.021513145917097333,
+  "AF": 0.00013706366410157377,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.02140932263791753,
+  "AF": 0.00010792934075626773,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.10215800180259646,
+  "AF": 0.0005432829304967911,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.19088665292190768,
+  "AF": 0.0008363467439579123,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.26010115187590654,
+  "AF": 0.0009784843006312343,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07444552905615207,
+  "AF": 0.0003266034862436104,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.1390133087261179,
+  "AF": 0.0005193193287580805,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.18988447464148778,
+  "AF": 0.0006147150296019402,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.25978054775296827,
+  "AF": 0.0009223554895024125,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04162014442789868,
+  "AF": 0.00014776403180804517,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.05203603814492153,
+  "AF": 0.00019501713405540338,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.051805930687832714,
+  "AF": 0.00013651099300209055,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.15859283032128416,
+  "AF": 0.0005366405594552989,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.2480440066299208,
+  "AF": 0.0007689384507603413,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.30947681158050916,
+  "AF": 0.0008433155445510069,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.1263818700996903,
+  "AF": 0.0003155487467495169,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.19757236381700125,
+  "AF": 0.0004648748558197069,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.2469909343952685,
+  "AF": 0.000536156800798526,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 6,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.3092020456521283,
+  "AF": 0.0007911553426445649,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.1867000149402504,
+  "AF": 0.00017175818570010947,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.2115481043576125,
+  "AF": 0.00018260505359939594,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.21136435517203211,
+  "AF": 0.0001465884226534309,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.39471293567712734,
+  "AF": 0.00027526088652733894,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5066569989592615,
+  "AF": 0.0003459165901087573,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5737327766408253,
+  "AF": 0.0003492379423691789,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.34816934286105594,
+  "AF": 0.00021495567474350463,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.44683653799334216,
+  "AF": 0.00027213718231991105,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5062902824955755,
+  "AF": 0.00026873413506522687,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5736801912459137,
+  "AF": 0.0002954586725923507,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.27665837658802966,
+  "AF": 0.00015125559769045785,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.3024352762649371,
+  "AF": 0.00016177664586185193,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.30220697346493836,
+  "AF": 0.00011422093893124608,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4718122610706756,
+  "AF": 0.00022345290116358152,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5637787323521332,
+  "AF": 0.00028128512104896305,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6160404505511471,
+  "AF": 0.00027412707805449693,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.4313910122116288,
+  "AF": 0.0001608210565372975,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5154222745098387,
+  "AF": 0.00020160325276814828,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.563429299702008,
+  "AF": 0.00020428411175693706,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6159684895738513,
+  "AF": 0.00023612428189229915,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.015230091471609258,
+  "AF": 9.853027415139659e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.020828365621354476,
+  "AF": 0.000127508652456618,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.020698678938027897,
+  "AF": 9.841953907962298e-05,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.09889992392882999,
+  "AF": 0.0004953550501417964,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.18469586578815458,
+  "AF": 0.0009184619919312791,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.25145862725990675,
+  "AF": 0.0011033748102097414,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.07204608191772154,
+  "AF": 0.0003066763073734041,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.13437411067847008,
+  "AF": 0.0005705681766747807,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.1837098419405496,
+  "AF": 0.0006844512055509087,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.251282166702219,
+  "AF": 0.0009235250210162703,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.04024989460976628,
+  "AF": 0.0001524617965601565,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.0503497772342197,
+  "AF": 0.0001881815946415592,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.05008309662347028,
+  "AF": 0.00012693433590717587,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.1534548241375028,
+  "AF": 0.0005118010912853907,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.23999398192616064,
+  "AF": 0.0008551561294678186,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.2992797891403037,
+  "AF": 0.0009383562230623259,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.12225627888770275,
+  "AF": 0.0003079005471530352,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.19104212556693648,
+  "AF": 0.0005100954399207786,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.23892014597447025,
+  "AF": 0.0005943570040488019,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 7,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.2990287747387156,
+  "AF": 0.0007989713462373017,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.18422609552652947,
+  "AF": 0.00016257149747124188,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.20872411704583918,
+  "AF": 0.00018354624673845457,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.20852873888652076,
+  "AF": 0.00014967118493562626,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.38944946987875945,
+  "AF": 0.0002936847475774906,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.4998706234955268,
+  "AF": 0.0003572556797599149,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.5661514490391604,
+  "AF": 0.00032719409049119516,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.34344006311614816,
+  "AF": 0.00021921296902510654,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4408911348571748,
+  "AF": 0.00023612511070049457,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.49950793713823183,
+  "AF": 0.00025659314667294896,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.5660313870150461,
+  "AF": 0.00031534351941167897,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2729666817071396,
+  "AF": 0.00014547422548083174,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.2983881148740025,
+  "AF": 0.00016289127788105491,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.29814105849735495,
+  "AF": 0.00011749682913057873,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.4655018323470419,
+  "AF": 0.0002352027426411941,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5562080393309737,
+  "AF": 0.0002884367738573769,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6078383856269982,
+  "AF": 0.00026512697266773945,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.42554905393481457,
+  "AF": 0.00016295482484104696,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5085147071845966,
+  "AF": 0.00018131363692447958,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.5558641730476865,
+  "AF": 0.00020009628608517175,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6077390356012112,
+  "AF": 0.0002539948685025551,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.014747494356309813,
+  "AF": 9.197069686717796e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.020154798135439866,
+  "AF": 0.00012606862628369083,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.020020414700892174,
+  "AF": 9.852905760784385e-05,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.09571600624862597,
+  "AF": 0.0005186689918687372,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.17866453403943416,
+  "AF": 0.00093316750562806,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.243566620602463,
+  "AF": 0.0010259933025702772,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.06960295469763118,
+  "AF": 0.0003069940762321782,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.13006765434457773,
+  "AF": 0.0004883146766430609,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.177719991304659,
+  "AF": 0.000644802405600629,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.24319607100076776,
+  "AF": 0.0009734697268386314,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.03894903032648158,
+  "AF": 0.00014459584648105048,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.048709813829593204,
+  "AF": 0.0001865313675656457,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.04842755510994176,
+  "AF": 0.0001280919432821425,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.14846728764321823,
+  "AF": 0.0005297398010848111,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.23210056999826886,
+  "AF": 0.0008613273902202191,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.28967591771511947,
+  "AF": 0.0008978862073520927,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.11814230362818148,
+  "AF": 0.00030577876977018296,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.18479249057500297,
+  "AF": 0.00045109182696554805,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.23106953595541346,
+  "AF": 0.0005730857795222034,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 8,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.28934238225258824,
+  "AF": 0.0008491164562471268,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.2040655390721023,
+  "AF": 0.00012750118119591363,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.23116147052956892,
+  "AF": 0.00014677527372667677,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.23108924942432527,
+  "AF": 0.00012639566121337335,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.43130284521323836,
+  "AF": 0.0002081557905018368,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.5534993528101027,
+  "AF": 0.00023040780800031037,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6270535963298156,
+  "AF": 0.00019735526973720235,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.38060911929758146,
+  "AF": 0.0001571240785172887,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.4884829473986073,
+  "AF": 0.00015903099990913466,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.553399490634747,
+  "AF": 0.00017042560567814553,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6269557069360732,
+  "AF": 0.00018660607991411373,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.30242626937794,
+  "AF": 0.00010191800590034039,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.3305537939348155,
+  "AF": 0.00011704288937896088,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.33045213125146694,
+  "AF": 9.208741833690552e-05,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.5156686296355545,
+  "AF": 0.00015413891329699747,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.6160536821225354,
+  "AF": 0.00016854931413114356,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.6733562281321359,
+  "AF": 0.000149620963593452,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.47165010739266616,
+  "AF": 0.00010907650040940315,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.5635032898026516,
+  "AF": 0.00011348382571254109,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.6159444376922723,
+  "AF": 0.00012456503616309477,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.002,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.6732713466738373,
+  "AF": 0.00013919979615193497,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.018963488567729125,
+  "AF": 8.232375835880578e-05,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.025885758399467468,
+  "AF": 0.00011451928388735748,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.025828679327017497,
+  "AF": 9.66863225235651e-05,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.12290499107568183,
+  "AF": 0.0004168869074623554,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.22913268596796432,
+  "AF": 0.0006734063956997944,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.31294306522125537,
+  "AF": 0.0006963429587974613,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.089815928463291,
+  "AF": 0.0002552347342982083,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.1675377698884798,
+  "AF": 0.0003775169931723734,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.2288340991331478,
+  "AF": 0.0004887054914900419,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.3126096263435237,
+  "AF": 0.0006502045260868215,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif2 (11 rounds)",
+  "A": 0.05016279386446909,
+  "AF": 0.00011527546939140512,
+  "rounds": 12
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd10 (rounds 1,3,..,19)",
+  "A": 0.0626843405831927,
+  "AF": 0.00015177724886502122,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd5+inv5 (unif4 + inverse every 4)",
+  "A": 0.06255207061808274,
+  "AF": 0.00011656288405970728,
+  "rounds": 11
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif4 (5 rounds)",
+  "A": 0.19102371134117302,
+  "AF": 0.00039246185582582523,
+  "rounds": 6
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 (3 rounds)",
+  "A": 0.29828761725187747,
+  "AF": 0.0005632140526084113,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 (2 rounds)",
+  "A": 0.3727485084694915,
+  "AF": 0.0005710962734338753,
+  "rounds": 3
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif6 + inv every 6 (6 rounds)",
+  "A": 0.1525614443668037,
+  "AF": 0.00023704468040610716,
+  "rounds": 7
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif8 + inv every 8 (4 rounds)",
+  "A": 0.23833173234266775,
+  "AF": 0.0003238151995495582,
+  "rounds": 5
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd unif11 + inv every 11 (3 rounds)",
+  "A": 0.2979195879278142,
+  "AF": 0.0004080556222150262,
+  "rounds": 4
+ },
+ {
+  "seqset": "new",
+  "seq": 9,
+  "p": 0.005,
+  "schedule": "parallel-nr",
+  "case": "fwd {10} + inv {10} (2 rounds)",
+  "A": 0.37243062977620633,
+  "AF": 0.0005247457202808071,
+  "rounds": 3
+ }
+]

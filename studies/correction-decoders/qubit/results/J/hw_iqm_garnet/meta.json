@@ -1,0 +1,68 @@
+{
+ "device": {
+  "name": "iqm_garnet",
+  "t1_us": 40.0,
+  "t2_us": 21.05,
+  "t_1q_ns": 20.0,
+  "t_2q_ns": 40.0,
+  "t_meas_ns": 1000.0,
+  "t_reset_ns": 500.0,
+  "r_1q": 0.0009,
+  "r_2q": 0.005,
+  "e_meas": 0.03,
+  "e_reset": 0.03,
+  "extra_idle": [],
+  "cz23": "routed",
+  "overrides": [],
+  "source": "IQM Garnet medians (arXiv:2408.12433) + T2e snapshot (arXiv:2512.23009) + IQM readout pulse (arXiv:2503.10903)"
+ },
+ "kind": "hw",
+ "num_seq": 30,
+ "depths": [
+  0,
+  2,
+  4,
+  6,
+  10,
+  14,
+  18,
+  20,
+  22
+ ],
+ "shots": 100000,
+ "decode_shots": null,
+ "seq_seed": 20261028,
+ "seed": 2026,
+ "builder_kwargs": {},
+ "si1000_equivalent": {
+  "p": 0.00625,
+  "factors": {
+   "one_qubit": 0.216,
+   "two_qubit": 1.0,
+   "meas_idle": 4.699218688513955,
+   "meas_depol": 0.0,
+   "meas_flip": 4.8,
+   "reset_idle": 2.3747349989794353,
+   "reset_flip": 4.8
+  },
+  "gate_idle_over_p": 0.19185466437772192,
+  "absolute": {
+   "cz": 0.00625,
+   "one_qubit": 0.00135,
+   "meas_idle": 0.02937011680321222,
+   "meas_flip": 0.03,
+   "reset_idle": 0.01484209374362147,
+   "reset_flip": 0.03,
+   "gate_idle_cz_layer": 0.001199091652360762
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ }
+}

@@ -1,0 +1,93 @@
+======================================================================
+1. Own propagator vs repository CompactDetectorErrorModel
+   LRB/0/4/0.chp: components 136, mismatches 0, DEM locs 56, own locs 56
+   LRB/0/4/1.chp: components 580, mismatches 0, DEM locs 246, own locs 246
+   LRB/7/4/2.chp: components 1128, mismatches 0, DEM locs 476, own locs 476
+   LRB/23/4/4.chp: components 2536, mismatches 0, DEM locs 1082, own locs 1082
+   LRB_const0/0/4/1.chp: components 136, mismatches 0, DEM locs 60, own locs 60
+   LRB_const0/12/4/3.chp: components 472, mismatches 0, DEM locs 204, own locs 204
+======================================================================
+2. Memory windows built with the repository generator (no logical gates)
+   R=0: DEM validation components 136, mismatches 0
+   R=0: total 100.400 | V1 det 63.150 undet 4.950 MLD 14.025 hyb 41.875 | V2 det 84.100 MLD 9.425 hyb 22.525
+   R=1: total 218.800 | V1 det 165.250 undet 4.950 MLD 19.625 hyb 62.450 | V2 det 186.200 MLD 20.900 hyb 51.300
+   R=2: DEM validation components 444, mismatches 0
+   R=2: total 337.200 | V1 det 267.350 undet 4.950 MLD 25.225 hyb 73.725 | V2 det 288.300 MLD 32.375 hyb 80.075
+   R=3: total 455.600 | V1 det 369.450 undet 4.950 MLD 30.825 hyb 85.000 | V2 det 390.400 MLD 43.850 hyb 108.850
+   R=4: total 574.000 | V1 det 471.550 undet 4.950 MLD 36.425 hyb 96.275 | V2 det 492.500 MLD 55.325 hyb 137.625
+   increment V1 det_rej: [102.1, 102.1, 102.1, 102.1]
+   increment V2 det_rej: [102.1, 102.1, 102.1, 102.1]
+   increment V1 mld: [5.6, 5.6, 5.6, 5.6]
+   increment V2 mld: [11.475, 11.475, 11.475, 11.475]
+   increment V1 hyb_rej: [20.575, 11.275, 11.275, 11.275]
+   increment V2 hyb_rej: [28.775, 28.775, 28.775, 28.775]
+   V2 ambiguous weight by role, increment R=2->3: {'check_CNOT': 3.775, 'idle_reset_data': 5.0, 'idle_meas_data': 20.0}
+   V2 ambiguous weight by role, R=0: {'check_CNOT': 3.525, 'idle_meas_data': 19.0}
+   V1 undetected by role, R=0: {'check_CNOT': 0.45, 'idle_meas_data': 4.5}
+======================================================================
+3. One check round + reset, built from the repository blocks with SI1000 noise
+   total fault weight 118.4  categories {'data+flip': 30.15, 'meas_only': 41.0, 'no_effect': 16.3, 'data_only': 30.95}
+   measurement-only flips per check (S_Z1,S_Z2,S_X1,S_X2): [5.925, 7.425, 9.075, 10.575]  next-round flips: [2.0, 2.0, 2.0, 2.0]
+   data residual classes: {'w2_U1': 0.15, 'w2_W2': 1.95, "(0, 'w1_A1')": 6.05, "(0, 'w1_U1')": 5.9, "(1, 'w1_U1')": 11.875, "(2, 'w1_A1')": 5.675, "(2, 'w1_U1')": 5.6, "(3, 'w1_A1')": 6.05, "(3, 'w1_U1')": 5.9, "(4, 'w1_A1')": 6.05, "(4, 'w1_U1')": 5.9}
+   tied-pair per-Pauli rates: [('X0', 1.5125, 'X3^-1', 1.5125), ('X0^-1', 1.5125, 'X3', 1.5125), ('X2', 1.4375, 'X4^-1', 1.5125), ('X2^-1', 1.4375, 'X4', 1.5125), ('Z0', 1.5125, 'Z2^-1', 1.4), ('Z0^-1', 1.5125, 'Z2', 1.4), ('Z3', 1.5125, 'Z4^-1', 1.5125), ('Z3^-1', 1.5125, 'Z4', 1.5125)]
+   sum min over pairs: 11.725  sum over pairs: 23.825
+======================================================================
+4. Baseline LRB and const0 circuits, all 30 sequences, own propagation (V1, V2)
+   (60 s so far)
+   seq 0-9: per-depth table (m, det, MLD, hyb, undet | const0 det, MLD, hyb)
+      m= 0:    63.15   14.03   41.88 4.950 |    0.00   0.00   0.00
+      m= 2:   285.87   36.49  128.78 4.950 |   15.91   3.25  12.99
+      m= 4:   509.79   58.92  208.42 4.950 |   32.92   6.78  26.82
+      m= 6:   733.35   80.29  283.71 4.950 |   49.60  10.23  40.38
+      m=10:  1183.97  124.83  443.72 4.950 |   85.95  17.63  69.96
+      m=14:  1632.43  168.61  600.01 4.950 |  120.45  24.72  98.02
+      m=18:  2079.87  212.64  758.28 4.950 |  154.13  31.68 125.38
+      m=20:  2300.69  233.97  834.02 4.950 |  168.47  34.68 137.05
+      m=22:  2527.11  255.54  914.97 4.950 |  187.68  38.58 152.62
+      fit det       : c0 =   62.057  c1 =  112.048
+      fit MLD       : c0 =   14.864  c1 =   10.962
+      fit hyb       : c0 =   50.112  c1 =   39.281
+      fit V2 MLD    : c0 =    9.475  c1 =   14.281
+      fit V2 hyb    : c0 =   24.346  c1 =   48.505
+      fit const0 det: c0 =   -1.004  c1 =    8.574
+      fit const0 MLD: c0 =   -0.213  c1 =    1.763
+      fit const0 hyb: c0 =   -0.754  c1 =    6.972
+      ratio V1/V2 MLD slope = 0.7676
+   seq 0-29: per-depth table (m, det, MLD, hyb, undet | const0 det, MLD, hyb)
+      m= 0:    63.15   14.02   41.88 4.950 |    0.00   0.00   0.00
+      m= 2:   284.26   36.00  126.29 4.950 |   14.48   3.06  11.88
+      m= 4:   506.90   58.74  205.69 4.950 |   30.39   6.36  24.81
+      m= 6:   728.99   79.97  280.54 4.950 |   45.78   9.56  37.35
+      m=10:  1176.18  122.86  435.24 4.950 |   79.18  16.46  64.54
+      m=14:  1624.44  167.71  594.56 4.950 |  113.61  23.48  92.46
+      m=18:  2071.31  210.32  748.13 4.950 |  146.70  30.34 119.44
+      m=20:  2293.68  230.94  823.55 4.950 |  162.31  33.61 132.19
+      m=22:  2517.58  251.41  898.16 4.950 |  179.30  37.10 146.00
+      fit det       : c0 =   59.894  c1 =  111.710
+      fit MLD       : c0 =   15.229  c1 =   10.793
+      fit hyb       : c0 =   49.737  c1 =   38.690
+      fit V2 MLD    : c0 =    8.881  c1 =   14.191
+      fit V2 hyb    : c0 =   21.394  c1 =   48.224
+      fit const0 det: c0 =   -2.885  c1 =    8.279
+      fit const0 MLD: c0 =   -0.506  c1 =    1.709
+      fit const0 hyb: c0 =   -2.259  c1 =    6.737
+      ratio V1/V2 MLD slope = 0.7605
+   baseline (30 seq, p=1e-4) -ln(acc)/p unif1: [63.31, 284.11, 507.47, 729.66, 1176.44, 1624.17, 2071.76, 2293.67, 2518.48]
+   baseline fit unif1: [60.091, 111.719]
+   baseline (30 seq, p=1e-4) -ln(acc)/p const0: [-0.0, 14.39, 30.37, 45.95, 79.05, 113.54, 146.47, 162.11, 178.84]
+   baseline fit const0: [-2.792, 8.261]
+   baseline (1-F)/(1.5p) unif1: [4.975, 4.905, 4.93, 4.941, 4.936, 5.064, 4.951, 4.978, 5.07]
+   baseline Fidelity std (over Cliffords) unif1 at p=1e-4: None
+======================================================================
+5. Second-order (two-fault) coefficients, V1, own pair enumeration
+   m=0: undetected 4.9500, det rej 63.150, hyb rej 41.875, det P(f|a) p^2 coeff 55.789, hybrid p^2 coeff 396.203 (0 s)
+   m=2 seq 0: det rej 280.550, hyb rej 109.325, det p^2 97.239, hyb p^2 2172.118 (2 s)
+   m=2 seq 1: det rej 283.950, hyb rej 131.775, det p^2 119.834, hyb p^2 2103.074 (2 s)
+   m=2 seq 2: det rej 293.950, hyb rej 137.725, det p^2 112.443, hyb p^2 2602.683 (3 s)
+   m=2 seq 3: det rej 286.150, hyb rej 142.925, det p^2 118.964, hyb p^2 2998.551 (2 s)
+   p=0.0002: m=0 baseline F 0.998505 (SE 6.9e-06), predicted 0.998512 (diff -6.39e-06; first-order only 0.998515, diff -9.73e-06) | m=2 baseline 0.998511 (SE 9.2e-06), predicted [0.998509, 0.998508] for c2 in [97,120]
+   p=0.0005: m=0 baseline F 0.996290 (SE 1.2e-05), predicted 0.996267 (diff +2.30e-05; first-order only 0.996287, diff +2.05e-06) | m=2 baseline 0.996242 (SE 1.6e-05), predicted [0.996251, 0.996243] for c2 in [97,120]
+   p=0.001: m=0 baseline F 0.992503 (SE 1.6e-05), predicted 0.992491 (diff +1.21e-05; first-order only 0.992575, diff -7.16e-05) | m=2 baseline 0.992367 (SE 2.5e-05), predicted [0.992429, 0.992395] for c2 in [97,120]
+   p=0.002: m=0 baseline F 0.984825 (SE 2.6e-05), predicted 0.984815 (diff +9.61e-06; first-order only 0.985150, diff -3.25e-04) | m=2 baseline 0.984456 (SE 4.5e-05), predicted [0.984567, 0.984431] for c2 in [97,120]
+   p=0.005: m=0 baseline F 0.960801 (SE 4.8e-05), predicted 0.960783 (diff +1.80e-05; first-order only 0.962875, diff -2.07e-03) | m=2 baseline 0.957831 (SE 1.3e-04), predicted [0.959229, 0.958381] for c2 in [97,120]
+done in 69 s

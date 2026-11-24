@@ -1,0 +1,6 @@
+
+=== Part C: SI1000 circuit-level rounds, exact leading order of space-time MLD ===
+[[5,1,2]]_3 readout=seq gates/round=none: first-order failure 11.200 p per round (total logical error at first order); detection rejection 102.1 p per round; 4008 single faults, 1125 distinct effects, 236557 signatures (T=3) [3.3s]
+[[13,1,3]]_3 folded readout=par gates/round=none: eps = 338.5 p^2 per round (no first-order failure); detection rejection 185.3 p per round; 10944 single faults, 4105 distinct effects, 7124297 signatures (T=3) [31.6s]
+
+total runtime 35.0s

@@ -1,0 +1,45 @@
+parsed check couplings: [(0, 5), (0, 7), (1, 5), (1, 6), (1, 7), (1, 8), (2, 6), (2, 7), (3, 5), (3, 8), (4, 6), (4, 8)]
+parsed split-variant couplings: [(0, 5), (0, 7), (1, 5), (1, 6), (1, 7), (1, 8), (2, 6), (2, 7), (3, 8), (3, 9), (4, 6), (4, 10), (5, 9), (8, 10)]
+encoder couplings: [(0, 1), (0, 3), (1, 2), (2, 4)] ; logical H: [(2, 3)] ; logical P: [(2, 3)]
+
+== G1 bipartiteness ==
+  checks                   bipartite=True
+  checks+fold              bipartite=False, shortest odd cycle [0, 5, 3, 2, 7] (length 5)
+  split                    bipartite=False, shortest odd cycle [5, 1, 8, 3, 9] (length 5)
+  split+fold               bipartite=False, shortest odd cycle [5, 1, 8, 3, 9] (length 5)
+  stageA (encoder+fold)    bipartite=True
+  checks+fold+encoder      bipartite=False, shortest odd cycle [0, 5, 1] (length 3)
+
+== G2 any generator choice? ==
+  40 one-dimensional subgroups (generator lines), 63180 bases; bases whose ancilla graph + fold is bipartite: 0
+  lines acting on exactly one of data 2, 3: 8; all of them act on data 1: True; their supports: [(0, 1, 2), (0, 1, 2, 4), (0, 1, 3), (0, 1, 3, 4), (1, 2, 4), (1, 3, 4)]
+  lines acting on neither 2 nor 3: []
+
+== G3 relay sets restoring bipartiteness with the fold ==
+  single-relay sets of size 1: []
+  single-relay sets of size 2: [((2, 6), (2, 7)), ((3, 5), (3, 8))]
+  repo split choice [(3, 5), (4, 8)] with fold parity-consistent: False ; without fold: False
+
+== G4 embeddings ==
+  checks into 3x3 grid: 8 monomorphisms (dihedral group has 8); example {0: (0, 0), 5: (1, 0), 7: (0, 1), 1: (1, 1), 6: (1, 2), 8: (2, 1), 2: (0, 2), 3: (2, 0), 4: (2, 2)}
+  checks into Garnet: 32; example {0: 4, 5: 5, 7: 9, 1: 10, 6: 15, 8: 11, 2: 14, 3: 6, 4: 16}
+  Stage-A (encoder+fold) into Garnet: 128; example {0: 1, 1: 2, 3: 4, 2: 5, 4: 10}
+  proposed layout: 11 qutrits, 13 couplers, all grid-adjacent: True
+  proposed layout into Garnet: 24 monomorphisms; example {'A5': 'QB4', 'A6': 'QB11', 'A7': 'QB5', 'A8': 'QB16', 'D0': 'QB1', 'D1': 'QB6', 'D2': 'QB10', 'D3': 'QB15', 'D4': 'QB17', 'R1': 'QB9', 'R2': 'QB14'}
+  proposed layout: check relay hops per round = 6
+
+== G5 minimum relay hops (exhaustive, R=5) ==
+  bound: a data qutrit q in {0,1,4} farther than R from both 2 and 3 forces >= 2(R-2) hops (q=0,4) or 4(R-2) (q=1); R=5 -> >= 6
+  fold native (distance 1): placements with lower bound <= 5: 14436; best exact cost 6; e.g. data {0: (-2, -1), 1: (1, -1), 2: (0, 0), 3: (0, 1), 4: (1, 2)} ancillas {5: (-1, -1), 6: (1, 0), 7: (0, -1), 8: (1, 1)}
+  fold distance 2, straight: placements with lower bound <= 4: 5696; best exact cost 5; e.g. data {0: (-2, 0), 1: (-1, 1), 2: (0, 0), 3: (0, 2), 4: (1, 0)} ancillas {5: (-2, 1), 6: (0, 1), 7: (-1, 0), 8: (1, 1)}
+  fold distance 2, diagonal: placements with lower bound <= 4: 8960; best exact cost 6; e.g. data {0: (-2, 0), 1: (-1, -1), 2: (0, 0), 3: (1, 1), 4: (0, -2)} ancillas {5: (-1, 1), 6: (0, -1), 7: (-1, 0), 8: (1, -1)}
+  [112s]
+
+== G6 custom chip ==
+  checks+fold planar: True ; degrees: {0: 2, 1: 4, 2: 3, 3: 3, 4: 2, 5: 3, 6: 3, 7: 3, 8: 3}
+
+== G7 logical token statistics of the 216-element catalogue ==
+  216 Cliffords; mean tokens per forward Clifford: H 1.653, P 1.463, X 1.005, Z 1.005; per inverse: H 1.653, P 1.463
+  CZ(2,3) per LRB step (forward + inverse): 2.926; SWAP(2,3) per step: 3.306
+  forward and inverse H-token counts have equal parity for every Clifford: True
+total 112s

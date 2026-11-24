@@ -1,0 +1,78 @@
+1. per-step decay estimates from m=2 -> m=10 (f = ratio^(1/8), r = 2(1-f)/3)
+   schedule model           raw f (r)          unif1 f (r) [acc/step]      const1 f (r)
+   const0   HW-now          0.8376 (0.1083)   0.9746 (0.0169) [0.865]   0.9746 (0.0169)
+   const0   HW-now-R        0.8352 (0.1099)   0.9745 (0.0170) [0.864]   0.9745 (0.0170)
+   const0   HW-qubit        0.9753 (0.0164)   0.9998 (0.0001) [0.976]   0.9998 (0.0001)
+   const0   HW-target       0.9518 (0.0321)   0.9992 (0.0005) [0.955]   0.9992 (0.0005)
+   const0   SI1000 p=1e-3   0.9913 (0.0058)   1.0000 (0.0000) [0.992]   1.0000 (0.0000)
+   const0   SI1000 p=5e-3   0.9572 (0.0285)   0.9993 (0.0005) [0.959]   0.9993 (0.0005)
+   par9     HW-now          0.5612 (0.2925)         n/a        [nan]   0.7098 (0.1935)
+   par9     HW-now-R        0.4587 (0.3608)         n/a        [nan]   0.7564 (0.1624)
+   par9     HW-qubit        0.9059 (0.0628)   0.9970 (0.0020) [0.819]   0.9934 (0.0044)
+   par9     HW-target       0.8509 (0.0994)   0.9973 (0.0018) [0.728]   0.9848 (0.0102)
+   par9     SI1000 p=1e-3   0.9735 (0.0177)   1.0000 (-0.0000) [0.929]   0.9999 (0.0001)
+   par9     SI1000 p=5e-3   0.8738 (0.0841)   0.9998 (0.0001) [0.696]   0.9925 (0.0050)
+   relay11  HW-now          0.4316 (0.3790)         n/a        [nan]   0.7676 (0.1549)
+   relay11  HW-now-R              n/a                n/a        [nan]   0.9448 (0.0368)
+   relay11  HW-qubit        0.8541 (0.0973)   1.0004 (-0.0003) [0.696]   0.9828 (0.0115)
+   relay11  HW-target       0.7881 (0.1412)   0.9968 (0.0021) [0.569]   0.9364 (0.0424)
+   relay11  SI1000 p=1e-3   0.9682 (0.0212)   1.0001 (-0.0001) [0.904]   0.9999 (0.0001)
+   relay11  SI1000 p=5e-3   0.8504 (0.0998)   0.9985 (0.0010) [0.603]   0.9843 (0.0105)
+   seq9     HW-now          0.4492 (0.3672)         n/a        [nan]   0.7696 (0.1536)
+   seq9     HW-now-R              n/a                n/a        [nan]   0.8306 (0.1130)
+   seq9     HW-qubit        0.8608 (0.0928)   0.9998 (0.0002) [0.762]   0.9878 (0.0081)
+   seq9     HW-target       0.8086 (0.1276)   0.9999 (0.0001) [0.682]   0.9680 (0.0213)
+   seq9     SI1000 p=1e-3   0.9569 (0.0287)   0.9999 (0.0001) [0.895]   0.9995 (0.0003)
+   seq9     SI1000 p=5e-3   0.8019 (0.1321)   0.9954 (0.0031) [0.575]   0.9529 (0.0314)
+
+2. variance components (relay11 / par9 / const0 at HW-target and HW-qubit)
+   s_seq = sd over K=6 sequences of the exact raw fidelity; N_eq = v/(s^2)
+   const0   HW-qubit   m= 2: raw F=0.962 s_seq=0.0142 v=0.056 N_eq(raw)=    277; unif1 acceptance a=0.9634
+   const0   HW-qubit   m= 6: raw F=0.872 s_seq=0.0201 v=0.176 N_eq(raw)=    436; unif1 acceptance a=0.8758
+   const0   HW-qubit   m=10: raw F=0.788 s_seq=0.0200 v=0.273 N_eq(raw)=    683; unif1 acceptance a=0.7944
+   const0   HW-target  m= 2: raw F=0.926 s_seq=0.0267 v=0.105 N_eq(raw)=    148; unif1 acceptance a=0.9288
+   const0   HW-target  m= 6: raw F=0.763 s_seq=0.0356 v=0.300 N_eq(raw)=    236; unif1 acceptance a=0.7714
+   const0   HW-target  m=10: raw F=0.624 s_seq=0.0315 v=0.423 N_eq(raw)=    426; unif1 acceptance a=0.6439
+   par9     HW-qubit   m= 2: raw F=0.782 s_seq=0.0105 v=0.279 N_eq(raw)=   2533; unif1 acceptance a=0.6257
+   par9     HW-qubit   m= 6: raw F=0.526 s_seq=0.0148 v=0.486 N_eq(raw)=   2221; unif1 acceptance a=0.2813
+   par9     HW-qubit   m=10: raw F=0.355 s_seq=0.0134 v=0.552 N_eq(raw)=   3072; unif1 acceptance a=0.1268
+   par9     HW-target  m= 2: raw F=0.671 s_seq=0.0159 v=0.385 N_eq(raw)=   1524; unif1 acceptance a=0.4674
+   par9     HW-target  m= 6: raw F=0.351 s_seq=0.0159 v=0.552 N_eq(raw)=   2185; unif1 acceptance a=0.1320
+   par9     HW-target  m=10: raw F=0.184 s_seq=0.0114 v=0.558 N_eq(raw)=   4295; unif1 acceptance a=0.0367
+   relay11  HW-qubit   m= 2: raw F=0.644 s_seq=0.0211 v=0.408 N_eq(raw)=    915; unif1 acceptance a=0.3932
+   relay11  HW-qubit   m= 6: raw F=0.339 s_seq=0.0250 v=0.555 N_eq(raw)=    887; unif1 acceptance a=0.0930
+   relay11  HW-qubit   m=10: raw F=0.182 s_seq=0.0192 v=0.558 N_eq(raw)=   1513; unif1 acceptance a=0.0217
+   relay11  HW-target  m= 2: raw F=0.519 s_seq=0.0253 v=0.490 N_eq(raw)=    766; unif1 acceptance a=0.2361
+   relay11  HW-target  m= 6: raw F=0.197 s_seq=0.0217 v=0.560 N_eq(raw)=   1189; unif1 acceptance a=0.0252
+   relay11  HW-target  m=10: raw F=0.077 s_seq=0.0120 v=0.533 N_eq(raw)=   3699; unif1 acceptance a=0.0026
+   seq9     HW-qubit   m= 2: raw F=0.670 s_seq=0.0141 v=0.386 N_eq(raw)=   1942; unif1 acceptance a=0.5128
+   seq9     HW-qubit   m= 6: raw F=0.366 s_seq=0.0180 v=0.549 N_eq(raw)=   1695; unif1 acceptance a=0.1728
+   seq9     HW-qubit   m=10: raw F=0.202 s_seq=0.0132 v=0.560 N_eq(raw)=   3215; unif1 acceptance a=0.0583
+   seq9     HW-target  m= 2: raw F=0.575 s_seq=0.0166 v=0.457 N_eq(raw)=   1658; unif1 acceptance a=0.3822
+   seq9     HW-target  m= 6: raw F=0.244 s_seq=0.0154 v=0.562 N_eq(raw)=   2372; unif1 acceptance a=0.0812
+   seq9     HW-target  m=10: raw F=0.105 s_seq=0.0091 v=0.541 N_eq(raw)=   6539; unif1 acceptance a=0.0179
+
+   SE of the K-averaged RAW fidelity, K*N = 3e5 shots per depth (relay11, HW-target):
+   m= 2: K= 30,N=10000: 0.0048; K=100,N= 3000: 0.0028; K=300,N= 1000: 0.0019
+   m= 6: K= 30,N=10000: 0.0042; K=100,N= 3000: 0.0026; K=300,N= 1000: 0.0019
+   m=10: K= 30,N=10000: 0.0026; K=100,N= 3000: 0.0018; K=300,N= 1000: 0.0015
+
+   SE of the K-averaged unif-1 ACCEPTED fidelity (par9, HW-target), shot-noise part only:
+   m= 2: F=0.9741, a=0.4674: K= 30,N=10000: 0.0005; K=100,N= 3000: 0.0005
+   m= 6: F=0.9589, a=0.1320: K= 30,N=10000: 0.0012; K=100,N= 3000: 0.0012
+   m=10: F=0.9532, a=0.0367: K= 30,N=10000: 0.0025; K=100,N= 3000: 0.0025
+
+3. wall-clock time (9 depths, K=100 sequences, N=3000 shots -> 2.7e6 shots):
+      100 us per shot: 0.07 h
+      300 us per shot: 0.22 h
+     1000 us per shot: 0.75 h
+   circuit length at m=22 (22 LRB steps + inverse block, upper bound 2 x 22 steps):
+   par9 HW-now        step  5.89 us -> m=22 circuit <=    259 us
+   relay11 HW-now     step 10.78 us -> m=22 circuit <=    474 us
+   par9 HW-target     step  2.47 us -> m=22 circuit <=    109 us
+   relay11 HW-target  step  4.28 us -> m=22 circuit <=    188 us
+
+   DEM learning: shots for 10% relative precision on a mechanism of probability q (Poisson counting, N ~ 100/q):
+   q = 0.01: N ~ 1e+04
+   q = 0.003: N ~ 3e+04
+   q = 0.001: N ~ 1e+05

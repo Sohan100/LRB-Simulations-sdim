@@ -1,0 +1,19 @@
+1. Symplectic action of sdim's gates versus the A3 table
+  H        : 9 input Weyl vectors, mismatches with A3 rule: 0
+  H_INV    : 9 input Weyl vectors, mismatches with A3 rule: 0
+  P        : 9 input Weyl vectors, mismatches with A3 rule: 0
+  P_INV    : 9 input Weyl vectors, mismatches with A3 rule: 0
+  X        : 9 input Weyl vectors, mismatches with A3 rule: 0
+  Z        : 9 input Weyl vectors, mismatches with A3 rule: 0
+  CNOT     : 81 input Weyl vectors, mismatches with A3 rule: 0
+  CNOT_INV : 81 input Weyl vectors, mismatches with A3 rule: 0
+  CZ       : 81 input Weyl vectors, mismatches with A3 rule: 0
+  CZ_INV   : 81 input Weyl vectors, mismatches with A3 rule: 0
+  SWAP     : 81 input Weyl vectors, mismatches with A3 rule: 0
+   CZ from sdim equals diag(w^(ij)): True
+2. sdim tableau SWAP decompositions versus the standard SWAP
+   prime/ExtendedTableau : max |U - SWAP| = 2.51e-15
+   WeylTableau           : max |U - SWAP| = 7.86e-16
+3. Terminal readout: X-power after H_INV of a frame (a,b) equals b
+   holds for all 9 frames: True
+TOTAL rule mismatches: 0

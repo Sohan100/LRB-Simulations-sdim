@@ -1,0 +1,16 @@
+[Z+X] syndromes: 81; label pairs with identical weight enumerators (ties at every p): 57
+  p=1/1000 alpha_det=0.9950 1-S_det=6.270e-08  #D with q>q(0): 0  #D!=0 with q=q(0): 0  MAP 1-E[q]=5.031e-04  ties: 30 (0x:30, 12:0, 3-way:0)
+         q(0)=0.99999994  max_{D!=0} q(D)=0.99974958
+  p=1/100  alpha_det=0.9510 1-S_det=6.450e-06  #D with q>q(0): 0  #D!=0 with q=q(0): 0  MAP 1-E[q]=5.304e-03  ties: 30 (0x:30, 12:0, 3-way:0)
+         q(0)=0.99999355  max_{D!=0} q(D)=0.99745722
+  p=1/20   alpha_det=0.7741 1-S_det=1.837e-04  #D with q>q(0): 0  #D!=0 with q=q(0): 0  MAP 1-E[q]=3.204e-02  ties: 30 (0x:30, 12:0, 3-way:0)
+         q(0)=0.99981633  max_{D!=0} q(D)=0.98636753
+[X only] syndromes: 9; label pairs with identical weight enumerators (ties at every p): 9
+  p=1/1000 alpha_det=0.9963 1-S_det=5.636e-07  #D with q>q(0): 0  #D!=0 with q=q(0): 0  MAP 1-E[q]=1.499e-03  ties: 6 (0x:6, 12:0, 3-way:0)
+         q(0)=0.99999944  max_{D!=0} q(D)=0.99924916
+  p=1/100  alpha_det=0.9631 1-S_det=5.732e-05  #D with q>q(0): 0  #D!=0 with q=q(0): 0  MAP 1-E[q]=1.492e-02  ties: 6 (0x:6, 12:0, 3-way:0)
+         q(0)=0.99994268  max_{D!=0} q(D)=0.99241627
+  p=1/20   alpha_det=0.8273 1-S_det=1.547e-03  #D with q>q(0): 0  #D!=0 with q=q(0): 0  MAP 1-E[q]=7.289e-02  ties: 6 (0x:6, 12:0, 3-way:0)
+         q(0)=0.99845347  max_{D!=0} q(D)=0.96047551
+
+[toy, p=0.02] a_DET = 0.90397; lam_DET per step = 0.9999600; LMAP t_hat = 0.983211+2.4e-18i

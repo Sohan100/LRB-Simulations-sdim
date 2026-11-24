@@ -1,0 +1,849 @@
+{
+ "iqm_garnet": {
+  "device": "iqm_garnet",
+  "check_round": {
+   "layers_1q": 3,
+   "pulses_1q": 18,
+   "layers_2q": 6,
+   "cz": 12,
+   "layers_meas": 1,
+   "measurements": 4,
+   "layers_reset": 1,
+   "resets": 4
+  },
+  "check_round_duration_ns": 1800.0,
+  "terminal_round_duration_ns": 1300.0,
+  "check_round_gate_time_ns": 300.0,
+  "tokens_routed": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_native": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_2q": 1,
+    "cz": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_physical_swap_routed": {
+   "H": {
+    "layers_1q": 22,
+    "pulses_1q": 45,
+    "layers_2q": 18,
+    "cz": 24,
+    "layers_feedback": 3,
+    "layers_release": 3
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "clifford_routed": {
+   "mean_cz": 5.333333333333333,
+   "mean_pulses_1q": 12.166666666666666,
+   "mean_duration_ns": 270.0,
+   "max_cz": 8.0,
+   "max_duration_ns": 420.0
+  },
+  "clifford_native": {
+   "mean_cz": 0.6666666666666666,
+   "mean_pulses_1q": 4.166666666666667,
+   "mean_duration_ns": 43.333333333333336,
+   "max_cz": 1.0,
+   "max_duration_ns": 80.0
+  },
+  "clifford_routed_physical_swap": {
+   "mean_cz": 25.333333333333332,
+   "mean_pulses_1q": 45.5,
+   "mean_duration_ns": 1220.0,
+   "max_cz": 56.0,
+   "max_duration_ns": 2700.0
+  },
+  "repo_gate_model": {
+   "mean_two_qubit_per_clifford": 1.5,
+   "two_qubit_per_round": 12
+  },
+  "depth_unit_routed": {
+   "description": "one forward Clifford + its inverse + one check round",
+   "cz": 22.666666666666664,
+   "duration_ns": 2340.0
+  }
+ },
+ "iqm_garnet_ramsey": {
+  "device": "iqm_garnet_ramsey",
+  "check_round": {
+   "layers_1q": 3,
+   "pulses_1q": 18,
+   "layers_2q": 6,
+   "cz": 12,
+   "layers_meas": 1,
+   "measurements": 4,
+   "layers_reset": 1,
+   "resets": 4
+  },
+  "check_round_duration_ns": 1800.0,
+  "terminal_round_duration_ns": 1300.0,
+  "check_round_gate_time_ns": 300.0,
+  "tokens_routed": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_native": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_2q": 1,
+    "cz": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_physical_swap_routed": {
+   "H": {
+    "layers_1q": 22,
+    "pulses_1q": 45,
+    "layers_2q": 18,
+    "cz": 24,
+    "layers_feedback": 3,
+    "layers_release": 3
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "clifford_routed": {
+   "mean_cz": 5.333333333333333,
+   "mean_pulses_1q": 12.166666666666666,
+   "mean_duration_ns": 270.0,
+   "max_cz": 8.0,
+   "max_duration_ns": 420.0
+  },
+  "clifford_native": {
+   "mean_cz": 0.6666666666666666,
+   "mean_pulses_1q": 4.166666666666667,
+   "mean_duration_ns": 43.333333333333336,
+   "max_cz": 1.0,
+   "max_duration_ns": 80.0
+  },
+  "clifford_routed_physical_swap": {
+   "mean_cz": 25.333333333333332,
+   "mean_pulses_1q": 45.5,
+   "mean_duration_ns": 1220.0,
+   "max_cz": 56.0,
+   "max_duration_ns": 2700.0
+  },
+  "repo_gate_model": {
+   "mean_two_qubit_per_clifford": 1.5,
+   "two_qubit_per_round": 12
+  },
+  "depth_unit_routed": {
+   "description": "one forward Clifford + its inverse + one check round",
+   "cz": 22.666666666666664,
+   "duration_ns": 2340.0
+  }
+ },
+ "iqm_garnet_snapshot": {
+  "device": "iqm_garnet_snapshot",
+  "check_round": {
+   "layers_1q": 3,
+   "pulses_1q": 18,
+   "layers_2q": 6,
+   "cz": 12,
+   "layers_meas": 1,
+   "measurements": 4,
+   "layers_reset": 1,
+   "resets": 4
+  },
+  "check_round_duration_ns": 1800.0,
+  "terminal_round_duration_ns": 1300.0,
+  "check_round_gate_time_ns": 300.0,
+  "tokens_routed": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_native": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_2q": 1,
+    "cz": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_physical_swap_routed": {
+   "H": {
+    "layers_1q": 22,
+    "pulses_1q": 45,
+    "layers_2q": 18,
+    "cz": 24,
+    "layers_feedback": 3,
+    "layers_release": 3
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "clifford_routed": {
+   "mean_cz": 5.333333333333333,
+   "mean_pulses_1q": 12.166666666666666,
+   "mean_duration_ns": 270.0,
+   "max_cz": 8.0,
+   "max_duration_ns": 420.0
+  },
+  "clifford_native": {
+   "mean_cz": 0.6666666666666666,
+   "mean_pulses_1q": 4.166666666666667,
+   "mean_duration_ns": 43.333333333333336,
+   "max_cz": 1.0,
+   "max_duration_ns": 80.0
+  },
+  "clifford_routed_physical_swap": {
+   "mean_cz": 25.333333333333332,
+   "mean_pulses_1q": 45.5,
+   "mean_duration_ns": 1220.0,
+   "max_cz": 56.0,
+   "max_duration_ns": 2700.0
+  },
+  "repo_gate_model": {
+   "mean_two_qubit_per_clifford": 1.5,
+   "two_qubit_per_round": 12
+  },
+  "depth_unit_routed": {
+   "description": "one forward Clifford + its inverse + one check round",
+   "cz": 22.666666666666664,
+   "duration_ns": 2340.0
+  }
+ },
+ "iqm_t100": {
+  "device": "iqm_t100",
+  "check_round": {
+   "layers_1q": 3,
+   "pulses_1q": 18,
+   "layers_2q": 6,
+   "cz": 12,
+   "layers_meas": 1,
+   "measurements": 4,
+   "layers_reset": 1,
+   "resets": 4
+  },
+  "check_round_duration_ns": 1800.0,
+  "terminal_round_duration_ns": 1300.0,
+  "check_round_gate_time_ns": 300.0,
+  "tokens_routed": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_native": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_2q": 1,
+    "cz": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_physical_swap_routed": {
+   "H": {
+    "layers_1q": 22,
+    "pulses_1q": 45,
+    "layers_2q": 18,
+    "cz": 24,
+    "layers_feedback": 3,
+    "layers_release": 3
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "clifford_routed": {
+   "mean_cz": 5.333333333333333,
+   "mean_pulses_1q": 12.166666666666666,
+   "mean_duration_ns": 270.0,
+   "max_cz": 8.0,
+   "max_duration_ns": 420.0
+  },
+  "clifford_native": {
+   "mean_cz": 0.6666666666666666,
+   "mean_pulses_1q": 4.166666666666667,
+   "mean_duration_ns": 43.333333333333336,
+   "max_cz": 1.0,
+   "max_duration_ns": 80.0
+  },
+  "clifford_routed_physical_swap": {
+   "mean_cz": 25.333333333333332,
+   "mean_pulses_1q": 45.5,
+   "mean_duration_ns": 1220.0,
+   "max_cz": 56.0,
+   "max_duration_ns": 2700.0
+  },
+  "repo_gate_model": {
+   "mean_two_qubit_per_clifford": 1.5,
+   "two_qubit_per_round": 12
+  },
+  "depth_unit_routed": {
+   "description": "one forward Clifford + its inverse + one check round",
+   "cz": 22.666666666666664,
+   "duration_ns": 2340.0
+  }
+ },
+ "iqm_garnet_native23": {
+  "device": "iqm_garnet_native23",
+  "check_round": {
+   "layers_1q": 3,
+   "pulses_1q": 18,
+   "layers_2q": 6,
+   "cz": 12,
+   "layers_meas": 1,
+   "measurements": 4,
+   "layers_reset": 1,
+   "resets": 4
+  },
+  "check_round_duration_ns": 1800.0,
+  "terminal_round_duration_ns": 1300.0,
+  "check_round_gate_time_ns": 300.0,
+  "tokens_routed": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_native": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_2q": 1,
+    "cz": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_physical_swap_routed": {
+   "H": {
+    "layers_1q": 22,
+    "pulses_1q": 45,
+    "layers_2q": 18,
+    "cz": 24,
+    "layers_feedback": 3,
+    "layers_release": 3
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "clifford_routed": {
+   "mean_cz": 5.333333333333333,
+   "mean_pulses_1q": 12.166666666666666,
+   "mean_duration_ns": 270.0,
+   "max_cz": 8.0,
+   "max_duration_ns": 420.0
+  },
+  "clifford_native": {
+   "mean_cz": 0.6666666666666666,
+   "mean_pulses_1q": 4.166666666666667,
+   "mean_duration_ns": 43.333333333333336,
+   "max_cz": 1.0,
+   "max_duration_ns": 80.0
+  },
+  "clifford_routed_physical_swap": {
+   "mean_cz": 25.333333333333332,
+   "mean_pulses_1q": 45.5,
+   "mean_duration_ns": 1220.0,
+   "max_cz": 56.0,
+   "max_duration_ns": 2700.0
+  },
+  "repo_gate_model": {
+   "mean_two_qubit_per_clifford": 1.5,
+   "two_qubit_per_round": 12
+  },
+  "depth_unit_routed": {
+   "description": "one forward Clifford + its inverse + one check round",
+   "cz": 22.666666666666664,
+   "duration_ns": 2340.0
+  }
+ },
+ "ion_helios": {
+  "device": "ion_helios",
+  "check_round": {
+   "layers_1q": 3,
+   "pulses_1q": 18,
+   "layers_2q": 6,
+   "cz": 12,
+   "layers_meas": 1,
+   "measurements": 4,
+   "layers_reset": 1,
+   "resets": 4
+  },
+  "check_round_duration_ns": 550000.0,
+  "terminal_round_duration_ns": 550000.0,
+  "check_round_gate_time_ns": 450000.0,
+  "tokens_routed": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_native": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_2q": 1,
+    "cz": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_physical_swap_routed": {
+   "H": {
+    "layers_1q": 22,
+    "pulses_1q": 45,
+    "layers_2q": 18,
+    "cz": 24,
+    "layers_feedback": 3,
+    "layers_release": 3
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "clifford_routed": {
+   "mean_cz": 5.333333333333333,
+   "mean_pulses_1q": 12.166666666666666,
+   "mean_duration_ns": 335000.0,
+   "max_cz": 8.0,
+   "max_duration_ns": 510000.0
+  },
+  "clifford_native": {
+   "mean_cz": 0.6666666666666666,
+   "mean_pulses_1q": 4.166666666666667,
+   "mean_duration_ns": 55000.0,
+   "max_cz": 1.0,
+   "max_duration_ns": 90000.0
+  },
+  "clifford_routed_physical_swap": {
+   "mean_cz": 25.333333333333332,
+   "mean_pulses_1q": 45.5,
+   "mean_duration_ns": 1560000.0,
+   "max_cz": 56.0,
+   "max_duration_ns": 3450000.0
+  },
+  "repo_gate_model": {
+   "mean_two_qubit_per_clifford": 1.5,
+   "two_qubit_per_round": 12
+  },
+  "depth_unit_routed": {
+   "description": "one forward Clifford + its inverse + one check round",
+   "cz": 22.666666666666664,
+   "duration_ns": 1220000.0
+  }
+ },
+ "atom_rb": {
+  "device": "atom_rb",
+  "check_round": {
+   "layers_1q": 3,
+   "pulses_1q": 18,
+   "layers_2q": 6,
+   "cz": 12,
+   "layers_meas": 1,
+   "measurements": 4,
+   "layers_reset": 1,
+   "resets": 4
+  },
+  "check_round_duration_ns": 1703000.0,
+  "terminal_round_duration_ns": 1703000.0,
+  "check_round_gate_time_ns": 1203000.0,
+  "tokens_routed": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_native": {
+   "H": {
+    "layers_1q": 1,
+    "pulses_1q": 5
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_2q": 1,
+    "cz": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "tokens_physical_swap_routed": {
+   "H": {
+    "layers_1q": 22,
+    "pulses_1q": 45,
+    "layers_2q": 18,
+    "cz": 24,
+    "layers_feedback": 3,
+    "layers_release": 3
+   },
+   "P": {
+    "layers_virtual": 1,
+    "virtual": 3,
+    "layers_1q": 7,
+    "pulses_1q": 12,
+    "layers_2q": 6,
+    "cz": 8,
+    "layers_feedback": 1,
+    "layers_release": 1
+   },
+   "X": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "Z": {
+    "layers_virtual": 1,
+    "virtual": 2
+   },
+   "I": {}
+  },
+  "clifford_routed": {
+   "mean_cz": 5.333333333333333,
+   "mean_pulses_1q": 12.166666666666666,
+   "mean_duration_ns": 805500.0,
+   "max_cz": 8.0,
+   "max_duration_ns": 1209000.0
+  },
+  "clifford_native": {
+   "mean_cz": 0.6666666666666666,
+   "mean_pulses_1q": 4.166666666666667,
+   "mean_duration_ns": 134166.66666666666,
+   "max_cz": 1.0,
+   "max_duration_ns": 202000.0
+  },
+  "clifford_routed_physical_swap": {
+   "mean_cz": 25.333333333333332,
+   "mean_pulses_1q": 45.5,
+   "mean_duration_ns": 3823000.0,
+   "max_cz": 56.0,
+   "max_duration_ns": 8451000.0
+  },
+  "repo_gate_model": {
+   "mean_two_qubit_per_clifford": 1.5,
+   "two_qubit_per_round": 12
+  },
+  "depth_unit_routed": {
+   "description": "one forward Clifford + its inverse + one check round",
+   "cz": 22.666666666666664,
+   "duration_ns": 3314000.0
+  }
+ }
+}

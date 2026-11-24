@@ -1,0 +1,43 @@
+=== Part A: baseline [[5,1,2]]_3 LRB circuits, exact first order in p (repository DEM) ===
+   30 circuits compiled and enumerated in 19.1s (sequences [0, 1, 2, 3, 4, 5], depths [0, 2, 4, 6, 10], p = 0.001)
+   per depth step (slope) and intercept, units of p, mean over sequences:
+     detect_rej    : slope  111.960 (sd 0.547), intercept   61.998
+     undetected    : slope   -0.000 (sd 0.000), intercept    4.950
+     mld_fail      : slope   11.121 (sd 0.643), intercept   14.700
+     hybrid_rej    : slope   40.099 (sd 1.647), intercept   46.602
+     terminal_rej  : slope   71.555 (sd 0.547), intercept   65.782
+     total_mass    : slope  128.260 (sd 0.547), intercept   99.248
+   optimal correction: 1 - f = 1.5 x 11.121 p = 16.68 p per depth step (twirled eps = 14.83 p); physical RB at p_RB = 5p [fit table]: 1 - f = 5.635 p (eps = 5.01 p); ratio 2.96
+   failure and mass per depth step by source (units of p):
+     data idle in measurement/reset layers (2p)      : correction failure  7.731   fault mass  50.000   detected mass  50.000
+     check CNOT                                      : correction failure  1.528   fault mass  12.000   detected mass  11.800
+     logical two-qutrit gate (SWAP/CZ)               : correction failure  1.350   fault mass   6.468   detected mass   6.468
+     single-qutrit logical gate (0.1p)               : correction failure  0.511   fault mass   3.392   detected mass   3.392
+     ancilla H/H_INV (0.1p)                          : correction failure  0.000   fault mass   0.400   detected mass   0.300
+     ancilla idle while others are measured (2p)     : correction failure  0.000   fault mass  24.000   detected mass   9.000
+     measured-ancilla depolarizing (p)               : correction failure  0.000   fault mass   4.000   detected mass   3.000
+     measurement flip (5p)                           : correction failure  0.000   fault mass  20.000   detected mass  20.000
+     reset error (2p)                                : correction failure  0.000   fault mass   8.000   detected mass   8.000
+
+=== Part B: SI1000 noise budget per data qutrit per check round (analysis) ===
+   logical tokens per Clifford (catalog average): {'H': 1.6527777777777777, 'P': 1.462962962962963, 'X': 1.0046296296296295, 'Z': 1.0046296296296295}  [216 strings]
+   [[5,1,2]]_3 per data qutrit per depth step (units of p): q0 = 12.83, q1 = 14.22, q2 = 17.94, q3 = 17.94, q4 = 12.42
+   code-capacity tie rule eps = (1/4)[min(q0,q3)+min(q2,q4)+min(q0,q2)+min(q3,q4)] = 12.62 p per step
+
+=== Part C: SI1000 circuit-level rounds, exact leading order of space-time MLD ===
+   engine vs repository DEM, cliff 0 depth 4: detection rejection 506.1500 p vs 506.1500 p; correction failure 57.9750 p vs 57.9750 p
+   engine vs repository DEM, cliff 1 depth 6: detection rejection 722.7500 p vs 722.7500 p; correction failure 78.1250 p vs 78.1250 p
+[[13,1,3]]_3 folded readout=phen gates/round=none: eps = 6.69 q^2 per round (no first-order failure); strict hybrid: accepted error 0.56 q^2, rejection 18.2 q^2 per round; detection rejection 25.0 q per round; 384 single faults, 384 distinct effects, 69053 signatures (T=3) [0.2s]
+[[9,1,3]]_3 readout=phen gates/round=none: eps = 15.88 q^2 per round (no first-order failure); strict hybrid: accepted error 2.38 q^2, rejection 36.1 q^2 per round; detection rejection 17.0 q per round; 264 single faults, 240 distinct effects, 24933 signatures (T=3) [0.1s]
+[[5,1,2]]_3 readout=seq gates/round=none: first-order failure 11.200 p per round (total logical error at first order); detection rejection 102.1 p per round; 4008 single faults, 1125 distinct effects, 236557 signatures (T=3) [1.7s]
+[[5,1,2]]_3 readout=seq gates/round=HPHXZ: first-order failure 12.800 p per round (total logical error at first order); detection rejection 106.8 p per round; 5136 single faults, 1325 distinct effects, 264773 signatures (T=3) [2.5s]
+[[13,1,3]]_3 folded readout=seq gates/round=none: eps = 6107.22 p^2 per round (no first-order failure); strict hybrid: accepted error 842.55 p^2, rejection 54281.8 p^2 per round; detection rejection 570.3 p per round; 17544 single faults, 4105 distinct effects, 7124297 signatures (T=3) [53.1s]
+[[13,1,3]]_3 folded readout=par gates/round=none: eps = 338.46 p^2 per round (no first-order failure); strict hybrid: accepted error 32.26 p^2, rejection 3523.4 p^2 per round; detection rejection 185.3 p per round; 10944 single faults, 4105 distinct effects, 7124297 signatures (T=3) [39.3s]
+[[13,1,3]]_3 folded readout=par gates/round=HPHXZ: eps = 487.28 p^2 per round (no first-order failure); strict hybrid: accepted error 42.84 p^2, rejection 5095.0 p^2 per round; detection rejection 201.0 p per round; 14712 single faults, 4897 distinct effects, 10200465 signatures (T=3) [75.9s]
+[[13,1,3]]_3 folded readout=seq gates/round=HPHXZ: eps = 6349.92 p^2 per round (no first-order failure); strict hybrid: accepted error 859.17 p^2, rejection 67781.1 p^2 per round; detection rejection 586.0 p per round; 21312 single faults, 4897 distinct effects, 10200465 signatures (T=3) [91.1s]
+[[9,1,3]]_3 readout=seq gates/round=none: eps = 7425.46 p^2 per round (no first-order failure); strict hybrid: accepted error 1560.60 p^2, rejection 44478.6 p^2 per round; detection rejection 290.2 p per round; 9528 single faults, 2249 distinct effects, 1764877 signatures (T=3) [11.4s]
+[[9,1,3]]_3 readout=par gates/round=none: eps = 723.11 p^2 per round (no first-order failure); strict hybrid: accepted error 116.40 p^2, rejection 5508.5 p^2 per round; detection rejection 122.2 p per round; 6672 single faults, 2249 distinct effects, 1764877 signatures (T=3) [10.8s]
+[[5,1,3]]_3 readout=par gates/round=none: first-order failure 2.050 p per round (total logical error at first order); detection rejection 67.4 p per round; 4416 single faults, 1843 distinct effects, 444705 signatures (T=3) [4.3s]
+[[7,1,3]]_3 readout=par gates/round=none: first-order failure 0.650 p per round (total logical error at first order); detection rejection 98.6 p per round; 6456 single faults, 2769 distinct effects, 2265021 signatures (T=3) [11.2s]
+
+total runtime 325.0s

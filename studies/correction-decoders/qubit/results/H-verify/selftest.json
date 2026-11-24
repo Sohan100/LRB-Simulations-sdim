@@ -1,0 +1,44 @@
+{
+ "deterministic_and_buildable_cases": 210,
+ "serial_dem_equals_lead": {
+  "cases": 24,
+  "max_abs_prob_diff": 0.0
+ },
+ "raw_vs_diff_census_max_rel_diff": 4.3934166146068897e-16,
+ "raw_policy_evaluator_vs_brute_force_max_abs_diff": 4.996003610813204e-16,
+ "exact_vs_measurement_record_mc": [
+  {
+   "variant": "parallel-nr@unif4",
+   "p": 0.005,
+   "depth": 10,
+   "A_exact": 0.40176691923318364,
+   "A_mc": 0.4018925,
+   "z_A": 0.16200589825282258,
+   "AF_exact": 0.0005075838060821287,
+   "AF_mc": 0.0004975,
+   "z_AF": -0.28314627362845507
+  },
+  {
+   "variant": "parallel-nr",
+   "p": 0.005,
+   "depth": 10,
+   "A_exact": 0.06752921447839201,
+   "A_mc": 0.0678275,
+   "z_A": 0.7517937370298332,
+   "AF_exact": 0.00014628108264201715,
+   "AF_mc": 0.00017,
+   "z_AF": 1.240402238935385
+  },
+  {
+   "variant": "serial",
+   "p": 0.005,
+   "depth": 10,
+   "A_exact": 0.0037680691545782636,
+   "A_mc": 0.0038625,
+   "z_A": 0.9747746186841384,
+   "AF_exact": 6.579838637268765e-05,
+   "AF_mc": 8.5e-05,
+   "z_AF": 1.4971812828297324
+  }
+ ]
+}

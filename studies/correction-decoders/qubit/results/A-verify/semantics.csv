@@ -1,0 +1,17 @@
+check,result,detail
+unitary H == stim H,True,
+unitary H_INV == stim H,True,
+unitary P == stim S,True,
+unitary P_INV == stim S_DAG,True,
+unitary X == stim X,True,
+unitary X_INV == stim X,True,
+unitary Z == stim Z,True,
+unitary Z_INV == stim Z,True,
+unitary CNOT == stim CX,True,
+unitary CNOT_INV == stim CX,True,
+unitary CZ == stim CZ,True,
+unitary CZ_INV == stim CZ,True,
+"X0; CNOT 0 1; M 0 1 -> (1, 1)",True,"got (1, 1)"
+"X1; CNOT 0 1; M 0 1 -> (0, 1)",True,"got (0, 1)"
+"random replay vs Stim (P->S, P_INV->S_DAG)",True,"300 circuits, 2580 deterministic and 879 random outcomes agree, 0 mismatches"
+"random replay vs Stim (P->S_DAG, P_INV->S (conjugated))",True,"300 circuits, 2580 deterministic and 879 random outcomes agree, 0 mismatches"

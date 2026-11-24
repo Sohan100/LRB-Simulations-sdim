@@ -1,0 +1,60 @@
+memory R=4 V1: strict-hybrid rejection 96.275
+     ambiguous groups with posterior in [0.95,1.00): weight    8.150, minority   0.100
+     ambiguous groups with posterior in [0.80,0.95): weight    0.325, minority   0.025
+     ambiguous groups with posterior in [0.60,0.80): weight   48.000, minority  11.600
+     ambiguous groups with posterior in [0.00,0.60): weight   39.800, minority  19.750
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 96.28, 4.95), (0.99, 96.28, 4.95), (0.95, 88.13, 5.05), (0.9, 87.8, 5.075), (0.8, 87.8, 5.075), (0.6, 39.8, 16.675), (0.0, 0.0, 36.425)]
+memory R=4 V2: strict-hybrid rejection 137.625
+     ambiguous groups with posterior in [0.95,1.00): weight   26.350, minority   0.500
+     ambiguous groups with posterior in [0.80,0.95): weight    0.000, minority   0.000
+     ambiguous groups with posterior in [0.60,0.80): weight    1.500, minority   0.375
+     ambiguous groups with posterior in [0.00,0.60): weight  109.775, minority  54.450
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 137.62, 0.0), (0.99, 137.62, 0.0), (0.95, 111.28, 0.5), (0.9, 111.28, 0.5), (0.8, 111.28, 0.5), (0.6, 109.78, 0.875), (0.0, 0.0, 55.325)]
+LRB seq 0 m=0 V1: strict-hybrid rejection 41.875
+     ambiguous groups with posterior in [0.95,1.00): weight    2.850, minority   0.100
+     ambiguous groups with posterior in [0.80,0.95): weight    0.325, minority   0.025
+     ambiguous groups with posterior in [0.60,0.80): weight   38.700, minority   8.950
+     ambiguous groups with posterior in [0.00,0.60): weight    0.000, minority   0.000
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 41.88, 4.95), (0.99, 41.88, 4.95), (0.95, 39.03, 5.05), (0.9, 38.7, 5.075), (0.8, 38.7, 5.075), (0.6, 0.0, 14.025), (0.0, 0.0, 14.025)]
+LRB seq 0 m=0 V2: strict-hybrid rejection 22.525
+     ambiguous groups with posterior in [0.95,1.00): weight    3.550, minority   0.100
+     ambiguous groups with posterior in [0.80,0.95): weight    0.000, minority   0.000
+     ambiguous groups with posterior in [0.60,0.80): weight    0.300, minority   0.075
+     ambiguous groups with posterior in [0.00,0.60): weight   18.675, minority   9.250
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 22.52, 0.0), (0.99, 22.52, 0.0), (0.95, 18.97, 0.1), (0.9, 18.97, 0.1), (0.8, 18.97, 0.1), (0.6, 18.67, 0.175), (0.0, 0.0, 9.425)]
+LRB seq 0 m=2 V1: strict-hybrid rejection 109.325
+     ambiguous groups with posterior in [0.95,1.00): weight   23.000, minority   0.775
+     ambiguous groups with posterior in [0.80,0.95): weight   10.375, minority   0.975
+     ambiguous groups with posterior in [0.60,0.80): weight   50.325, minority  12.100
+     ambiguous groups with posterior in [0.00,0.60): weight   25.625, minority  11.900
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 109.33, 4.95), (0.99, 109.33, 4.95), (0.95, 86.33, 5.725), (0.9, 79.23, 6.225), (0.8, 75.95, 6.7), (0.6, 25.62, 18.8), (0.0, 0.0, 30.7)]
+LRB seq 0 m=2 V2: strict-hybrid rejection 116.850
+     ambiguous groups with posterior in [0.95,1.00): weight   29.500, minority   0.850
+     ambiguous groups with posterior in [0.80,0.95): weight   11.150, minority   1.000
+     ambiguous groups with posterior in [0.60,0.80): weight   14.350, minority   4.700
+     ambiguous groups with posterior in [0.00,0.60): weight   61.850, minority  30.100
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 116.85, 0.0), (0.99, 116.85, 0.0), (0.95, 87.35, 0.85), (0.9, 78.85, 1.45), (0.8, 76.2, 1.85), (0.6, 61.85, 6.55), (0.0, 0.0, 36.65)]
+LRB seq 0 m=22 V1: strict-hybrid rejection 884.000
+     ambiguous groups with posterior in [0.95,1.00): weight  259.675, minority   6.250
+     ambiguous groups with posterior in [0.80,0.95): weight   85.150, minority   7.425
+     ambiguous groups with posterior in [0.60,0.80): weight  204.500, minority  64.925
+     ambiguous groups with posterior in [0.00,0.60): weight  334.675, minority 161.150
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 884.0, 4.95), (0.99, 847.67, 5.2), (0.95, 624.32, 11.2), (0.9, 556.25, 15.825), (0.8, 539.17, 18.625), (0.6, 334.67, 83.55), (0.0, 0.0, 244.7)]
+LRB seq 0 m=22 V2: strict-hybrid rejection 1066.025
+     ambiguous groups with posterior in [0.95,1.00): weight  258.575, minority   6.900
+     ambiguous groups with posterior in [0.80,0.95): weight  117.125, minority   9.300
+     ambiguous groups with posterior in [0.60,0.80): weight  191.350, minority  64.025
+     ambiguous groups with posterior in [0.00,0.60): weight  498.975, minority 240.350
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 1066.02, 0.0), (0.99, 1059.97, 0.05), (0.95, 807.45, 6.9), (0.9, 708.55, 13.425), (0.8, 690.32, 16.2), (0.6, 498.97, 80.225), (0.0, 0.0, 320.575)]
+LRB seq 5 m=22 V1: strict-hybrid rejection 945.200
+     ambiguous groups with posterior in [0.95,1.00): weight  266.200, minority   5.525
+     ambiguous groups with posterior in [0.80,0.95): weight  109.200, minority   9.550
+     ambiguous groups with posterior in [0.60,0.80): weight  194.675, minority  61.800
+     ambiguous groups with posterior in [0.00,0.60): weight  375.125, minority 181.925
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 945.2, 4.95), (0.99, 902.47, 5.25), (0.95, 679.0, 10.475), (0.9, 596.2, 16.05), (0.8, 569.8, 20.025), (0.6, 375.12, 81.825), (0.0, 0.0, 263.75)]
+LRB seq 5 m=22 V2: strict-hybrid rejection 1083.300
+     ambiguous groups with posterior in [0.95,1.00): weight  257.650, minority   6.400
+     ambiguous groups with posterior in [0.80,0.95): weight  142.825, minority  11.925
+     ambiguous groups with posterior in [0.60,0.80): weight  169.400, minority  56.200
+     ambiguous groups with posterior in [0.00,0.60): weight  513.425, minority 248.025
+     threshold tau -> (rejection, first-order failure incl. undetected): [(1.0, 1083.3, 0.0), (0.99, 1073.37, 0.075), (0.95, 825.65, 6.4), (0.9, 712.9, 14.075), (0.8, 682.82, 18.325), (0.6, 513.42, 74.525), (0.0, 0.0, 322.55)]

@@ -1,0 +1,164 @@
+{
+ "tanner_edges": [
+  [
+   0,
+   5
+  ],
+  [
+   0,
+   7
+  ],
+  [
+   1,
+   5
+  ],
+  [
+   1,
+   6
+  ],
+  [
+   1,
+   7
+  ],
+  [
+   1,
+   8
+  ],
+  [
+   2,
+   6
+  ],
+  [
+   2,
+   7
+  ],
+  [
+   3,
+   5
+  ],
+  [
+   3,
+   8
+  ],
+  [
+   4,
+   6
+  ],
+  [
+   4,
+   8
+  ]
+ ],
+ "logical_edges": [
+  [
+   2,
+   3
+  ]
+ ],
+ "patch_coords": {
+  "0": [
+   0,
+   0
+  ],
+  "7": [
+   0,
+   1
+  ],
+  "2": [
+   0,
+   2
+  ],
+  "5": [
+   1,
+   0
+  ],
+  "1": [
+   1,
+   1
+  ],
+  "6": [
+   1,
+   2
+  ],
+  "3": [
+   2,
+   0
+  ],
+  "8": [
+   2,
+   1
+  ],
+  "4": [
+   2,
+   2
+  ]
+ },
+ "grid_embeddings_3x3": 8,
+ "grid_embeddings_5x5": 72,
+ "shortest_cycle_through_23": 5,
+ "patch_distance_q2_q3": 4,
+ "garnet_patches": [
+  {
+   "labels": {
+    "0": "QB4",
+    "1": "QB10",
+    "2": "QB14",
+    "3": "QB6",
+    "4": "QB16",
+    "5": "QB5",
+    "6": "QB15",
+    "7": "QB9",
+    "8": "QB11"
+   },
+   "distance_q2_q3": 4,
+   "labellings_per_patch": 8
+  },
+  {
+   "labels": {
+    "0": "QB5",
+    "1": "QB9",
+    "2": "QB15",
+    "3": "QB3",
+    "4": "QB13",
+    "5": "QB4",
+    "6": "QB14",
+    "7": "QB10",
+    "8": "QB8"
+   },
+   "distance_q2_q3": 4,
+   "labellings_per_patch": 8
+  },
+  {
+   "labels": {
+    "0": "QB5",
+    "1": "QB11",
+    "2": "QB15",
+    "3": "QB7",
+    "4": "QB17",
+    "5": "QB6",
+    "6": "QB16",
+    "7": "QB10",
+    "8": "QB12"
+   },
+   "distance_q2_q3": 4,
+   "labellings_per_patch": 8
+  },
+  {
+   "labels": {
+    "0": "QB9",
+    "1": "QB15",
+    "2": "QB11",
+    "3": "QB18",
+    "4": "QB20",
+    "5": "QB14",
+    "6": "QB16",
+    "7": "QB10",
+    "8": "QB19"
+   },
+   "distance_q2_q3": 4,
+   "labellings_per_patch": 8
+  }
+ ],
+ "ascii_patch": "  q0 ---- a7 ---- q2        (row 0)\n  |       |       |\n  a5 ---- q1 ---- a6        (row 1)\n  |       |       |\n  q3 ---- a8 ---- q4        (row 2)\n\n  a5: Z0 Z1 Z3   a6: Z1 Z2 Z4   a7: X0 X1 X2   a8: X1 X3 X4  (frame 0)\n  fold axis (main diagonal): q0, q1, q4; logical coupling q2..q3 at\n  Manhattan distance 4 (opposite corners).",
+ "ascii_garnet": "          QB1       QB2                           \nQB3       QB4=q0    QB5=a5    QB6=q3    QB7       \nQB8       QB9=a7    QB10=q1   QB11=a8   QB12      \nQB13      QB14=q2   QB15=a6   QB16=q4   QB17      \n          QB18      QB19      QB20                "
+}

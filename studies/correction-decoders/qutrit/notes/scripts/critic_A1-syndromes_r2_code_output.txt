@@ -1,0 +1,140 @@
+======================================================================
+C1/C2 statevector checks (9 qutrits, explicit sdim matrices)
+  <S_Z1> on encoded state = (1-0j)
+  <S_Z2> on encoded state = (1-0j)
+  <S_X1> on encoded state = (1+0j)
+  <S_X2> on encoded state = (1+0j)
+  <X_L> on encoded state = (1+0j)
+  <Z_L> = -0j (should be 0 for |+>_L)
+  noiseless outcomes (anc 5..8, obs, const0 dets, const0 obs): ((0, 0, 0, 0), 0, (0, 0), 0)
+  X0: ancilla shifts (1, 0, 0, 0)  obs 0  const0 dets (0, 0) const0 obs 0
+  X1: ancilla shifts (2, 1, 0, 0)  obs 0  const0 dets (0, 0) const0 obs 0
+  X2: ancilla shifts (0, 1, 0, 0)  obs 0  const0 dets (0, 0) const0 obs 0
+  X3: ancilla shifts (2, 0, 0, 0)  obs 0  const0 dets (0, 0) const0 obs 0
+  X4: ancilla shifts (0, 2, 0, 0)  obs 0  const0 dets (0, 0) const0 obs 0
+  Z0: ancilla shifts (0, 0, 2, 0)  obs 1  const0 dets (1, 0) const0 obs 1
+  Z1: ancilla shifts (0, 0, 2, 1)  obs 0  const0 dets (1, 2) const0 obs 0
+  Z2: ancilla shifts (0, 0, 1, 0)  obs 0  const0 dets (2, 0) const0 obs 0
+  Z3: ancilla shifts (0, 0, 0, 2)  obs 1  const0 dets (0, 1) const0 obs 1
+  Z4: ancilla shifts (0, 0, 0, 1)  obs 0  const0 dets (0, 2) const0 obs 0
+  statevector syndrome functional == <S,E>: True
+  statevector observable shift == -<X_L,E> = z0+z3: True
+  const0 detectors == -sigma_X: True
+  S_Z1 functional [1, 2, 0, 2, 0, 0, 0, 0, 0, 0]  S_X1 functional [0, 0, 0, 0, 0, 2, 2, 1, 0, 0]
+  symplectic table: [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 2], [0, 0, 0, 0, 1, 0]]
+  rank(S) = 4  rank(S,XL,ZL) = 6
+======================================================================
+C3-C5 enumeration of all 9^5 data Paulis
+  normalizer size 729  stabilizer group size 81
+  stabilizer weight distribution {0: 1, 3: 8, 4: 24, 5: 48}
+  weight-2 nontrivial logicals: ['Z3 Z4', 'Z3^-1 Z4^-1', 'X2 X4', 'X2^-1 X4^-1', 'X0 X3', 'X0^-1 X3^-1', 'Z0 Z2', 'Z0^-1 Z2^-1']
+  coset a=1 b=0: min weight 2, #reps 2
+  coset a=2 b=0: min weight 2, #reps 2
+  coset a=0 b=1: min weight 2, #reps 2
+  coset a=1 b=1: min weight 3, #reps 6
+  coset a=2 b=1: min weight 3, #reps 6
+  coset a=0 b=2: min weight 2, #reps 2
+  coset a=1 b=2: min weight 3, #reps 6
+  coset a=2 b=2: min weight 3, #reps 6
+  syndrome classes: {'T': 1, 'A1': 8, 'A2*': 48, 'U1': 24}
+  leading posteriors by class: {('T', '1'): 1, ('A1', '1/2'): 8, ('A2*', '1/4'): 4, ('U1', '1'): 24, ('A2*', '2/9'): 16, ('A2*', '1/3'): 28}
+  A2* syndromes with a unique max coset at weight 2: 4
+  per qutrit/type/class: {(0, 'mixed', 'U1'): 4, (0, 'pureX', 'A1'): 2, (0, 'pureZ', 'A1'): 2, (1, 'mixed', 'U1'): 4, (1, 'pureX', 'U1'): 2, (1, 'pureZ', 'U1'): 2, (2, 'mixed', 'U1'): 4, (2, 'pureX', 'A1'): 2, (2, 'pureZ', 'A1'): 2, (3, 'mixed', 'U1'): 4, (3, 'pureX', 'A1'): 2, (3, 'pureZ', 'A1'): 2, (4, 'mixed', 'U1'): 4, (4, 'pureX', 'A1'): 2, (4, 'pureZ', 'A1'): 2}
+  tied pairs: [('X0', 'X3^-1'), ('X0^-1', 'X3'), ('X2', 'X4^-1'), ('X2^-1', 'X4'), ('Z0', 'Z2^-1'), ('Z0^-1', 'Z2'), ('Z3', 'Z4^-1'), ('Z3^-1', 'Z4')]
+======================================================================
+C6-C10 exact code-capacity series (own implementation)
+  depolarizing detect     P_rej = 5q^1 + -81/8q^2 + 657/64q^3;  P(f|a) = 1/8q^2 + 11/32q^3
+  depolarizing mld        P_rej = 0;  P(f|a) = 1q^1 + 63/16q^2 + -141/16q^3
+  depolarizing hyb_strict P_rej = 2q^1 + -3/4q^2 + -45/16q^3;  P(f|a) = 21/8q^2 + 3/32q^3
+  depolarizing hyb_count  P_rej = 2q^1 + -9/8q^2 + -9/4q^3;  P(f|a) = 23/8q^2 + 13/32q^3
+  obs-only     detect     P_rej = 5q^1 + -81/8q^2 + 657/64q^3;  P(f|a) = 1/16q^2 + 25/128q^3
+  obs-only     mld        P_rej = 0;  P(f|a) = 1/2q^1 + 99/32q^2 + -729/128q^3
+  obs-only     hyb_strict P_rej = 1q^1 + 45/16q^2 + -1017/128q^3;  P(f|a) = 15/8q^2 + -93/64q^3
+  obs-only     hyb_count  P_rej = 1q^1 + -3/16q^2 + -27/16q^3;  P(f|a) = 23/8q^2 + -13/8q^3
+  xsyn+obs     detect     P_rej = 15/4q^1 + -99/16q^2 + 81/16q^3;  P(f|a) = 9/16q^2 + 135/128q^3
+  xsyn+obs     mld        P_rej = 0;  P(f|a) = 3/2q^1 + -27/32q^2
+  xsyn+obs     hyb_strict P_rej = 3q^1 + -81/16q^2 + 243/64q^3;  P(f|a) = 9/8q^2 + 135/64q^3
+  xsyn+obs     hyb_count  P_rej = 3q^1 + -81/16q^2 + 243/64q^3;  P(f|a) = 9/8q^2 + 135/64q^3
+  numeric (detect P_acc, P(f|a); hybrid P_acc, P(f|a); MLD P_fail):
+   q=0.001: detect 0.99501 1.253e-07 | hybrid 0.99800 2.625e-06 | MLD 1.0039e-03
+   q=0.01: detect 0.95100 1.285e-05 | hybrid 0.98008 2.626e-04 | MLD 1.0385e-02
+   q=0.05: detect 0.77406 3.603e-04 | hybrid 0.90221 6.586e-03 | MLD 5.8781e-02
+   q=0.1: detect 0.59150 1.678e-03 | hybrid 0.80999 2.650e-02 | MLD 1.3118e-01
+  pure_X        det rej 5q^1 f|a 1q^2 + 5/2q^3 | MLD 2q^1 + -3/2q^2 | hyb rej 4q^1 + -9q^2 f|a 2q^2 | b-only MLD 0 hyb rej 0
+  pure_Z        det rej 5q^1 f|a 1q^2 + 5/2q^3 | MLD 2q^1 + -3/2q^2 | hyb rej 4q^1 + -9q^2 f|a 2q^2 | b-only MLD 2q^1 + -3/2q^2 hyb rej 4q^1 + -9q^2
+  pure_X_or_Z   det rej 5q^1 f|a 1/2q^2 + 9/8q^3 | MLD 2q^1 + -7/4q^2 | hyb rej 4q^1 + -15/2q^2 f|a 1q^2 | b-only MLD 1q^1 + -7/8q^2 hyb rej 2q^1 + -9/4q^2
+  mixed_only    det rej 5q^1 f|a 1/8q^3 | MLD 25/4q^2 | hyb rej 15/2q^2 f|a 3/2q^2 | b-only MLD 5q^2 hyb rej 13/2q^2
+  centre_only   det rej 1q^1 f|a 0 | MLD 0 | hyb rej 0 f|a 0 | b-only MLD 0 hyb rej 0
+  corners_only  det rej 4q^1 f|a 1/8q^2 + 9/32q^3 | MLD 1q^1 + 31/16q^2 | hyb rej 2q^1 + -3/2q^2 f|a 11/8q^2 | b-only MLD 1/2q^1 + 51/32q^2 hyb rej 1q^1 + 17/16q^2
+  qutrit0_only  det rej 1q^1 f|a 0 | MLD 0 | hyb rej 0 f|a 0 | b-only MLD 0 hyb rej 0
+  qutrit3_only  det rej 1q^1 f|a 0 | MLD 0 | hyb rej 0 f|a 0 | b-only MLD 0 hyb rej 0
+  unequal_pair  det rej 1q^1 f|a 0 | MLD 1/3q^1 + -2/9q^2 | hyb rej 1q^1 + -4/9q^2 f|a 0 | b-only MLD 0 hyb rej 0
+======================================================================
+C8 posterior-threshold family
+  q=0.001: levels (posterior: classes):
+      1.000000: {'T': 1}
+      0.999749: {'U1': 4}
+      0.999249: {'U1': 4}
+      0.998999: {'U1': 16}
+      0.499843: {'A1': 8}
+      0.333125: {'A2*': 16}
+      0.333021: {'A2*': 8}
+      0.332833: {'A2*': 4}
+      0.249922: {'A2*': 4}
+      0.222111: {'A2*': 16}
+  q=0.01: levels (posterior: classes):
+      0.999987: {'T': 1}
+      0.997376: {'U1': 4}
+      0.992415: {'U1': 4}
+      0.989915: {'U1': 16}
+      0.498411: {'A1': 8}
+      0.331237: {'A2*': 16}
+      0.330208: {'A2*': 8}
+      0.328348: {'A2*': 4}
+      0.249210: {'A2*': 4}
+      0.221105: {'A2*': 16}
+  q=0.05: levels (posterior: classes):
+      0.999640: {'T': 1}
+      0.984184: {'U1': 4}
+      0.960316: {'U1': 4}
+      0.947850: {'U1': 16}
+      0.491481: {'A1': 8}
+      0.322585: {'A2*': 16}
+      0.317710: {'A2*': 8}
+      0.308699: {'A2*': 4}
+      0.245864: {'A2*': 4}
+      0.216504: {'A2*': 16}
+======================================================================
+C11 logical gates (own symplectic maps from sdim frame rules)
+  H: symplectic True; M = [[0, 0, 1, 0], [0, 0, 0, 1], [2, 0, 0, 0], [0, 2, 0, 0]]; (a',b') rows over (sig,a,b) = [[0, 0, 0, 0, 0, 2], [0, 0, 0, 0, 1, 0]]
+     table permuted: True; naive MLD P_fail = 1q^1 + 63/16q^2; naive hybrid P_rej = 2q^1, P(f|a) = 21/8q^2
+     weight-1 images (class before, weight after, syndrome class after): {('A1', 1, 'A1'): 16, ('U1', 1, 'U1'): 24}
+  H_INV: symplectic True; M = [[0, 0, 2, 0], [0, 0, 0, 2], [1, 0, 0, 0], [0, 1, 0, 0]]; (a',b') rows over (sig,a,b) = [[0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 2, 0]]
+     table permuted: True; naive MLD P_fail = 1q^1 + 63/16q^2; naive hybrid P_rej = 2q^1, P(f|a) = 21/8q^2
+     weight-1 images (class before, weight after, syndrome class after): {('A1', 1, 'A1'): 16, ('U1', 1, 'U1'): 24}
+  P: symplectic True; M = [[1, 0, 0, 0], [0, 1, 0, 0], [2, 0, 1, 0], [0, 2, 0, 1]]; (a',b') rows over (sig,a,b) = [[0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 1]]
+     table permuted: True; naive MLD P_fail = 9/4q^1 + -25/32q^2; naive hybrid P_rej = 5/2q^1, P(f|a) = 1/2q^1 + 7/4q^2
+     weight-1 images (class before, weight after, syndrome class after): {('A1', 1, 'U1'): 4, ('A1', 1, 'A1'): 8, ('U1', 1, 'U1'): 12, ('U1', 1, 'A1'): 4, ('A1', 2, 'U1'): 4, ('U1', 2, 'A2*'): 8}
+  P_INV: symplectic True; M = [[1, 0, 0, 0], [0, 1, 0, 0], [1, 0, 1, 0], [0, 1, 0, 1]]; (a',b') rows over (sig,a,b) = [[0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 2, 1]]
+     table permuted: True; naive MLD P_fail = 9/4q^1 + -25/32q^2; naive hybrid P_rej = 5/2q^1, P(f|a) = 1/2q^1 + 7/4q^2
+     weight-1 images (class before, weight after, syndrome class after): {('A1', 1, 'U1'): 4, ('A1', 1, 'A1'): 8, ('U1', 1, 'A1'): 4, ('U1', 1, 'U1'): 12, ('A1', 2, 'U1'): 4, ('U1', 2, 'A2*'): 8}
+======================================================================
+C21/C23 Clifford catalog, physical and logical level
+  strings: 216  distinct strings: 207
+  duplicated: {'XZHP': 2, 'XZPH': 2, 'XXZZ': 2, 'XXZP': 2, 'XXZHP': 2, 'ZZXP': 2, 'ZZXHP': 2, 'XXZZP': 2, 'XXZZHP': 2}
+  physical: distinct unitaries mod phase 206, multiplicities {1: 197, 2: 8, 3: 1}, group order 216, never sampled 10
+  (reversed reading would give 206 distinct)
+  logical H_L = X^a Z^b H with (a,b) in [(0, 0)]
+  logical P_L = X^a Z^b P with (a,b) in [(0, 0)]
+  logical: distinct logical unitaries mod phase 206, multiplicities {1: 197, 2: 8, 3: 1}
+  Pauli X^1Z^0: P(image has Z part) under V = C^-1 (one catalog draw): 3/4 = 0.7500
+  Pauli X^1Z^0: P(image has Z part) under V = C (one catalog draw): 3/4 = 0.7500
+  Pauli X^0Z^1: P(image has Z part) under V = C^-1 (one catalog draw): 55/72 = 0.7639
+  Pauli X^0Z^1: P(image has Z part) under V = C (one catalog draw): 3/4 = 0.7500
+  Pauli X^1Z^1: P(image has Z part) under V = C^-1 (one catalog draw): 163/216 = 0.7546
+  Pauli X^1Z^1: P(image has Z part) under V = C (one catalog draw): 161/216 = 0.7454
+  two draws, X_L: P(Z part) = 34997/46656 = 0.7501
+  candidate missing strings (P = S): ['XZHPP', 'XZPPH', 'XXZ', 'XXZHPP', 'XXZPPH', 'ZZX', 'ZZXHPP', 'ZZXPPH', 'XXZZHPP', 'XXZZPPH']
+    all absent from the catalog: True | mutually distinct: True | in group: True
+  catalog weight per SL(2,3) element (24 elements, uniform would be 9 each): [(5, 2), (9, 19), (10, 1), (12, 1), (13, 1)]
+done

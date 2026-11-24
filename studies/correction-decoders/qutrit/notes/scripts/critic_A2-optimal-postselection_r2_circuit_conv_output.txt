@@ -1,0 +1,36 @@
+mode conv: direct convolution vs A2 DFT, all-history ranking
+ p=0.001 m=0 seq=0: conv 0s; sum=1.000000000000000; |conv-dft| max abs 2.2e-16, max rel (P>1e-12) 1.0e-11; min P(D)=1.3e-05
+   q(0)=0.994994012948; max_(D!=0) q=0.994223005103 (mass 4.4e-03); #histories with q>q(0): 0 (mass 0.0e+00); sym abs 4.3e-19 rel 4.1e-16
+   unif1: rej=0.0611 S=0.994994 lam=0.992491 Fleg=0.992491 Im=+9e-19 S*(same a)=0.994994
+   S*(1) (MAP, no rejection) = 0.985922
+ p=0.001 m=0 seq=7: conv 0s; sum=1.000000000000000; |conv-dft| max abs 2.2e-16, max rel (P>1e-12) 1.0e-11; min P(D)=1.3e-05
+   q(0)=0.994994012948; max_(D!=0) q=0.994223005103 (mass 4.4e-03); #histories with q>q(0): 0 (mass 0.0e+00); sym abs 4.3e-19 rel 4.1e-16
+   unif1: rej=0.0611 S=0.994994 lam=0.992491 Fleg=0.992491 Im=+9e-19 S*(same a)=0.994994
+   S*(1) (MAP, no rejection) = 0.985922
+ p=0.01 m=0 seq=0: conv 0s; sum=1.000000000000000; |conv-dft| max abs 3.3e-16, max rel (P>1e-12) 1.2e-13; min P(D)=2.0e-04
+   q(0)=0.944772569669; max_(D!=0) q=0.936407275744 (mass 2.7e-02); #histories with q>q(0): 0 (mass 0.0e+00); sym abs 6.9e-18 rel 3.4e-16
+   unif1: rej=0.4615 S=0.944773 lam=0.917159 Fleg=0.917159 Im=+7e-18 S*(same a)=0.944773
+   S*(1) (MAP, no rejection) = 0.861874
+ p=0.05 m=0 seq=0: conv 0s; sum=1.000000000000000; |conv-dft| max abs 2.8e-17, max rel (P>1e-12) 2.3e-15; min P(D)=3.7e-03
+   q(0)=0.638618262156; max_(D!=0) q=0.614761182671 (mass 2.6e-02); #histories with q>q(0): 0 (mass 0.0e+00); sym abs 3.5e-18 rel 6.3e-16
+   unif1: rej=0.9306 S=0.638618 lam=0.457927 Fleg=0.457927 Im=+6e-17 S*(same a)=0.638618
+   S*(1) (MAP, no rejection) = 0.531233
+ p=0.001 m=2 seq=0: conv 27s; sum=1.000000000000005; |conv-dft| max abs 6.7e-16, max rel (P>1e-12) 1.9e-06; min P(D)=3.1e-13
+   q(0)=0.994951139595; max_(D!=0) q=0.994907045460 (mass 2.8e-03); #histories with q>q(0): 0 (mass 0.0e+00); sym abs 8.7e-19 rel 3.8e-15
+   unif1: rej=0.2445 S=0.994951 lam=0.992427 Fleg=0.992427 Im=+4e-19 S*(same a)=0.994951
+   unif2: rej=0.2191 S=0.994943 lam=0.992415 Fleg=0.992415 Im=+9e-19 S*(same a)=0.994944
+   const1: rej=0.1861 S=0.994826 lam=0.992239 Fleg=0.992239 Im=+4e-19 S*(same a)=0.994919
+   const2: rej=0.2127 S=0.994888 lam=0.992332 Fleg=0.992332 Im=+9e-19 S*(same a)=0.994941
+   S*(1) (MAP, no rejection) = 0.967155
+ p=0.01 m=2 seq=3: conv 29s; sum=0.999999999999998; |conv-dft| max abs 4.2e-17, max rel (P>1e-12) 5.0e-11; min P(D)=5.0e-09
+   q(0)=0.936127589135; max_(D!=0) q=0.933353138719 (mass 1.8e-03); #histories with q>q(0): 0 (mass 0.0e+00); sym abs 1.7e-18 rel 3.9e-15
+   unif1: rej=0.9414 S=0.936128 lam=0.904191 Fleg=0.904191 Im=+3e-18 S*(same a)=0.936128
+   unif2: rej=0.9178 S=0.934125 lam=0.901187 Fleg=0.901187 Im=+1e-17 S*(same a)=0.934442
+   const1: rej=0.8679 S=0.906805 lam=0.860207 Fleg=0.860207 Im=+1e-17 S*(same a)=0.922720
+   const2: rej=0.9083 S=0.920470 lam=0.880706 Fleg=0.880706 Im=+1e-17 S*(same a)=0.933216
+   S*(1) (MAP, no rejection) = 0.581531
+ MC check (repo DEM sampler, 2000000 shots, p=1e-3 m=2 seq 0): P(D=0,L=0) exact 0.751690 MC 0.751938; max |z-score| over the 40 most likely (D,L) cells 2.50
+
+real	1m35.916s
+user	1m32.090s
+sys	0m7.588s

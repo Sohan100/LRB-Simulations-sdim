@@ -1,0 +1,356 @@
+{
+ "iqm_garnet": {
+  "device": {
+   "name": "iqm_garnet",
+   "t1_us": 40.0,
+   "t2_us": 21.05,
+   "t_1q_ns": 20.0,
+   "t_2q_ns": 40.0,
+   "t_meas_ns": 1000.0,
+   "t_reset_ns": 500.0,
+   "r_1q": 0.0009,
+   "r_2q": 0.005,
+   "e_meas": 0.03,
+   "e_reset": 0.03,
+   "extra_idle": [],
+   "cz23": "routed",
+   "overrides": [],
+   "source": "IQM Garnet medians (arXiv:2408.12433) + T2e snapshot (arXiv:2512.23009) + IQM readout pulse (arXiv:2503.10903)"
+  },
+  "p": 0.00625,
+  "factors": {
+   "one_qubit": 0.216,
+   "two_qubit": 1.0,
+   "meas_idle": 4.699218688513955,
+   "meas_depol": 0.0,
+   "meas_flip": 4.8,
+   "reset_idle": 2.3747349989794353,
+   "reset_flip": 4.8
+  },
+  "gate_idle_over_p": 0.19185466437772192,
+  "absolute": {
+   "cz": 0.00625,
+   "one_qubit": 0.00135,
+   "meas_idle": 0.02937011680321222,
+   "meas_flip": 0.03,
+   "reset_idle": 0.01484209374362147,
+   "reset_flip": 0.03,
+   "gate_idle_cz_layer": 0.001199091652360762
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ },
+ "iqm_garnet_ramsey": {
+  "device": {
+   "name": "iqm_garnet_ramsey",
+   "t1_us": 40.0,
+   "t2_us": 8.43,
+   "t_1q_ns": 20.0,
+   "t_2q_ns": 40.0,
+   "t_meas_ns": 1000.0,
+   "t_reset_ns": 500.0,
+   "r_1q": 0.0009,
+   "r_2q": 0.005,
+   "e_meas": 0.03,
+   "e_reset": 0.03,
+   "extra_idle": [],
+   "cz23": "routed",
+   "overrides": [],
+   "source": "IQM Garnet medians (arXiv:2408.12433) + T2e snapshot (arXiv:2512.23009) + IQM readout pulse (arXiv:2503.10903)"
+  },
+  "p": 0.00625,
+  "factors": {
+   "one_qubit": 0.216,
+   "two_qubit": 1.0,
+   "meas_idle": 9.936266480960736,
+   "meas_depol": 0.0,
+   "meas_flip": 4.8,
+   "reset_idle": 5.103871307395811,
+   "reset_flip": 4.8
+  },
+  "gate_idle_over_p": 0.41867752267947367,
+  "absolute": {
+   "cz": 0.00625,
+   "one_qubit": 0.00135,
+   "meas_idle": 0.0621016655060046,
+   "meas_flip": 0.03,
+   "reset_idle": 0.03189919567122382,
+   "reset_flip": 0.03,
+   "gate_idle_cz_layer": 0.0026167345167467104
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ },
+ "iqm_garnet_snapshot": {
+  "device": {
+   "name": "iqm_garnet_snapshot",
+   "t1_us": 27.42,
+   "t2_us": 21.05,
+   "t_1q_ns": 20.0,
+   "t_2q_ns": 40.0,
+   "t_meas_ns": 1000.0,
+   "t_reset_ns": 500.0,
+   "r_1q": 0.0014,
+   "r_2q": 0.006,
+   "e_meas": 0.0271,
+   "e_reset": 0.0271,
+   "extra_idle": [],
+   "cz23": "routed",
+   "overrides": [],
+   "source": "IQM Garnet medians (arXiv:2408.12433) + T2e snapshot (arXiv:2512.23009) + IQM readout pulse (arXiv:2503.10903)"
+  },
+  "p": 0.0075,
+  "factors": {
+   "one_qubit": 0.27999999999999997,
+   "two_qubit": 1.0,
+   "meas_idle": 4.286769998573041,
+   "meas_depol": 0.0,
+   "meas_flip": 3.6133333333333333,
+   "reset_idle": 2.1671930445052965,
+   "reset_flip": 3.6133333333333333
+  },
+  "gate_idle_over_p": 0.17515307106723185,
+  "absolute": {
+   "cz": 0.0075,
+   "one_qubit": 0.0021,
+   "meas_idle": 0.0321507749892978,
+   "meas_flip": 0.0271,
+   "reset_idle": 0.016253947833789723,
+   "reset_flip": 0.0271,
+   "gate_idle_cz_layer": 0.0013136480330042388
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ },
+ "iqm_t100": {
+  "device": {
+   "name": "iqm_t100",
+   "t1_us": 100.0,
+   "t2_us": 100.0,
+   "t_1q_ns": 20.0,
+   "t_2q_ns": 40.0,
+   "t_meas_ns": 1000.0,
+   "t_reset_ns": 500.0,
+   "r_1q": 0.0009,
+   "r_2q": 0.005,
+   "e_meas": 0.03,
+   "e_reset": 0.03,
+   "extra_idle": [],
+   "cz23": "routed",
+   "overrides": [],
+   "source": "IQM Garnet medians (arXiv:2408.12433) + T2e snapshot (arXiv:2512.23009) + IQM readout pulse (arXiv:2503.10903)"
+  },
+  "p": 0.00625,
+  "factors": {
+   "one_qubit": 0.216,
+   "two_qubit": 1.0,
+   "meas_idle": 1.1940199500998272,
+   "meas_depol": 0.0,
+   "meas_flip": 4.8,
+   "reset_idle": 0.5985024968781216,
+   "reset_flip": 4.8
+  },
+  "gate_idle_over_p": 0.04799040127986931,
+  "absolute": {
+   "cz": 0.00625,
+   "one_qubit": 0.00135,
+   "meas_idle": 0.00746262468812392,
+   "meas_flip": 0.03,
+   "reset_idle": 0.00374064060548826,
+   "reset_flip": 0.03,
+   "gate_idle_cz_layer": 0.0002999400079991832
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ },
+ "iqm_garnet_native23": {
+  "device": {
+   "name": "iqm_garnet_native23",
+   "t1_us": 40.0,
+   "t2_us": 21.05,
+   "t_1q_ns": 20.0,
+   "t_2q_ns": 40.0,
+   "t_meas_ns": 1000.0,
+   "t_reset_ns": 500.0,
+   "r_1q": 0.0009,
+   "r_2q": 0.005,
+   "e_meas": 0.03,
+   "e_reset": 0.03,
+   "extra_idle": [],
+   "cz23": "native",
+   "overrides": [],
+   "source": "IQM Garnet medians (arXiv:2408.12433) + T2e snapshot (arXiv:2512.23009) + IQM readout pulse (arXiv:2503.10903)"
+  },
+  "p": 0.00625,
+  "factors": {
+   "one_qubit": 0.216,
+   "two_qubit": 1.0,
+   "meas_idle": 4.699218688513955,
+   "meas_depol": 0.0,
+   "meas_flip": 4.8,
+   "reset_idle": 2.3747349989794353,
+   "reset_flip": 4.8
+  },
+  "gate_idle_over_p": 0.19185466437772192,
+  "absolute": {
+   "cz": 0.00625,
+   "one_qubit": 0.00135,
+   "meas_idle": 0.02937011680321222,
+   "meas_flip": 0.03,
+   "reset_idle": 0.01484209374362147,
+   "reset_flip": 0.03,
+   "gate_idle_cz_layer": 0.001199091652360762
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ },
+ "ion_helios": {
+  "device": {
+   "name": "ion_helios",
+   "t1_us": Infinity,
+   "t2_us": Infinity,
+   "t_1q_ns": 10000.0,
+   "t_2q_ns": 70000.0,
+   "t_meas_ns": 100000.0,
+   "t_reset_ns": 0.0,
+   "r_1q": 2.5e-05,
+   "r_2q": 0.00079,
+   "e_meas": 0.00048,
+   "e_reset": 0.0,
+   "extra_idle": [
+    [
+     "2q",
+     0.0005
+    ],
+    [
+     "meas",
+     0.000192
+    ],
+    [
+     "meas",
+     0.0005
+    ]
+   ],
+   "cz23": "native",
+   "overrides": [],
+   "source": "Ransford et al. 2025, arXiv:2511.05465 (abstract, Sec. III)"
+  },
+  "p": 0.0009875,
+  "factors": {
+   "one_qubit": 0.0379746835443038,
+   "two_qubit": 1.0,
+   "meas_idle": 0.700759493670886,
+   "meas_depol": 0.0,
+   "meas_flip": 0.4860759493670886,
+   "reset_idle": 0.0,
+   "reset_flip": 0.0
+  },
+  "gate_idle_over_p": 0.5063291139240506,
+  "absolute": {
+   "cz": 0.0009875,
+   "one_qubit": 3.7500000000000003e-05,
+   "meas_idle": 0.000692,
+   "meas_flip": 0.00048,
+   "reset_idle": 0.0,
+   "reset_flip": 0.0,
+   "gate_idle_cz_layer": 0.0005
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ },
+ "atom_rb": {
+  "device": {
+   "name": "atom_rb",
+   "t1_us": Infinity,
+   "t2_us": 1500000.0,
+   "t_1q_ns": 1000.0,
+   "t_2q_ns": 200000.0,
+   "t_meas_ns": 500000.0,
+   "t_reset_ns": 0.0,
+   "r_1q": 0.00088,
+   "r_2q": 0.005,
+   "e_meas": 0.002,
+   "e_reset": 0.002,
+   "extra_idle": [
+    [
+     "meas",
+     0.001
+    ]
+   ],
+   "cz23": "native",
+   "overrides": [],
+   "source": "Bluvstein et al. 2024 (arXiv:2312.03982); Evered et al. 2023 (arXiv:2304.05420)"
+  },
+  "p": 0.00625,
+  "factors": {
+   "one_qubit": 0.2112,
+   "two_qubit": 1.0,
+   "meas_idle": 0.18666222271600738,
+   "meas_depol": 0.0,
+   "meas_flip": 0.32,
+   "reset_idle": 0.0,
+   "reset_flip": 0.32
+  },
+  "gate_idle_over_p": 0.010665955587159104,
+  "absolute": {
+   "cz": 0.00625,
+   "one_qubit": 0.00132,
+   "meas_idle": 0.0011666388919750461,
+   "meas_flip": 0.002,
+   "reset_idle": 0.0,
+   "reset_flip": 0.002,
+   "gate_idle_cz_layer": 6.66622224197444e-05
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ }
+}

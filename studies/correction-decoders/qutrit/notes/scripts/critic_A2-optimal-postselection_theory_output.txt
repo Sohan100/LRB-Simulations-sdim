@@ -1,0 +1,40 @@
+
+[1] Theorem 1: LP vs frontier, with ties and atoms in q
+  max |LP - frontier| over 1200 (table, alpha) pairs with tied/atomic q: 2.2e-16
+  toy: beta*=0.510000; threshold rule beta=0.510000 (alpha=0.600); rule taking from q>t* beta=0.495000 (alpha=0.600) -> strictly lower: True
+
+[2] Chow identity: undetected error E(t) = int_[t,1](1-s) dR(s)
+  max |E_direct - E_Stieltjes| = 1.1e-16 (atoms included)
+  beta* concave on grid: True; S* nonincreasing: True; S*(0+)=0.9992 vs max q=0.9992; S*(1)=0.6783 vs E[q]=0.6783
+
+[3] metric identities
+  max|Re z - (3S-1)/2| = 4.4e-16; max| |z| - sqrt((3Q-1)/2) | = 8.8e-15; max(|z|-lam - (3/8)(1-S)^2/lam) = 0.0e+00 (<=0)
+  d=4: p=(0.7,0.3,0,0) -> Re E[i^R]=0.70; p=(0.7,0,0.3,0) -> 0.40  (same S=0.7, different Re E): the identity fails for d=4 as well
+  d=2: Re E[(-1)^R] = 2S-1, a function of S: identity holds for d=2 too
+
+[4] Example A: covariance of the rules
+  covariant rule (c_D,c_-D)=(0,0): S=0.600 lam=+0.400 Fleg=0.400
+  covariant rule (c_D,c_-D)=(1,2): S=0.400 lam=+0.100 Fleg=0.100
+  covariant rule (c_D,c_-D)=(2,1): S=0.000 lam=-0.500 Fleg=0.500
+  -> among COVARIANT rules, (2,1) has Fleg=0.5 > 0.4 of the MAP rule (0,0): Fleg=|lam| is maximised by the most NEGATIVE lam here.
+
+[5] loss bound S*-S_L <= (1-S_L)^2/(4 lam_L) on tables with positive loss
+  maximisers with lam_L>0 and positive loss: 1729; violations: 0; max loss/bound = 0.587; maximisers with lam_L<=0: 5271
+
+[6] estimator variance and legacy floor
+  p=[0.9  0.06 0.04]: exact Var(Re w^R)=0.202500  formula=0.202500
+  p=[0.5  0.25 0.25]: exact Var(Re w^R)=0.562500  formula=0.562500
+  p=[0.995 0.005 0.   ]: exact Var(Re w^R)=0.011194  formula=0.011194
+  N_acc=12406: Rayleigh mean 0.00796 (=sqrt(pi/4N)=0.00796), Rayleigh SD 0.00416 per circuit, 0.00076 for a 30-mean
+  CSV const1 p=0.01 m=14 mean 0.010473 is matched by a Rice mean with true |z| = 0.0074, i.e. NOT a pure floor
+
+[7] shot-cost constants and the effect of an unknown B
+  eta=0: min_x (e^x-1)(e^x+2)/(2x^2) = 4.0178 at x = 0.891  (notes: 4.0 at 0.9/delta)
+  rejection-dominated constant 3e/2 = 4.0774; offset constant 3e^2/8 = 2.7709
+  eta=0.1117 delta=2.73e-05 B=0.99245: B known N*=3.766e+07 (m*=17); B unknown (depths 0 and m) N*=6.567e+07 (m=22, 22% of shots at m=0), ratio 1.74
+  eta=0.2231 delta=0.0001146 B=0.985: B known N*=1.718e+07 (m*=9); B unknown (depths 0 and m) N*=2.994e+07 (m=11, 22% of shots at m=0), ratio 1.74
+
+[8] C15: raw-detector acceptance with measurement errors (one Z_3 check)
+  eigenvalues |.| of transfer matrix: [0.931005 0.024745 0.02425 ]
+  acceptance(m) for m=0..22 vs best single exponential: max |log resid| = 1.21e-05  (0 would mean exactly A a^m)
+  same with perfect measurements: max |log resid| = 1.7e-16

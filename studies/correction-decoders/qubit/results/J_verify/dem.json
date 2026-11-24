@@ -1,0 +1,335 @@
+{
+ "iqm_garnet_m2_s1": {
+  "errors_J_vs_rerun": {
+   "oracle": [
+    26023,
+    26023
+   ],
+   "nominal": [
+    26023,
+    26023
+   ],
+   "si1000_shape": [
+    26288,
+    26288
+   ],
+   "uniform": [
+    29516,
+    29516
+   ],
+   "scaled_0.1": [
+    26466,
+    26466
+   ],
+   "scaled_0.25": [
+    26286,
+    26286
+   ],
+   "scaled_0.5": [
+    26197,
+    26197
+   ],
+   "scaled_2": [
+    26254,
+    26254
+   ],
+   "scaled_4": [
+    26997,
+    26997
+   ],
+   "scaled_10": [
+    28007,
+    28007
+   ],
+   "learned_10000": [
+    26199,
+    26199
+   ],
+   "learned_10000_oracle_split": [
+    26199,
+    26199
+   ],
+   "graph_10000": [
+    37077,
+    37077
+   ],
+   "learned_100000": [
+    26098,
+    26098
+   ],
+   "learned_100000_oracle_split": [
+    26098,
+    26098
+   ],
+   "graph_100000": [
+    37084,
+    37084
+   ],
+   "learned_1000000": [
+    26074,
+    26074
+   ],
+   "learned_1000000_oracle_split": [
+    26074,
+    26074
+   ],
+   "graph_1000000": [
+    37074,
+    37074
+   ]
+  },
+  "all_equal": true,
+  "seconds": 3.0875693460002367
+ },
+ "iqm_garnet_het0.5_m0_s0": {
+  "errors_J_vs_rerun": {
+   "oracle": [
+    4486,
+    4486
+   ],
+   "nominal": [
+    7810,
+    7810
+   ],
+   "si1000_shape": [
+    8049,
+    8049
+   ],
+   "uniform": [
+    4527,
+    4527
+   ],
+   "scaled_0.1": [
+    4481,
+    4481
+   ],
+   "scaled_0.25": [
+    4481,
+    4481
+   ],
+   "scaled_0.5": [
+    4481,
+    4481
+   ],
+   "scaled_2": [
+    4490,
+    4490
+   ],
+   "scaled_4": [
+    4491,
+    4491
+   ],
+   "scaled_10": [
+    4832,
+    4832
+   ],
+   "learned_10000": [
+    7979,
+    7979
+   ],
+   "learned_10000_oracle_split": [
+    4486,
+    4486
+   ],
+   "graph_10000": [
+    8073,
+    8073
+   ],
+   "learned_100000": [
+    7983,
+    7983
+   ],
+   "learned_100000_oracle_split": [
+    4486,
+    4486
+   ],
+   "graph_100000": [
+    8071,
+    8071
+   ],
+   "learned_1000000": [
+    7983,
+    7983
+   ],
+   "learned_1000000_oracle_split": [
+    4490,
+    4490
+   ],
+   "graph_1000000": [
+    8137,
+    8137
+   ]
+  },
+  "all_equal": true,
+  "seconds": 1.0242332499983604
+ },
+ "my_pij_median_rel_err_1e6": 0.0089210775922107,
+ "my_pij_pairs_ptrue_gt_1e-3": 46,
+ "graph_baselines_m2_seq0": {
+  "oracle_eps": 0.25894,
+  "decomposed_remaining_hyperedges": 0,
+  "decomposed_true_graph_rel": 0.28400401637444966,
+  "J_pairs_only_rel": 0.24621533946087898,
+  "true_dem_hyperedges_dropped_rel": 0.06667567776318828
+ },
+ "footprint_weight_by_size_m2_seq0": {
+  "1": 0.6001452755254252,
+  "2": 0.771304989622445,
+  "3": 0.2407331119182809,
+  "4": 0.06852069284402994,
+  "0": 0.004705770061414988
+ },
+ "J_json_rel_diff_percent": {
+  "iqm_garnet/m0": {
+   "learned_100000": -0.02,
+   "learned_1000000": -0.03,
+   "learned_1000000_oracle_split": -0.03,
+   "graph_1000000": 1.24,
+   "scaled_0.5": 0.0,
+   "scaled_2": 0.04,
+   "scaled_10": 2.04,
+   "nominal": 0.0
+  },
+  "iqm_garnet/m1": {
+   "learned_100000": 0.24,
+   "learned_1000000": 0.07,
+   "learned_1000000_oracle_split": 0.07,
+   "graph_1000000": 24.11,
+   "scaled_0.5": 0.12,
+   "scaled_2": 0.29,
+   "scaled_10": 18.05,
+   "nominal": 0.0
+  },
+  "iqm_garnet/m2": {
+   "learned_100000": 0.26,
+   "learned_1000000": 0.07,
+   "learned_1000000_oracle_split": 0.07,
+   "graph_1000000": 40.59,
+   "scaled_0.5": 0.14,
+   "scaled_2": 0.4,
+   "scaled_10": 10.01,
+   "nominal": 0.0
+  },
+  "iqm_t100/m1": {
+   "learned_100000": 0.25,
+   "learned_1000000": 0.19,
+   "learned_1000000_oracle_split": 0.19,
+   "graph_1000000": 53.55,
+   "scaled_0.5": 0.17,
+   "scaled_2": 0.18,
+   "scaled_10": 24.15,
+   "nominal": 0.0
+  },
+  "iqm_t100/m2": {
+   "learned_100000": 0.23,
+   "learned_1000000": 0.06,
+   "learned_1000000_oracle_split": 0.06,
+   "graph_1000000": 87.52,
+   "scaled_0.5": 0.51,
+   "scaled_2": 0.44,
+   "scaled_10": 23.96,
+   "nominal": 0.0
+  },
+  "iqm_t100/m4": {
+   "learned_100000": 0.2,
+   "learned_1000000": 0.07,
+   "learned_1000000_oracle_split": 0.07,
+   "graph_1000000": 51.27,
+   "scaled_0.5": 0.25,
+   "scaled_2": 0.4,
+   "scaled_10": 21.68,
+   "nominal": 0.0
+  },
+  "ion_helios/m2": {
+   "learned_100000": 0.32,
+   "learned_1000000": 0.02,
+   "learned_1000000_oracle_split": 0.02,
+   "graph_1000000": 94.26,
+   "scaled_0.5": 0.0,
+   "scaled_2": -0.04,
+   "scaled_10": -0.0,
+   "nominal": 0.0
+  },
+  "ion_helios/m6": {
+   "learned_100000": 0.13,
+   "learned_1000000": -0.08,
+   "learned_1000000_oracle_split": -0.08,
+   "graph_1000000": 103.54,
+   "scaled_0.5": -0.01,
+   "scaled_2": -0.02,
+   "scaled_10": 0.07,
+   "nominal": 0.0
+  },
+  "ion_helios/m14": {
+   "learned_100000": 0.03,
+   "learned_1000000": -0.02,
+   "learned_1000000_oracle_split": -0.02,
+   "graph_1000000": 86.33,
+   "scaled_0.5": -0.0,
+   "scaled_2": 0.0,
+   "scaled_10": 0.15,
+   "nominal": 0.0
+  },
+  "iqm_garnet_het0.5/m0": {
+   "learned_100000": 77.01,
+   "learned_1000000": 77.01,
+   "learned_1000000_oracle_split": 0.02,
+   "graph_1000000": 80.1,
+   "scaled_0.5": -0.06,
+   "scaled_2": 0.01,
+   "scaled_10": 7.3,
+   "nominal": 73.54
+  },
+  "iqm_garnet_het0.5/m1": {
+   "learned_100000": 15.11,
+   "learned_1000000": 15.59,
+   "learned_1000000_oracle_split": 0.03,
+   "graph_1000000": 52.5,
+   "scaled_0.5": 0.16,
+   "scaled_2": 0.67,
+   "scaled_10": 16.38,
+   "nominal": 16.24
+  },
+  "iqm_garnet_het0.5/m2": {
+   "learned_100000": 12.32,
+   "learned_1000000": 11.77,
+   "learned_1000000_oracle_split": 0.1,
+   "graph_1000000": 55.49,
+   "scaled_0.5": 0.42,
+   "scaled_2": 1.52,
+   "scaled_10": 11.43,
+   "nominal": 12.73
+  },
+  "iqm_t100_het0.5/m1": {
+   "learned_100000": 4.46,
+   "learned_1000000": 4.52,
+   "learned_1000000_oracle_split": 0.04,
+   "graph_1000000": 57.87,
+   "scaled_0.5": 0.16,
+   "scaled_2": 0.21,
+   "scaled_10": 31.39,
+   "nominal": 5.46
+  },
+  "iqm_t100_het0.5/m2": {
+   "learned_100000": 4.65,
+   "learned_1000000": 4.14,
+   "learned_1000000_oracle_split": 0.11,
+   "graph_1000000": 96.81,
+   "scaled_0.5": 0.44,
+   "scaled_2": 0.57,
+   "scaled_10": 26.48,
+   "nominal": 4.29
+  },
+  "iqm_t100_het0.5/m4": {
+   "learned_100000": 2.67,
+   "learned_1000000": 2.12,
+   "learned_1000000_oracle_split": 0.07,
+   "graph_1000000": 56.93,
+   "scaled_0.5": 0.26,
+   "scaled_2": 0.79,
+   "scaled_10": 24.72,
+   "nominal": 2.24
+  }
+ },
+ "wall_seconds": 5.443639990997326
+}

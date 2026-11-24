@@ -1,0 +1,8 @@
+mode ref: noiseless reference values, p=1e-3 circuits
+   m=2: reference x0+x3 over 30 sequences: [0]; nonzero reference ancilla records: 0
+   m=10: reference x0+x3 over 30 sequences: [0]; nonzero reference ancilla records: 0
+   m=22: reference x0+x3 over 30 sequences: [0]; nonzero reference ancilla records: 0
+
+real	0m13.283s
+user	0m14.174s
+sys	0m3.261s

@@ -1,0 +1,288 @@
+(a) |Clifford group mod phase| = 216
+    frame potential (2-design iff 2): 2.000000000000
+(b) fixed lossy map, no twirl
+    |eigenvalues| of E: [0.95383 0.90126 0.86756 0.86756 0.83774 0.83003 0.75887 0.73738 0.73738]
+    windowed rate m=0->1: 0.928261, m=10->11: 0.912515, m=39->40: 0.984272
+    r(40) = 0.083187 (a non-zero limit means the Perron eigenvector overlaps O: quasi-stationary state)
+    r(200) = 0.064305, r(400) = 0.064302; Perron-vector prediction tr[O v1]/tr[v1] = 0.064302
+(c) twirled lossy map
+    E_tw = a Id + b Dep with a=0.825985, b=0.057349 (fit residual 1.0e-15); tr E_tw(r) = (a+b) tr r for all r
+    max_m |r(m) - (a/(a+b))^m| = 1.33e-15
+(d) acceptance independent of state: E^dag(I) eigenvalues [0.8 0.8 0.8], a+b = tr E^dag(I)/d = 0.800000
+    exact ratio of averages E[N]/E[D] vs (a/(a+b))^m: max rel dev 1.1e-14
+    Monte Carlo ratio of averages: max rel dev 3.38e-04; effective sample size of D at m=30: 40000 of 40000
+    mean of ratios: single-exp fit f=0.957830 vs a/(a+b)=0.957829; chi2/dof = 0.31; mean-of-ratios minus (a/(a+b))^m at m=30: +7.15e-06 (se 1.2e-04)
+    experiment-like mean|N/D| minus |mean N/D| at m=30: +8.0e-04 (phase-noise bias; zero for the real, Pauli-symmetric LRB-D statistic)
+(d) acceptance depends on state: E^dag(I) eigenvalues [0.25 0.55 1.  ], a+b = tr E^dag(I)/d = 0.600000
+    exact ratio of averages E[N]/E[D] vs (a/(a+b))^m: max rel dev 3.4e-14
+    Monte Carlo ratio of averages: max rel dev 1.07e-01; effective sample size of D at m=30: 11112 of 40000
+    mean of ratios: single-exp fit f=0.867979 vs a/(a+b)=0.882216; chi2/dof = 28.88; mean-of-ratios minus (a/(a+b))^m at m=30: -1.14e-02 (se 1.2e-03)
+    experiment-like mean|N/D| minus |mean N/D| at m=30: +3.0e-01 (phase-noise bias; zero for the real, Pauli-symmetric LRB-D statistic)
+
+real	0m6.735s
+user	0m3.303s
+sys	0m3.170s
+
+=== p = 0.001: q_check = 0.012, q_meas = 0.007, q_inverse = 0.003 ===
+ protocol       F(0)      F(2)      F(12)     F(24)    acc(24)   rate(2->4) rate(22->24) single-exp max dev
+ det-unif-1   0.986526  0.986472  0.986082  0.985318  0.0790   0.999970   0.999921   9.14e-05
+ det-unif-4   0.986526  0.986315  0.985530  0.984214  0.1317   0.999813   1.000667   5.05e-04
+ det-const-1  0.986526  0.986315  0.981121  0.957639  0.1680   0.999813   0.996797   6.15e-03
+ cor-unif-1   0.981553  0.955182  0.828972  0.694115  1.0000   0.986231   0.985039   2.27e-03
+ cor-unif-4   0.981553  0.953356  0.816498  0.672588  1.0000   0.983157   0.998145   9.22e-03
+ cor-const-1  0.981553  0.953356  0.763797  0.534132  1.0000   0.983157   0.968486   2.99e-02
+ forward one-step operator (det): |lambda| top 4 = [0.915356 0.915343 0.915343 0.003261]; readout-carrying modes (|lambda|, weight) = [(0.915356, 3e-11), (0.915343, 1.0), (0.003246, 5.4e-05), (0.003221, 1.1e-11)]
+ forward one-step operator (cor): |lambda| top 4 = [1.       0.989038 0.989038 0.016228]; readout-carrying modes (|lambda|, weight) = [(0.989038, 0.99), (0.989038, 0.12), (0.016228, 3.5e-05), (0.015329, 0.00044)]
+
+=== p = 0.005: q_check = 0.06, q_meas = 0.035, q_inverse = 0.015 ===
+ protocol       F(0)      F(2)      F(12)     F(24)    acc(24)   rate(2->4) rate(22->24) single-exp max dev
+ det-unif-1   0.933133  0.931587  0.918853  0.883595  0.0000   0.999069   0.995282   7.70e-03
+ det-unif-4   0.933133  0.926005  0.895677  0.839104  0.0000   0.991356   1.070948   4.94e-02
+ det-const-1  0.933133  0.926005  0.493714  0.039181  0.0126   0.991356   0.806237   4.27e-01
+ cor-unif-1   0.900894  0.701279  0.212545  0.047341  1.0000   0.890696   0.880846   2.24e-02
+ cor-unif-4   0.900894  0.709866  0.188400  0.036362  1.0000   0.862730   0.962803   5.98e-02
+ cor-const-1  0.900894  0.709866  0.125256  0.014085  1.0000   0.862730   0.835536   5.80e-02
+ forward one-step operator (det): |lambda| top 4 = [0.636796 0.636524 0.636524 0.012214]; readout-carrying modes (|lambda|, weight) = [(0.636796, 1.2e-12), (0.636524, 0.65), (0.636524, 0.88), (0.011908, 0.0015)]
+ forward one-step operator (cor): |lambda| top 4 = [1.       0.910331 0.910331 0.07496 ]; readout-carrying modes (|lambda|, weight) = [(0.910331, 0.61), (0.910331, 1.2), (0.07496, 0.0006), (0.053491, 0.033)]
+
+real	1m18.045s
+user	1m16.921s
+sys	0m0.328s
+/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b/docs/correction-decoders/qutrit-512/notes/scripts/A4_fit_battery.py:145: RuntimeWarning: invalid value encountered in divide
+  frac_shot = np.where(v_tot > 0, v_shot / v_tot, np.nan)
+
+p = 0.0005
+  unif1  T0 shot-var fraction m=2,22: 0.84,1.09 | T1 chi2 M1=    11.5 M4=   11.1 M3=   10.7 (n=8) bestAIC=M1 bestBIC=M1 F-test p=6.8e-01 | T2 d=-1.26e-07 CI[-5.1e-07,+3.0e-07] | T3 drift=+2.28e-05 CI[-1.6e-05,+6.3e-05] | T4 DeltaM=+7.11e-05 CI[-1.2e-04,+2.9e-04] | T5 z0=+2.4
+  unif2  T0 shot-var fraction m=2,22: 0.92,1.10 | T1 chi2 M1=    11.1 M4=   10.6 M3=   10.0 (n=8) bestAIC=M1 bestBIC=M1 F-test p=6.6e-01 | T2 d=-1.26e-07 CI[-4.8e-07,+2.6e-07] | T3 drift=+1.03e-05 CI[-2.2e-05,+4.3e-05] | T4 DeltaM=+4.53e-05 CI[-1.6e-04,+2.4e-04] | T5 z0=+1.9
+  unif3  T0 shot-var fraction m=2,22: 0.90,0.91 | T1 chi2 M1=    11.3 M4=   11.3 M3=    6.4 (n=8) bestAIC=M3 bestBIC=M3 F-test p=9.5e-01 | T2 d=+1.68e-08 CI[-3.1e-07,+3.2e-07] | T3 drift=+6.02e-06 CI[-3.1e-05,+4.4e-05] | T4 DeltaM=-1.56e-04 CI[-3.5e-04,+4.3e-05] | T5 z0=+2.9 | T6 e=+1.89e-05 CI[+3.8e-06,+3.5e-05] chi2 11.3->5.3
+  unif4  T0 shot-var fraction m=2,22: 0.90,1.23 | T1 chi2 M1=    28.0 M4=   24.2 M3=   23.1 (n=8) bestAIC=M4 bestBIC=M4 F-test p=4.2e-01 | T2 d=-3.47e-07 CI[-6.6e-07,-1.6e-08] | T3 drift=-4.53e-05 CI[-8.0e-05,-1.1e-05] | T4 DeltaM=+1.43e-06 CI[-1.9e-04,+1.9e-04] | T5 z0=+2.9 | T6 e=+3.15e-05 CI[+1.9e-05,+4.5e-05] chi2 28.0->7.1
+  unif6  T0 shot-var fraction m=2,22: 0.90,1.16 | T1 chi2 M1=    37.3 M4=   36.3 M3=   36.3 (n=8) bestAIC=M1 bestBIC=M1 F-test p=7.3e-01 | T2 d=+1.85e-07 CI[-2.9e-07,+6.4e-07] | T3 drift=-4.12e-05 CI[-7.4e-05,-1.2e-05] | T4 DeltaM=-1.89e-04 CI[-4.1e-04,+6.2e-05] | T5 z0=+2.3 | T6 e=+1.89e-05 CI[+1.1e-05,+2.7e-05] chi2 37.3->16.6
+  const1  T0 shot-var fraction m=2,22: 0.90,0.35 | T1 chi2 M1=  1621.4 M4=    7.5 M3=    9.1 (n=8) bestAIC=M4 bestBIC=M4 F-test p=5.0e-07 | T2 d=+1.01e-05 CI[+9.6e-06,+1.1e-05] | T3 drift=-3.88e-04 CI[-4.3e-04,-3.5e-04] | T4 DeltaM=-3.21e-03 CI[-3.4e-03,-3.0e-03] | T5 z0=-46.4
+  const2  T0 shot-var fraction m=2,22: 0.83,0.67 | T1 chi2 M1=   366.6 M4=    7.3 M3=    6.6 (n=8) bestAIC=M4 bestBIC=M4 F-test p=1.9e-05 | T2 d=+3.97e-06 CI[+3.5e-06,+4.4e-06] | T3 drift=-1.53e-04 CI[-1.8e-04,-1.2e-04] | T4 DeltaM=-1.29e-03 CI[-1.5e-03,-1.1e-03] | T5 z0=-21.2
+  const3  T0 shot-var fraction m=2,22: 0.90,0.76 | T1 chi2 M1=   166.3 M4=   12.0 M3=    4.2 (n=8) bestAIC=M3 bestBIC=M3 F-test p=4.9e-04 | T2 d=+2.43e-06 CI[+2.0e-06,+2.9e-06] | T3 drift=-7.20e-05 CI[-1.0e-04,-4.4e-05] | T4 DeltaM=-9.79e-04 CI[-1.2e-03,-8.1e-04] | T5 z0=-11.1
+  const4  T0 shot-var fraction m=2,22: 0.90,0.84 | T1 chi2 M1=    81.1 M4=   40.1 M3=   35.6 (n=8) bestAIC=M3 bestBIC=M3 F-test p=7.3e-02 | T2 d=+1.25e-06 CI[+9.0e-07,+1.6e-06] | T3 drift=-1.41e-04 CI[-1.8e-04,-1.0e-04] | T4 DeltaM=-5.15e-04 CI[-6.9e-04,-3.3e-04] | T5 z0=-5.8
+  const0  T0 shot-var fraction m=2,22: 0.59,0.18 | T1 chi2 M1=   595.4 M4=    3.1 M3=    1.8 (n=8) bestAIC=M4 bestBIC=M4 F-test p=6.9e-07 | T2 d=+6.06e-07 CI[+5.4e-07,+6.7e-07] | T3 drift=-2.10e-05 CI[-2.6e-05,-1.6e-05] | T4 DeltaM=-2.03e-04 CI[-2.2e-04,-1.8e-04] | T5 n/a
+
+p = 0.001
+  unif1  T0 shot-var fraction m=2,22: 0.81,0.92 | T1 chi2 M1=    11.3 M4=   11.3 M3=    7.1 (n=8) bestAIC=M3 bestBIC=M3 F-test p=8.9e-01 | T2 d=-9.33e-08 CI[-8.9e-07,+7.3e-07] | T3 drift=-6.72e-05 CI[-2.0e-04,+5.6e-05] | T4 DeltaM=-1.51e-04 CI[-4.9e-04,+1.9e-04] | T5 z0=+2.7
+  unif2  T0 shot-var fraction m=2,22: 0.78,0.59 | T1 chi2 M1=     7.3 M4=    7.1 M3=    5.1 (n=8) bestAIC=M1 bestBIC=M1 F-test p=6.9e-01 | T2 d=-2.01e-07 CI[-9.6e-07,+5.9e-07] | T3 drift=-5.74e-05 CI[-1.8e-04,+5.6e-05] | T4 DeltaM=-8.20e-05 CI[-4.2e-04,+2.1e-04] | T5 z0=+1.8
+  unif3  T0 shot-var fraction m=2,22: 0.64,0.68 | T1 chi2 M1=    81.6 M4=   79.2 M3=   47.7 (n=8) bestAIC=M3 bestBIC=M3 F-test p=7.1e-01 | T2 d=+6.51e-07 CI[-3.2e-07,+1.7e-06] | T3 drift=+3.47e-05 CI[-7.1e-05,+1.4e-04] | T4 DeltaM=-9.18e-04 CI[-1.2e-03,-6.3e-04] | T5 z0=+4.5 | T6 e=+1.34e-04 CI[+1.1e-04,+1.6e-04] chi2 81.6->11.7
+  unif4  T0 shot-var fraction m=2,22: 0.64,0.50 | T1 chi2 M1=    75.1 M4=   73.2 M3=   56.9 (n=8) bestAIC=M3 bestBIC=M3 F-test p=7.4e-01 | T2 d=-6.02e-07 CI[-1.5e-06,+2.8e-07] | T3 drift=-2.86e-04 CI[-4.0e-04,-1.8e-04] | T4 DeltaM=-2.87e-04 CI[-7.2e-04,+9.3e-05] | T5 z0=+2.8 | T6 e=+1.32e-04 CI[+9.8e-05,+1.6e-04] chi2 75.1->1.7
+  unif6  T0 shot-var fraction m=2,22: 0.64,0.47 | T1 chi2 M1=   112.2 M4=  112.1 M3=  109.5 (n=8) bestAIC=M1 bestBIC=M1 F-test p=9.7e-01 | T2 d=+8.51e-08 CI[-1.2e-06,+1.3e-06] | T3 drift=-1.82e-04 CI[-2.9e-04,-8.3e-05] | T4 DeltaM=-8.60e-04 CI[-1.3e-03,-4.8e-04] | T5 z0=+3.9 | T6 e=+9.42e-05 CI[+7.5e-05,+1.1e-04] chi2 112.2->20.0
+  const1  T0 shot-var fraction m=2,22: 0.64,0.13 | T1 chi2 M1=  5460.6 M4=   68.4 M3=  128.4 (n=8) bestAIC=M4 bestBIC=M4 F-test p=6.0e-06 | T2 d=+5.97e-05 CI[+5.8e-05,+6.2e-05] | T3 drift=-2.58e-03 CI[-2.7e-03,-2.4e-03] | T4 DeltaM=-1.93e-02 CI[-2.0e-02,-1.9e-02] | T5 z0=-143.6
+  const2  T0 shot-var fraction m=2,22: 0.71,0.29 | T1 chi2 M1=  1435.9 M4=    5.2 M3=    8.0 (n=8) bestAIC=M4 bestBIC=M4 F-test p=2.7e-07 | T2 d=+2.04e-05 CI[+1.9e-05,+2.1e-05] | T3 drift=-8.44e-04 CI[-9.5e-04,-7.3e-04] | T4 DeltaM=-6.55e-03 CI[-7.0e-03,-6.1e-03] | T5 z0=-62.8
+  const3  T0 shot-var fraction m=2,22: 0.64,0.38 | T1 chi2 M1=   684.1 M4=   87.7 M3=   64.2 (n=8) bestAIC=M3 bestBIC=M3 F-test p=2.1e-03 | T2 d=+1.19e-05 CI[+1.1e-05,+1.3e-05] | T3 drift=-3.60e-04 CI[-4.7e-04,-2.6e-04] | T4 DeltaM=-4.51e-03 CI[-4.9e-03,-4.2e-03] | T5 z0=-34.4
+  const4  T0 shot-var fraction m=2,22: 0.64,0.53 | T1 chi2 M1=   346.2 M4=  148.9 M3=  122.7 (n=8) bestAIC=M3 bestBIC=M3 F-test p=5.0e-02 | T2 d=+6.21e-06 CI[+5.0e-06,+7.3e-06] | T3 drift=-7.32e-04 CI[-8.3e-04,-6.4e-04] | T4 DeltaM=-2.42e-03 CI[-3.0e-03,-1.8e-03] | T5 z0=-22.5
+  const0  T0 shot-var fraction m=2,22: 0.33,0.06 | T1 chi2 M1=   631.9 M4=    1.5 M3=    1.8 (n=8) bestAIC=M4 bestBIC=M4 F-test p=9.2e-08 | T2 d=+2.37e-06 CI[+2.2e-06,+2.5e-06] | T3 drift=-9.11e-05 CI[-1.1e-04,-7.6e-05] | T4 DeltaM=-8.05e-04 CI[-8.5e-04,-7.6e-04] | T5 n/a
+
+p = 0.002
+  unif1  T0 shot-var fraction m=2,22: 0.64,0.96 | T1 chi2 M1=     6.2 M4=    6.2 M3=    5.6 (n=8) bestAIC=M1 bestBIC=M1 F-test p=9.5e-01 | T2 d=-9.61e-08 CI[-2.2e-06,+2.3e-06] | T3 drift=+6.12e-05 CI[-3.8e-04,+4.3e-04] | T4 DeltaM=+5.18e-04 CI[-3.3e-04,+1.4e-03] | T5 z0=+6.6
+  unif2  T0 shot-var fraction m=2,22: 0.57,0.78 | T1 chi2 M1=     4.1 M4=    3.3 M3=    3.3 (n=8) bestAIC=M1 bestBIC=M1 F-test p=3.3e-01 | T2 d=+8.57e-07 CI[-1.4e-06,+3.1e-06] | T3 drift=-1.48e-04 CI[-4.3e-04,+1.3e-04] | T4 DeltaM=-8.23e-05 CI[-1.0e-03,+9.7e-04] | T5 z0=+1.2
+  unif3  T0 shot-var fraction m=2,22: 0.50,0.59 | T1 chi2 M1=   119.4 M4=   90.1 M3=   64.7 (n=8) bestAIC=M3 bestBIC=M3 F-test p=2.6e-01 | T2 d=+6.01e-06 CI[+3.3e-06,+8.7e-06] | T3 drift=+2.70e-04 CI[-2.7e-05,+5.6e-04] | T4 DeltaM=-3.03e-03 CI[-3.9e-03,-2.1e-03] | T5 z0=+14.0 | T6 e=+4.38e-04 CI[+3.4e-04,+5.2e-04] chi2 119.4->13.6
+  unif4  T0 shot-var fraction m=2,22: 0.50,0.94 | T1 chi2 M1=   103.0 M4=  102.5 M3=   80.3 (n=8) bestAIC=M3 bestBIC=M3 F-test p=8.8e-01 | T2 d=-7.43e-07 CI[-3.6e-06,+2.1e-06] | T3 drift=-1.01e-03 CI[-1.3e-03,-7.6e-04] | T4 DeltaM=-1.31e-03 CI[-2.7e-03,-8.9e-06] | T5 z0=+4.8 | T6 e=+3.69e-04 CI[+2.9e-04,+4.4e-04] chi2 103.1->8.7
+  unif6  T0 shot-var fraction m=2,22: 0.50,0.66 | T1 chi2 M1=   310.2 M4=  299.9 M3=  271.8 (n=8) bestAIC=M3 bestBIC=M3 F-test p=7.0e-01 | T2 d=-4.20e-06 CI[-8.8e-06,+7.1e-07] | T3 drift=-5.76e-04 CI[-8.2e-04,-3.3e-04] | T4 DeltaM=-2.23e-03 CI[-4.1e-03,-3.6e-04] | T5 z0=-7.3 | T6 e=+4.73e-04 CI[+4.3e-04,+5.2e-04] chi2 310.1->32.2
+  const1  T0 shot-var fraction m=2,22: 0.50,0.11 | T1 chi2 M1= 21207.5 M4= 1132.2 M3= 2368.9 (n=8) bestAIC=M4 bestBIC=M4 F-test p=2.3e-04 | T2 d=+4.59e-04 CI[+4.3e-04,+4.8e-04] | T3 drift=-2.44e-02 CI[-2.5e-02,-2.4e-02] | T4 DeltaM=-1.49e-01 CI[-1.5e-01,-1.5e-01] | T5 z0=-348.0
+  const2  T0 shot-var fraction m=2,22: 0.56,0.38 | T1 chi2 M1=  6117.5 M4=   84.8 M3=  184.1 (n=8) bestAIC=M4 bestBIC=M4 F-test p=7.7e-06 | T2 d=+1.26e-04 CI[+1.2e-04,+1.3e-04] | T3 drift=-4.94e-03 CI[-5.4e-03,-4.5e-03] | T4 DeltaM=-3.83e-02 CI[-4.0e-02,-3.7e-02] | T5 z0=-151.3
+  const3  T0 shot-var fraction m=2,22: 0.50,0.61 | T1 chi2 M1=  2828.3 M4=  104.4 M3=  100.1 (n=8) bestAIC=M3 bestBIC=M3 F-test p=9.0e-05 | T2 d=+7.13e-05 CI[+6.8e-05,+7.4e-05] | T3 drift=-1.42e-03 CI[-1.7e-03,-1.1e-03] | T4 DeltaM=-2.27e-02 CI[-2.4e-02,-2.2e-02] | T5 z0=-80.5
+  const4  T0 shot-var fraction m=2,22: 0.50,0.52 | T1 chi2 M1=   991.0 M4=  258.1 M3=  215.9 (n=8) bestAIC=M3 bestBIC=M3 F-test p=1.3e-02 | T2 d=+3.58e-05 CI[+3.2e-05,+4.1e-05] | T3 drift=-3.54e-03 CI[-3.8e-03,-3.2e-03] | T4 DeltaM=-1.45e-02 CI[-1.7e-02,-1.3e-02] | T5 z0=-49.1
+  const0  T0 shot-var fraction m=2,22: 0.11,0.02 | T1 chi2 M1=   779.3 M4=    0.7 M3=    1.5 (n=8) bestAIC=M4 bestBIC=M4 F-test p=9.7e-09 | T2 d=+1.04e-05 CI[+9.8e-06,+1.1e-05] | T3 drift=-4.21e-04 CI[-4.7e-04,-3.7e-04] | T4 DeltaM=-3.58e-03 CI[-3.8e-03,-3.4e-03] | T5 n/a
+
+p = 0.005
+  unif1: too few accepted shots at some depth; skip
+  unif2: too few accepted shots at some depth; skip
+  unif3  T0 shot-var fraction m=2,22: 0.12,1.08 | T1 chi2 M1=   230.6 M4=   74.4 M3=   42.8 (n=8) bestAIC=M3 bestBIC=M3 F-test p=2.3e-02 | T2 d=+1.63e-04 CI[+1.2e-04,+1.9e-04] | T3 drift=+9.23e-03 CI[-6.9e-04,+2.0e-02] | T4 DeltaM=-2.31e-02 CI[-3.6e-02,-9.9e-03] | T5 z0=+85.6 | T6 e=+3.78e-03 CI[+3.4e-03,+4.2e-03] chi2 229.2->16.7
+  unif4  T0 shot-var fraction m=2,22: 0.12,1.37 | T1 chi2 M1=   288.6 M4=  235.5 M3=   70.5 (n=8) bestAIC=M3 bestBIC=M3 F-test p=3.4e-01 | T2 d=+9.44e-05 CI[+5.0e-05,+1.3e-04] | T3 drift=-9.44e-03 CI[-1.7e-02,-1.8e-03] | T4 DeltaM=-1.70e-02 CI[-3.0e-02,-3.3e-03] | T5 z0=-1.9 | T6 e=+3.21e-03 CI[+3.0e-03,+3.5e-03] chi2 289.3->6.6
+  unif6  T0 shot-var fraction m=2,22: 0.12,1.14 | T1 chi2 M1=   496.6 M4=  489.8 M3=  447.8 (n=8) bestAIC=M3 bestBIC=M3 F-test p=8.0e-01 | T2 d=-3.87e-05 CI[-9.0e-05,+2.3e-05] | T3 drift=+3.38e-04 CI[-9.1e-03,+1.0e-02] | T4 DeltaM=-1.50e-02 CI[-3.1e-02,+1.9e-04] | T5 z0=-102.2 | T6 e=+4.24e-03 CI[+4.0e-03,+4.5e-03] chi2 494.6->28.4
+  const1  T0 shot-var fraction m=2,22: 0.12,0.57 | T1 chi2 M1= 86532.4 M4=  793.8 M3=11344.7 (n=8) bestAIC=M4 bestBIC=M4 F-test p=2.7e-06 | T2 d=+7.64e-03 CI[+7.3e-03,+7.8e-03] | T3 drift=-2.65e-01 CI[-2.9e-01,-2.4e-01] | T4 DeltaM=-6.45e-01 CI[-6.5e-01,-6.4e-01] | T5 z0=-3117.7
+  const2  T0 shot-var fraction m=2,22: 0.16,0.70 | T1 chi2 M1= 15666.3 M4=  691.5 M3= 2236.3 (n=8) bestAIC=M4 bestBIC=M4 F-test p=1.4e-04 | T2 d=+2.05e-03 CI[+1.9e-03,+2.1e-03] | T3 drift=-1.13e-01 CI[-1.2e-01,-1.0e-01] | T4 DeltaM=-4.74e-01 CI[-4.9e-01,-4.6e-01] | T5 z0=-686.5
+  const3  T0 shot-var fraction m=2,22: 0.12,1.07 | T1 chi2 M1=  5922.4 M4=  341.7 M3=  564.2 (n=8) bestAIC=M4 bestBIC=M4 F-test p=2.8e-04 | T2 d=+1.04e-03 CI[+9.9e-04,+1.1e-03] | T3 drift=-2.17e-02 CI[-3.4e-02,-1.1e-02] | T4 DeltaM=-2.74e-01 CI[-2.9e-01,-2.6e-01] | T5 z0=-248.5
+  const4  T0 shot-var fraction m=2,22: 0.12,0.73 | T1 chi2 M1=  2644.3 M4=  493.3 M3=  253.3 (n=8) bestAIC=M3 bestBIC=M3 F-test p=5.5e-03 | T2 d=+6.59e-04 CI[+6.1e-04,+7.1e-04] | T3 drift=-5.57e-02 CI[-6.7e-02,-4.4e-02] | T4 DeltaM=-1.86e-01 CI[-2.1e-01,-1.7e-01] | T5 z0=-198.7
+  const0  T0 shot-var fraction m=2,22: 0.02,0.00 | T1 chi2 M1=   832.5 M4=    3.8 M3=    9.6 (n=8) bestAIC=M4 bestBIC=M4 F-test p=4.7e-07 | T2 d=+8.06e-05 CI[+7.5e-05,+8.7e-05] | T3 drift=-3.28e-03 CI[-3.7e-03,-2.9e-03] | T4 DeltaM=-2.74e-02 CI[-2.9e-02,-2.6e-02] | T5 n/a
+
+real	0m43.837s
+user	0m42.750s
+sys	0m0.449s
+seq 0 m= 0 done  t=   3.4s
+seq 0 m= 2 done  t=   3.6s
+seq 0 m= 4 done  t=   4.2s
+seq 0 m= 6 done  t=   5.1s
+seq 0 m=10 done  t=   7.1s
+seq 0 m=14 done  t=  10.4s
+seq 0 m=18 done  t=  15.2s
+seq 0 m=20 done  t=  20.8s
+seq 0 m=22 done  t=  27.5s
+seq 1 m= 0 done  t=  27.6s
+seq 1 m= 2 done  t=  27.8s
+seq 1 m= 4 done  t=  28.4s
+seq 1 m= 6 done  t=  29.2s
+seq 1 m=10 done  t=  31.1s
+seq 1 m=14 done  t=  34.1s
+seq 1 m=18 done  t=  39.0s
+seq 1 m=20 done  t=  44.7s
+seq 1 m=22 done  t=  51.7s
+seq 2 m= 0 done  t=  51.7s
+seq 2 m= 2 done  t=  52.0s
+seq 2 m= 4 done  t=  52.6s
+seq 2 m= 6 done  t=  53.5s
+seq 2 m=10 done  t=  55.4s
+seq 2 m=14 done  t=  58.8s
+seq 2 m=18 done  t=  63.9s
+seq 2 m=20 done  t=  69.9s
+seq 2 m=22 done  t=  77.0s
+seq 3 m= 0 done  t=  77.1s
+seq 3 m= 2 done  t=  77.3s
+seq 3 m= 4 done  t=  77.9s
+seq 3 m= 6 done  t=  78.8s
+seq 3 m=10 done  t=  80.8s
+seq 3 m=14 done  t=  84.0s
+seq 3 m=18 done  t=  89.2s
+seq 3 m=20 done  t=  95.0s
+seq 3 m=22 done  t= 102.0s
+seq 4 m= 0 done  t= 102.0s
+seq 4 m= 2 done  t= 102.3s
+seq 4 m= 4 done  t= 103.0s
+seq 4 m= 6 done  t= 103.9s
+seq 4 m=10 done  t= 105.7s
+seq 4 m=14 done  t= 108.8s
+seq 4 m=18 done  t= 113.5s
+seq 4 m=20 done  t= 119.2s
+seq 4 m=22 done  t= 125.9s
+seq 5 m= 0 done  t= 126.0s
+seq 5 m= 2 done  t= 126.2s
+seq 5 m= 4 done  t= 126.8s
+seq 5 m= 6 done  t= 127.8s
+seq 5 m=10 done  t= 129.6s
+seq 5 m=14 done  t= 132.7s
+seq 5 m=18 done  t= 137.5s
+seq 5 m=20 done  t= 143.3s
+seq 5 m=22 done  t= 149.9s
+/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b/docs/correction-decoders/qutrit-512/notes/scripts/A4_exact_lrbd.py:381: RuntimeWarning: invalid value encountered in divide
+  zA = (A_obs - A_pred) / np.sqrt(A_pred * (1 - A_pred) / tot)
+/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b/docs/correction-decoders/qutrit-512/notes/scripts/A4_exact_lrbd.py:384: RuntimeWarning: divide by zero encountered in divide
+  zF = (F_obs - F_pred) / np.sqrt(np.maximum(var, 1e-300) / n_acc)
+
+Validation against baseline per-sequence counts
+ p= 0.0010: acceptance z mean -0.135 sd 0.924 max|z| 2.81 | fidelity z mean -0.081 sd 1.109 max|z| 2.87  (n=480)
+ p= 0.0050: acceptance z mean +0.028 sd 1.055 max|z| 3.37 | fidelity z mean -0.009 sd 0.950 max|z| 4.10  (n=480)
+ p= 0.0100: acceptance z mean +0.033 sd 0.962 max|z| 5.48 | fidelity z mean +0.395 sd 0.882 max|z| 2.84  (n=480)
+ p= 0.0200: acceptance z mean -0.056 sd 0.984 max|z| 11.23 | fidelity z mean +0.340 sd 0.826 max|z| 2.80  (n=480)
+total time 150.0s; wrote <local scratch, not kept>
+
+real	2m34.654s
+user	2m27.035s
+sys	0m2.279s
+/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b/docs/correction-decoders/qutrit-512/notes/scripts/A4_analyze_exact.py:34: RuntimeWarning: invalid value encountered in divide
+  zA = (A_obs - A_pred) / np.sqrt(A_pred * (1 - A_pred) / tot)
+sequences [0, 1, 2, 3, 4, 5]; depths [0, 2, 4, 6, 10, 14, 18, 20, 22]; policies ['unif1', 'unif2', 'unif3', 'unif4', 'unif6', 'const1', 'const2', 'const3', 'const4']
+
+1. Validation (cells with >= 1000 accepted shots)
+  p=0.0010: acceptance z mean -0.159 sd 0.978 max|z| 2.81 (n=534); fidelity z mean -0.096 sd 1.070 max|z| 2.87 (n=534)
+  p=0.0050: acceptance z mean -0.016 sd 1.073 max|z| 3.37 (n=402); fidelity z mean -0.016 sd 0.952 max|z| 2.49 (n=402)
+  p=0.0100: acceptance z mean -0.035 sd 0.980 max|z| 2.57 (n=288); fidelity z mean +0.310 sd 1.018 max|z| 2.64 (n=288)
+  p=0.0200: acceptance z mean -0.135 sd 0.836 max|z| 2.56 (n=215); fidelity z mean +0.178 sd 0.915 max|z| 2.80 (n=215)
+  (cells are counted once per policy; policies that use the same rounds share shots, so the z's are not independent)
+
+2. Small-p coefficients (mean over sequences; m = depth)
+  unif1   a1(m) = [7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425]
+          a2(m) = [111.2 201.2 262.  318.  409.9 516.2 622.8 668.6 762.1]
+          a2 fit alpha=164.8 beta=22.74 gamma=0.166  (gamma m^2/beta m at m=22: 0.16)
+          c1(m) = [  63.15  285.82  508.88  732.52 1182.75 1630.48 2080.02 2301.15 2526.38]; linear fit c1 = 61.17 + 112.069 m;  c2(m=22) = -268.7
+  unif2   a1(m) = [7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425]
+          a2(m) = [ 111.2  217.7  322.6  427.5  604.2  807.3  993.7 1087.9 1224.7]
+          a2 fit alpha=135.2 beta=45.75 gamma=0.136  (gamma m^2/beta m at m=22: 0.07)
+          c1(m) = [  63.15  252.82  434.88  617.52  985.75 1351.48 1719.02 1899.15 2083.38]; linear fit c1 = 69.17 + 91.569 m;  c2(m=22) = -1328.6
+  unif3   a1(m) = [7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425]
+          a2(m) = [ 111.2  401.6  474.2  539.7  900.7 1379.  1376.7 1794.5 1832.3]
+          a2 fit alpha=208.5 beta=68.26 gamma=0.306  (gamma m^2/beta m at m=22: 0.10)
+          c1(m) = [  63.15  211.82  393.88  576.52  903.75 1228.48 1596.02 1735.15 1919.38]; linear fit c1 = 53.79 + 84.736 m;  c2(m=22) = -2719.8
+  unif4   a1(m) = [7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425]
+          a2(m) = [ 111.2  401.6  451.9  813.4 1215.7 1640.6 2016.1 1975.3 2472.9]
+          a2 fit alpha=128.7 beta=110.68 gamma=-0.428  (gamma m^2/beta m at m=22: -0.09)
+          c1(m) = [  63.15  211.82  393.88  535.52  862.75 1187.48 1514.02 1694.15 1837.38]; linear fit c1 = 53.79 + 81.319 m;  c2(m=22) = -4104.0
+  unif6   a1(m) = [7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425]
+          a2(m) = [ 111.2  401.6  900.7  892.8 1815.8 2151.1 2569.8 2987.7 3699.1]
+          a2 fit alpha=272.5 beta=116.62 gamma=1.309  (gamma m^2/beta m at m=22: 0.25)
+          c1(m) = [  63.15  211.82  352.88  535.52  821.75 1146.48 1473.02 1612.15 1755.38]; linear fit c1 = 53.79 + 77.903 m;  c2(m=22) = -6887.4
+  const1  a1(m) = [7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.426]
+          a2(m) = [  111.2   401.6   900.7  1604.5  3641.7  6604.6 10315.6 12491.8 15005.6]
+          a2 fit alpha=133.3 beta=83.53 gamma=26.846  (gamma m^2/beta m at m=22: 7.07)
+          c1(m) = [  63.15  211.82  352.88  494.52  780.75 1064.48 1350.02 1489.15 1632.38]; linear fit c1 = 69.17 + 71.069 m;  c2(m=22) = -32628.7
+  const2  a1(m) = [7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425]
+          a2(m) = [ 111.2  324.1  570.7  937.3 1946.8 3407.4 5266.5 6366.9 7654.5]
+          a2 fit alpha=207.4 beta=36.96 gamma=13.633  (gamma m^2/beta m at m=22: 8.11)
+          c1(m) = [  63.15  244.82  393.88  535.52  821.75 1105.48 1391.02 1530.15 1673.38]; linear fit c1 = 106.82 + 71.265 m;  c2(m=22) = -15797.1
+  const3  a1(m) = [7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425]
+          a2(m) = [ 111.2  401.6  554.2  684.2 1462.7 2633.9 3584.2 4603.8 5262.4]
+          a2 fit alpha=253.2 beta=35.84 gamma=8.796  (gamma m^2/beta m at m=22: 5.40)
+          c1(m) = [  63.15  211.82  426.88  576.52  862.75 1146.48 1432.02 1571.15 1714.38]; linear fit c1 = 113.92 + 73.236 m;  c2(m=22) = -10491.1
+  const4  a1(m) = [7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425 7.425]
+          a2(m) = [ 111.2  401.6  397.4  860.5 1350.5 2120.5 3073.7 3241.9 4254.8]
+          a2 fit alpha=219.7 beta=58.66 gamma=5.328  (gamma m^2/beta m at m=22: 2.00)
+          c1(m) = [  63.15  211.82  467.88  609.52  903.75 1187.48 1473.02 1612.15 1755.38]; linear fit c1 = 135.32 + 74.358 m;  c2(m=22) = -8102.9
+  const0  a1(m) = [0.000e+00 4.580e-11 6.255e-10 2.930e-09 2.434e-08 9.337e-08 2.583e-07
+ 3.660e-07 5.513e-07]
+          a2(m) = [   0.     8.3   33.6   76.   226.9  444.2  746.5  895.5 1098.8]
+          a2 fit alpha=-4.8 beta=0.72 gamma=2.243  (gamma m^2/beta m at m=22: 68.18)
+          c1(m) = [  0.    15.92  32.17  48.95  84.95 118.93 154.33 168.94 187.14]; linear fit c1 = -1.72 + 8.595 m;  c2(m=22) = -2186.3
+
+3. Exact-curve shape at p = 1e-3 and 5e-3 (mean over sequences of per-sequence curves)
+  p = 0.001
+   policy   F(2)      F(22)     rate 2->4  rate 20->22 curv d [b e^{-cm-dm^2}]  hybrid F(2) F(22) rate2->4 rate20->22  acc_det(22) acc_hyb(22)
+   unif1   0.992398  0.991816  0.999969   0.999951    +1.88e-07            0.96277 0.92995 0.99796 0.99804   0.0800     0.0987
+   unif2   0.992381  0.991326  0.999945   0.999928    +1.56e-07            0.96272 0.92939 0.99792 0.99801   0.1247     0.1539
+   unif3   0.992184  0.990652  0.999962   0.999990    +3.30e-07            0.93230 0.90839 1.00236 1.01281   0.1471     0.1941
+   unif4   0.992184  0.989910  0.999972   0.999716    -4.70e-07            0.93230 0.88511 1.01394 0.97453   0.1599     0.2253
+   unif6   0.992184  0.988386  0.999714   0.999567    +1.73e-06            0.93230 0.83594 0.97293 0.97243   0.1742     0.2793
+   const1  0.992184  0.966022  0.999714   0.997111    +6.94e-05            0.93230 0.47562 0.97293 0.96119   0.2048     1.0000
+   const2  0.992268  0.982428  0.999864   0.999026    +2.22e-05            0.94194 0.67956 0.98559 0.98192   0.1912     0.4828
+   const3  0.992184  0.986156  0.999916   0.999587    +1.24e-05            0.93230 0.74863 0.99070 0.99859   0.1823     0.3792
+   const4  0.992184  0.987537  1.000004   0.999316    +7.18e-06            0.93230 0.77123 1.00245 0.96972   0.1744     0.3398
+   const0  0.999992  0.998819  0.999987   0.999887    +2.52e-06            0.99517 0.94417 0.99743 0.99721   0.8313     1.0000
+  p = 0.005
+   policy   F(2)      F(22)     rate 2->4  rate 20->22 curv d [b e^{-cm-dm^2}]  hybrid F(2) F(22) rate2->4 rate20->22  acc_det(22) acc_hyb(22)
+   unif1   0.958111  0.941016  0.999089   0.998503    +8.02e-06            0.80389 0.63842 0.98640 0.98674   0.0000     0.0000
+   unif2   0.957585  0.925784  0.998313   0.997713    +7.11e-06            0.80250 0.62584 0.98481 0.98598   0.0000     0.0001
+   unif3   0.951004  0.900477  0.998889   1.001489    +1.15e-05            0.64585 0.51754 1.01491 1.08499   0.0001     0.0003
+   unif4   0.951004  0.868071  0.998897   0.987227    -1.53e-05            0.64585 0.41754 1.09180 0.82681   0.0001     0.0006
+   unif6   0.951004  0.783623  0.987222   0.973599    +1.44e-04            0.64585 0.26313 0.82096 0.81360   0.0002     0.0021
+   const1  0.951004  0.043792  0.987222   0.759410    +8.70e-03            0.64585 0.00814 0.82096 0.79708   0.0128     1.0000
+   const2  0.953962  0.356466  0.994898   0.879640    +3.33e-03            0.69561 0.05240 0.90170 0.85345   0.0008     0.0387
+   const3  0.951004  0.610483  0.996741   0.969436    +1.32e-03            0.64585 0.11770 0.93664 0.96903   0.0004     0.0096
+   const4  0.951004  0.703707  1.000359   0.938239    +6.58e-04            0.64585 0.15360 1.01837 0.80415   0.0002     0.0051
+   const0  0.999785  0.961842  0.999658   0.995921    +9.49e-05            0.97611 0.75031 0.98724 0.98613   0.4216     1.0000
+
+real	0m0.659s
+user	0m0.388s
+sys	0m0.240s
+
+policy unif1: a2(m) averaged over sequences [0, 1, 2]
+   m    full   no-inverse  no-forward  only-final | fwd-pairs(+final)  inv-pairs(+final)  fwd x inv
+   2     192.3      180.7      118.9      111.2 |         69.5               7.6           4.0
+   4     267.6      244.0      127.7      111.2 |        132.8              16.4           7.1
+   6     326.8      293.2      134.7      111.2 |        181.9              23.4          10.2
+  10     399.0      332.2      157.6      111.2 |        221.0              46.4          20.4
+  14     500.7      405.4      181.4      111.2 |        294.1              70.1          25.3
+  18     619.3      490.9      204.1      111.2 |        379.6              92.9          35.5
+  20     660.9      519.0      215.5      111.2 |        407.7             104.2          37.7
+  22     724.7      562.2      229.4      111.2 |        450.9             118.2          44.4
+   fit full      : a2 =    159.6 +   24.30 m +  0.053 m^2
+   fit no-inverse: a2 =    161.4 +   18.26 m + -0.010 m^2
+   fit no-forward: a2 =    109.1 +    4.34 m +  0.051 m^2
+
+policy const1: a2(m) averaged over sequences [0, 1, 2]
+   m    full   no-inverse  no-forward  only-final | fwd-pairs(+final)  inv-pairs(+final)  fwd x inv
+   2     365.4      345.8      118.9      111.2 |        234.6               7.6          11.9
+   4     868.8      806.0      127.7      111.2 |        694.7              16.4          46.5
+   6    1562.1     1442.3      134.7      111.2 |       1331.0              23.4          96.4
+  10    3586.8     3236.4      157.6      111.2 |       3125.2              46.4         304.0
+  14    6532.0     5850.5      181.4      111.2 |       5739.3              70.1         611.4
+  18   10135.9     9061.2      204.1      111.2 |       8949.9              92.9         981.8
+  20   12167.9    10873.2      215.5      111.2 |      10762.0             104.2        1190.5
+  22   14444.9    12895.9      229.4      111.2 |      12784.6             118.2        1430.9
+   fit full      : a2 =     -9.4 +  121.73 m + 24.393 m^2
+   fit no-inverse: a2 =     13.2 +  111.79 m + 21.586 m^2
+   fit no-forward: a2 =    109.1 +    4.34 m +  0.051 m^2
+
+real	0m10.038s
+user	0m9.350s
+sys	0m0.536s

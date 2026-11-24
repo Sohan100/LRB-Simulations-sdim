@@ -1,0 +1,23 @@
+{
+ "probs": [
+  0.0005,
+  0.001,
+  0.002,
+  0.005
+ ],
+ "depths": [
+  0,
+  2,
+  4,
+  6,
+  10,
+  14,
+  18,
+  20,
+  22
+ ],
+ "num_seq": 30,
+ "shots": 200000,
+ "decode_shots": 100000,
+ "model": "literature SI1000, ASAP moments, reset before checks"
+}

@@ -1,0 +1,9 @@
+sweep: margin q(0) - max_candidates q(D) (positive = D=0 on top)
+  p=0.001 m=4 (30 seqs, 99s): q(0) in [0.994855, 0.994925]; min margin +3.35e-05; candidates above D=0: 0 of 73340
+  p=0.01 m=4 (10 seqs, 32s): q(0) in [0.928773, 0.933453]; min margin +9.84e-04; candidates above D=0: 0 of 24480
+  p=0.001 m=10 (3 seqs, 62s): q(0) in [0.994776, 0.994808]; min margin +4.43e-05; candidates above D=0: 0 of 23384
+  p=0.001 m=22 (1 seqs, 77s): q(0) in [0.994552, 0.994552]; min margin +4.43e-05; candidates above D=0: 0 of 9208
+
+real	4m35.947s
+user	4m14.618s
+sys	0m5.384s

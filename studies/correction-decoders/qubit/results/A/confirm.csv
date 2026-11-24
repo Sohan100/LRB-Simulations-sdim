@@ -1,0 +1,3 @@
+kind,seq,depth,p,quantity,exact,sdim_k,sdim_n,rate_sdim,se_sdim,z_vs_exact,p_value,p_bonferroni,circuit_marginals,circuit_max_abs_z,circuit_ks_p
+lrb,0,22,0.005,diff_r19_s0,0.1500507,60183,400000,0.1504575,0.0005646581,0.7203916,0.4712839,0.9425679,185,3.739393,0.106959
+const0,1,6,0.005,xstab_0,0.09837506,39525,400000,0.0988125,0.0004708965,0.9289502,0.3529149,0.7058298,3,0.9289502,0.03267971

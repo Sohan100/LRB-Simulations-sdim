@@ -1,0 +1,1 @@
+--q 7 --noise sd6 --p 0.09,0.1,0.12 --depths 0,1,2 --shots-per-depth 1e7,2e9,5e7 --chunk 5000000 --seq-seed 7402 --tag final-ext

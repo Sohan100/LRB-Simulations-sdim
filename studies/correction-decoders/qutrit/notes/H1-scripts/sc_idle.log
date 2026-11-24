@@ -1,0 +1,33 @@
+idle error e(t) = 1 - F_pro (SI1000 'd' probability), closed form
+  set                             0.035    0.100    0.250    0.300    0.500    0.580    1.000  (us)
+  Goss2022 Q4 echo             4.87e-04 1.39e-03 3.47e-03 4.17e-03 6.93e-03 8.03e-03 1.38e-02
+  Goss2022 Q4 Ramsey           1.04e-03 2.96e-03 7.38e-03 8.85e-03 1.47e-02 1.70e-02 2.90e-02
+  Goss2022 Q5 echo             8.15e-04 2.33e-03 5.81e-03 6.96e-03 1.16e-02 1.34e-02 2.30e-02
+  Goss2022 Q5 Ramsey           1.90e-03 5.42e-03 1.35e-02 1.61e-02 2.67e-02 3.08e-02 5.23e-02
+  Blok2021 avg echo            8.52e-04 2.43e-03 6.06e-03 7.27e-03 1.21e-02 1.40e-02 2.40e-02
+  Blok2021 avg Ramsey          1.55e-03 4.42e-03 1.10e-02 1.32e-02 2.18e-02 2.53e-02 4.30e-02
+  Liu2023 Ramsey               6.42e-04 1.83e-03 4.57e-03 5.48e-03 9.11e-03 1.06e-02 1.81e-02
+  IQM-like (assumed T2_12)     1.44e-03 4.10e-03 1.02e-02 1.22e-02 2.03e-02 2.35e-02 4.01e-02
+  target (2x Goss Q4 echo)     2.44e-04 6.96e-04 1.74e-03 2.09e-03 3.47e-03 4.03e-03 6.93e-03
+
+cross-check vs matrix exponential, Weyl-twirl split at t = 0.5 us:
+  Goss2022 Q4 echo             1-F closed 6.9298e-03, expm 6.9298e-03; X-type 5.66e-03, pure-Z 1.27e-03, X share 0.82
+  Goss2022 Q4 Ramsey           1-F closed 1.4675e-02, expm 1.4675e-02; X-type 5.66e-03, pure-Z 9.02e-03, X share 0.39
+  Goss2022 Q5 echo             1-F closed 1.1571e-02, expm 1.1571e-02; X-type 8.70e-03, pure-Z 2.88e-03, X share 0.75
+  Goss2022 Q5 Ramsey           1-F closed 2.6676e-02, expm 2.6676e-02; X-type 8.70e-03, pure-Z 1.80e-02, X share 0.33
+  Blok2021 avg echo            1-F closed 1.2081e-02, expm 1.2081e-02; X-type 7.72e-03, pure-Z 4.36e-03, X share 0.64
+  Blok2021 avg Ramsey          1-F closed 2.1829e-02, expm 2.1829e-02; X-type 7.72e-03, pure-Z 1.41e-02, X share 0.35
+  Liu2023 Ramsey               1-F closed 9.1115e-03, expm 9.1115e-03; X-type 2.57e-03, pure-Z 6.54e-03, X share 0.28
+  IQM-like (assumed T2_12)     1-F closed 2.0294e-02, expm 2.0294e-02; X-type 1.08e-02, pure-Z 9.47e-03, X share 0.53
+  target (2x Goss Q4 echo)     1-F closed 3.4726e-03, expm 3.4726e-03; X-type 2.84e-03, pure-Z 6.38e-04, X share 0.82
+
+per-microsecond idle loss (e(1us)):
+  Goss2022 Q4 echo             0.0138
+  Goss2022 Q4 Ramsey           0.0290
+  Goss2022 Q5 echo             0.0230
+  Goss2022 Q5 Ramsey           0.0523
+  Blok2021 avg echo            0.0240
+  Blok2021 avg Ramsey          0.0430
+  Liu2023 Ramsey               0.0181
+  IQM-like (assumed T2_12)     0.0401
+  target (2x Goss Q4 echo)     0.0069

@@ -1,0 +1,448 @@
+{
+ "depths": [
+  0,
+  2,
+  4,
+  6,
+  10,
+  14,
+  18,
+  20,
+  22
+ ],
+ "p_values": [
+  2.5e-05,
+  5e-05,
+  0.0001,
+  0.0005,
+  0.001,
+  0.002,
+  0.005
+ ],
+ "num_seq": 10,
+ "seq_seed": 20261028,
+ "variants": [
+  [
+   "naive",
+   "sequential"
+  ],
+  [
+   "naive",
+   "parallel"
+  ],
+  [
+   "flag",
+   "sequential"
+  ],
+  [
+   "flag",
+   "parallel"
+  ]
+ ],
+ "sequences": [
+  [
+   "HP",
+   "I",
+   "Z",
+   "PH",
+   "P",
+   "ZHP",
+   "ZHPH",
+   "I",
+   "H",
+   "ZH",
+   "P",
+   "H",
+   "XZH",
+   "ZPH",
+   "H",
+   "ZHP",
+   "ZP",
+   "PH",
+   "XPH",
+   "PH",
+   "X",
+   "ZH"
+  ],
+  [
+   "PH",
+   "XPH",
+   "XZHPH",
+   "XZHPH",
+   "ZP",
+   "XZHPH",
+   "HPH",
+   "XZP",
+   "ZH",
+   "XZH",
+   "PH",
+   "XHPH",
+   "XZP",
+   "PH",
+   "XHP",
+   "XZ",
+   "XH",
+   "XP",
+   "X",
+   "XPH",
+   "XHP",
+   "ZH"
+  ],
+  [
+   "XZ",
+   "XHPH",
+   "H",
+   "ZP",
+   "PH",
+   "PH",
+   "X",
+   "XHPH",
+   "ZHP",
+   "XZHPH",
+   "P",
+   "X",
+   "H",
+   "XZHP",
+   "XP",
+   "ZHP",
+   "XZ",
+   "PH",
+   "XHPH",
+   "XH",
+   "XZHPH",
+   "P"
+  ],
+  [
+   "XZHP",
+   "XP",
+   "XZPH",
+   "ZH",
+   "XH",
+   "HP",
+   "H",
+   "ZPH",
+   "PH",
+   "XZHP",
+   "ZH",
+   "ZPH",
+   "I",
+   "XPH",
+   "XZP",
+   "ZPH",
+   "ZHPH",
+   "XZH",
+   "ZPH",
+   "ZHPH",
+   "P",
+   "XZP"
+  ],
+  [
+   "XZHPH",
+   "XZHP",
+   "H",
+   "ZP",
+   "XZHPH",
+   "XZHP",
+   "PH",
+   "XPH",
+   "ZP",
+   "XHPH",
+   "HPH",
+   "XHP",
+   "ZHP",
+   "XZ",
+   "XP",
+   "Z",
+   "ZHPH",
+   "XZPH",
+   "XHP",
+   "ZHPH",
+   "XZP",
+   "XZH"
+  ],
+  [
+   "HPH",
+   "XZ",
+   "XZH",
+   "XP",
+   "XZPH",
+   "XH",
+   "ZHPH",
+   "XZHP",
+   "H",
+   "P",
+   "ZHP",
+   "PH",
+   "XHP",
+   "P",
+   "XH",
+   "XZHP",
+   "I",
+   "XHPH",
+   "XP",
+   "XZHP",
+   "XZHP",
+   "HPH"
+  ],
+  [
+   "P",
+   "ZHPH",
+   "H",
+   "P",
+   "ZHPH",
+   "Z",
+   "XHP",
+   "HPH",
+   "XZ",
+   "ZP",
+   "HP",
+   "XH",
+   "H",
+   "XP",
+   "XH",
+   "ZP",
+   "ZH",
+   "I",
+   "XHP",
+   "ZPH",
+   "ZPH",
+   "XHP"
+  ],
+  [
+   "XP",
+   "XZP",
+   "XZPH",
+   "HPH",
+   "XHPH",
+   "XHP",
+   "ZHP",
+   "Z",
+   "XZP",
+   "ZPH",
+   "X",
+   "XZHP",
+   "PH",
+   "XH",
+   "XZ",
+   "I",
+   "H",
+   "ZH",
+   "XHP",
+   "HPH",
+   "XZP",
+   "XH"
+  ],
+  [
+   "XHP",
+   "ZH",
+   "ZP",
+   "ZP",
+   "XZ",
+   "P",
+   "X",
+   "I",
+   "Z",
+   "XZPH",
+   "X",
+   "XPH",
+   "HPH",
+   "ZPH",
+   "ZHPH",
+   "XHPH",
+   "XZH",
+   "Z",
+   "HP",
+   "I",
+   "ZHPH",
+   "ZPH"
+  ],
+  [
+   "ZHPH",
+   "XZPH",
+   "XH",
+   "XP",
+   "X",
+   "ZHP",
+   "P",
+   "XZP",
+   "XP",
+   "XPH",
+   "Z",
+   "HP",
+   "ZHPH",
+   "XZP",
+   "PH",
+   "PH",
+   "X",
+   "XZHPH",
+   "XZPH",
+   "ZPH",
+   "XZP",
+   "ZH"
+  ]
+ ],
+ "codes": {
+  "naive": {
+   "code": "Steane [[7,1,3]]",
+   "extraction": "naive",
+   "pauli_gates": "weight3",
+   "num_qubits": 13,
+   "stabilizers": {
+    "S_Z1": "___ZZZZ",
+    "S_Z2": "_ZZ__ZZ",
+    "S_Z3": "Z_Z_Z_Z",
+    "S_X1": "___XXXX",
+    "S_X2": "_XX__XX",
+    "S_X3": "X_X_X_X"
+   },
+   "cnot_orders": [
+    [
+     3,
+     4,
+     5,
+     6
+    ],
+    [
+     1,
+     2,
+     5,
+     6
+    ],
+    [
+     0,
+     2,
+     4,
+     6
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ],
+    [
+     1,
+     2,
+     5,
+     6
+    ],
+    [
+     0,
+     2,
+     4,
+     6
+    ]
+   ],
+   "stabilizer_ancilla": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "flag_qubits": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "logical_x": "XXX____",
+   "logical_z": "ZZZ____",
+   "logical_H": "H on all 7 data qubits",
+   "logical_S": "S_DAG on all 7 data qubits"
+  },
+  "flag": {
+   "code": "Steane [[7,1,3]]",
+   "extraction": "flag",
+   "pauli_gates": "weight3",
+   "num_qubits": 19,
+   "stabilizers": {
+    "S_Z1": "___ZZZZ",
+    "S_Z2": "_ZZ__ZZ",
+    "S_Z3": "Z_Z_Z_Z",
+    "S_X1": "___XXXX",
+    "S_X2": "_XX__XX",
+    "S_X3": "X_X_X_X"
+   },
+   "cnot_orders": [
+    [
+     3,
+     4,
+     5,
+     6
+    ],
+    [
+     1,
+     2,
+     5,
+     6
+    ],
+    [
+     0,
+     2,
+     4,
+     6
+    ],
+    [
+     3,
+     4,
+     5,
+     6
+    ],
+    [
+     1,
+     2,
+     5,
+     6
+    ],
+    [
+     0,
+     2,
+     4,
+     6
+    ]
+   ],
+   "stabilizer_ancilla": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "flag_qubits": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "logical_x": "XXX____",
+   "logical_z": "ZZZ____",
+   "logical_H": "H on all 7 data qubits",
+   "logical_S": "S_DAG on all 7 data qubits"
+  }
+ },
+ "runs": [
+  {
+   "p_values": [
+    2.5e-05,
+    5e-05
+   ],
+   "variants": [
+    [
+     "flag",
+     "sequential"
+    ]
+   ],
+   "num_seq": 10,
+   "shots": 1000000,
+   "decode_shots": 1000000,
+   "seed": 2
+  }
+ ]
+}

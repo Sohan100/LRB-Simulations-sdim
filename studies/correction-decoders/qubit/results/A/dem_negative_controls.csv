@@ -1,0 +1,7 @@
+control,kind,depth,p,num_detectors_sdim,num_detectors_lead,mechanisms_sdim,mechanisms_lead,same_symptom_sets,max_abs_prob_diff,max_rel_prob_diff,total_prob_sdim,total_prob_lead,undetectable_logical_sdim,undetectable_logical_lead,identical
+meas_idle x1.001,lrb,6,0.005,28,28,368,368,True,4.340579e-05,0.0008778512,3.347883,3.349412,0.02229593,0.0223153,False
+reset_idle x0,lrb,6,0.005,28,28,368,368,True,0.006307785,0.4528823,3.347883,3.057311,0.02229593,0.02229593,False
+one_qubit x1.01,lrb,6,0.005,28,28,368,368,True,1.747127e-05,0.004967682,3.347883,3.34827,0.02229593,0.02229593,False
+one_qubit x1.01,const0,6,0.005,2,2,6,6,True,6.58231e-05,0.009858128,0.07775802,0.07798351,0,0,False
+lead uses sequence 1,lrb,6,0.005,28,28,368,369,False,0.03897062,1,3.347883,3.453889,0.02229593,0.02229593,False
+lead uses sequence 1,const0,6,0.005,2,2,6,6,True,0.02312325,0.5418154,0.07775802,0.1580501,0,0,False

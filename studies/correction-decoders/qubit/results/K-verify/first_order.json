@@ -1,0 +1,118 @@
+{
+ "p": 1e-06,
+ "units": "U1, R1, E1 per p; A2 per p^2",
+ "variants": {
+  "naive:sequential": {
+   "R1": {
+    "slope_mean": 190.26630171930066,
+    "slope_sem": 0.104702518461677,
+    "depth0": 137.53263050631406
+   },
+   "E1": {
+    "slope_mean": 0.7534662279286514,
+    "slope_sem": 0.01554854681582196,
+    "depth0": 0.8000002221687499
+   },
+   "A2": {
+    "slope_mean": 3.3505603429426714,
+    "slope_sem": 0.08191922943741486,
+    "depth0": 3.6533189147894434
+   },
+   "U1": {
+    "slope_mean": 0.0,
+    "slope_sem": 0.0,
+    "depth0": 0.0
+   },
+   "max_ambiguous_classes": 132
+  },
+  "naive:parallel": {
+   "R1": {
+    "slope_mean": 100.26696172028377,
+    "slope_sem": 0.10470270704408222,
+    "depth0": 64.19988667955661
+   },
+   "E1": {
+    "slope_mean": 0.7534662279286514,
+    "slope_sem": 0.01554854681582196,
+    "depth0": 0.8000002221687499
+   },
+   "A2": {
+    "slope_mean": 1.1645007363019007,
+    "slope_sem": 0.022373447678433713,
+    "depth0": 0.45333342156894074
+   },
+   "U1": {
+    "slope_mean": 0.0,
+    "slope_sem": 0.0,
+    "depth0": 0.0
+   },
+   "max_ambiguous_classes": 132
+  },
+  "flag:sequential": {
+   "R1": {
+    "slope_mean": 267.86566591641395,
+    "slope_sem": 0.10470255000080148,
+    "depth0": 203.1321946419489
+   },
+   "E1": {
+    "slope_mean": 0.0,
+    "slope_sem": 0.0,
+    "depth0": 0.0
+   },
+   "A2": {
+    "slope_mean": 0.0,
+    "slope_sem": 0.0,
+    "depth0": 0.0
+   },
+   "U1": {
+    "slope_mean": 0.0,
+    "slope_sem": 0.0,
+    "depth0": 0.0
+   },
+   "max_ambiguous_classes": 0
+  },
+  "flag:parallel": {
+   "R1": {
+    "slope_mean": 157.86672941263697,
+    "slope_sem": 0.10470270539422483,
+    "depth0": 109.79978663507526
+   },
+   "E1": {
+    "slope_mean": 0.0,
+    "slope_sem": 0.0,
+    "depth0": 0.0
+   },
+   "A2": {
+    "slope_mean": 0.0,
+    "slope_sem": 0.0,
+    "depth0": 0.0
+   },
+   "U1": {
+    "slope_mean": 0.0,
+    "slope_sem": 0.0,
+    "depth0": 0.0
+   },
+   "max_ambiguous_classes": 0
+  }
+ },
+ "naive_frame_decomposition": {
+  "naive:sequential": {
+   "X": 0.5333335199643809,
+   "Z": 0.533333519964381,
+   "Y": 1.0666670399287612,
+   "ensemble_mean": 0.7111113599525077
+  },
+  "naive:parallel": {
+   "X": 0.5333335199643809,
+   "Z": 0.533333519964381,
+   "Y": 1.0666670399287612,
+   "ensemble_mean": 0.7111113599525077
+  },
+  "frame_fractions_10_sequences": {
+   "X": 0.34545454545454546,
+   "Y": 0.36363636363636365,
+   "Z": 0.2909090909090909
+  },
+  "predicted_E1_slope_10_sequences": 0.7272729817696102
+ }
+}

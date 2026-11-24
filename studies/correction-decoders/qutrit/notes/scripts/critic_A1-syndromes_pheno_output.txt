@@ -1,0 +1,28 @@
+Leading coefficients (units of q) and hybrid P(f|a) q^2 coefficient
+  F1  full kappa=1/4: R=1: det 11 undet 0 MLD 2 hyb 4 hybf|a2 11/2 | R=2: det 17 undet 0 MLD 3 hyb 6 hybf|a2 67/8 | R=3: det 23 undet 0 MLD 4 hyb 8 | R=4: det 29 undet 0 MLD 5 hyb 10
+  F1  full kappa=1: R=1: det 14 undet 0 MLD 2 hyb 4 hybf|a2 11/2 | R=2: det 23 undet 0 MLD 3 hyb 6 hybf|a2 67/8 | R=3: det 32 undet 0 MLD 4 hyb 8 | R=4: det 41 undet 0 MLD 5 hyb 10
+  F1  full kappa=4: R=1: det 26 undet 0 MLD 2 hyb 4 hybf|a2 11/2 | R=2: det 47 undet 0 MLD 3 hyb 6 hybf|a2 67/8 | R=3: det 68 undet 0 MLD 4 hyb 8 | R=4: det 89 undet 0 MLD 5 hyb 10
+  F2  obs  kappa=1/4: R=1: det 6 undet 0 MLD 1/2 hyb 3/2 | R=2: det 12 undet 0 MLD 1 hyb 5/2 | R=3: det 18 undet 0 MLD 3/2 hyb 7/2 | R=4: det 24 undet 0 MLD 2 hyb 9/2
+  F2  obs  kappa=1: R=1: det 9 undet 0 MLD 1/2 hyb 3 | R=2: det 18 undet 0 MLD 1 hyb 4 | R=3: det 27 undet 0 MLD 3/2 hyb 5 | R=4: det 36 undet 0 MLD 2 hyb 6
+  F2  obs  kappa=4: R=1: det 21 undet 0 MLD 1/2 hyb 9 | R=2: det 42 undet 0 MLD 1 hyb 10 | R=3: det 63 undet 0 MLD 3/2 hyb 11 | R=4: det 84 undet 0 MLD 2 hyb 12
+  F2f full kappa=1/4: R=1: det 6 undet 0 MLD 1 hyb 3 | R=2: det 12 undet 0 MLD 2 hyb 5 | R=3: det 18 undet 0 MLD 3 hyb 7 | R=4: det 24 undet 0 MLD 4 hyb 9
+  F2f full kappa=1: R=1: det 9 undet 0 MLD 1 hyb 6 | R=2: det 18 undet 0 MLD 2 hyb 8 | R=3: det 27 undet 0 MLD 3 hyb 10 | R=4: det 36 undet 0 MLD 4 hyb 12
+  F2f full kappa=4: R=1: det 21 undet 0 MLD 1 hyb 18 | R=2: det 42 undet 0 MLD 2 hyb 20 | R=3: det 63 undet 0 MLD 3 hyb 22 | R=4: det 84 undet 0 MLD 4 hyb 24
+  F3  obs  kappa=1/4: R=1: det 6 undet 3/2 MLD 2 hyb 3/2 | R=2: det 12 undet 3/2 MLD 5/2 hyb 5/2 | R=3: det 18 undet 3/2 MLD 3 hyb 7/2 | R=4: det 24 undet 3/2 MLD 7/2 hyb 9/2
+  F3  obs  kappa=1: R=1: det 9 undet 3/2 MLD 2 hyb 3 | R=2: det 18 undet 3/2 MLD 5/2 hyb 4 | R=3: det 27 undet 3/2 MLD 3 hyb 5 | R=4: det 36 undet 3/2 MLD 7/2 hyb 6
+  F3  obs  kappa=4: R=1: det 21 undet 3/2 MLD 2 hyb 9 | R=2: det 42 undet 3/2 MLD 5/2 hyb 10 | R=3: det 63 undet 3/2 MLD 3 hyb 11 | R=4: det 84 undet 3/2 MLD 7/2 hyb 12
+  F4  obs  kappa=1/4: R=1: det 39/4 undet 0 MLD 2 hyb 4 | R=2: det 63/4 undet 0 MLD 5/2 hyb 5 | R=3: det 87/4 undet 0 MLD 3 hyb 6 | R=4: det 111/4 undet 0 MLD 7/2 hyb 7
+  F4  obs  kappa=1: R=1: det 51/4 undet 0 MLD 2 hyb 4 | R=2: det 87/4 undet 0 MLD 5/2 hyb 5 | R=3: det 123/4 undet 0 MLD 3 hyb 6 | R=4: det 159/4 undet 0 MLD 7/2 hyb 7
+  F4  obs  kappa=4: R=1: det 99/4 undet 0 MLD 2 hyb 4 | R=2: det 183/4 undet 0 MLD 5/2 hyb 5 | R=3: det 267/4 undet 0 MLD 3 hyb 6 | R=4: det 351/4 undet 0 MLD 7/2 hyb 7
+F2 final round, single-digit events (R=1, kappa=1): explanations
+   sig (0, 0, 0, 1): ('d', 1, 3) class(0, 2) w1/8; ('d', 1, 4) class(0, 0) w1/8; ('m', 1, 3) class(0, 0) w1/2
+   sig (0, 0, 0, 2): ('d', 1, 3) class(0, 1) w1/8; ('d', 1, 4) class(0, 0) w1/8; ('m', 1, 3) class(0, 0) w1/2
+   sig (0, 0, 1, 0): ('d', 1, 0) class(0, 2) w1/8; ('d', 1, 2) class(0, 0) w1/8; ('m', 1, 2) class(0, 0) w1/2
+   sig (0, 0, 2, 0): ('d', 1, 0) class(0, 1) w1/8; ('d', 1, 2) class(0, 0) w1/8; ('m', 1, 2) class(0, 0) w1/2
+   sig (0, 1, 0, 0): ('d', 1, 2) class(1, 0) w1/8; ('d', 1, 4) class(0, 0) w1/8; ('m', 1, 1) class(0, 0) w1/2
+   sig (0, 2, 0, 0): ('d', 1, 2) class(2, 0) w1/8; ('d', 1, 4) class(0, 0) w1/8; ('m', 1, 1) class(0, 0) w1/2
+   sig (1, 0, 0, 0): ('d', 1, 0) class(1, 0) w1/8; ('d', 1, 3) class(0, 0) w1/8; ('m', 1, 0) class(0, 0) w1/2
+   sig (2, 0, 0, 0): ('d', 1, 0) class(2, 0) w1/8; ('d', 1, 3) class(0, 0) w1/8; ('m', 1, 0) class(0, 0) w1/2
+Exact finite-q check, R = 1 (direct convolution)
+  F1 R=1 q=0.0001 qm=0.0001: total 1.000000000000  MLD/q 2.00065  det rej/q 13.9909  det P(f|a)/q^2 0.2501
+  F1 R=1 q=0.0001 qm=2.5e-05: total 1.000000000000  MLD/q 2.00065  det rej/q 10.9944  det P(f|a)/q^2 0.2501

@@ -1,0 +1,136 @@
+{
+ "single": {
+  "0": {
+   "syndromes": {
+    "X": [
+     1,
+     0,
+     0,
+     0
+    ],
+    "Y": [
+     1,
+     0,
+     1,
+     0
+    ],
+    "Z": [
+     0,
+     0,
+     1,
+     0
+    ]
+   },
+   "distinct_nonzero": true,
+   "correctable": true
+  },
+  "1": {
+   "syndromes": {
+    "X": [
+     1,
+     1,
+     0,
+     0
+    ],
+    "Y": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "Z": [
+     0,
+     0,
+     1,
+     1
+    ]
+   },
+   "distinct_nonzero": true,
+   "correctable": true
+  },
+  "2": {
+   "syndromes": {
+    "X": [
+     0,
+     1,
+     0,
+     0
+    ],
+    "Y": [
+     0,
+     1,
+     1,
+     0
+    ],
+    "Z": [
+     0,
+     0,
+     1,
+     0
+    ]
+   },
+   "distinct_nonzero": true,
+   "correctable": true
+  },
+  "3": {
+   "syndromes": {
+    "X": [
+     1,
+     0,
+     0,
+     0
+    ],
+    "Y": [
+     1,
+     0,
+     0,
+     1
+    ],
+    "Z": [
+     0,
+     0,
+     0,
+     1
+    ]
+   },
+   "distinct_nonzero": true,
+   "correctable": true
+  },
+  "4": {
+   "syndromes": {
+    "X": [
+     0,
+     1,
+     0,
+     0
+    ],
+    "Y": [
+     0,
+     1,
+     0,
+     1
+    ],
+    "Z": [
+     0,
+     0,
+     0,
+     1
+    ]
+   },
+   "distinct_nonzero": true,
+   "correctable": true
+  }
+ },
+ "pairs_correctable": {
+  "01": true,
+  "02": false,
+  "03": false,
+  "04": true,
+  "12": true,
+  "13": true,
+  "14": true,
+  "23": true,
+  "24": false,
+  "34": false
+ }
+}

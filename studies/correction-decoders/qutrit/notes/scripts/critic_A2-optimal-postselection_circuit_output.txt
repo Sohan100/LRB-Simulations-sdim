@@ -1,0 +1,36 @@
+[V] validation of the exact joint law
+  p=0.001 m=2 seq 0: charfun 3.6s, direct 92.8s; max|Pc-Pd|=4.0e-14, max|Pa-Pd|=6.7e-16, sum Pd=1.000000000000005, min Pd=7.8e-14
+    direct convolution, conjugation symmetry max|P(x)-P(-x)| = 2.2e-18, max relative 3.9e-15 (not built in here)
+    direct: histories with P(D)>0: 531441; smallest P(D) 3.1e-13; q(0)=0.99495114; max over ALL D!=0 of q = 0.99490705; #D above q(0): 0 (mass 0.0e+00); mass with P(D)<=1e-13: 0.0e+00
+    runner-up history (raw detectors by round): [[0, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], P(D)=2.82e-03
+  p=0.01 m=2 seq 3: charfun 12.8s, direct 196.0s; max|Pc-Pd|=2.9e-15, max|Pa-Pd|=4.2e-17, sum Pd=0.999999999999997, min Pd=1.5e-09
+    direct convolution, conjugation symmetry max|P(x)-P(-x)| = 4.3e-18, max relative 4.2e-15 (not built in here)
+    direct: histories with P(D)>0: 531441; smallest P(D) 5.0e-09; q(0)=0.93612759; max over ALL D!=0 of q = 0.93335314; #D above q(0): 0 (mass 0.0e+00); mass with P(D)<=1e-13: 0.0e+00
+    runner-up history (raw detectors by round): [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], P(D)=1.84e-03
+    MC (repository sampler, 400000 shots, 8s): chi2 over the 40 most likely (D,L) cells = 37.7 (40 dof); unif1 acceptance MC 0.05895 vs exact 0.05862; S MC 0.93380 vs exact 0.93613
+
+[P] policies vs frontier vs CSV (my code; 30 sequences each)
+  p=0.001 m=0 (9s): q(0) mean 0.994994; min over seqs of q(0)-max_(D!=0,pD>1e-13) q = 7.71e-04, (pD>1e-10) 7.71e-04, (pD>1e-8) 7.71e-04; mass ranked above D=0: 0.0e+00; unresolved mass (pD<=1e-13) max 0.0e+00
+    unif 1 rounds [0]: rej 0.0611 (CSV 0.0611); S 0.994994; S* 0.994994; lam 0.992491 vs CSV 0.992503 (diff -1.2e-05 = -0.6 shot-SE); max|F-|lam||=0e+00, max|Im z|=9e-19; between-seq SD of lam 1.11e-16 (CSV SD 8.61e-05)
+    MAP no rejection: S*(1)=E[q]=0.985922; J_MAP=0.9789 vs J_unif1=0.9319
+  p=0.001 m=2 (168s): q(0) mean 0.994926; min over seqs of q(0)-max_(D!=0,pD>1e-13) q = 3.35e-05, (pD>1e-10) 3.35e-05, (pD>1e-8) 3.35e-05; mass ranked above D=0: 0.0e+00; unresolved mass (pD<=1e-13) max 4.6e-12
+    unif 1 rounds [0, 1, 2]: rej 0.2473 (CSV 0.2473); S 0.994926; S* 0.994926; lam 0.992389 vs CSV 0.992367 (diff +2.2e-05 = +1.0 shot-SE); max|F-|lam||=0e+00, max|Im z|=9e-19; between-seq SD of lam 2.34e-05 (CSV SD 1.34e-04)
+    unif 2 rounds [1, 2]: rej 0.2220 (CSV 0.2220); S 0.994915; S* 0.994918; lam 0.992372 vs CSV 0.992350 (diff +2.2e-05 = +1.0 shot-SE); max|F-|lam||=0e+00, max|Im z|=1e-18; between-seq SD of lam 2.48e-05 (CSV SD 1.35e-04)
+    const1 rounds [2]: rej 0.1891 (CSV 0.1892); S 0.994792; S* 0.994862; lam 0.992188 vs CSV 0.992152 (diff +3.5e-05 = +1.6 shot-SE); max|F-|lam||=0e+00, max|Im z|=1e-18; between-seq SD of lam 4.44e-05 (CSV SD 1.48e-04)
+    const2 rounds [0, 2]: rej 0.2156 (CSV 0.2156); S 0.994844; S* 0.994914; lam 0.992266 vs CSV 0.992232 (diff +3.3e-05 = +1.5 shot-SE); max|F-|lam||=0e+00, max|Im z|=2e-18; between-seq SD of lam 4.12e-05 (CSV SD 1.42e-04)
+    MAP no rejection: S*(1)=E[q]=0.961859; J_MAP=0.9428 vs J_unif1=0.7470
+  p=0.01 m=0 (17s): q(0) mean 0.944773; min over seqs of q(0)-max_(D!=0,pD>1e-13) q = 8.37e-03, (pD>1e-10) 8.37e-03, (pD>1e-8) 8.37e-03; mass ranked above D=0: 0.0e+00; unresolved mass (pD<=1e-13) max 0.0e+00
+    unif 1 rounds [0]: rej 0.4615 (CSV 0.4615); S 0.944773; S* 0.944773; lam 0.917159 vs CSV 0.917113 (diff +4.6e-05 = +0.5 shot-SE); max|F-|lam||=0e+00, max|Im z|=1e-17; between-seq SD of lam 1.11e-16 (CSV SD 4.28e-04)
+    MAP no rejection: S*(1)=E[q]=0.861874; J_MAP=0.7928 vs J_unif1=0.4939
+  p=0.01 m=2 (323s): q(0) mean 0.935906; min over seqs of q(0)-max_(D!=0,pD>1e-13) q = 7.01e-04, (pD>1e-10) 7.01e-04, (pD>1e-8) 7.01e-04; mass ranked above D=0: 0.0e+00; unresolved mass (pD<=1e-13) max 0.0e+00
+    unif 1 rounds [0, 1, 2]: rej 0.9399 (CSV 0.9399); S 0.935906; S* 0.935906; lam 0.903858 vs CSV 0.903468 (diff +3.9e-04 = +1.4 shot-SE); max|F-|lam||=0e+00, max|Im z|=1e-17; between-seq SD of lam 2.60e-03 (CSV SD 2.93e-03)
+    unif 2 rounds [1, 2]: rej 0.9157 (CSV 0.9158); S 0.934077; S* 0.934474; lam 0.901115 vs CSV 0.900771 (diff +3.4e-04 = +1.5 shot-SE); max|F-|lam||=0e+00, max|Im z|=2e-17; between-seq SD of lam 2.87e-03 (CSV SD 3.01e-03)
+    const1 rounds [2]: rej 0.8646 (CSV 0.8646); S 0.910408; S* 0.924105; lam 0.865612 vs CSV 0.865686 (diff -7.4e-05 = -0.3 shot-SE); max|F-|lam||=0e+00, max|Im z|=3e-17; between-seq SD of lam 5.15e-03 (CSV SD 4.91e-03)
+    const2 rounds [0, 2]: rej 0.9058 (CSV 0.9058); S 0.921775; S* 0.933367; lam 0.882663 vs CSV 0.882670 (diff -6.5e-06 = -0.0 shot-SE); max|F-|lam||=0e+00, max|Im z|=3e-17; between-seq SD of lam 4.60e-03 (CSV SD 4.28e-03)
+    MAP no rejection: S*(1)=E[q]=0.615232; J_MAP=0.4228 vs J_unif1=0.0543
+
+total 849s
+
+real	14m21.157s
+user	3m16.319s
+sys	0m12.103s

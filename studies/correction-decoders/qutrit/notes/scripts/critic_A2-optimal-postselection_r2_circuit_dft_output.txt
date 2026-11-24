@@ -1,0 +1,24 @@
+mode dft: A2's DFT function on more sequences / larger p
+ p=0.01 m=2 (30 seqs, 30s): mass ranked above D=0 (P(D)>1e-11) max 0.0e+00; max_D (q(D)-q(0)) = -7.01e-04; mean S*(1) 0.615232
+   unif1: rej=0.9399 S=0.935906 S*(same a)=0.935906 gap=0.00e+00 max|Fleg-lam|=2e-16
+   unif2: rej=0.9157 S=0.934077 S*(same a)=0.934474 gap=3.97e-04 max|Fleg-lam|=2e-16
+   const1: rej=0.8646 S=0.910408 S*(same a)=0.924105 gap=1.37e-02 max|Fleg-lam|=2e-16
+   const2: rej=0.9058 S=0.921775 S*(same a)=0.933367 gap=1.16e-02 max|Fleg-lam|=3e-16
+ p=0.02 m=0 (30 seqs, 1s): mass ranked above D=0 (P(D)>1e-11) max 0.0e+00; max_D (q(D)-q(0)) = -1.71e-02; mean S*(1) 0.749735
+   unif1: rej=0.7005 S=0.878066 S*(same a)=0.878066 gap=0.00e+00 max|Fleg-lam|=1e-16
+ p=0.02 m=2 (30 seqs, 29s): mass ranked above D=0 (P(D)>1e-11) max 0.0e+00; max_D (q(D)-q(0)) = -2.30e-03; mean S*(1) 0.424901
+   unif1: rej=0.9960 S=0.830132 S*(same a)=0.830132 gap=0.00e+00 max|Fleg-lam|=3e-16
+   unif2: rej=0.9918 S=0.817400 S*(same a)=0.819934 gap=2.53e-03 max|Fleg-lam|=3e-16
+   const1: rej=0.9703 S=0.674473 S*(same a)=0.747425 gap=7.30e-02 max|Fleg-lam|=2e-16
+   const2: rej=0.9880 S=0.742649 S*(same a)=0.805624 gap=6.30e-02 max|Fleg-lam|=2e-16
+ p=0.05 m=0 (30 seqs, 1s): mass ranked above D=0 (P(D)>1e-11) max 0.0e+00; max_D (q(D)-q(0)) = -2.39e-02; mean S*(1) 0.531233
+   unif1: rej=0.9306 S=0.638618 S*(same a)=0.638618 gap=0.00e+00 max|Fleg-lam|=0e+00
+ p=0.05 m=2 (30 seqs, 28s): mass ranked above D=0 (P(D)>1e-11) max 0.0e+00; max_D (q(D)-q(0)) = -3.64e-03; mean S*(1) 0.336404
+   unif1: rej=1.0000 S=0.370388 S*(same a)=0.370388 gap=0.00e+00 max|Fleg-lam|=2e-16
+   unif2: rej=0.9998 S=0.351968 S*(same a)=0.358999 gap=7.03e-03 max|Fleg-lam|=1e-16
+   const1: rej=0.9875 S=0.338604 S*(same a)=0.345387 gap=6.78e-03 max|Fleg-lam|=2e-16
+   const2: rej=0.9993 S=0.344113 S*(same a)=0.354102 gap=9.99e-03 max|Fleg-lam|=2e-16
+
+real	1m37.561s
+user	1m19.551s
+sys	0m4.961s

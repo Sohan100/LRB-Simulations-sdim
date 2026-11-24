@@ -1,0 +1,101 @@
+{
+ "device": {
+  "name": "ion_helios",
+  "t1_us": Infinity,
+  "t2_us": Infinity,
+  "t_1q_ns": 10000.0,
+  "t_2q_ns": 70000.0,
+  "t_meas_ns": 100000.0,
+  "t_reset_ns": 0.0,
+  "r_1q": 2.5e-05,
+  "r_2q": 0.00079,
+  "e_meas": 0.00048,
+  "e_reset": 0.0,
+  "extra_idle": [
+   [
+    "2q",
+    0.0005
+   ],
+   [
+    "meas",
+    0.000192
+   ],
+   [
+    "meas",
+    0.0005
+   ]
+  ],
+  "cz23": "native",
+  "overrides": [],
+  "source": "Ransford et al. 2025, arXiv:2511.05465 (abstract, Sec. III)"
+ },
+ "kind": "hw",
+ "num_seq": 30,
+ "depths": [
+  0,
+  2,
+  4,
+  6,
+  10,
+  14,
+  18,
+  20,
+  22
+ ],
+ "shots": 100000,
+ "decode_shots": 50000,
+ "seq_seed": 20261028,
+ "seed": 2026,
+ "builder_kwargs": {},
+ "run_kwargs": {
+  "const_checks": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   10,
+   22
+  ],
+  "unif_checks": [
+   1,
+   2,
+   3,
+   5,
+   11,
+   22
+  ],
+  "with_mld2": false
+ },
+ "si1000_equivalent": {
+  "p": 0.0009875,
+  "factors": {
+   "one_qubit": 0.0379746835443038,
+   "two_qubit": 1.0,
+   "meas_idle": 0.700759493670886,
+   "meas_depol": 0.0,
+   "meas_flip": 0.4860759493670886,
+   "reset_idle": 0.0,
+   "reset_flip": 0.0
+  },
+  "gate_idle_over_p": 0.5063291139240506,
+  "absolute": {
+   "cz": 0.0009875,
+   "one_qubit": 3.7500000000000003e-05,
+   "meas_idle": 0.000692,
+   "meas_flip": 0.00048,
+   "reset_idle": 0.0,
+   "reset_flip": 0.0,
+   "gate_idle_cz_layer": 0.0005
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ }
+}

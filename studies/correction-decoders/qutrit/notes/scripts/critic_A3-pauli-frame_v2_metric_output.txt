@@ -1,0 +1,41 @@
+Part 1: commutation checks and weight-1 ambiguities
+  stabilizers commute; X_L, Z_L in normalizer; <X_L,Z_L> = 1
+  weight-1 same-syndrome, different-class pairs (wire, a, b):
+    (0, 0, 1) ~ (2, 0, 2)
+    (0, 0, 2) ~ (2, 0, 1)
+    (0, 1, 0) ~ (3, 2, 0)
+    (0, 2, 0) ~ (3, 1, 0)
+    (2, 1, 0) ~ (4, 2, 0)
+    (2, 2, 0) ~ (4, 1, 0)
+    (3, 0, 1) ~ (4, 0, 2)
+    (3, 0, 2) ~ (4, 0, 1)
+  minimum partner weight by (wire, type):
+    wire 0 mixed : [2]
+    wire 0 pure-X: [1]
+    wire 0 pure-Z: [1]
+    wire 1 mixed : [2]
+    wire 1 pure-X: [2]
+    wire 1 pure-Z: [2]
+    wire 2 mixed : [2]
+    wire 2 pure-X: [1]
+    wire 2 pure-Z: [1]
+    wire 3 mixed : [2]
+    wire 3 pure-X: [1]
+    wire 3 pure-Z: [1]
+    wire 4 mixed : [2]
+    wire 4 pure-X: [1]
+    wire 4 pure-Z: [1]
+
+Part 2: |E w^R| and Re E w^R for several decoders, exact code capacity
+      q                   none               MAP-sym               MAP-det              anti-MAP           |.|-optimal
+   0.01   0.97763/+0.97763  0.99204/+0.99204  0.99204/+0.99204  0.49975/-0.49975  0.99205/+0.99204
+   0.05   0.89066/+0.89066  0.95193/+0.95193  0.95193/+0.95193  0.49402/-0.49402  0.95213/+0.95192
+   0.15   0.69098/+0.69098  0.80931/+0.80931  0.80931/+0.80931  0.45225/-0.45225  0.81060/+0.80930
+   0.30   0.43891/+0.43891  0.54767/+0.54767  0.54767/+0.54767  0.34259/-0.34259  0.55074/+0.54767
+   0.50   0.19141/+0.19141  0.23655/+0.23655  0.23655/+0.23655  0.17309/-0.17309  0.24007/+0.23654
+   0.70   0.04516/+0.04516  0.05126/+0.05126  0.05126/+0.05126  0.04414/-0.04414  0.05280/+0.05127
+  (each entry: |E w^R| / Re E w^R)
+
+Part 3: first-order code-capacity failure, X_L readout, 1 - Re E w^R ~ c q
+  q=0.0001: none c = 2.250, MAP-sym c = 0.750
+  q=0.001: none c = 2.249, MAP-sym c = 0.755

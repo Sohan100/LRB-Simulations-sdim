@@ -26,6 +26,6 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      - run: pip install -e ".[dev,memory]"
+      - run: pip install -e ".[dev,memory,decoders]"
       # tests that need the gitignored production circuit files skip themselves
       - run: pytest

@@ -1,0 +1,14 @@
+hazard,kind,case,swap_gates,swap_gates_expected,noiseless_detectors_and_logical_deterministic,logical_values_dimension_2,logical_values_default_dimension,noise_ops_canonical,noise_ops_alias,detail
+presampled list longer than max(depths),lrb,exactly max(depths)=3,6,6,True,,,,,
+presampled list longer than max(depths),lrb,7 descriptors for depths=[3],11,6,False,,,,,
+presampled list longer than max(depths),const0,exactly max(depths)=3,6,6,True,,,,,
+presampled list longer than max(depths),const0,7 descriptors for depths=[3],11,6,False,,,,,
+unpack spec dimension default,lrb,"reference (x0, x3) = (0, 0)",,,,[0],[0] (default = 3),,,
+unpack spec dimension default,lrb,"reference (x0, x3) = (1, 1)",,,,[0],[2] (default = 3),,,
+sdim alias bypasses SI1000 insertion,-,S (alias of P),,,,,,1,0,
+sdim alias bypasses SI1000 insertion,-,MZ (alias of M),,,,,,3,0,
+sdim alias bypasses SI1000 insertion,-,CX (alias of CNOT),,,,,,1,1,
+sdim alias bypasses SI1000 insertion,-,MR (alias of RESET),,,,,,2,0,
+sdim alias R,-,GateData(2).aliasMap['R'],,,,,,,,H
+sdim DETECTOR placeholder collision,-,rec[0]+rec[1],,,,,,,,"sdim evaluates support [0, 1] (intended {0, 1}); parse_ok=True"
+sdim DETECTOR placeholder collision,-,rec[1]+rec[0],,,,,,,,"sdim evaluates support [] (intended {0, 1}); parse_ok=False"

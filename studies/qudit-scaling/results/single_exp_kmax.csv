@@ -1,0 +1,13 @@
+config,k_max_all_p_strict,k_max_upper_half_strict,k_max_all_p_main,k_max_upper_half_main,k_max_all_p_t12,k_max_upper_half_t12,k_max_all_p_t15,k_max_upper_half_t15,k_max_all_p_loose,k_max_upper_half_loose
+qubit-one-sd6,0,0,0,1,0,1,0,1,2,2
+qubit-one-si1000,0,2,2,2,2,2,4,4,4,4
+qubit-one5-sd6,0,0,0,0,0,1,0,1,0,2
+qubit-one5-si1000,2,2,2,2,2,2,2,2,4,6
+qubit-two-sd6,1,1,2,2,2,2,2,2,5,5
+qubit-two-si1000,0,0,4,4,4,4,4,4,4,4
+qutrit-one-sd6,0,0,0,0,0,2,0,2,0,3
+qutrit-one-si1000,0,0,2,2,2,2,2,2,3,3
+qutrit-one5-sd6,0,0,0,0,0,0,0,0,0,3
+qutrit-one5-si1000,0,0,2,2,2,2,2,2,2,2
+qutrit-two-sd6,0,0,0,2,0,2,0,2,1,2
+qutrit-two-si1000,0,0,0,0,2,2,2,2,3,3

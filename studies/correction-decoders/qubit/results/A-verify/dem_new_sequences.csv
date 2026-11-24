@@ -1,0 +1,85 @@
+set,sequence,descriptors,kind,depth,p,meas_seq_equal,timeline_equal,timeline_first_diff,silent_logical_repo,silent_logical_lead,repo_basis_same_symptoms,repo_basis_bit_identical,repo_basis_max_rel,repo_basis_n_a,repo_basis_n_b,lead_basis_same_symptoms,lead_basis_bit_identical,lead_basis_max_rel,lead_basis_n_a,lead_basis_n_b,dem_identical,num_detectors,num_detectors_lead,translate_parse_ok,translate_constant_terms,translate_n2_max_tail_minus_prob,chp_route_timeline_equal_inmem,chp_route_vs_lead_dem_identical,chp_parse_ok
+main,new_A,,lrb,0,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,20,20,True,True,0,20,20,True,4,4,True,0,1.7347234759768071e-18,True,True,True
+main,new_A,ZHP XHPH XZ,lrb,3,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,196,196,True,True,0,196,196,True,16,16,True,0,1.7347234759768071e-18,True,True,True
+main,new_A,ZHP XHPH XZ XHPH XHPH X ZH,lrb,7,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,420,420,True,True,0,420,420,True,32,32,True,0,1.7347234759768071e-18,True,True,True
+main,new_A,,const0,0,0.01,True,True,,0,0,True,True,0,0,0,True,True,0,0,0,True,2,2,True,0,0,True,True,True
+main,new_A,ZHP XHPH XZ,const0,3,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,True,True,True
+main,new_A,ZHP XHPH XZ XHPH XHPH X ZH,const0,7,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,True,True,True
+main,new_A,,lrb,0,0.0037000000000000002,True,True,,0.016569950688611331,0.016569950688611331,True,True,0,20,20,True,True,0,20,20,True,4,4,True,0,4.3368086899420177e-19,True,True,True
+main,new_A,ZHP XHPH XZ,lrb,3,0.0037000000000000002,True,True,,0.016569950688611331,0.016569950688611331,True,True,0,196,196,True,True,0,196,196,True,16,16,True,0,4.3368086899420177e-19,True,True,True
+main,new_A,ZHP XHPH XZ XHPH XHPH X ZH,lrb,7,0.0037000000000000002,True,True,,0.016569950688611331,0.016569950688611331,True,True,0,420,420,True,True,0,420,420,True,32,32,True,0,4.3368086899420177e-19,True,True,True
+main,new_A,,const0,0,0.0037000000000000002,True,True,,0,0,True,True,0,0,0,True,True,0,0,0,True,2,2,True,0,0,True,True,True
+main,new_A,ZHP XHPH XZ,const0,3,0.0037000000000000002,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,4.3368086899420177e-19,True,True,True
+main,new_A,ZHP XHPH XZ XHPH XHPH X ZH,const0,7,0.0037000000000000002,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,4.3368086899420177e-19,True,True,True
+main,new_B,,lrb,0,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,20,20,True,True,0,20,20,True,4,4,True,0,1.7347234759768071e-18,True,True,True
+main,new_B,XHPH XZPH XZH,lrb,3,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,192,192,True,True,0,192,192,True,16,16,True,0,1.7347234759768071e-18,True,True,True
+main,new_B,XHPH XZPH XZH I XP P XHPH,lrb,7,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,410,410,True,True,0,410,410,True,32,32,True,0,1.7347234759768071e-18,True,True,True
+main,new_B,,const0,0,0.01,True,True,,0,0,True,True,0,0,0,True,True,0,0,0,True,2,2,True,0,0,True,True,True
+main,new_B,XHPH XZPH XZH,const0,3,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,True,True,True
+main,new_B,XHPH XZPH XZH I XP P XHPH,const0,7,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,True,True,True
+main,new_B,,lrb,0,0.0037000000000000002,True,True,,0.016569950688611331,0.016569950688611331,True,True,0,20,20,True,True,0,20,20,True,4,4,True,0,4.3368086899420177e-19,True,True,True
+main,new_B,XHPH XZPH XZH,lrb,3,0.0037000000000000002,True,True,,0.016569950688611331,0.016569950688611331,True,True,0,192,192,True,True,0,192,192,True,16,16,True,0,4.3368086899420177e-19,True,True,True
+main,new_B,XHPH XZPH XZH I XP P XHPH,lrb,7,0.0037000000000000002,True,True,,0.016569950688611331,0.016569950688611331,True,True,0,410,410,True,True,0,410,410,True,32,32,True,0,4.3368086899420177e-19,True,True,True
+main,new_B,,const0,0,0.0037000000000000002,True,True,,0,0,True,True,0,0,0,True,True,0,0,0,True,2,2,True,0,0,True,True,True
+main,new_B,XHPH XZPH XZH,const0,3,0.0037000000000000002,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,4.3368086899420177e-19,True,True,True
+main,new_B,XHPH XZPH XZH I XP P XHPH,const0,7,0.0037000000000000002,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,4.3368086899420177e-19,True,True,True
+main,hand_C,,lrb,0,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,20,20,True,True,0,20,20,True,4,4,True,0,1.7347234759768071e-18,True,True,True
+main,hand_C,XZHPH I ZPH,lrb,3,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,186,186,True,True,0,186,186,True,16,16,True,0,1.7347234759768071e-18,True,True,True
+main,hand_C,XZHPH I ZPH XHP PH HPH XZP,lrb,7,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,411,411,True,True,0,411,411,True,32,32,True,0,1.7347234759768071e-18,True,True,True
+main,hand_C,,const0,0,0.01,True,True,,0,0,True,True,0,0,0,True,True,0,0,0,True,2,2,True,0,0,True,True,True
+main,hand_C,XZHPH I ZPH,const0,3,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,True,True,True
+main,hand_C,XZHPH I ZPH XHP PH HPH XZP,const0,7,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,True,True,True
+main,hand_C,,lrb,0,0.0037000000000000002,True,True,,0.016569950688611331,0.016569950688611331,True,True,0,20,20,True,True,0,20,20,True,4,4,True,0,4.3368086899420177e-19,True,True,True
+main,hand_C,XZHPH I ZPH,lrb,3,0.0037000000000000002,True,True,,0.016569950688611331,0.016569950688611331,True,True,0,186,186,True,True,0,186,186,True,16,16,True,0,4.3368086899420177e-19,True,True,True
+main,hand_C,XZHPH I ZPH XHP PH HPH XZP,lrb,7,0.0037000000000000002,True,True,,0.016569950688611331,0.016569950688611331,True,True,0,411,411,True,True,0,411,411,True,32,32,True,0,4.3368086899420177e-19,True,True,True
+main,hand_C,,const0,0,0.0037000000000000002,True,True,,0,0,True,True,0,0,0,True,True,0,0,0,True,2,2,True,0,0,True,True,True
+main,hand_C,XZHPH I ZPH,const0,3,0.0037000000000000002,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,4.3368086899420177e-19,True,True,True
+main,hand_C,XZHPH I ZPH XHP PH HPH XZP,const0,7,0.0037000000000000002,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,4.3368086899420177e-19,True,True,True
+descriptor,I,I,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,67,67,True,True,0,67,67,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,I,I,const0,1,0.01,True,True,,0,0,True,True,0,1,1,True,True,0,1,1,True,2,2,True,0,0,,,
+descriptor,H,H,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,84,84,True,True,0,84,84,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,H,H,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,P,P,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,85,85,True,True,0,85,85,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,P,P,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,HP,HP,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,85,85,True,True,0,85,85,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,HP,HP,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,PH,PH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,84,84,True,True,0,84,84,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,PH,PH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,HPH,HPH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,80,80,True,True,0,80,80,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,HPH,HPH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,X,X,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,67,67,True,True,0,67,67,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,X,X,const0,1,0.01,True,True,,0,0,True,True,0,2,2,True,True,0,2,2,True,2,2,True,0,0,,,
+descriptor,XH,XH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,84,84,True,True,0,84,84,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XH,XH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,XP,XP,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,85,85,True,True,0,85,85,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XP,XP,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,XHP,XHP,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,85,85,True,True,0,85,85,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XHP,XHP,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,XPH,XPH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,84,84,True,True,0,84,84,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XPH,XPH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,XHPH,XHPH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,80,80,True,True,0,80,80,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XHPH,XHPH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,Z,Z,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,67,67,True,True,0,67,67,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,Z,Z,const0,1,0.01,True,True,,0,0,True,True,0,2,2,True,True,0,2,2,True,2,2,True,0,0,,,
+descriptor,ZH,ZH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,84,84,True,True,0,84,84,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,ZH,ZH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,ZP,ZP,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,85,85,True,True,0,85,85,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,ZP,ZP,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,ZHP,ZHP,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,85,85,True,True,0,85,85,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,ZHP,ZHP,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,ZPH,ZPH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,84,84,True,True,0,84,84,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,ZPH,ZPH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,ZHPH,ZHPH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,80,80,True,True,0,80,80,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,ZHPH,ZHPH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,XZ,XZ,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,67,67,True,True,0,67,67,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XZ,XZ,const0,1,0.01,True,True,,0,0,True,True,0,3,3,True,True,0,3,3,True,2,2,True,0,0,,,
+descriptor,XZH,XZH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,84,84,True,True,0,84,84,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XZH,XZH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,XZP,XZP,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,85,85,True,True,0,85,85,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XZP,XZP,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,XZHP,XZHP,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,85,85,True,True,0,85,85,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XZHP,XZHP,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,XZPH,XZPH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,84,84,True,True,0,84,84,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XZPH,XZPH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,
+descriptor,XZHPH,XZHPH,lrb,1,0.01,True,True,,0.043860758123456765,0.043860758123456765,True,True,0,80,80,True,True,0,80,80,True,8,8,True,0,1.7347234759768071e-18,,,
+descriptor,XZHPH,XZHPH,const0,1,0.01,True,True,,0,0,True,True,0,6,6,True,True,0,6,6,True,2,2,True,0,1.7347234759768071e-18,,,

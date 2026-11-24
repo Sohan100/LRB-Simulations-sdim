@@ -1,0 +1,48 @@
+policy,n_tested,n_significant,significant_p,forms,max_abs_z_curv,min_log10_p
+unif1,9,4,0.005 0.0075 0.01 0.0125,boundary(m=0):2; irregular:2,6.03756362,-9.884439046
+unif2,10,0,,,2.341280539,-1.552251711
+unif3,10,7,0.001 0.002 0.005 0.0075 0.01 0.0125 0.015,boundary(m=0):1; decelerating+misfit:2; irregular:2; irregular+misfit:2,22.79467284,-127.0177681
+unif4,11,9,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating+misfit:3; irregular:2; irregular+misfit:4,6.145887708,-90.96242585
+unif5,11,9,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating+misfit:3; decelerating+misfit:2; irregular:2; irregular+misfit:2,9.837926775,-inf
+unif6,11,9,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating+misfit:5; irregular:1; irregular+misfit:3,35.76640406,-inf
+unif7,11,9,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:5; irregular:1; irregular+misfit:2,92.54167637,-inf
+unif8,11,9,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:5; irregular:1; irregular+misfit:2,92.54167637,-inf
+unif9,11,9,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:5; irregular:1; irregular+misfit:2,92.54167637,-inf
+unif10,11,9,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:6; irregular:1; irregular+misfit:1,92.54167637,-inf
+unif11,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:6; irregular:1; irregular+misfit:2,144.3260349,-inf
+unif12,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:7; irregular:1; irregular+misfit:1,158.672552,-inf
+unif13,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:7; irregular:1; irregular+misfit:1,147.6485682,-inf
+unif14,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:6; irregular:1; irregular+misfit:2,180.2751258,-inf
+unif15,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:6; decelerating+misfit:1; irregular:1; irregular+misfit:2,201.3135111,-inf
+unif16,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:6; irregular:1; irregular+misfit:3,223.0793758,-inf
+unif17,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:6; irregular:1; irregular+misfit:2,256.6231485,-inf
+unif18,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:7; irregular:1; irregular+misfit:1,287.2248778,-inf
+unif19,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:7; irregular:1; irregular+misfit:1,323.8056828,-inf
+unif20,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:8; irregular:1,339.5083382,-inf
+unif21,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:8; irregular:1,414.7351307,-inf
+unif22,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:8; irregular:1,414.7351307,-inf
+const0,14,14,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02 0.03 0.04 0.05,accelerating:6; accelerating+misfit:8,80.45294271,-inf
+const1,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:4; accelerating+misfit:6; irregular:1,414.7351307,-inf
+const2,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:3; accelerating+misfit:7; irregular:1,138.8152813,-inf
+const3,10,8,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125,accelerating:1; accelerating+misfit:4; boundary(m=0):1; decelerating:2,62.63584681,-inf
+const4,10,8,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015,accelerating+misfit:5; irregular:2; irregular+misfit:1,35.45076676,-inf
+const5,11,9,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating+misfit:2; decelerating+misfit:2; irregular:3; irregular+misfit:2,31.58057933,-inf
+const6,11,9,0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating+misfit:4; decelerating+misfit:2; irregular:3,19.94499561,-inf
+const7,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:3; decelerating+misfit:1; irregular:1; irregular+misfit:4,92.54167637,-inf
+const8,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:5; decelerating+misfit:1; irregular:1; irregular+misfit:2,92.54167637,-inf
+const9,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:3; decelerating+misfit:4; irregular:1; irregular+misfit:1,92.54167637,-inf
+const10,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:3; decelerating+misfit:4; irregular:1; irregular+misfit:1,92.54167637,-inf
+const11,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:4; irregular:1,141.6448241,-inf
+const12,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:6; irregular:1; irregular+misfit:2,141.6448241,-inf
+const13,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:1; irregular:1; irregular+misfit:3,141.6448241,-inf
+const14,11,10,0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:4; irregular:1,141.6448241,-inf
+const15,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:4; irregular:1; irregular+misfit:1,171.8206986,-inf
+const16,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:5; irregular:1,171.8206986,-inf
+const17,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:5; irregular:1,171.8206986,-inf
+const18,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:5; irregular:1,171.8206986,-inf
+const19,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:5; irregular:1,286.5488344,-inf
+const20,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:5; irregular:1,286.5488344,-inf
+const21,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:5; decelerating+misfit:4; irregular:1,414.7351307,-inf
+const22,11,11,0.0001 0.0002 0.0005 0.001 0.002 0.005 0.0075 0.01 0.0125 0.015 0.02,accelerating:1; accelerating+misfit:4; decelerating+misfit:4; irregular:1; irregular+misfit:1,414.7351307,-inf
+RB,14,0,,,2.072089063,-0.4844755701
+RBC,14,0,,,0.9479403254,-0.2272327363

@@ -1,0 +1,46 @@
+
+== sanity: p = 0
+  policies with rejection or F != 1 at p = 0: 0
+
+== const0 (C11): (1 - F)/m^2 at p = 1e-3, mean over 30 seqs
+  modulus: m=2: 2.02+-0.28, m=4: 2.10+-0.18, m=6: 1.99+-0.16, m=10: 2.06+-0.10, m=14: 2.21+-0.08, m=18: 2.26+-0.09, m=20: 2.23+-0.08, m=22: 2.27+-0.07  (x1e-6)
+  real   : m=2: 2.02+-0.28, m=4: 2.10+-0.18, m=6: 1.99+-0.16, m=10: 2.06+-0.10, m=14: 2.21+-0.08, m=18: 2.26+-0.09, m=20: 2.23+-0.08, m=22: 2.27+-0.07  (x1e-6)
+
+== rise (C14): const 4, paired F(4) - F(2) over 30 sequences
+  p=1e-03 modulus: data mean +1.16e-04 (SE 4.0e-05, z = +2.91); exact mean over the same 30 sequences +1.97e-05; data - exact = +2.41 SE; per-sequence (data - exact) sd/shot-sd check: 1.9e-04
+  p=1e-03 real   : data mean +1.16e-04 (SE 4.0e-05, z = +2.91); exact mean over the same 30 sequences +1.97e-05; data - exact = +2.41 SE; per-sequence (data - exact) sd/shot-sd check: 1.9e-04
+  p=5e-03 modulus: data mean +1.01e-03 (SE 2.9e-04, z = +3.46); exact mean over the same 30 sequences +9.50e-04; data - exact = +0.22 SE; per-sequence (data - exact) sd/shot-sd check: 8.5e-04
+  p=5e-03 real   : data mean +1.01e-03 (SE 2.9e-04, z = +3.46); exact mean over the same 30 sequences +9.50e-04; data - exact = +0.22 SE; per-sequence (data - exact) sd/shot-sd check: 8.5e-04
+
+== t5 (C15): m = 0 point vs b f^m fitted on m >= 2 (unif 1)
+  p=5e-04: residual +3.10e-05; z (m=0 SE only, A4) = +2.44; z (cluster bootstrap incl. extrapolation) = +2.06; exact expected residual (6 seqs) +1.02e-05 -> expected z +0.68
+  p=1e-03: residual +4.25e-05; z (m=0 SE only, A4) = +2.66; z (cluster bootstrap incl. extrapolation) = +1.46; exact expected residual (6 seqs) +4.20e-05 -> expected z +1.45
+  p=2e-03: residual +1.72e-04; z (m=0 SE only, A4) = +6.62; z (cluster bootstrap incl. extrapolation) = +3.62; exact expected residual (6 seqs) +1.70e-04 -> expected z +3.58
+
+== sat (C16): const 1 at m = 22
+  p=0.01  : data A(22) mean 0.01234 (range 0.01210-0.01256); real-part F(22) mean +0.0010 sd 0.0063; modulus F(22) mean 0.0082; sqrt(pi/(4 n_acc)) = 0.0080  exact A(22) = 0.01235   [1/81 = 0.01235]
+  p=0.0125: data A(22) mean 0.01233 (range 0.01208-0.01254); real-part F(22) mean -0.0007 sd 0.0052; modulus F(22) mean 0.0070; sqrt(pi/(4 n_acc)) = 0.0080     [1/81 = 0.01235]
+  p=0.015 : data A(22) mean 0.01233 (range 0.01209-0.01257); real-part F(22) mean +0.0003 sd 0.0082; modulus F(22) mean 0.0086; sqrt(pi/(4 n_acc)) = 0.0080     [1/81 = 0.01235]
+  p=0.02  : data A(22) mean 0.01237 (range 0.01212-0.01256); real-part F(22) mean +0.0001 sd 0.0054; modulus F(22) mean 0.0076; sqrt(pi/(4 n_acc)) = 0.0080  exact A(22) = 0.01235   [1/81 = 0.01235]
+  p=0.03  : data A(22) mean 0.01234 (range 0.01205-0.01251); real-part F(22) mean -0.0014 sd 0.0058; modulus F(22) mean 0.0080; sqrt(pi/(4 n_acc)) = 0.0080     [1/81 = 0.01235]
+  p=0.04  : data A(22) mean 0.01235 (range 0.01214-0.01254); real-part F(22) mean +0.0006 sd 0.0055; modulus F(22) mean 0.0077; sqrt(pi/(4 n_acc)) = 0.0080     [1/81 = 0.01235]
+  p=0.05  : data A(22) mean 0.01236 (range 0.01213-0.01255); real-part F(22) mean +0.0014 sd 0.0076; modulus F(22) mean 0.0094; sqrt(pi/(4 n_acc)) = 0.0080     [1/81 = 0.01235]
+
+== rice (C17): estimator z-scores against exact values
+  p=0.01: n=54: modulus z mean +0.65 (sd 0.96); real z mean +0.11 (sd 1.03); cells with F < 5 SE: 24, modulus z there +1.05, real -0.16
+  p=0.02: n=54: modulus z mean +0.70 (sd 0.81); real z mean +0.04 (sd 0.85); cells with F < 5 SE: 36, modulus z there +1.01, real +0.02
+
+== power (C18): unif 1 curvature d (ln F = a - c m - d m^2)
+  p=5e-04: data d = -1.26e-07, bootstrap sd 2.1e-07, 95% half-width 4.1e-07; exact d (6-seq mean curve) +3.08e-08 -> d/sd = 0.15; per-sequence exact d: [-7.9e-09 -1.5e-08  2.7e-08  4.3e-08  7.4e-08  6.4e-08]; acceptance at m=22 0.2840
+  p=1e-03: data d = -9.34e-08, bootstrap sd 4.1e-07, 95% half-width 8.1e-07; exact d (6-seq mean curve) +5.86e-08 -> d/sd = 0.14; per-sequence exact d: [-2.2e-07 -4.3e-08  5.1e-09 -1.0e-08  3.3e-07  2.9e-07]; acceptance at m=22 0.0807
+  p=2e-03: data d = -9.61e-08, bootstrap sd 1.2e-06, 95% half-width 2.3e-06; exact d (6-seq mean curve) -1.99e-07 -> d/sd = -0.17; per-sequence exact d: [-1.9e-06 -7.3e-07 -8.6e-07 -1.5e-06  2.2e-06  1.6e-06]; acceptance at m=22 0.0065
+
+== saw (C13): unif 4 sawtooth e in ln F = a - c m - e (m mod 4)
+  p=5e-04: e = +3.15e-05, e/p^2 =   126.0
+  p=1e-03: e = +1.32e-04, e/p^2 =   131.7
+  p=2e-03: e = +3.69e-04, e/p^2 =    92.2
+  p=5e-03: e = +3.21e-03, e/p^2 =   128.3
+
+real	0m2.049s
+user	0m1.541s
+sys	0m0.260s

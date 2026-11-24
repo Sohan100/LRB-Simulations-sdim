@@ -1,0 +1,93 @@
+{
+ "device": {
+  "name": "atom_rb",
+  "t1_us": Infinity,
+  "t2_us": 1500000.0,
+  "t_1q_ns": 1000.0,
+  "t_2q_ns": 200000.0,
+  "t_meas_ns": 500000.0,
+  "t_reset_ns": 0.0,
+  "r_1q": 0.00088,
+  "r_2q": 0.005,
+  "e_meas": 0.002,
+  "e_reset": 0.002,
+  "extra_idle": [
+   [
+    "meas",
+    0.001
+   ]
+  ],
+  "cz23": "native",
+  "overrides": [],
+  "source": "Bluvstein et al. 2024 (arXiv:2312.03982); Evered et al. 2023 (arXiv:2304.05420)"
+ },
+ "kind": "hw",
+ "num_seq": 30,
+ "depths": [
+  0,
+  2,
+  4,
+  6,
+  10,
+  14,
+  18,
+  20,
+  22
+ ],
+ "shots": 100000,
+ "decode_shots": 50000,
+ "seq_seed": 20261028,
+ "seed": 2026,
+ "builder_kwargs": {},
+ "run_kwargs": {
+  "const_checks": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   10,
+   22
+  ],
+  "unif_checks": [
+   1,
+   2,
+   3,
+   5,
+   11,
+   22
+  ],
+  "with_mld2": false
+ },
+ "si1000_equivalent": {
+  "p": 0.00625,
+  "factors": {
+   "one_qubit": 0.2112,
+   "two_qubit": 1.0,
+   "meas_idle": 0.18666222271600738,
+   "meas_depol": 0.0,
+   "meas_flip": 0.32,
+   "reset_idle": 0.0,
+   "reset_flip": 0.32
+  },
+  "gate_idle_over_p": 0.010665955587159104,
+  "absolute": {
+   "cz": 0.00625,
+   "one_qubit": 0.00132,
+   "meas_idle": 0.0011666388919750461,
+   "meas_flip": 0.002,
+   "reset_idle": 0.0,
+   "reset_flip": 0.002,
+   "gate_idle_cz_layer": 6.66622224197444e-05
+  },
+  "si1000_reference": {
+   "one_qubit": 0.1,
+   "two_qubit": 1.0,
+   "meas_idle": 2.0,
+   "meas_flip": 5.0,
+   "reset_idle": 2.0,
+   "reset_flip": 2.0,
+   "gate_idle": 0.1
+  }
+ }
+}

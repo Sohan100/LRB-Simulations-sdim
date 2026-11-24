@@ -1,0 +1,30 @@
+{
+ "kind": "leakage",
+ "probs": [
+  0.0005,
+  0.002,
+  0.005
+ ],
+ "depths": [
+  0,
+  2,
+  4,
+  6,
+  10,
+  14,
+  18,
+  20,
+  22
+ ],
+ "shots": 40000,
+ "num_seq": 12,
+ "seq_seed": 20261028,
+ "configs": {
+  "none": "LeakageModel(rate=0.0, lru=False, lru_efficiency=1.0, lru_herald=True, reset_returns=True, seepage=0.0, readout_value=1)",
+  "k0.1": "LeakageModel(rate=0.1, lru=False, lru_efficiency=1.0, lru_herald=True, reset_returns=True, seepage=0.0, readout_value=1)",
+  "k0.1_lru": "LeakageModel(rate=0.1, lru=True, lru_efficiency=1.0, lru_herald=True, reset_returns=True, seepage=0.0, readout_value=1)",
+  "k0.5": "LeakageModel(rate=0.5, lru=False, lru_efficiency=1.0, lru_herald=True, reset_returns=True, seepage=0.0, readout_value=1)",
+  "k0.5_lru": "LeakageModel(rate=0.5, lru=True, lru_efficiency=1.0, lru_herald=True, reset_returns=True, seepage=0.0, readout_value=1)"
+ },
+ "started": "2026-10-28 20:48:09"
+}

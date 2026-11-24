@@ -1,0 +1,330 @@
+[
+ {
+  "exact_lower_bound": 2,
+  "ambiguous_classes": 4,
+  "num_detectors": 9,
+  "num_mechanisms": 60,
+  "stim_search": 2,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(9), [])] @ DEPOLARIZE2(0.001) 2 9",
+   "[stim.GateTargetWithCoords(stim.target_y(2), []), stim.GateTargetWithCoords(stim.target_z(8), [])] @ DEPOLARIZE2(0.001) 2 8"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 2,
+  "extraction": "naive",
+  "schedule": "sequential",
+  "depth": 0,
+  "seconds": 0.0018673859995033126
+ },
+ {
+  "exact_lower_bound": 2,
+  "ambiguous_classes": 12,
+  "num_detectors": 15,
+  "num_mechanisms": 188,
+  "stim_search": 2,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(2), []), stim.GateTargetWithCoords(stim.target_z(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(9), [])] @ DEPOLARIZE2(0.001) 2 9"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 2,
+  "extraction": "naive",
+  "schedule": "sequential",
+  "depth": 1,
+  "seconds": 0.00437072099884972
+ },
+ {
+  "exact_lower_bound": 2,
+  "ambiguous_classes": 20,
+  "num_detectors": 21,
+  "num_mechanisms": 320,
+  "stim_search": 2,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(2), []), stim.GateTargetWithCoords(stim.target_z(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(9), [])] @ DEPOLARIZE2(0.001) 2 9"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 2,
+  "extraction": "naive",
+  "schedule": "sequential",
+  "depth": 2,
+  "seconds": 0.006419456000003265
+ },
+ {
+  "exact_lower_bound": 2,
+  "ambiguous_classes": 32,
+  "num_detectors": 33,
+  "num_mechanisms": 578,
+  "stim_search": 2,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(2), []), stim.GateTargetWithCoords(stim.target_z(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(9), [])] @ DEPOLARIZE2(0.001) 2 9"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 2,
+  "extraction": "naive",
+  "schedule": "sequential",
+  "depth": 4,
+  "seconds": 0.012697887999820523
+ },
+ {
+  "exact_lower_bound": 2,
+  "ambiguous_classes": 4,
+  "num_detectors": 9,
+  "num_mechanisms": 60,
+  "stim_search": 2,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(9), [])] @ DEPOLARIZE2(0.001) 2 9",
+   "[stim.GateTargetWithCoords(stim.target_y(2), []), stim.GateTargetWithCoords(stim.target_z(8), [])] @ DEPOLARIZE2(0.001) 2 8"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 2,
+  "extraction": "naive",
+  "schedule": "parallel",
+  "depth": 0,
+  "seconds": 0.0013361250021262094
+ },
+ {
+  "exact_lower_bound": 2,
+  "ambiguous_classes": 12,
+  "num_detectors": 15,
+  "num_mechanisms": 188,
+  "stim_search": 2,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(2), []), stim.GateTargetWithCoords(stim.target_z(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(9), [])] @ DEPOLARIZE2(0.001) 2 9"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 2,
+  "extraction": "naive",
+  "schedule": "parallel",
+  "depth": 1,
+  "seconds": 0.003753008000785485
+ },
+ {
+  "exact_lower_bound": 2,
+  "ambiguous_classes": 20,
+  "num_detectors": 21,
+  "num_mechanisms": 320,
+  "stim_search": 2,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(2), []), stim.GateTargetWithCoords(stim.target_z(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(9), [])] @ DEPOLARIZE2(0.001) 2 9"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 2,
+  "extraction": "naive",
+  "schedule": "parallel",
+  "depth": 2,
+  "seconds": 0.005836087002535351
+ },
+ {
+  "exact_lower_bound": 2,
+  "ambiguous_classes": 32,
+  "num_detectors": 33,
+  "num_mechanisms": 578,
+  "stim_search": 2,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(2), []), stim.GateTargetWithCoords(stim.target_z(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(9), [])] @ DEPOLARIZE2(0.001) 2 9"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 2,
+  "extraction": "naive",
+  "schedule": "parallel",
+  "depth": 4,
+  "seconds": 0.009995582000556169
+ },
+ {
+  "exact_lower_bound": 3,
+  "ambiguous_classes": 0,
+  "num_detectors": 15,
+  "num_mechanisms": 100,
+  "stim_search": 3,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(6), []), stim.GateTargetWithCoords(stim.target_x(7), [])] @ DEPOLARIZE2(0.001) 6 7",
+   "[stim.GateTargetWithCoords(stim.target_y(7), [])] @ DEPOLARIZE2(0.001) 3 7",
+   "[stim.GateTargetWithCoords(stim.target_y(2), [])] @ DEPOLARIZE1(0.002) 2"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 3,
+  "extraction": "flag",
+  "schedule": "sequential",
+  "depth": 0,
+  "seconds": 0.00258439599929261
+ },
+ {
+  "exact_lower_bound": 3,
+  "ambiguous_classes": 0,
+  "num_detectors": 27,
+  "num_mechanisms": 274,
+  "stim_search": 3,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_y(5), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 5 8",
+   "[stim.GateTargetWithCoords(stim.target_x(4), [])] @ DEPOLARIZE2(0.001) 4 7"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 3,
+  "extraction": "flag",
+  "schedule": "sequential",
+  "depth": 1,
+  "seconds": 0.007936568999866722
+ },
+ {
+  "exact_lower_bound": 3,
+  "ambiguous_classes": 0,
+  "num_detectors": 39,
+  "num_mechanisms": 448,
+  "stim_search": 3,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_y(5), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 5 8",
+   "[stim.GateTargetWithCoords(stim.target_x(4), [])] @ DEPOLARIZE2(0.001) 4 7"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 3,
+  "extraction": "flag",
+  "schedule": "sequential",
+  "depth": 2,
+  "seconds": 0.013368710999202449
+ },
+ {
+  "exact_lower_bound": 3,
+  "ambiguous_classes": 0,
+  "num_detectors": 63,
+  "num_mechanisms": 796,
+  "stim_search": 3,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_y(5), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 5 8",
+   "[stim.GateTargetWithCoords(stim.target_x(4), [])] @ DEPOLARIZE2(0.001) 4 7"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 3,
+  "extraction": "flag",
+  "schedule": "sequential",
+  "depth": 4,
+  "seconds": 0.037634696996974526
+ },
+ {
+  "exact_lower_bound": 3,
+  "ambiguous_classes": 0,
+  "num_detectors": 15,
+  "num_mechanisms": 100,
+  "stim_search": 3,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_y(6), []), stim.GateTargetWithCoords(stim.target_x(7), [])] @ DEPOLARIZE2(0.001) 6 7",
+   "[stim.GateTargetWithCoords(stim.target_y(7), [])] @ DEPOLARIZE2(0.001) 3 7",
+   "[stim.GateTargetWithCoords(stim.target_y(2), []), stim.GateTargetWithCoords(stim.target_x(8), [])] @ DEPOLARIZE2(0.001) 2 8"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 3,
+  "extraction": "flag",
+  "schedule": "parallel",
+  "depth": 0,
+  "seconds": 0.002562023000791669
+ },
+ {
+  "exact_lower_bound": 3,
+  "ambiguous_classes": 0,
+  "num_detectors": 27,
+  "num_mechanisms": 274,
+  "stim_search": 3,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_y(5), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 5 8",
+   "[stim.GateTargetWithCoords(stim.target_x(4), [])] @ DEPOLARIZE2(0.001) 4 7"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 3,
+  "extraction": "flag",
+  "schedule": "parallel",
+  "depth": 1,
+  "seconds": 0.008012428999791155
+ },
+ {
+  "exact_lower_bound": 3,
+  "ambiguous_classes": 0,
+  "num_detectors": 39,
+  "num_mechanisms": 448,
+  "stim_search": 3,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_y(5), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 5 8",
+   "[stim.GateTargetWithCoords(stim.target_x(4), [])] @ DEPOLARIZE2(0.001) 4 7"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 3,
+  "extraction": "flag",
+  "schedule": "parallel",
+  "depth": 2,
+  "seconds": 0.012261883999599377
+ },
+ {
+  "exact_lower_bound": 3,
+  "ambiguous_classes": 0,
+  "num_detectors": 63,
+  "num_mechanisms": 796,
+  "stim_search": 3,
+  "stim_search_example": [
+   "[stim.GateTargetWithCoords(stim.target_x(2), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 2 8",
+   "[stim.GateTargetWithCoords(stim.target_y(5), []), stim.GateTargetWithCoords(stim.target_y(8), [])] @ DEPOLARIZE2(0.001) 5 8",
+   "[stim.GateTargetWithCoords(stim.target_x(4), [])] @ DEPOLARIZE2(0.001) 4 7"
+  ],
+  "search_limits": {
+   "size": 6,
+   "degree": 6
+  },
+  "shortest_graphlike": 3,
+  "extraction": "flag",
+  "schedule": "parallel",
+  "depth": 4,
+  "seconds": 0.022974585997872055
+ }
+]

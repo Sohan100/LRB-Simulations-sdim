@@ -1,0 +1,51 @@
+scope,config,decoder_family,bp_schedule,bp_iterations,post_processing,columns,delta_ler_rb,delta_ler_rb_se,disagreement,us_per_call_login_node,note
+pooled_3_points,osd_cs7_it2,BP+OSD,parallel,2,OSD_CS order 7,mechanism,0.00663,0.00026,0.0991,842,
+pooled_3_points,osd_cs7_it5,BP+OSD,parallel,5,OSD_CS order 7,mechanism,0.00642,0.00025,0.1023,933,chosen as bposd_cs7
+pooled_3_points,osd_cs7_it10,BP+OSD,parallel,10,OSD_CS order 7,mechanism,0.00664,0.00026,0.1006,1263,
+pooled_3_points,osd_cs7_it30,BP+OSD,parallel,30,OSD_CS order 7,mechanism,0.00658,0.00026,0.1015,2506,
+pooled_3_points,osd_cs15_it5,BP+OSD,parallel,5,OSD_CS order 15,mechanism,0.00629,0.00025,0.1008,991,
+pooled_3_points,osd_0_it5,BP+OSD,parallel,5,OSD_0,mechanism,0.01381,0.00046,0.1355,477,chosen as bposd_0
+pooled_3_points,osd_cs7_it5_serial,BP+OSD,serial,5,OSD_CS order 7,mechanism,0.00614,0.00024,0.0979,4916,chosen as bposd_cs7_serial
+pooled_3_points,lsd_cs7_it5,BP+LSD,parallel,5,LSD_CS order 7,mechanism,0.01162,0.00041,0.1264,527,chosen as bplsd_cs7
+pooled_3_points,lsd_cs7_it30,BP+LSD,parallel,30,LSD_CS order 7,mechanism,0.01271,0.00046,0.1266,2058,
+pooled_3_points,lsd_cs7_it5_always,BP+LSD,parallel,5,LSD_CS order 7 always_run_lsd,mechanism,0.01161,0.00041,0.1265,530,chosen as bplsd_cs7_always
+pooled_3_points,lsd_cs7_it30_always,BP+LSD,parallel,30,LSD_CS order 7 always_run_lsd,mechanism,0.01272,0.00046,0.1268,2092,
+pooled_3_points,lsd_e7_it5,BP+LSD,parallel,5,LSD_E order 7,mechanism,0.01164,0.00041,0.1265,537,
+pooled_3_points,uf_graph_w,UF,none,0,ldpc peeling weighted,graph,0.12981,0.00212,0.3809,29,ldpc peeling mode; hangs on some p=1e-2 syndromes; dropped
+pooled_3_points,uf_graph_u,UF,none,0,ldpc peeling unweighted,graph,0.10264,0.00190,0.3431,26,ldpc peeling mode; hangs on some p=1e-2 syndromes; dropped
+pooled_3_points,uf_hyper_w,UF,none,0,ldpc matrix-solve weighted,mechanism,0.08094,0.00166,0.2727,581,chosen as uf_hyper
+pooled_3_points,uf_hyper_u,UF,none,0,ldpc matrix-solve unweighted,mechanism,0.12492,0.00214,0.3629,117,
+pooled_3_points,bf_it5,BP+UF,parallel,5,belief-find inversion,mechanism,0.01374,0.00046,0.1343,477,chosen as belief_find
+pooled_3_points,bf_it30,BP+UF,parallel,30,belief-find inversion,mechanism,0.01558,0.00054,0.1385,1913,
+pooled_3_points,mwpm_graph,MWPM control,none,0,PyMatching,graph,0.05850,0.00135,0.2747,1,control
+depth14_p5e-4_seq10,osd_cs7_it2,BP+OSD,parallel,2,OSD_CS order 7,mechanism,0.0473,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,osd_cs7_it5,BP+OSD,parallel,5,OSD_CS order 7,mechanism,0.0484,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,osd_cs7_it10,BP+OSD,parallel,10,OSD_CS order 7,mechanism,0.0486,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,osd_cs7_it30,BP+OSD,parallel,30,OSD_CS order 7,mechanism,0.0486,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,osd_cs15_it5,BP+OSD,parallel,5,OSD_CS order 15,mechanism,0.0484,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,osd_0_it5,BP+OSD,parallel,5,OSD_0,mechanism,0.0505,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,osd_cs7_it5_serial,BP+OSD,serial,5,OSD_CS order 7,mechanism,0.0007,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,lsd_cs7_it5,BP+LSD,parallel,5,LSD_CS order 7,mechanism,0.0499,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,lsd_cs7_it30,BP+LSD,parallel,30,LSD_CS order 7,mechanism,0.0541,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,lsd_cs7_it5_always,BP+LSD,parallel,5,LSD_CS order 7 always_run_lsd,mechanism,0.0019,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,lsd_cs7_it30_always,BP+LSD,parallel,30,LSD_CS order 7 always_run_lsd,mechanism,0.0061,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,lsd_e7_it5,BP+LSD,parallel,5,LSD_E order 7,mechanism,0.0499,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,uf_graph_w,UF,none,0,ldpc peeling weighted,graph,0.0984,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,uf_graph_u,UF,none,0,ldpc peeling unweighted,graph,0.0894,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,uf_hyper_w,UF,none,0,ldpc matrix-solve weighted,mechanism,0.0479,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,uf_hyper_u,UF,none,0,ldpc matrix-solve unweighted,mechanism,0.1089,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,bf_it5,BP+UF,parallel,5,belief-find inversion,mechanism,0.0505,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,bf_it30,BP+UF,parallel,30,belief-find inversion,mechanism,0.0555,,,,single circuit 2500 shots no SE recorded
+depth14_p5e-4_seq10,mwpm_graph,MWPM control,none,0,PyMatching,graph,0.0416,,,,single circuit 2500 shots no SE recorded
+depth6_p2e-3_evalseq2_first_scan,osd_0_ps_it30,BP+OSD,parallel,30,OSD_0,mechanism,0.0131,0.0014,0.0653,1162,first scan on evaluation sequence 2 (not held out); 4000 shots; product-sum
+depth6_p2e-3_evalseq2_first_scan,osd_cs7_ps_it30,BP+OSD,parallel,30,OSD_CS order 7,mechanism,0.0053,0.0008,0.0497,1395,first scan on evaluation sequence 2 (not held out); 4000 shots; product-sum
+depth6_p2e-3_evalseq2_first_scan,osd_cs15_ps_it30,BP+OSD,parallel,30,OSD_CS order 15,mechanism,0.0052,0.0008,0.0493,1680,first scan on evaluation sequence 2 (not held out); 4000 shots; product-sum
+depth6_p2e-3_evalseq2_first_scan,osd_e7_ps_it30,BP+OSD,parallel,30,OSD_E order 7,mechanism,0.0085,0.0011,0.0555,1479,first scan on evaluation sequence 2 (not held out); 4000 shots; product-sum
+depth6_p2e-3_evalseq2_first_scan,osd_0_ms0625_it30,BP+OSD,parallel,30,OSD_0,mechanism,0.0159,0.0016,0.0663,306,first scan on evaluation sequence 2 (not held out); 4000 shots; min-sum scaling 0.625
+depth6_p2e-3_evalseq2_first_scan,osd_cs7_ms0625_it30,BP+OSD,parallel,30,OSD_CS order 7,mechanism,0.0113,0.0014,0.0540,674,first scan on evaluation sequence 2 (not held out); 4000 shots; min-sum scaling 0.625
+depth6_p2e-3_evalseq2_first_scan,osd_cs15_ms0625_it30,BP+OSD,parallel,30,OSD_CS order 15,mechanism,0.0113,0.0014,0.0537,757,first scan on evaluation sequence 2 (not held out); 4000 shots; min-sum scaling 0.625
+depth6_p2e-3_evalseq2_first_scan,osd_e7_ms0625_it30,BP+OSD,parallel,30,OSD_E order 7,mechanism,0.0131,0.0015,0.0573,456,first scan on evaluation sequence 2 (not held out); 4000 shots; min-sum scaling 0.625
+depth6_p2e-3_evalseq2_first_scan,osd_cs7_ps_it5,BP+OSD,parallel,5,OSD_CS order 7,mechanism,0.0045,0.0007,0.0467,683,first scan on evaluation sequence 2 (not held out); 4000 shots; product-sum
+depth6_p2e-3_evalseq2_first_scan,osd_cs7_ps_it100,BP+OSD,parallel,100,OSD_CS order 7,mechanism,0.0054,0.0008,0.0500,4334,first scan on evaluation sequence 2 (not held out); 4000 shots; product-sum
+depth6_p2e-3_evalseq2_first_scan,lsd_0_ps_it30,BP+LSD,parallel,30,LSD_0,mechanism,0.0132,0.0014,0.0640,1397,first scan on evaluation sequence 2 (not held out); 4000 shots; product-sum
+depth6_p2e-3_evalseq2_first_scan,lsd_cs7_ps_it30,BP+LSD,parallel,30,LSD_CS order 7,mechanism,0.0098,0.0012,0.0563,1347,first scan on evaluation sequence 2 (not held out); 4000 shots; product-sum

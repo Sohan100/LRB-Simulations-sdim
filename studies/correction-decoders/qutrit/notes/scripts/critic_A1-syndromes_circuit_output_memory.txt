@@ -1,0 +1,31 @@
+======================================================================
+C16: memory windows (identity Cliffords) from stripped baseline files
+  R=0: V1 det 63.150 undet 4.950 MLD 14.025 hyb 41.875 | V2 det 84.100 MLD 9.425 hyb 22.525
+  R=2: V1 det 267.350 undet 4.950 MLD 25.225 hyb 73.725 | V2 det 288.300 MLD 32.375 hyb 80.075
+  R=4: V1 det 471.550 undet 4.950 MLD 36.425 hyb 96.275 | V2 det 492.500 MLD 55.325 hyb 137.625
+  R=6: V1 det 675.750 undet 4.950 MLD 47.625 hyb 118.825 | V2 det 696.700 MLD 78.275 hyb 195.175
+  per-round increment det: V1 [102.1, 102.1, 102.1]  V2 [102.1, 102.1, 102.1]
+  per-round increment mld: V1 [5.6, 5.6, 5.6]  V2 [11.475, 11.475, 11.475]
+  per-round increment hyb: V1 [15.925, 11.275, 11.275]  V2 [28.775, 28.775, 28.775]
+  V2 ambiguous weight per bulk round, (R=6 - R=4)/2, by role/qutrit/type:
+     ('check_CNOT',): 3.7750
+     ('idle_meas_data', 'q0', 'pureX'): 2.0000
+     ('idle_meas_data', 'q0', 'pureZ'): 2.0000
+     ('idle_meas_data', 'q2', 'pureX'): 2.0000
+     ('idle_meas_data', 'q2', 'pureZ'): 2.0000
+     ('idle_meas_data', 'q3', 'pureX'): 2.0000
+     ('idle_meas_data', 'q3', 'pureZ'): 2.0000
+     ('idle_meas_data', 'q4', 'mixed'): 4.0000
+     ('idle_meas_data', 'q4', 'pureX'): 2.0000
+     ('idle_meas_data', 'q4', 'pureZ'): 2.0000
+     ('idle_reset_data', 'q0', 'pureX'): 0.5000
+     ('idle_reset_data', 'q0', 'pureZ'): 0.5000
+     ('idle_reset_data', 'q2', 'pureX'): 0.5000
+     ('idle_reset_data', 'q2', 'pureZ'): 0.5000
+     ('idle_reset_data', 'q3', 'pureX'): 0.5000
+     ('idle_reset_data', 'q3', 'pureZ'): 0.5000
+     ('idle_reset_data', 'q4', 'mixed'): 1.0000
+     ('idle_reset_data', 'q4', 'pureX'): 0.5000
+     ('idle_reset_data', 'q4', 'pureZ'): 0.5000
+  V1 per-round MLD/hyb increments were computed above.
+total 0.7 s

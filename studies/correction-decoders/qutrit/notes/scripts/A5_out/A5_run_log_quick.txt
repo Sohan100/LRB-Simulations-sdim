@@ -1,0 +1,117 @@
+A5_code_capacity_compare.py  numpy 1.26.0  args {'quick': True, 'mc913': False, 'sections': '1,2,3,4,5,6'}
+
+=== S1: code constructions (commutation, rank, k, distance by brute force) ===
+[[5,1,2]]_3: n=5 r=4 rank=4 k=1 d=2 commute=True <XL,ZL>=1 weights=[3, 3, 3, 3]
+   nontrivial logicals by weight {1: 0, 2: 8, 3: 48}; stabilizer elements by weight {1: 0, 2: 0, 3: 8}; weight-1 errors use 32 of 81 syndromes, 8 collide with another class
+[[5,1,3]]_3: n=5 r=4 rank=4 k=1 d=3 commute=True <XL,ZL>=2 weights=[4, 4, 4, 4]
+   nontrivial logicals by weight {1: 0, 2: 0, 3: 80}; stabilizer elements by weight {1: 0, 2: 0, 3: 0}; weight-1 errors use 40 of 81 syndromes, 0 collide with another class
+[[7,1,3]]_3: n=7 r=6 rank=6 k=1 d=3 commute=True <XL,ZL>=1 weights=[4, 4, 4, 4, 4, 4]
+   nontrivial logicals by weight {1: 0, 2: 0, 3: 48}; stabilizer elements by weight {1: 0, 2: 0, 3: 0}; weight-1 errors use 56 of 729 syndromes, 0 collide with another class
+[[9,1,3]]_3: n=9 r=8 rank=8 k=1 d=3 commute=True <XL,ZL>=1 weights=[4, 4, 2, 2, 4, 4, 2, 2]
+   nontrivial logicals by weight {1: 0, 2: 0, 3: 64}; stabilizer elements by weight {1: 0, 2: 8, 3: 0}; weight-1 errors use 64 of 6561 syndromes, 0 collide with another class
+[[13,1,3]]_3 folded: n=13 r=12 rank=12 k=1 d=3 commute=True <XL,ZL>=1 weights=[3, 4, 3, 3, 4, 3, 3, 3, 4, 4, 3, 3]
+   nontrivial logicals by weight {1: 0, 2: 0, 3: 12}; stabilizer elements by weight {1: 0, 2: 0, 3: 16}; weight-1 errors use 104 of 531441 syndromes, 0 collide with another class
+[[5,1,3]]_3 derivation: qubit pattern XZZXI -> 5 cyclic shifts commute mod 3: True, rank 5 (k = 0: a stabilizer state, the sum of the shifts is X0^-1Z0^-1 X1^-1Z1^-1 X2^-1Z2^-1 X3^-1Z3^-1 X4^-1Z4^-1); X Z Z^-1 X^-1 I -> shifts commute True, rank 4, sum of shifts = I: True
+   (the code from only the first four XZZXI shifts has k=1, d=3, and is not cyclic)
+Quantum Hamming bound for [[n,1,3]]_3 (nondegenerate count): 3^(n-1) >= 1 + 8n; n = 5: 81 >= 41, so [[5,1,3]]_3 is not perfect; it meets the quantum Singleton bound n - k = 2(d - 1) = 4 (MDS)
+Folded-square rule at D = 2 reproduces the repository code (same stabilizer group and logical operators): True; identical generators incl. exponents: True
+
+=== S2: logical gates (sdim frame conventions) ===
+single-qutrit references: F (sdim H) = (0, 2, 1, 0), P = (1, 0, 1, 1), <F,P> has order 24 (SL(2,3))
+[[5,1,2]]_3 repository H_L -> H, P_L -> P; generated logical group order 24
+[[13,1,3]]_3 folded: fold-transversal H_L (SWAP on 4 mirror pairs, H on even rows, H_INV on odd rows) -> H; P_L (P/P_INV on the 5 diagonal qutrits, CZ/CZ_INV on the pairs) -> P; group order 24; two-qutrit gates per H_L/P_L: 4/4
+   the same rule at D = 2 gives exactly the repository circuits: {'H': True, 'P': True}
+[[7,1,3]]_3 colour: H on unstarred (0, 1, 3, 6) + H_INV on starred (2, 4, 5) -> H; P/P_INV on the same split -> P; group order 24; uniform H^(x7) -> not logical, uniform P^(x7) -> not logical
+[[5,1,3]]_3: 80 local-Clifford x permutation automorphisms (20 permutations); logical actions form a group of order 8 with element orders [1, 2, 4, 4, 4, 4, 4, 4]; P-type (order 3) element: False; logical F available: True (e.g. with permutation (0, 2, 4, 1, 3)); without permutations: 4 automorphisms, logical actions ['C (=H^2)', 'I', '(1, 2, 2, 2) order 4', '(2, 1, 1, 1) order 4'] [0.5s]
+   orbit of logical X under that group has 8 of 8 nonzero points (8 = transitive, so Weyl x| group is a unitary 2-design)
+[[5,1,2]]_3: diagonal logical P (P^t on qutrits + CZ^u on one pairing): 14 of 26 pairings admit one; 4 minimal pairings, 2 of them with detection-safe pair faults
+      pairs [(3, 4)]: [('P', 3), ('P', 4), ('CZ', 3, 4)] -> pair faults safe: False
+      pairs [(2, 3)]: [('P', 0), ('P_INV', 1), ('P', 4), ('CZ', 2, 3)] -> pair faults safe: True
+      pairs [(0, 2)]: [('P', 0), ('P', 2), ('CZ', 0, 2)] -> pair faults safe: False
+      pairs [(0, 4)]: [('P_INV', 1), ('P', 2), ('P', 3), ('CZ', 0, 4)] -> pair faults safe: True
+[[5,1,3]]_3: diagonal logical P (P^t on qutrits + CZ^u on one pairing): 0 of 26 pairings admit one; 0 minimal pairings, 0 of them with correctable pair faults
+      no pairing works; the smallest CZ network has 10 CZ gates (1 network(s), max 4 CZ per qutrit): [('P_INV', 0), ('P_INV', 1), ('P_INV', 2), ('P_INV', 3), ('P_INV', 4), ('CZ_INV', 0, 1), ('CZ_INV', 0, 2), ('CZ_INV', 0, 3), ('CZ_INV', 0, 4), ('CZ_INV', 1, 2), ('CZ_INV', 1, 3), ('CZ_INV', 1, 4), ('CZ_INV', 2, 3), ('CZ_INV', 2, 4), ('CZ_INV', 3, 4)]
+[[7,1,3]]_3: diagonal logical P (P^t on qutrits + CZ^u on one pairing): 232 of 232 pairings admit one; 1 minimal pairings, 1 of them with correctable pair faults
+      pairs []: [('P', 0), ('P', 1), ('P_INV', 2), ('P', 3), ('P_INV', 4), ('P_INV', 5), ('P', 6)] -> pair faults safe: True
+[[9,1,3]]_3: diagonal logical P (P^t on qutrits + CZ^u on one pairing): 70 of 2620 pairings admit one; 20 minimal pairings, 0 of them with correctable pair faults
+      pairs [(3, 4), (5, 6), (7, 8)]: [('P', 0), ('P', 4), ('P', 5), ('CZ_INV', 3, 4), ('CZ', 5, 6), ('CZ_INV', 7, 8)] -> pair faults safe: False
+      pairs [(3, 4), (5, 7), (6, 8)]: [('P', 0), ('P', 4), ('P', 5), ('CZ_INV', 3, 4), ('CZ_INV', 5, 7), ('CZ', 6, 8)] -> pair faults safe: False
+      pairs [(3, 5), (4, 8), (6, 7)]: [('P', 5), ('P', 6), ('P', 7), ('CZ', 3, 5), ('CZ_INV', 4, 8), ('CZ_INV', 6, 7)] -> pair faults safe: False
+      pairs [(3, 8), (4, 5), (6, 7)]: [('P', 5), ('P', 6), ('P', 7), ('CZ', 3, 8), ('CZ_INV', 4, 5), ('CZ_INV', 6, 7)] -> pair faults safe: False
+   [diagonal searches 3.2s]
+
+=== S3: one-ancilla-per-check extraction: hook / fold-pair faults ===
+[[5,1,2]]_3: every single fault (any qutrit Pauli, any hook for any coupling order, any two-qutrit Pauli on fold pair [(2, 3)]) is detected or harmless: True
+   Tanner graph planar: True; with fold edges: True; max checks per data qutrit 4
+[[5,1,3]]_3: weights [4, 4, 4, 4], 16 two-qutrit gates/round; safe coupling orders per check {0: '0/24', 1: '0/24', 2: '0/24', 3: '0/24'}; joint safe assignment: False
+   Tanner graph planar: False; max checks per data qutrit 4
+[[7,1,3]]_3: weights [4, 4, 4, 4, 4, 4], 24 two-qutrit gates/round; safe coupling orders per check {0: '0/24', 1: '0/24', 2: '0/24', 3: '0/24', 4: '0/24', 5: '0/24'}; joint safe assignment: False
+   Tanner graph planar: False; with one ancilla per face: True; max checks per data qutrit 6
+[[9,1,3]]_3: weights [4, 4, 2, 2, 4, 4, 2, 2], 24 two-qutrit gates/round; safe coupling orders per check {0: '16/24', 1: '16/24', 2: '2/2', 3: '2/2', 4: '16/24', 5: '16/24', 6: '2/2', 7: '2/2'}; joint safe assignment: True (verified directly: True); every pair of safe orders compatible: True
+   Tanner graph planar: True; max checks per data qutrit 4
+[[13,1,3]]_3 folded: weights [3, 4, 3, 3, 4, 3, 3, 3, 4, 4, 3, 3], 40 two-qutrit gates/round; safe coupling orders per check {0: '6/6', 1: '24/24', 2: '6/6', 3: '6/6', 4: '24/24', 5: '6/6', 6: '6/6', 7: '6/6', 8: '24/24', 9: '24/24', 10: '6/6', 11: '6/6'}; joint safe assignment: True (verified directly: True); every pair of safe orders compatible: True; fold-pair two-qutrit faults correctable: True
+   Tanner graph planar: True; with fold edges: False; max checks per data qutrit 4
+
+=== S4: code capacity (exact DFT over Z_3^(r+2)) ===
+[[5,1,2]]_3: MLD eps = 1 q + 63/16 q^2 + -141/16 q^3 + O(q^4) [N_fail(w=1,2,3) = [8, 508, 4608]]; break-even eps = q at q* = none (all positive for q in [1e-3, 0.45]) [0.0s]
+   detection: P_rej = 5 q + -81/8 q^2 + 657/64 q^3, P(fail|acc) = 1/8 q^2 + 11/32 q^3; strict hybrid: P_rej = 2 q + -3/4 q^2 + -45/16 q^3, P(fail|acc) = 21/8 q^2 + 3/32 q^3
+   accepted-error break-even: detection None, hybrid 0.3800489219014875
+   q=0.001: MLD eps 1.0039e-03 (eps/q 1.004, eps/q^2 1003.93); detect acc 0.99501 eps|acc 1.253e-07; hybrid acc 0.99800 eps|acc 2.625e-06
+   q=0.01: MLD eps 1.0385e-02 (eps/q 1.039, eps/q^2 103.85); detect acc 0.95100 eps|acc 1.285e-05; hybrid acc 0.98008 eps|acc 2.626e-04
+   q=0.05: MLD eps 5.8781e-02 (eps/q 1.176, eps/q^2 23.51); detect acc 0.77406 eps|acc 3.603e-04; hybrid acc 0.90221 eps|acc 6.586e-03
+[[5,1,3]]_3: MLD eps = 35/4 q^2 + -135/8 q^3 + O(q^4) [N_fail(w=1,2,3) = [0, 560, 4800]]; break-even eps = q at q* = 0.1565 [0.0s]
+   q=0.001: MLD eps 8.7331e-06 (eps/q 0.009, eps/q^2 8.73)
+   q=0.01: MLD eps 8.5824e-04 (eps/q 0.086, eps/q^2 8.58)
+   q=0.05: MLD eps 1.9839e-02 (eps/q 0.397, eps/q^2 7.94)
+[[7,1,3]]_3: MLD eps = 51/4 q^2 + -553/16 q^3 + O(q^4) [N_fail(w=1,2,3) = [0, 816, 14944]]; break-even eps = q at q* = 0.1045 [0.0s]
+   q=0.001: MLD eps 1.2715e-05 (eps/q 0.013, eps/q^2 12.72)
+   q=0.01: MLD eps 1.2409e-03 (eps/q 0.124, eps/q^2 12.41)
+   q=0.05: MLD eps 2.7809e-02 (eps/q 0.556, eps/q^2 11.12)
+[[9,1,3]]_3: MLD eps = 93/8 q^2 + -3083/128 q^3 + O(q^4) [N_fail(w=1,2,3) = [0, 744, 29332]]; break-even eps = q at q* = 0.1103 [0.5s]
+   q=0.001: MLD eps 1.1601e-05 (eps/q 0.012, eps/q^2 11.60)
+   q=0.01: MLD eps 1.1385e-03 (eps/q 0.114, eps/q^2 11.38)
+   q=0.05: MLD eps 2.6091e-02 (eps/q 0.522, eps/q^2 10.44)
+[[13,1,3]]_3 folded: MLD eps = 89/16 q^2 + 269/16 q^3 + O(q^4) [N_fail(w=1,2,3) = [0, 356, 39936]]; break-even eps = q at q* = 0.1514 [49.2s]
+   q=0.001: MLD eps 5.5793e-06 (eps/q 0.006, eps/q^2 5.58)
+   q=0.01: MLD eps 5.7246e-04 (eps/q 0.057, eps/q^2 5.72)
+   q=0.05: MLD eps 1.5610e-02 (eps/q 0.312, eps/q^2 6.24)
+
+=== S5: phenomenological noise, exact ===
+validation [[5,1,2]]_3 detect: exact vs 2e5-shot simulation of E[chi(l) 1_acc] after T=6 rounds at q=q_m=0.05: max |diff| = 0.0002 (1-sigma MC error ~ 0.0022)
+validation [[5,1,2]]_3 hybrid: exact vs 2e5-shot simulation of E[chi(l) 1_acc] after T=6 rounds at q=q_m=0.05: max |diff| = 0.0011 (1-sigma MC error ~ 0.0022)
+validation [[5,1,2]]_3 lookup: exact vs 2e5-shot simulation of E[chi(l) 1_acc] after T=6 rounds at q=q_m=0.05: max |diff| = 0.0017 (1-sigma MC error ~ 0.0022)
+validation [[5,1,3]]_3 lookup: exact vs 2e5-shot simulation of E[chi(l) 1_acc] after T=6 rounds at q=q_m=0.05: max |diff| = 0.0019 (1-sigma MC error ~ 0.0022)
+   [1.1s]
+[[5,1,2]]_3 memoryless detect: q_m=q: per-round rejection 8.996 q, accepted eps 0.00001 q = 0.1250 q^2 (q=1e-4); q_m=0: rejection 4.999 q, eps 0.13 q^2; break-even 0.41889981988280617
+     q=q_m=0.01: acc 0.91353, eps 1.2982e-05 (eps/q 0.001, eps/q^2 0.13)
+     q=q_m=0.05: acc 0.63050, eps 3.8062e-04 (eps/q 0.008, eps/q^2 0.15)
+[[5,1,2]]_3 memoryless hybrid: q_m=q: per-round rejection 5.998 q, accepted eps 0.00026 q = 2.6271 q^2 (q=1e-4); q_m=0: rejection 2.000 q, eps 2.63 q^2; break-even 0.1508530094028086
+     q=q_m=0.01: acc 0.94194, eps 2.8431e-04 (eps/q 0.028, eps/q^2 2.84)
+     q=q_m=0.05: acc 0.74560, eps 9.5402e-03 (eps/q 0.191, eps/q^2 3.82)
+[[5,1,2]]_3 memoryless lookup: q_m=q: per-round rejection 0.000 q, accepted eps 1.00284 q = 10028.4110 q^2 (q=1e-4); q_m=0: eps 1.0004 q; break-even None
+     q=q_m=0.01: acc 1.00000, eps 1.2459e-02 (eps/q 1.246, eps/q^2 124.59)
+     q=q_m=0.05: acc 1.00000, eps 9.8501e-02 (eps/q 1.970, eps/q^2 39.40)
+[[5,1,3]]_3 memoryless MLD lookup: eps/q^2 at small q = 46.70 (q_m=1.0q), 25.23 (q_m=0.5q), 8.75 (q_m=0.0q); break-even (q_m=q) q* = 0.027292227824019456
+     q=q_m=0.01: acc 1.00000, eps 4.2480e-03 (eps/q 0.425, eps/q^2 42.48)
+     q=q_m=0.05: acc 1.00000, eps 7.7130e-02 (eps/q 1.543, eps/q^2 30.85)
+[[7,1,3]]_3 memoryless MLD lookup: eps/q^2 at small q = 85.61 (q_m=1.0q), 44.70 (q_m=0.5q), 12.75 (q_m=0.0q); break-even (q_m=q) q* = 0.014841151762254675
+     q=q_m=0.01: acc 1.00000, eps 7.3728e-03 (eps/q 0.737, eps/q^2 73.73)
+     q=q_m=0.05: acc 1.00000, eps 1.1921e-01 (eps/q 2.384, eps/q^2 47.68)
+[[9,1,3]]_3 memoryless MLD lookup: eps/q^2 at small q = 65.57 (q_m=1.0q), 35.10 (q_m=0.5q), 11.62 (q_m=0.0q); break-even (q_m=q) q* = 0.017915926188736955
+     q=q_m=0.01: acc 1.00000, eps 6.0749e-03 (eps/q 0.607, eps/q^2 60.75)
+     q=q_m=0.05: acc 1.00000, eps 1.0909e-01 (eps/q 2.182, eps/q^2 43.64)
+[[13,1,3]]_3 folded memoryless MLD lookup: eps/q^2 at small q = 58.84 (q_m=1.0q)
+   [memoryless 11.8s]
+[[5,1,2]]_3 space-time, per bulk round (q_m = q): MLD fails 1.0000 q; detection rejects 9.000 q, accepted error 0.1250 q^2; hybrid rejects 2.000 q (+150.88 q^2), accepted error 2.875 q^2 [q_m = 0: MLD 1.0000 q]; increments stable from T=3: True
+[[5,1,3]]_3 space-time MLD, per bulk round: eps = A q^2 with A = 11.375 (q_m=1.0q), 11.375 (q_m=0.5q), 8.750 (q_m=0.0q); first order 0.0e+00; detection rejects 9.00 q with accepted error 0.000 q^2; hybrid accepted error 3.750 q^2, rejection 20.875 q^2; stable: True
+[[7,1,3]]_3 space-time MLD, per bulk round: eps = A q^2 with A = 14.625 (q_m=1.0q), 14.625 (q_m=0.5q), 12.750 (q_m=0.0q); first order 0.0e+00; detection rejects 13.00 q with accepted error 0.000 q^2; hybrid accepted error 2.250 q^2, rejection 27.375 q^2; stable: True
+[[9,1,3]]_3 space-time MLD, per bulk round: eps = A q^2 with A = 15.875 (q_m=1.0q), 15.875 (q_m=0.5q), 11.625 (q_m=0.0q); first order 0.0e+00; detection rejects 17.00 q with accepted error 0.000 q^2; hybrid accepted error 2.375 q^2, rejection 36.125 q^2; stable: True
+[[13,1,3]]_3 folded space-time MLD, per bulk round: eps = A q^2 with A = 6.688 (q_m=1.0q), 6.688 (q_m=0.5q), 5.562 (q_m=0.0q); first order 0.0e+00; detection rejects 25.00 q with accepted error 0.000 q^2; hybrid accepted error 0.562 q^2, rejection 18.188 q^2; stable: True
+   [space-time enumeration 16.1s]
+
+=== S6: phenomenological noise, Monte Carlo of the exact space-time MLD (q_m = q) ===
+[[5,1,2]]_3 q=q_m=0.03: space-time MLD eps per round 3.2930e-02 [3.011e-02, 3.575e-02] (4000 shots, T=6); eps/q 1.098, eps/q^2 36.59; leading-order prediction 1.003e-01 [2.2s]
+[[5,1,3]]_3 q=q_m=0.05: space-time MLD eps per round 3.2573e-02 [2.986e-02, 3.529e-02] (4000 shots, T=6); eps/q 0.651, eps/q^2 13.03; leading-order prediction 2.844e-02 [2.2s]
+
+total runtime 92.6s
+plot written: /pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b/docs/correction-decoders/qutrit-512/notes/scripts/A5_out/A5_eps_vs_q_quick.png

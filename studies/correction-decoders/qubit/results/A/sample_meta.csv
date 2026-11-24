@@ -1,0 +1,17 @@
+key,value
+seq_seed,20261028
+sequences,HP I Z PH P ZHP ZHPH I H ZH P H XZH ZPH H ZHP ZP PH XPH PH X ZH | PH XPH XZHPH XZHPH ZP XZHPH HPH XZP ZH XZH PH XHPH XZP PH XHP XZ XH XP X XPH XHP ZH | XZ XHPH H ZP PH PH X XHPH ZHP XZHPH P X H XZHP XP ZHP XZ PH XHPH XH XZHPH P
+depths,0 2 6
+deep_circuit,seq 0 depth 22
+probs,0.005 0.02
+sdim_shots,500000
+stim_shots,5000000
+deep_sdim_shots,200000
+deep_stim_shots,2000000
+chunk,20000
+workers,24
+wall_seconds,564
+sdim_cpu_seconds,10796
+stim_cpu_seconds,2225
+stim_version,1.15.0
+numpy_version,1.26.0

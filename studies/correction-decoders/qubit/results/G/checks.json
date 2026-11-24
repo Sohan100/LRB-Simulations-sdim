@@ -1,0 +1,1021 @@
+{
+ "code": {
+  "distance": 3,
+  "num_data": 13,
+  "num_stabilizers": 12,
+  "stabilizers": {
+   "S_Z01": "ZZ_Z_________",
+   "S_Z03": "_ZZ_Z________",
+   "S_Z21": "___Z_ZZ_Z____",
+   "S_Z23": "____Z_ZZ_Z___",
+   "S_Z41": "________Z_ZZ_",
+   "S_Z43": "_________Z_ZZ",
+   "S_X10": "X__X_X_______",
+   "S_X12": "_X_XX_X______",
+   "S_X14": "__X_X__X_____",
+   "S_X30": "_____X__X_X__",
+   "S_X32": "______X_XX_X_",
+   "S_X34": "_______X_X__X"
+  },
+  "check_supports_in_cnot_order": [
+   [
+    0,
+    3,
+    1
+   ],
+   [
+    1,
+    4,
+    2
+   ],
+   [
+    3,
+    5,
+    8,
+    6
+   ],
+   [
+    4,
+    6,
+    9,
+    7
+   ],
+   [
+    8,
+    10,
+    11
+   ],
+   [
+    9,
+    11,
+    12
+   ],
+   [
+    0,
+    3,
+    5
+   ],
+   [
+    1,
+    3,
+    4,
+    6
+   ],
+   [
+    2,
+    4,
+    7
+   ],
+   [
+    5,
+    8,
+    10
+   ],
+   [
+    6,
+    8,
+    9,
+    11
+   ],
+   [
+    7,
+    9,
+    12
+   ]
+  ],
+  "logical_x": "XXX__________",
+  "logical_z": "Z____Z____Z__",
+  "fold_pairs": [
+   [
+    1,
+    5
+   ],
+   [
+    2,
+    10
+   ],
+   [
+    4,
+    8
+   ],
+   [
+    7,
+    11
+   ]
+  ],
+  "diagonal_gates": [
+   [
+    "S",
+    0
+   ],
+   [
+    "S",
+    6
+   ],
+   [
+    "S",
+    12
+   ],
+   [
+    "S_DAG",
+    3
+   ],
+   [
+    "S_DAG",
+    9
+   ]
+  ],
+  "z_order": "NWSE",
+  "x_order": "NWES",
+  "sites": {
+   "0": [
+    0,
+    0
+   ],
+   "1": [
+    0,
+    2
+   ],
+   "2": [
+    0,
+    4
+   ],
+   "3": [
+    1,
+    1
+   ],
+   "4": [
+    1,
+    3
+   ],
+   "5": [
+    2,
+    0
+   ],
+   "6": [
+    2,
+    2
+   ],
+   "7": [
+    2,
+    4
+   ],
+   "8": [
+    3,
+    1
+   ],
+   "9": [
+    3,
+    3
+   ],
+   "10": [
+    4,
+    0
+   ],
+   "11": [
+    4,
+    2
+   ],
+   "12": [
+    4,
+    4
+   ]
+  }
+ },
+ "distances": [
+  {
+   "schedule": "sequential",
+   "sequence": "grid0",
+   "depth": 1,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.003
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid0",
+   "depth": 3,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.008
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid0",
+   "depth": 6,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.057
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid1",
+   "depth": 1,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.003
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid1",
+   "depth": 3,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.009
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid1",
+   "depth": 6,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.016
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "S_and_H",
+   "depth": 1,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.003
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "S_and_H",
+   "depth": 3,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.008
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "S_and_H",
+   "depth": 6,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.015
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid0",
+   "depth": 1,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.003
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid0",
+   "depth": 3,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.008
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid0",
+   "depth": 6,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.012
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid1",
+   "depth": 1,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.002
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid1",
+   "depth": 3,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.007
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid1",
+   "depth": 6,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.013
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "S_and_H",
+   "depth": 1,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.002
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "S_and_H",
+   "depth": 3,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.006
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "S_and_H",
+   "depth": 6,
+   "hypergraph_search": 3,
+   "graphlike_only": 3,
+   "graphlike_after_decomposition": 1,
+   "search_seconds": 0.012
+  }
+ ],
+ "order_scan": {
+  "sequential": {
+   "2": 32,
+   "3": 544
+  },
+  "parallel": {
+   "2": 32,
+   "3": 544
+  }
+ },
+ "single_faults": [
+  {
+   "schedule": "sequential",
+   "sequence": "grid0",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 568,
+   "num_failing": 45,
+   "failing_probability_over_p": 24.64209183929121,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid0",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 568,
+   "num_failing": 32,
+   "failing_probability_over_p": 5.798991803055162,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid0",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 568,
+   "num_failing": 4,
+   "failing_probability_over_p": 0.40016899682114093,
+   "seconds": 1.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid0",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1474,
+   "num_failing": 112,
+   "failing_probability_over_p": 75.9194894783001,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid0",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1474,
+   "num_failing": 79,
+   "failing_probability_over_p": 12.2650772383444,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid0",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1474,
+   "num_failing": 7,
+   "failing_probability_over_p": 0.8002757251613429,
+   "seconds": 10.26
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid1",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 51,
+   "failing_probability_over_p": 25.7743160511959,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid1",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 30,
+   "failing_probability_over_p": 5.5321917164720915,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid1",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 5,
+   "failing_probability_over_p": 0.8002579284028077,
+   "seconds": 1.28
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid1",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1544,
+   "num_failing": 136,
+   "failing_probability_over_p": 98.59573469957927,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid1",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1544,
+   "num_failing": 83,
+   "failing_probability_over_p": 13.265481920584675,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "grid1",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1544,
+   "num_failing": 7,
+   "failing_probability_over_p": 0.8003113044379984,
+   "seconds": 11.83
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_paulis",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 495,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_paulis",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 495,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_paulis",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 495,
+   "num_failing": 1,
+   "failing_probability_over_p": 0.06669779853440971,
+   "seconds": 0.69
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_paulis",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1295,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_paulis",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1295,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_paulis",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1295,
+   "num_failing": 1,
+   "failing_probability_over_p": 0.06669779853440971,
+   "seconds": 6.0
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_H",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 600,
+   "num_failing": 8,
+   "failing_probability_over_p": 1.067093599009286,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_H",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 600,
+   "num_failing": 8,
+   "failing_probability_over_p": 1.067093599009286,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_H",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 600,
+   "num_failing": 4,
+   "failing_probability_over_p": 0.40016899682114093,
+   "seconds": 1.16
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_H",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1536,
+   "num_failing": 16,
+   "failing_probability_over_p": 1.6006404032613142,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_H",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1536,
+   "num_failing": 16,
+   "failing_probability_over_p": 1.6006404032613142,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_H",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1536,
+   "num_failing": 4,
+   "failing_probability_over_p": 0.26679119413763885,
+   "seconds": 10.46
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_S",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 61,
+   "failing_probability_over_p": 49.449578486878785,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_S",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 42,
+   "failing_probability_over_p": 6.199338717620439,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_S",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 6,
+   "failing_probability_over_p": 0.5335645938899604,
+   "seconds": 1.4
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_S",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1546,
+   "num_failing": 175,
+   "failing_probability_over_p": 142.9609738600883,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_S",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1546,
+   "num_failing": 108,
+   "failing_probability_over_p": 15.930299949723423,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "sequential",
+   "sequence": "only_S",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1546,
+   "num_failing": 16,
+   "failing_probability_over_p": 1.0671647765505554,
+   "seconds": 14.1
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid0",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 568,
+   "num_failing": 23,
+   "failing_probability_over_p": 8.39878480990696,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid0",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 568,
+   "num_failing": 12,
+   "failing_probability_over_p": 4.465611152805711,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid0",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 568,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.93
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid0",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1474,
+   "num_failing": 78,
+   "failing_probability_over_p": 22.862279352342433,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid0",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1474,
+   "num_failing": 26,
+   "failing_probability_over_p": 8.998162268731686,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid0",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1474,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 9.39
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid1",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 29,
+   "failing_probability_over_p": 9.298237270419193,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid1",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 15,
+   "failing_probability_over_p": 5.165090165266515,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid1",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 1.17
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid1",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1544,
+   "num_failing": 98,
+   "failing_probability_over_p": 24.364623400755352,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid1",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1544,
+   "num_failing": 31,
+   "failing_probability_over_p": 9.33160686467066,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "grid1",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1544,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 10.31
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_paulis",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 495,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_paulis",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 495,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_paulis",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 495,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.6
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_paulis",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1295,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_paulis",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1295,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_paulis",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1295,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 5.53
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_H",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 600,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_H",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 600,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_H",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 600,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 1.08
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_H",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1536,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_H",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1536,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_H",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1536,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 8.97
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_S",
+   "depth": 2,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 44,
+   "failing_probability_over_p": 13.09721517943167,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_S",
+   "depth": 2,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 12,
+   "failing_probability_over_p": 4.132791074396114,
+   "seconds": 0.01
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_S",
+   "depth": 2,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 602,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 1.29
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_S",
+   "depth": 6,
+   "decoder": "pm",
+   "p": 0.001,
+   "num_mechanisms": 1546,
+   "num_failing": 155,
+   "failing_probability_over_p": 42.15941955538657,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_S",
+   "depth": 6,
+   "decoder": "frame_matching",
+   "p": 0.001,
+   "num_mechanisms": 1546,
+   "num_failing": 42,
+   "failing_probability_over_p": 12.798560014394802,
+   "seconds": 0.02
+  },
+  {
+   "schedule": "parallel",
+   "sequence": "only_S",
+   "depth": 6,
+   "decoder": "bposd",
+   "p": 0.001,
+   "num_mechanisms": 1546,
+   "num_failing": 0,
+   "failing_probability_over_p": 0.0,
+   "seconds": 12.27
+  }
+ ]
+}

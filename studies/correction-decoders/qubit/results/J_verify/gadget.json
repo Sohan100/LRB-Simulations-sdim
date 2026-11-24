@@ -1,0 +1,43 @@
+{
+ "alt4_equals_CZ23_on_code_states_frame0": true,
+ "alt4_equals_CZ23_on_code_states_frame1": true,
+ "alt4_differs_off_code_space_of_40": 35,
+ "alt4_data_unitary_is_CZ13_CZ34_exactly": true,
+ "par5_checks": {
+  "code_frame0": true,
+  "code_frame1": true,
+  "data_unitary": true
+ },
+ "par5_uses_only_patch_couplers": true,
+ "alt4_counts": {
+  "cz": 4,
+  "pulses_1q": 4,
+  "layers": "4 x 2q + 4 x 1q",
+  "duration_ns_iqm": 240,
+  "routed8_duration_ns_iqm": 380
+ },
+ "alt4_uses_only_patch_couplers": true,
+ "par5_J_builder_noiseless_deterministic": true,
+ "alt4_J_builder_noiseless_deterministic": {
+  "reset=True": true,
+  "reset=False": true
+ },
+ "circuit_distance": {
+  "alt4_m1": 2,
+  "alt4_const0_m1": 2,
+  "alt4_m2": 1,
+  "alt4_const0_m2": 1,
+  "alt4_m4": 1,
+  "alt4_const0_m4": 1,
+  "seq1_first4": [
+   "PH",
+   "XPH",
+   "XZHPH",
+   "XZHPH"
+  ],
+  "routed8_m1": 2,
+  "routed8_m2": 1,
+  "routed8_m4": 1
+ },
+ "wall_seconds": 4.84256148699933
+}

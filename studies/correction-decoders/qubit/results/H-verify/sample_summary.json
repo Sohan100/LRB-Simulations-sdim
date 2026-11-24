@@ -1,0 +1,46 @@
+{
+ "0.002": {
+  "r_over_p": {
+   "serial": 12.95678387043217,
+   "parallel": 6.76414693235855,
+   "parallel-nr": 4.785465952145351,
+   "const0": 0.7665105423348972
+  },
+  "r_over_p_boot_std": {
+   "serial": 0.27692285503397024,
+   "parallel": 0.1297310035682738,
+   "parallel-nr": 0.08184016611726795,
+   "const0": 0.01870526737157064
+  },
+  "penalty_fraction_parallel": {
+   "point": 0.507998202452135,
+   "boot_std": 0.0023515450008497556
+  },
+  "penalty_fraction_parallel-nr": {
+   "point": 0.6703145777258995,
+   "boot_std": 0.003447424697810742
+  }
+ },
+ "0.005": {
+  "r_over_p": {
+   "serial": 14.063199859368014,
+   "parallel": 7.3413401265865925,
+   "parallel-nr": 5.105853548941486,
+   "const0": 0.7690865973091321
+  },
+  "r_over_p_boot_std": {
+   "serial": 0.23810644354917374,
+   "parallel": 0.12410364208461909,
+   "parallel-nr": 0.08165975245989787,
+   "const0": 0.01893263305986434
+  },
+  "penalty_fraction_parallel": {
+   "point": 0.5056267838461604,
+   "boot_std": 0.003002690718056759
+  },
+  "penalty_fraction_parallel-nr": {
+   "point": 0.6737829093114924,
+   "boot_std": 0.002626637385447052
+  }
+ }
+}

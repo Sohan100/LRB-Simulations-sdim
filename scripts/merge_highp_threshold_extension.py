@@ -13,7 +13,7 @@ the production plots are left untouched.
 For checks every k >= 2 Cliffords, extension fits use even depths only.
 Depths that are not multiples of k carry an extra unchecked Clifford, so the
 odd depths 1 and 3 sit on a different curve (see
-non-markovian-brainstorm/REPORT.md). Production depths are all even, so
+studies/non-markovian/REPORT.md). Production depths are all even, so
 this keeps the two datasets' depth structure the same; k = 1 uses every
 depth.
 

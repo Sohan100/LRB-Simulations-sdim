@@ -1,0 +1,680 @@
+==============================================================================
+A. Code checks
+symplectic products <row,col> (rows/cols: S_Z1 S_Z2 S_X1 S_X2 XL ZL)
+  S_Z1  [0, 0, 0, 0, 0, 0]
+  S_Z2  [0, 0, 0, 0, 0, 0]
+  S_X1  [0, 0, 0, 0, 0, 0]
+  S_X2  [0, 0, 0, 0, 0, 0]
+  X_L   [0, 0, 0, 0, 0, 2]
+  Z_L   [0, 0, 0, 0, 1, 0]
+stabilizers commute: True | logicals commute with S: True | <Z_L,X_L> = 1
+rank(S) = 4  rank(S,XL,ZL) = 6
+encoder output stabilizers: ['Z0 Z1^-1 Z3^-1', 'Z1 Z2 Z4^-1', 'X0^-1 X1^-1 X2', 'X0 X3', 'X2 X4']
+span(encoder stabilizers) == span(S_Z1,S_Z2,S_X1,S_X2,X_L): True
+syndrome map rows (functionals on (x0..x4,z0..z4)):
+  S_Z1  [1, 2, 0, 2, 0, 0, 0, 0, 0, 0]
+  S_Z2  [0, 1, 1, 0, 2, 0, 0, 0, 0, 0]
+  S_X1  [0, 0, 0, 0, 0, 2, 2, 1, 0, 0]
+  S_X2  [0, 0, 0, 0, 0, 0, 1, 0, 2, 1]
+  a(E)  [1, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+  b(E)  [0, 0, 0, 0, 0, 1, 0, 0, 1, 0]
+==============================================================================
+B. Syndrome classification (weight <= 2 errors, 9 logical cosets)
+syndrome classes: {'T': 1, 'A1': 8, 'A2*': 48, 'U1': 24}
+weight-1 errors uniquely decodable at leading order: 24/40
+  qutrit 0: {('pureX', 'A1'): 2, ('pureZ', 'A1'): 2, ('mixed', 'U1'): 4}
+  qutrit 1: {('pureX', 'U1'): 2, ('pureZ', 'U1'): 2, ('mixed', 'U1'): 4}
+  qutrit 2: {('pureX', 'A1'): 2, ('pureZ', 'A1'): 2, ('mixed', 'U1'): 4}
+  qutrit 3: {('pureX', 'A1'): 2, ('pureZ', 'A1'): 2, ('mixed', 'U1'): 4}
+  qutrit 4: {('pureX', 'A1'): 2, ('pureZ', 'A1'): 2, ('mixed', 'U1'): 4}
+confusable weight-1 groups: [('X0', 'X3^-1'), ('X0^-1', 'X3'), ('X2', 'X4^-1'), ('X2^-1', 'X4'), ('Z0', 'Z2^-1'), ('Z0^-1', 'Z2'), ('Z3', 'Z4^-1'), ('Z3^-1', 'Z4')]
+syndromes with minimum weight 2: 48; classes Counter({'A2*': 48})
+==============================================================================
+E. Minimum-weight representatives of the nontrivial logical cosets
+  XL         min weight 2: 2 reps, e.g. ['X2 X4', 'X0 X3']
+  XL^-1      min weight 2: 2 reps, e.g. ['X2^-1 X4^-1', 'X0^-1 X3^-1']
+  ZL         min weight 2: 2 reps, e.g. ['Z3 Z4', 'Z0 Z2']
+  XL ZL      min weight 3: 6 reps, e.g. ['X2 Z3 X4Z4', 'X1^-1Z1 X2Z2 X3Z3', 'X0 X3Z3 Z4', 'Z0 X2Z2 X4', 'X0Z0 Z2 X3', 'X0Z0 X1Z1^-1 X4Z4']
+  XL^-1 ZL   min weight 3: 6 reps, e.g. ['X2^-1 Z3 X4^-1Z4', 'X1Z1 X2^-1Z2 X3^-1Z3', 'X0^-1 X3^-1Z3 Z4', 'Z0 X2^-1Z2 X4^-1', 'X0^-1Z0 Z2 X3^-1', 'X0^-1Z0 X1^-1Z1^-1 X4^-1Z4']
+  ZL^-1      min weight 2: 2 reps, e.g. ['Z3^-1 Z4^-1', 'Z0^-1 Z2^-1']
+  XL ZL^-1   min weight 3: 6 reps, e.g. ['X2 Z3^-1 X4Z4^-1', 'X1^-1Z1^-1 X2Z2^-1 X3Z3^-1', 'X0 X3Z3^-1 Z4^-1', 'Z0^-1 X2Z2^-1 X4', 'X0Z0^-1 Z2^-1 X3', 'X0Z0^-1 X1Z1 X4Z4^-1']
+  XL^-1 ZL^-1 min weight 3: 6 reps, e.g. ['X2^-1 Z3^-1 X4^-1Z4^-1', 'X1Z1^-1 X2^-1Z2^-1 X3^-1Z3^-1', 'X0^-1 X3^-1Z3^-1 Z4^-1', 'Z0^-1 X2^-1Z2^-1 X4^-1', 'X0^-1Z0^-1 Z2^-1 X3^-1', 'X0^-1Z0^-1 X1^-1Z1 X4^-1Z4^-1']
+all weight-2 nontrivial logical operators: ['Z3 Z4', 'Z3^-1 Z4^-1', 'X2 X4', 'X2^-1 X4^-1', 'X0 X3', 'X0^-1 X3^-1', 'Z0 Z2', 'Z0^-1 Z2^-1']
+stabilizer group weight distribution: {0: 1, 3: 8, 4: 24, 5: 48}
+==============================================================================
+C/D. Exact code-capacity analysis (all 9^5 configurations)
+--- depolarizing (full logical class)
+  detect     P_rej = 5 q - 81/8 q^2 + 657/64 q^3  P_fail|acc = 1/8 q^2 + 11/32 q^3 + 179/256 q^4
+  mld        P_rej = 0                            P_fail|acc = 1 q + 63/16 q^2 - 141/16 q^3
+  hyb_strict P_rej = 2 q - 3/4 q^2 - 45/16 q^3    P_fail|acc = 21/8 q^2 + 3/32 q^3 + 525/256 q^4
+  hyb_count  P_rej = 2 q - 9/8 q^2 - 9/4 q^3      P_fail|acc = 23/8 q^2 + 13/32 q^3 + 79/64 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- depolarizing (observable b only)
+  detect     P_rej = 5 q - 81/8 q^2 + 657/64 q^3  P_fail|acc = 1/16 q^2 + 25/128 q^3 + 893/2048 q^4
+  mld        P_rej = 0                            P_fail|acc = 1/2 q + 99/32 q^2 - 729/128 q^3
+  hyb_strict P_rej = 1 q + 45/16 q^2 - 1017/128 q^3 P_fail|acc = 15/8 q^2 - 93/64 q^3 + 12495/2048 q^4
+  hyb_count  P_rej = 1 q - 3/16 q^2 - 27/16 q^3   P_fail|acc = 23/8 q^2 - 13/8 q^3 + 833/2048 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- depolarizing (X-syndrome + observable only)
+  detect     P_rej = 15/4 q - 99/16 q^2 + 81/16 q^3 P_fail|acc = 9/16 q^2 + 135/128 q^3 + 2673/2048 q^4
+  mld        P_rej = 0                            P_fail|acc = 3/2 q - 27/32 q^2
+  hyb_strict P_rej = 3 q - 81/16 q^2 + 243/64 q^3 P_fail|acc = 9/8 q^2 + 135/64 q^3 + 2025/2048 q^4
+  hyb_count  P_rej = 3 q - 81/16 q^2 + 243/64 q^3 P_fail|acc = 9/8 q^2 + 135/64 q^3 + 2025/2048 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+leading-order posterior values over syndromes: Counter({'1/3': 28, '1': 25, '2/9': 16, '1/2': 8, '1/4': 4})
+--- pure_X (full logical class)
+  detect     P_rej = 5 q - 11 q^2 + 12 q^3        P_fail|acc = 1 q^2 + 5/2 q^3 + 33/8 q^4
+  mld        P_rej = 0                            P_fail|acc = 2 q - 3/2 q^2
+  hyb_strict P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  hyb_count  P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- pure_X (observable b only)
+  detect     P_rej = 5 q - 11 q^2 + 12 q^3        P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- pure_X (X-syndrome + observable only)
+  detect     P_rej = 0                            P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- pure_Z (full logical class)
+  detect     P_rej = 5 q - 11 q^2 + 12 q^3        P_fail|acc = 1 q^2 + 5/2 q^3 + 33/8 q^4
+  mld        P_rej = 0                            P_fail|acc = 2 q - 3/2 q^2
+  hyb_strict P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  hyb_count  P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- pure_Z (observable b only)
+  detect     P_rej = 5 q - 11 q^2 + 12 q^3        P_fail|acc = 1 q^2 + 5/2 q^3 + 33/8 q^4
+  mld        P_rej = 0                            P_fail|acc = 2 q - 3/2 q^2
+  hyb_strict P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  hyb_count  P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- pure_Z (X-syndrome + observable only)
+  detect     P_rej = 5 q - 11 q^2 + 12 q^3        P_fail|acc = 1 q^2 + 5/2 q^3 + 33/8 q^4
+  mld        P_rej = 0                            P_fail|acc = 2 q - 3/2 q^2
+  hyb_strict P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  hyb_count  P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- pure_X_or_Z (full logical class)
+  detect     P_rej = 5 q - 21/2 q^2 + 45/4 q^3    P_fail|acc = 1/2 q^2 + 9/8 q^3 + 109/64 q^4
+  mld        P_rej = 0                            P_fail|acc = 2 q - 7/4 q^2 + 5/8 q^3
+  hyb_strict P_rej = 4 q - 15/2 q^2 + 29/4 q^3    P_fail|acc = 1 q^2 + 2 q^3 + 109/64 q^4
+  hyb_count  P_rej = 4 q - 15/2 q^2 + 25/4 q^3    P_fail|acc = 1 q^2 + 5/2 q^3 + 211/64 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- pure_X_or_Z (observable b only)
+  detect     P_rej = 5 q - 21/2 q^2 + 45/4 q^3    P_fail|acc = 1/4 q^2 + 9/16 q^3 + 109/128 q^4
+  mld        P_rej = 0                            P_fail|acc = 1 q - 7/8 q^2 + 17/16 q^3
+  hyb_strict P_rej = 2 q - 9/4 q^2 + 13/8 q^3     P_fail|acc = 1/2 q^2 + 1/2 q^3 + 13/128 q^4
+  hyb_count  P_rej = 2 q - 21/4 q^2 + 53/8 q^3    P_fail|acc = 3/2 q^2 + 5/4 q^3 - 567/128 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- pure_X_or_Z (X-syndrome + observable only)
+  detect     P_rej = 5/2 q - 11/4 q^2 + 3/2 q^3   P_fail|acc = 1/4 q^2 + 5/16 q^3 + 33/128 q^4
+  mld        P_rej = 0                            P_fail|acc = 1 q - 3/8 q^2
+  hyb_strict P_rej = 2 q - 9/4 q^2 + 9/8 q^3      P_fail|acc = 1/2 q^2 + 5/8 q^3 + 25/128 q^4
+  hyb_count  P_rej = 2 q - 9/4 q^2 + 9/8 q^3      P_fail|acc = 1/2 q^2 + 5/8 q^3 + 25/128 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- mixed_only (full logical class)
+  detect     P_rej = 5 q - 10 q^2 + 79/8 q^3      P_fail|acc = 1/8 q^3 + 31/64 q^4
+  mld        P_rej = 0                            P_fail|acc = 25/4 q^2 - 10 q^3 + 187/32 q^4
+  hyb_strict P_rej = 15/2 q^2 - 73/4 q^3 + 1083/64 q^4 P_fail|acc = 3/2 q^2 + 3/4 q^3 + 459/64 q^4
+  hyb_count  P_rej = 6 q^2 - 14 q^3 + 405/32 q^4  P_fail|acc = 5/2 q^2 - 2 q^3 + 871/64 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- mixed_only (observable b only)
+  detect     P_rej = 5 q - 10 q^2 + 79/8 q^3      P_fail|acc = 1/8 q^3 + 15/32 q^4
+  mld        P_rej = 0                            P_fail|acc = 5 q^2 - 123/16 q^3 + 249/64 q^4
+  hyb_strict P_rej = 13/2 q^2 - 131/8 q^3 + 249/16 q^4 P_fail|acc = 3/2 q^2 + 3/8 q^3 + 209/32 q^4
+  hyb_count  P_rej = 5 q^2 - 101/8 q^3 + 12 q^4   P_fail|acc = 2 q^2 - 3/8 q^3 + 229/32 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- mixed_only (X-syndrome + observable only)
+  detect     P_rej = 5 q - 11 q^2 + 12 q^3        P_fail|acc = 1 q^2 + 5/2 q^3 + 33/8 q^4
+  mld        P_rej = 0                            P_fail|acc = 2 q - 3/2 q^2
+  hyb_strict P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  hyb_count  P_rej = 4 q - 9 q^2 + 9 q^3          P_fail|acc = 2 q^2 + 5 q^3 + 25/8 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- centre_only (full logical class)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- centre_only (observable b only)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- centre_only (X-syndrome + observable only)
+  detect     P_rej = 3/4 q                        P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- corners_only (full logical class)
+  detect     P_rej = 4 q - 49/8 q^2 + 135/32 q^3  P_fail|acc = 1/8 q^2 + 9/32 q^3 + 119/256 q^4
+  mld        P_rej = 0                            P_fail|acc = 1 q + 31/16 q^2 - 99/32 q^3
+  hyb_strict P_rej = 2 q - 3/2 q^2 + 243/1024 q^4 P_fail|acc = 11/8 q^2 + 31/32 q^3 + 65/128 q^4
+  hyb_count  P_rej = 2 q - 2 q^2 + 27/32 q^3      P_fail|acc = 7/4 q^2 + 9/8 q^3 - 181/512 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- corners_only (observable b only)
+  detect     P_rej = 4 q - 49/8 q^2 + 135/32 q^3  P_fail|acc = 1/16 q^2 + 5/32 q^3 + 577/2048 q^4
+  mld        P_rej = 0                            P_fail|acc = 1/2 q + 51/32 q^2 - 27/16 q^3
+  hyb_strict P_rej = 1 q + 17/16 q^2 - 81/32 q^3  P_fail|acc = 17/16 q^2 + 1/32 q^3 + 2781/2048 q^4
+  hyb_count  P_rej = 1 q - 15/16 q^2 + 27/64 q^3  P_fail|acc = 15/8 q^2 + 3/64 q^3 - 2775/2048 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- corners_only (X-syndrome + observable only)
+  detect     P_rej = 3 q - 63/16 q^2 + 81/32 q^3  P_fail|acc = 9/16 q^2 + 27/32 q^3 + 1377/2048 q^4
+  mld        P_rej = 0                            P_fail|acc = 3/2 q - 9/8 q^2 + 81/128 q^3
+  hyb_strict P_rej = 3 q - 63/16 q^2 + 81/32 q^3  P_fail|acc = 9/16 q^2 + 27/32 q^3 + 1377/2048 q^4
+  hyb_count  P_rej = 3 q - 99/16 q^2 + 81/16 q^3  P_fail|acc = 27/16 q^2 + 27/8 q^3 + 81/2048 q^4
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_0_only (full logical class)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_0_only (observable b only)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_0_only (X-syndrome + observable only)
+  detect     P_rej = 3/4 q                        P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_1_only (full logical class)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_1_only (observable b only)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_1_only (X-syndrome + observable only)
+  detect     P_rej = 3/4 q                        P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_2_only (full logical class)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_2_only (observable b only)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_2_only (X-syndrome + observable only)
+  detect     P_rej = 3/4 q                        P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_3_only (full logical class)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_3_only (observable b only)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_3_only (X-syndrome + observable only)
+  detect     P_rej = 3/4 q                        P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_4_only (full logical class)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_4_only (observable b only)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- qutrit_4_only (X-syndrome + observable only)
+  detect     P_rej = 3/4 q                        P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- unequal_pair_X0_X3inv (full logical class)
+  detect     P_rej = 1 q - 2/9 q^2                P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 1/3 q - 2/9 q^2
+  hyb_strict P_rej = 1 q - 4/9 q^2                P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 1/3 q - 2/9 q^2
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- unequal_pair_X0_X3inv (observable b only)
+  detect     P_rej = 1 q - 2/9 q^2                P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- unequal_pair_X0_X3inv (X-syndrome + observable only)
+  detect     P_rej = 0                            P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- single_pure_X0 (full logical class)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- single_pure_X0 (observable b only)
+  detect     P_rej = 1 q                          P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+--- single_pure_X0 (X-syndrome + observable only)
+  detect     P_rej = 0                            P_fail|acc = 0
+  mld        P_rej = 0                            P_fail|acc = 0
+  hyb_strict P_rej = 0                            P_fail|acc = 0
+  hyb_count  P_rej = 0                            P_fail|acc = 0
+  number of syndromes whose finite-q MLD coset differs from the leading-order choice: {'0.001': 0, '0.01': 0, '0.05': 0, '0.1': 0}
+==============================================================================
+F. Logical gates H_L, P_L (and inverses)
+--- H: ops [('SWAP', 2, 3), ('H', 0), ('H', 2), ('H', 3), ('H', 4), ('H_INV', 1)]
+  symplectic: True; maps stabilizer group to itself: True
+  U S U^dag: {'S_Z1': 'X0^-1 X1^-1 X2', 'S_Z2': 'X1 X3^-1 X4', 'S_X1': 'Z0 Z1^-1 Z3^-1', 'S_X2': 'Z1 Z2 Z4^-1'}
+  U X_L U^dag = Z0 Z2 ; U Z_L U^dag = X0^-1 X3^-1
+  syndrome map M (sigma' = M sigma, order Z1 Z2 X1 X2): [[0, 0, 1, 0], [0, 0, 0, 1], [2, 0, 0, 0], [0, 2, 0, 0]]
+  logical map on (a,b): Lam = [[0, 2], [1, 0]]  K = [[0, 0, 0, 0], [0, 0, 0, 0]]
+  weight-1 errors before the gate -> (class before, weight after, syndrome class after, naive decoder):
+     ('A1', 'w1', 'A1', 'naive-dec-correct'): 8
+     ('A1', 'w1', 'A1', 'naive-dec-wrong'): 8
+     ('U1', 'w1', 'U1', 'naive-dec-correct'): 24
+  depolarizing noise before the gate, decoded after it:
+     mld_true_prior         P_rej = 0                        P_fail|acc = 1 q + 63/16 q^2 - 141/16 q^3
+     mld_naive_prior        P_rej = 0                        P_fail|acc = 1 q + 63/16 q^2 - 141/16 q^3
+     hyb_strict_true_prior  P_rej = 2 q - 3/4 q^2 - 45/16 q^3 P_fail|acc = 21/8 q^2 + 3/32 q^3 + 525/256 q^4
+     hyb_strict_naive_prior P_rej = 2 q - 3/4 q^2 - 45/16 q^3 P_fail|acc = 21/8 q^2 + 3/32 q^3 + 525/256 q^4
+  coset-probability table after the gate is a permutation of the original: True
+--- H_INV: ops [('H', 1), ('H_INV', 0), ('H_INV', 2), ('H_INV', 3), ('H_INV', 4), ('SWAP', 2, 3)]
+  symplectic: True; maps stabilizer group to itself: True
+  U S U^dag: {'S_Z1': 'X0 X1 X2^-1', 'S_Z2': 'X1^-1 X3 X4^-1', 'S_X1': 'Z0^-1 Z1 Z3', 'S_X2': 'Z1^-1 Z2^-1 Z4'}
+  U X_L U^dag = Z0^-1 Z2^-1 ; U Z_L U^dag = X0 X3
+  syndrome map M (sigma' = M sigma, order Z1 Z2 X1 X2): [[0, 0, 2, 0], [0, 0, 0, 2], [1, 0, 0, 0], [0, 1, 0, 0]]
+  logical map on (a,b): Lam = [[0, 1], [2, 0]]  K = [[0, 0, 0, 0], [0, 0, 0, 0]]
+  weight-1 errors before the gate -> (class before, weight after, syndrome class after, naive decoder):
+     ('A1', 'w1', 'A1', 'naive-dec-correct'): 8
+     ('A1', 'w1', 'A1', 'naive-dec-wrong'): 8
+     ('U1', 'w1', 'U1', 'naive-dec-correct'): 24
+  depolarizing noise before the gate, decoded after it:
+     mld_true_prior         P_rej = 0                        P_fail|acc = 1 q + 63/16 q^2 - 141/16 q^3
+     mld_naive_prior        P_rej = 0                        P_fail|acc = 1 q + 63/16 q^2 - 141/16 q^3
+     hyb_strict_true_prior  P_rej = 2 q - 3/4 q^2 - 45/16 q^3 P_fail|acc = 21/8 q^2 + 3/32 q^3 + 525/256 q^4
+     hyb_strict_naive_prior P_rej = 2 q - 3/4 q^2 - 45/16 q^3 P_fail|acc = 21/8 q^2 + 3/32 q^3 + 525/256 q^4
+  coset-probability table after the gate is a permutation of the original: True
+--- P: ops [('P', 0), ('P', 4), ('P_INV', 1), ('CZ', 2, 3)]
+  symplectic: True; maps stabilizer group to itself: True
+  U S U^dag: {'S_Z1': 'Z0 Z1^-1 Z3^-1', 'S_Z2': 'Z1 Z2 Z4^-1', 'S_X1': 'X0Z0 X1Z1^-1 X2^-1 Z3^-1', 'S_X2': 'X1^-1Z1 Z2 X3 X4^-1Z4^-1'}
+  U X_L U^dag = X0Z0 Z2 X3 ; U Z_L U^dag = Z0 Z2
+  syndrome map M (sigma' = M sigma, order Z1 Z2 X1 X2): [[1, 0, 0, 0], [0, 1, 0, 0], [2, 0, 1, 0], [0, 2, 0, 1]]
+  logical map on (a,b): Lam = [[1, 0], [1, 1]]  K = [[0, 0, 0, 0], [0, 0, 0, 0]]
+  weight-1 errors before the gate -> (class before, weight after, syndrome class after, naive decoder):
+     ('A1', 'w1', 'A1', 'naive-dec-correct'): 4
+     ('A1', 'w1', 'A1', 'naive-dec-wrong'): 4
+     ('A1', 'w1', 'U1', 'naive-dec-correct'): 4
+     ('A1', 'w2', 'U1', 'naive-dec-wrong'): 4
+     ('U1', 'w1', 'A1', 'naive-dec-correct'): 2
+     ('U1', 'w1', 'A1', 'naive-dec-wrong'): 2
+     ('U1', 'w1', 'U1', 'naive-dec-correct'): 12
+     ('U1', 'w2', 'A2*', 'naive-dec-wrong'): 8
+  depolarizing noise before the gate, decoded after it:
+     mld_true_prior         P_rej = 0                        P_fail|acc = 1 q + 63/16 q^2 - 141/16 q^3
+     mld_naive_prior        P_rej = 0                        P_fail|acc = 9/4 q - 25/32 q^2 - 9/4 q^3
+     hyb_strict_true_prior  P_rej = 2 q - 3/4 q^2 - 45/16 q^3 P_fail|acc = 21/8 q^2 + 3/32 q^3 + 525/256 q^4
+     hyb_strict_naive_prior P_rej = 5/2 q - 45/16 q^2 + 45/128 q^3 P_fail|acc = 1/2 q + 7/4 q^2 + 155/128 q^3
+  coset-probability table after the gate is a permutation of the original: True
+--- P_INV: ops [('CZ_INV', 2, 3), ('P', 1), ('P_INV', 0), ('P_INV', 4)]
+  symplectic: True; maps stabilizer group to itself: True
+  U S U^dag: {'S_Z1': 'Z0 Z1^-1 Z3^-1', 'S_Z2': 'Z1 Z2 Z4^-1', 'S_X1': 'X0Z0^-1 X1Z1 X2^-1 Z3', 'S_X2': 'X1^-1Z1^-1 Z2^-1 X3 X4^-1Z4'}
+  U X_L U^dag = X0Z0^-1 Z2^-1 X3 ; U Z_L U^dag = Z0 Z2
+  syndrome map M (sigma' = M sigma, order Z1 Z2 X1 X2): [[1, 0, 0, 0], [0, 1, 0, 0], [1, 0, 1, 0], [0, 1, 0, 1]]
+  logical map on (a,b): Lam = [[1, 0], [2, 1]]  K = [[0, 0, 0, 0], [0, 0, 0, 0]]
+  weight-1 errors before the gate -> (class before, weight after, syndrome class after, naive decoder):
+     ('A1', 'w1', 'A1', 'naive-dec-correct'): 4
+     ('A1', 'w1', 'A1', 'naive-dec-wrong'): 4
+     ('A1', 'w1', 'U1', 'naive-dec-correct'): 4
+     ('A1', 'w2', 'U1', 'naive-dec-wrong'): 4
+     ('U1', 'w1', 'A1', 'naive-dec-correct'): 2
+     ('U1', 'w1', 'A1', 'naive-dec-wrong'): 2
+     ('U1', 'w1', 'U1', 'naive-dec-correct'): 12
+     ('U1', 'w2', 'A2*', 'naive-dec-wrong'): 8
+  depolarizing noise before the gate, decoded after it:
+     mld_true_prior         P_rej = 0                        P_fail|acc = 1 q + 63/16 q^2 - 141/16 q^3
+     mld_naive_prior        P_rej = 0                        P_fail|acc = 9/4 q - 25/32 q^2 - 9/4 q^3
+     hyb_strict_true_prior  P_rej = 2 q - 3/4 q^2 - 45/16 q^3 P_fail|acc = 21/8 q^2 + 3/32 q^3 + 525/256 q^4
+     hyb_strict_naive_prior P_rej = 5/2 q - 45/16 q^2 + 45/128 q^3 P_fail|acc = 1/2 q + 7/4 q^2 + 155/128 q^3
+  coset-probability table after the gate is a permutation of the original: True
+==============================================================================
+P. Phenomenological model (data q/8 per Pauli per qutrit per round, measurement q_m/2 per value per digit)
+--- bulk_full_perfect_final, q_m = 1/4 q
+   R=1: det rej 11 q, det fail&acc 0 q + 1/4 q^2 | MLD fail 2 q | hybrid rej 4 q, fail&acc 0 q + 11/2 q^2
+   R=2: det rej 17 q, det fail&acc 0 q + 3/8 q^2 | MLD fail 3 q | hybrid rej 6 q, fail&acc 0 q + 67/8 q^2
+   R=3: det rej 23 q, det fail&acc 0 q + 1/2 q^2 | MLD fail 4 q | hybrid rej 8 q, fail&acc 0 q + 45/4 q^2
+   R=4: det rej 29 q, det fail&acc 0 q + 5/8 q^2 | MLD fail 5 q | hybrid rej 10 q, fail&acc 0 q + 113/8 q^2
+--- bulk_full_perfect_final, q_m = 1 q
+   R=1: det rej 14 q, det fail&acc 0 q + 1/4 q^2 | MLD fail 2 q | hybrid rej 4 q, fail&acc 0 q + 11/2 q^2
+   R=2: det rej 23 q, det fail&acc 0 q + 3/8 q^2 | MLD fail 3 q | hybrid rej 6 q, fail&acc 0 q + 67/8 q^2
+   R=3: det rej 32 q, det fail&acc 0 q + 1/2 q^2 | MLD fail 4 q | hybrid rej 8 q, fail&acc 0 q + 45/4 q^2
+   R=4: det rej 41 q, det fail&acc 0 q + 5/8 q^2 | MLD fail 5 q | hybrid rej 10 q, fail&acc 0 q + 113/8 q^2
+--- bulk_full_perfect_final, q_m = 4 q
+   R=1: det rej 26 q, det fail&acc 0 q + 1/4 q^2 | MLD fail 2 q | hybrid rej 4 q, fail&acc 0 q + 11/2 q^2
+   R=2: det rej 47 q, det fail&acc 0 q + 3/8 q^2 | MLD fail 3 q | hybrid rej 6 q, fail&acc 0 q + 67/8 q^2
+   R=3: det rej 68 q, det fail&acc 0 q + 1/2 q^2 | MLD fail 4 q | hybrid rej 8 q, fail&acc 0 q + 45/4 q^2
+   R=4: det rej 89 q, det fail&acc 0 q + 5/8 q^2 | MLD fail 5 q | hybrid rej 10 q, fail&acc 0 q + 113/8 q^2
+--- ordinary_obs_no_final, q_m = 1/4 q
+   R=1: det rej 6 q, det fail&acc 0 q + 1/8 q^2 | MLD fail 1/2 q | hybrid rej 3/2 q, fail&acc 0 q + 23/8 q^2
+   R=2: det rej 12 q, det fail&acc 0 q + 3/16 q^2 | MLD fail 1 q | hybrid rej 5/2 q, fail&acc 0 q + 79/16 q^2
+   R=3: det rej 18 q, det fail&acc 0 q + 1/4 q^2 | MLD fail 3/2 q | hybrid rej 7/2 q, fail&acc 0 q + 111/16 q^2
+   R=4: det rej 24 q, det fail&acc 0 q + 5/16 q^2 | MLD fail 2 q | hybrid rej 9/2 q, fail&acc 0 q + 143/16 q^2
+--- ordinary_obs_no_final, q_m = 1 q
+   R=1: det rej 9 q, det fail&acc 0 q + 5/16 q^2 | MLD fail 1/2 q | hybrid rej 3 q, fail&acc 0 q + 59/8 q^2
+   R=2: det rej 18 q, det fail&acc 0 q + 3/8 q^2 | MLD fail 1 q | hybrid rej 4 q, fail&acc 0 q + 77/8 q^2
+   R=3: det rej 27 q, det fail&acc 0 q + 7/16 q^2 | MLD fail 3/2 q | hybrid rej 5 q, fail&acc 0 q + 93/8 q^2
+   R=4: det rej 36 q, det fail&acc 0 q + 1/2 q^2 | MLD fail 2 q | hybrid rej 6 q, fail&acc 0 q + 109/8 q^2
+--- ordinary_obs_no_final, q_m = 4 q
+   R=1: det rej 21 q, det fail&acc 0 q + 17/16 q^2 | MLD fail 1/2 q | hybrid rej 9 q, fail&acc 0 q + 383/8 q^2
+   R=2: det rej 42 q, det fail&acc 0 q + 9/8 q^2 | MLD fail 1 q | hybrid rej 10 q, fail&acc 0 q + 407/8 q^2
+   R=3: det rej 63 q, det fail&acc 0 q + 19/16 q^2 | MLD fail 3/2 q | hybrid rej 11 q, fail&acc 0 q + 423/8 q^2
+   R=4: det rej 84 q, det fail&acc 0 q + 5/4 q^2 | MLD fail 2 q | hybrid rej 12 q, fail&acc 0 q + 439/8 q^2
+--- ordinary_full_no_final, q_m = 1/4 q
+   R=1: det rej 6 q, det fail&acc 0 q + 1/4 q^2 | MLD fail 1 q | hybrid rej 3 q, fail&acc 0 q + 65/16 q^2
+   R=2: det rej 12 q, det fail&acc 0 q + 3/8 q^2 | MLD fail 2 q | hybrid rej 5 q, fail&acc 0 q + 113/16 q^2
+   R=3: det rej 18 q, det fail&acc 0 q + 1/2 q^2 | MLD fail 3 q | hybrid rej 7 q, fail&acc 0 q + 159/16 q^2
+   R=4: det rej 24 q, det fail&acc 0 q + 5/8 q^2 | MLD fail 4 q | hybrid rej 9 q, fail&acc 0 q + 205/16 q^2
+--- ordinary_full_no_final, q_m = 1 q
+   R=1: det rej 9 q, det fail&acc 0 q + 5/8 q^2 | MLD fail 1 q | hybrid rej 6 q, fail&acc 0 q + 85/8 q^2
+   R=2: det rej 18 q, det fail&acc 0 q + 3/4 q^2 | MLD fail 2 q | hybrid rej 8 q, fail&acc 0 q + 14 q^2
+   R=3: det rej 27 q, det fail&acc 0 q + 7/8 q^2 | MLD fail 3 q | hybrid rej 10 q, fail&acc 0 q + 135/8 q^2
+   R=4: det rej 36 q, det fail&acc 0 q + 1 q^2 | MLD fail 4 q | hybrid rej 12 q, fail&acc 0 q + 79/4 q^2
+--- ordinary_full_no_final, q_m = 4 q
+   R=1: det rej 21 q, det fail&acc 0 q + 17/8 q^2 | MLD fail 1 q | hybrid rej 18 q, fail&acc 0 q + 565/8 q^2
+   R=2: det rej 42 q, det fail&acc 0 q + 9/4 q^2 | MLD fail 2 q | hybrid rej 20 q, fail&acc 0 q + 151/2 q^2
+   R=3: det rej 63 q, det fail&acc 0 q + 19/8 q^2 | MLD fail 3 q | hybrid rej 22 q, fail&acc 0 q + 627/8 q^2
+   R=4: det rej 84 q, det fail&acc 0 q + 5/2 q^2 | MLD fail 4 q | hybrid rej 24 q, fail&acc 0 q + 325/4 q^2
+--- ordinary_obs_no_final_late, q_m = 1/4 q
+   R=1: det rej 6 q, det fail&acc 3/2 q + 169/32 q^2 | MLD fail 2 q | hybrid rej 3/2 q, fail&acc 3/2 q + 473/32 q^2
+   R=2: det rej 12 q, det fail&acc 3/2 q + 171/32 q^2 | MLD fail 5/2 q | hybrid rej 5/2 q, fail&acc 3/2 q + 779/32 q^2
+   R=3: det rej 18 q, det fail&acc 3/2 q + 173/32 q^2 | MLD fail 3 q | hybrid rej 7/2 q, fail&acc 3/2 q + 1083/32 q^2
+   R=4: det rej 24 q, det fail&acc 3/2 q + 175/32 q^2 | MLD fail 7/2 q | hybrid rej 9/2 q, fail&acc 3/2 q + 1387/32 q^2
+--- ordinary_obs_no_final_late, q_m = 1 q
+   R=1: det rej 9 q, det fail&acc 3/2 q + 175/32 q^2 | MLD fail 2 q | hybrid rej 3 q, fail&acc 3/2 q + 689/32 q^2
+   R=2: det rej 18 q, det fail&acc 3/2 q + 177/32 q^2 | MLD fail 5/2 q | hybrid rej 4 q, fail&acc 3/2 q + 1145/32 q^2
+   R=3: det rej 27 q, det fail&acc 3/2 q + 179/32 q^2 | MLD fail 3 q | hybrid rej 5 q, fail&acc 3/2 q + 1593/32 q^2
+   R=4: det rej 36 q, det fail&acc 3/2 q + 181/32 q^2 | MLD fail 7/2 q | hybrid rej 6 q, fail&acc 3/2 q + 2041/32 q^2
+--- ordinary_obs_no_final_late, q_m = 4 q
+   R=1: det rej 21 q, det fail&acc 3/2 q + 199/32 q^2 | MLD fail 2 q | hybrid rej 9 q, fail&acc 3/2 q + 2273/32 q^2
+   R=2: det rej 42 q, det fail&acc 3/2 q + 201/32 q^2 | MLD fail 5/2 q | hybrid rej 10 q, fail&acc 3/2 q + 3329/32 q^2
+   R=3: det rej 63 q, det fail&acc 3/2 q + 203/32 q^2 | MLD fail 3 q | hybrid rej 11 q, fail&acc 3/2 q + 4353/32 q^2
+   R=4: det rej 84 q, det fail&acc 3/2 q + 205/32 q^2 | MLD fail 7/2 q | hybrid rej 12 q, fail&acc 3/2 q + 5377/32 q^2
+--- xsyndrome_final_obs, q_m = 1/4 q
+   R=1: det rej 39/4 q, det fail&acc 0 q + 5/8 q^2 | MLD fail 2 q | hybrid rej 4 q, fail&acc 0 q + 29/8 q^2
+   R=2: det rej 63/4 q, det fail&acc 0 q + 11/16 q^2 | MLD fail 5/2 q | hybrid rej 5 q, fail&acc 0 q + 45/8 q^2
+   R=3: det rej 87/4 q, det fail&acc 0 q + 3/4 q^2 | MLD fail 3 q | hybrid rej 6 q, fail&acc 0 q + 61/8 q^2
+   R=4: det rej 111/4 q, det fail&acc 0 q + 13/16 q^2 | MLD fail 7/2 q | hybrid rej 7 q, fail&acc 0 q + 77/8 q^2
+--- xsyndrome_final_obs, q_m = 1 q
+   R=1: det rej 51/4 q, det fail&acc 0 q + 5/8 q^2 | MLD fail 2 q | hybrid rej 4 q, fail&acc 0 q + 35/8 q^2
+   R=2: det rej 87/4 q, det fail&acc 0 q + 11/16 q^2 | MLD fail 5/2 q | hybrid rej 5 q, fail&acc 0 q + 51/8 q^2
+   R=3: det rej 123/4 q, det fail&acc 0 q + 3/4 q^2 | MLD fail 3 q | hybrid rej 6 q, fail&acc 0 q + 67/8 q^2
+   R=4: det rej 159/4 q, det fail&acc 0 q + 13/16 q^2 | MLD fail 7/2 q | hybrid rej 7 q, fail&acc 0 q + 83/8 q^2
+--- xsyndrome_final_obs, q_m = 4 q
+   R=1: det rej 99/4 q, det fail&acc 0 q + 5/8 q^2 | MLD fail 2 q | hybrid rej 4 q, fail&acc 0 q + 59/8 q^2
+   R=2: det rej 183/4 q, det fail&acc 0 q + 11/16 q^2 | MLD fail 5/2 q | hybrid rej 5 q, fail&acc 0 q + 75/8 q^2
+   R=3: det rej 267/4 q, det fail&acc 0 q + 3/4 q^2 | MLD fail 3 q | hybrid rej 6 q, fail&acc 0 q + 91/8 q^2
+   R=4: det rej 351/4 q, det fail&acc 0 q + 13/16 q^2 | MLD fail 7/2 q | hybrid rej 7 q, fail&acc 0 q + 107/8 q^2
+exact phenomenological checks: {
+ "R=1|q=0.0001|qm=0.0001|full|full": {
+  "mld_fail_over_q": 2.0006500787810877,
+  "det_rej_over_q": 13.99087866430171,
+  "det_fail_given_acc_over_q2": 0.25008127680204956
+ },
+ "R=1|q=0.0001|qm=0.0001|none|obs": {
+  "mld_fail_over_q": 0.500927737188627,
+  "det_rej_over_q": 8.996288406893926,
+  "det_fail_given_acc_over_q2": 0.31261955233604394
+ },
+ "R=1|q=0.0001|qm=2.5e-05|full|full": {
+  "mld_fail_over_q": 2.0006498199529794,
+  "det_rej_over_q": 10.994439207455686,
+  "det_fail_given_acc_over_q2": 0.25007188981066025
+ },
+ "R=1|q=0.0001|qm=2.5e-05|none|obs": {
+  "mld_fail_over_q": 0.5004342666516198,
+  "det_rej_over_q": 5.998425233652016,
+  "det_fail_given_acc_over_q2": 0.12503515473869015
+ },
+ "R=2|q=0.0001|qm=0.0001|full|full": {
+  "mld_fail_over_q": 3.0007565426525207,
+  "det_rej_over_q": 22.974680271560242,
+  "det_fail_given_acc_over_q2": 0.37512815176990233
+ },
+ "R=2|q=0.0001|qm=0.0001|none|obs": {
+  "mld_fail_over_q": 1.001418389750432,
+  "det_rej_over_q": 17.984583336506653,
+  "det_fail_given_acc_over_q2": 0.3751578613785254
+ },
+ "R=2|q=0.0001|qm=2.5e-05|full|full": {
+  "mld_fail_over_q": 3.0007559598630933,
+  "det_rej_over_q": 16.98629447045907,
+  "det_fail_given_acc_over_q2": 0.37510939175820607
+ },
+ "R=2|q=0.0001|qm=2.5e-05|none|obs": {
+  "mld_fail_over_q": 1.000762293725951,
+  "det_rej_over_q": 11.99327733045763,
+  "det_fail_given_acc_over_q2": 0.18755704775247298
+ }
+}
+==============================================================================
+P2. F2 hybrid q^2 failure by pair type
+  R=1: c(kappa) = 15/8 + 7/2 kappa + 2 kappa^2 (checked at kappa = 1/4, 1, 4); measurement-measurement pairs: ['meas[S_Z1]&meas[S_X1] (rounds 1,1): 4', 'meas[S_Z1]&meas[S_X2] (rounds 1,1): 4']
+  R=2: c(kappa) = 31/8 + 15/4 kappa + 2 kappa^2 (checked at kappa = 1/4, 1, 4); measurement-measurement pairs: ['meas[S_Z1]&meas[S_X1] (rounds 2,2): 4', 'meas[S_Z1]&meas[S_X2] (rounds 2,2): 4']
+  R=3: c(kappa) = 47/8 + 15/4 kappa + 2 kappa^2 (checked at kappa = 1/4, 1, 4); measurement-measurement pairs: ['meas[S_Z1]&meas[S_X1] (rounds 3,3): 4', 'meas[S_Z1]&meas[S_X2] (rounds 3,3): 4']
+generator reproduces baseline circuit files op-by-op: 270 / 270
+generator semantics (270 files): {'n_files': 270, 'forward_cliffords_in_catalog': 270, 'inverse_block_matches_generator': 270, 'nested_prefix_of_depth22_sample': 270}
+convention check (ancilla shifts == <S,E>; terminal x0+x3 == b(E); const0 detectors == -sigma_X): {'check_round': True, 'terminal': True, 'terminal_const0': True}
+==============================================================================
+G1. One check round + reset: exact single-fault table (per unit p)
+totals by category (coefficient of p): {'data+flip': 30.15, 'meas_only': 41.0, 'no_effect': 16.3, 'data_only': 30.95}
+this-round flip rate per check (any cause): {'S_Z1': 7.775, 'S_Z2': 14.45, 'S_X1': 22.625, 'S_X2': 29.975}
+  of which measurement-only (no data residual): {'S_Z1': 5.925, 'S_Z2': 7.425, 'S_X1': 9.075, 'S_X2': 10.575}
+next-round flip from reset noise: {'S_Z1': 2.0, 'S_Z2': 2.0, 'S_X1': 2.0, 'S_X2': 2.0}
+data residual (any category) by equivalent weight-1 error:
+   ('q0', 'A1'): 6.0500
+   ('q0', 'U1'): 5.9000
+   ('q1', 'U1'): 11.8750
+   ('q2', 'A1'): 5.6750
+   ('q2', 'U1'): 5.6000
+   ('q3', 'A1'): 6.0500
+   ('q3', 'U1'): 5.9000
+   ('q4', 'A1'): 6.0500
+   ('q4', 'U1'): 5.9000
+   ('w2_synA2*', ''): 1.9500
+   ('w2_synU1', ''): 0.1500
+tied single-qutrit pairs, per-round residual rates (coeff of p):
+   X4 / X2^-1         [1.5125, 1.4375]
+   X4^-1 / X2         [1.5125, 1.4375]
+   Z4 / Z3^-1         [1.5125, 1.5125]
+   Z4^-1 / Z3         [1.5125, 1.5125]
+   X3 / X0^-1         [1.5125, 1.5125]
+   X3^-1 / X0         [1.5125, 1.5125]
+   Z2 / Z0^-1         [1.4, 1.5125]
+   Z2^-1 / Z0         [1.4, 1.5125]
+code-capacity-style estimate per round: MLD tie failure 11.7250 p, hybrid rejection of ties 23.8250 p
+gate noise per logical token: {'H': {'w1_A1': 0.3000000000000001, 'w1_U1': 0.4000000000000002, 'w2_synU1': 0.20000000000000004, 'w2_synA2*': 0.5999999999999999}, 'P': {'w1_A1': 0.20000000000000004, 'w1_U1': 0.3000000000000001, 'w2_synU1': 0.20000000000000004, 'w2_synA2*': 0.5999999999999999}, 'X': {'w1_A1': 0.09999999999999999, 'w1_U1': 0.09999999999999999}, 'Z': {'w1_A1': 0.09999999999999999, 'w1_U1': 0.09999999999999999}, 'I': {'w1_A1': 0.05, 'w1_U1': 0.05}}
+catalog token stats: {'n_strings': 216, 'n_distinct': 207, 'mean_tokens': {'I': 0.004629629629629629, 'H': 1.6527777777777777, 'P': 1.462962962962963, 'X': 1.0046296296296295, 'Z': 1.0046296296296295}}
+catalog side check: {'n_strings': 216, 'n_distinct_strings': 207, 'n_distinct_unitaries_mod_phase': 206, 'H_found': True, 'group_order_mod_phase': 216, 'n_group_elements_never_sampled': 10, 'unitary_multiplicities': {'1': 197, '2': 8, '3': 1}, 'duplicated_strings': {'XZHP': 2, 'XZPH': 2, 'XXZZ': 2, 'XXZP': 2, 'XXZHP': 2, 'ZZXP': 2, 'ZZXHP': 2, 'XXZZP': 2, 'XXZZHP': 2}, 'n_missing': 10, 'critique_candidate_strings': ['XZHSS', 'XZSSH', 'XXZ', 'XXZHSS', 'XXZSSH', 'ZZX', 'ZZXHSS', 'ZZXSSH', 'XXZZHSS', 'XXZZSSH'], 'candidates_are_exactly_the_missing_elements': True}
+==============================================================================
+G5. Catalog: symplectic distribution and readout-flip probabilities
+  1 draw(s): P(flip) X_L 3/4 = 0.7500, Z_L 55/72 = 0.7639, X_LZ_L 163/216 = 0.7546, X_LZ_L^-1 0.7315; max TV distance from uniform 0.0370
+  2 draw(s): P(flip) X_L 34997/46656 = 0.7501, Z_L 34981/46656 = 0.7498, X_LZ_L 11665/15552 = 0.7501, X_LZ_L^-1 0.7501; max TV distance from uniform 0.0015
+  3 draw(s): P(flip) X_L 3/4 = 0.7500, Z_L 157463/209952 = 0.7500, X_LZ_L 472391/629856 = 0.7500, X_LZ_L^-1 0.7500; max TV distance from uniform 0.0001
+  4 draw(s): P(flip) X_L 102036667/136048896 = 0.7500, Z_L 102036683/136048896 = 0.7500, X_LZ_L 34012223/45349632 = 0.7500, X_LZ_L^-1 0.7500; max TV distance from uniform 0.0000
+  SL(2,3) elements hit: 24 of 24; string counts per element: {5: 2, 9: 19, 10: 1, 12: 1, 13: 1} (uniform would be 9 each)
+==============================================================================
+G6. Logical action of the token circuits (5-qutrit statevector)
+  <S_Z1>,<S_Z2>,<S_X1>,<S_X2>,<X_L>,<Z_L> on the encoded state: [(1+0j), (1-0j), (1+0j), (1+0j), (1+0j), 0j]
+  logical action of each token equals the physical single-qutrit gate up to a global phase: {'H': True, 'P': True, 'X': True, 'Z': True, 'H_INV': True, 'P_INV': True, 'X_INV': True, 'Z_INV': True}
+==============================================================================
+G2. Memory windows (identity Cliffords, SI1000 check noise only)
+  R=0: V1 det_rej 63.150 undet 4.950 mld 14.025 hyb_rej 41.875 | V2 det_rej 84.100 mld 9.425 hyb_rej 22.525
+  R=1: V1 det_rej 165.250 undet 4.950 mld 19.625 hyb_rej 62.450 | V2 det_rej 186.200 mld 20.900 hyb_rej 51.300
+  R=2: V1 det_rej 267.350 undet 4.950 mld 25.225 hyb_rej 73.725 | V2 det_rej 288.300 mld 32.375 hyb_rej 80.075
+  R=3: V1 det_rej 369.450 undet 4.950 mld 30.825 hyb_rej 85.000 | V2 det_rej 390.400 mld 43.850 hyb_rej 108.850
+  R=4: V1 det_rej 471.550 undet 4.950 mld 36.425 hyb_rej 96.275 | V2 det_rej 492.500 mld 55.325 hyb_rej 137.625
+  R=5: V1 det_rej 573.650 undet 4.950 mld 42.025 hyb_rej 107.550 | V2 det_rej 594.600 mld 66.800 hyb_rej 166.400
+  per-round increments (R -> R+1):
+     V1_det_rej           [102.1, 102.1, 102.1, 102.1, 102.1]
+     V2_det_rej           [102.1, 102.1, 102.1, 102.1, 102.1]
+     V1_mld_fail          [5.6, 5.6, 5.6, 5.6, 5.6]
+     V2_mld_fail          [11.475, 11.475, 11.475, 11.475, 11.475]
+     V1_hyb_rej           [20.575, 11.275, 11.275, 11.275, 11.275]
+     V2_hyb_rej           [28.775, 28.775, 28.775, 28.775, 28.775]
+     V1_undetected_fail   [0.0, 0.0, 0.0, 0.0, 0.0]
+     V2_undetected_fail   [0.0, 0.0, 0.0, 0.0, 0.0]
+==============================================================================
+G7. Final-round schedule variant (M7 and M8 in one layer)
+  final round alone (as run): undetected 4.950 p, detection 63.150 p, MLD 14.025 p, hybrid rejection 41.875 p
+  final round alone (M7+M8 merged): undetected 3.450 p, detection 57.150 p, MLD 11.025 p, hybrid rejection 35.875 p
+==============================================================================
+G3. Baseline LRB circuits (own propagation, leading order in p)
+  analysed 270 LRB + const0 circuits in 36.0 s (30 Clifford sequences)
+  m= 0: det_rej    63.15 (baseline -ln acc/p    63.31) undet 4.950 (baseline (1-F)/1.5p 4.975) | MLD   14.02 hyb_rej   41.88 | const0 det_rej    0.00 (baseline   -0.00) mld   0.00 hyb_rej   0.00
+  m= 2: det_rej   284.26 (baseline -ln acc/p   284.11) undet 4.950 (baseline (1-F)/1.5p 4.905) | MLD   36.00 hyb_rej  126.29 | const0 det_rej   14.48 (baseline   14.39) mld   3.06 hyb_rej  11.88
+  m= 4: det_rej   506.90 (baseline -ln acc/p   507.47) undet 4.950 (baseline (1-F)/1.5p 4.930) | MLD   58.74 hyb_rej  205.69 | const0 det_rej   30.39 (baseline   30.37) mld   6.36 hyb_rej  24.81
+  m= 6: det_rej   728.99 (baseline -ln acc/p   729.66) undet 4.950 (baseline (1-F)/1.5p 4.941) | MLD   79.97 hyb_rej  280.54 | const0 det_rej   45.78 (baseline   45.95) mld   9.56 hyb_rej  37.35
+  m=10: det_rej  1176.18 (baseline -ln acc/p  1176.44) undet 4.950 (baseline (1-F)/1.5p 4.936) | MLD  122.86 hyb_rej  435.24 | const0 det_rej   79.18 (baseline   79.05) mld  16.46 hyb_rej  64.54
+  m=14: det_rej  1624.44 (baseline -ln acc/p  1624.17) undet 4.950 (baseline (1-F)/1.5p 5.064) | MLD  167.71 hyb_rej  594.56 | const0 det_rej  113.61 (baseline  113.54) mld  23.48 hyb_rej  92.46
+  m=18: det_rej  2071.31 (baseline -ln acc/p  2071.76) undet 4.950 (baseline (1-F)/1.5p 4.951) | MLD  210.32 hyb_rej  748.13 | const0 det_rej  146.70 (baseline  146.47) mld  30.34 hyb_rej 119.44
+  m=20: det_rej  2293.68 (baseline -ln acc/p  2293.67) undet 4.950 (baseline (1-F)/1.5p 4.978) | MLD  230.94 hyb_rej  823.55 | const0 det_rej  162.31 (baseline  162.11) mld  33.61 hyb_rej 132.19
+  m=22: det_rej  2517.58 (baseline -ln acc/p  2518.48) undet 4.950 (baseline (1-F)/1.5p 5.070) | MLD  251.41 hyb_rej  898.16 | const0 det_rej  179.30 (baseline  178.84) mld  37.10 hyb_rej 146.00
+  linear fits c(m) = c0 + c1 m (m >= 2), 30 sequences:
+     det_rej                                c0 =    59.894  c1 =  111.710
+     mld_fail                               c0 =    15.229  c1 =   10.793
+     hyb_rej                                c0 =    49.737  c1 =   38.690
+     undetected                             c0 =     4.950  c1 =    0.000
+     V2_mld_fail                            c0 =     8.881  c1 =   14.191
+     V2_hyb_rej                             c0 =    21.394  c1 =   48.224
+     const0_det_rej                         c0 =    -2.885  c1 =    8.279
+     const0_mld_fail                        c0 =    -0.506  c1 =    1.709
+     const0_hyb_rej                         c0 =    -2.259  c1 =    6.737
+     baseline_unif1_minuslog_acc_over_p     c0 =    60.091  c1 =  111.719
+     baseline_const0_minuslog_acc_over_p    c0 =    -2.792  c1 =    8.261
+  per-sequence slopes (mean, std over sequences, SE of the mean, min, max):
+     det_rej                    111.710    0.716   0.131   109.765   112.803
+     mld_fail                    10.793    0.621   0.113     9.086    11.771
+     hyb_rej                     38.690    1.640   0.299    33.904    41.043
+     V2_mld_fail                 14.191    0.192   0.035    13.644    14.474
+     V2_hyb_rej                  48.224    1.146   0.209    45.053    50.013
+     const0_det_rej               8.279    0.622   0.114     6.550     9.151
+     const0_mld_fail              1.709    0.124   0.023     1.390     1.920
+     const0_hyb_rej               6.737    0.500   0.091     5.381     7.506
+  first-10-sequence subset slopes (first version of the notes): {'det_rej': 112.048, 'mld_fail': 10.962, 'hyb_rej': 39.281, 'undetected': -0.0, 'V2_mld_fail': 14.281, 'V2_hyb_rej': 48.505, 'const0_det_rej': 8.574, 'const0_mld_fail': 1.763, 'const0_hyb_rej': 6.972, 'baseline_unif1_minuslog_acc_over_p': 111.719, 'baseline_const0_minuslog_acc_over_p': 8.261}
+  ratio V1/V2 MLD slope: 0.7605
+  threshold family (V1_as_run); per-depth slopes of rejection / first-order failure:
+     tau=1.00: rej   38.690 p (c0   49.74) | fail   0.000 p (c0   4.95)
+     tau=0.99: rej   37.141 p (c0   52.42) | fail   0.010 p (c0   4.93)
+     tau=0.95: rej   27.197 p (c0   52.10) | fail   0.253 p (c0   5.00)
+     tau=0.90: rej   24.091 p (c0   48.30) | fail   0.463 p (c0   5.30)
+     tau=0.80: rej   23.280 p (c0   40.65) | fail   0.592 p (c0   6.42)
+     tau=0.70: rej   21.994 p (c0  -14.11) | fail   0.996 p (c0  20.15)
+     tau=0.60: rej   16.148 p (c0    0.02) | fail   3.023 p (c0  15.31)
+     tau=0.50: rej    0.024 p (c0    0.07) | fail  10.777 p (c0  15.19)
+     tau=0.00: rej    0.000 p (c0    0.00) | fail  10.793 p (c0  15.23)
+     m=22: strict-hybrid rejection 898.16 p split by leading-order posterior: {'0.95-1.0': 251.02, '0.8-0.95': 97.16, '0.6-0.8': 196.71, '0.5-0.6': 352.65, '0.0-0.5': 0.62}
+  threshold family (V2_perfect_final_fullclass); per-depth slopes of rejection / first-order failure:
+     tau=1.00: rej   48.224 p (c0   21.39) | fail   0.000 p (c0   0.00)
+     tau=0.99: rej   47.811 p (c0   22.60) | fail   0.003 p (c0  -0.01)
+     tau=0.95: rej   35.703 p (c0   25.22) | fail   0.312 p (c0  -0.06)
+     tau=0.90: rej   31.283 p (c0   24.16) | fail   0.610 p (c0   0.06)
+     tau=0.80: rej   30.607 p (c0   14.39) | fail   0.710 p (c0   1.54)
+     tau=0.70: rej   27.898 p (c0   10.58) | fail   1.467 p (c0   2.38)
+     tau=0.60: rej   22.305 p (c0   19.36) | fail   3.475 p (c0  -0.85)
+     tau=0.50: rej    0.066 p (c0    0.04) | fail  14.152 p (c0   8.85)
+     tau=0.00: rej    0.000 p (c0    0.00) | fail  14.191 p (c0   8.88)
+     m=22: strict-hybrid rejection 1081.64 p split by leading-order posterior: {'0.95-1.0': 270.98, '0.8-0.95': 125.2, '0.6-0.8': 174.28, '0.5-0.6': 509.82, '0.0-0.5': 1.35}
+==============================================================================
+G4. Second-order (two-fault) coefficients, detection vs hybrid
+  memory R=0: {'V1': {'det_rej1': 63.15, 'det_fail_given_acc_1': 4.95, 'det_fail_given_acc_2': 55.789, 'hyb_rej1': 41.875, 'hyb_fail_given_acc_1': 4.95, 'hyb_fail_given_acc_2': 396.203, 'pairs_det': 230.727, 'pairs_hyb': 676.452, 'n_faults': 1288}, 'V2': {'det_rej1': 84.1, 'det_fail_given_acc_1': 0.0, 'det_fail_given_acc_2': 6.729, 'hyb_rej1': 22.525, 'hyb_fail_given_acc_1': 0.0, 'hyb_fail_given_acc_2': 396.705, 'pairs_det': 6.729, 'pairs_hyb': 396.705, 'n_faults': 1288}}
+  memory R=1: {'V1': {'det_rej1': 165.25, 'det_fail_given_acc_1': 4.95, 'det_fail_given_acc_2': 96.22, 'hyb_rej1': 62.45, 'hyb_fail_given_acc_1': 4.95, 'hyb_fail_given_acc_2': 1911.917, 'pairs_det': 351.843, 'pairs_hyb': 2676.4, 'n_faults': 2624}, 'V2': {'det_rej1': 186.2, 'det_fail_given_acc_1': 0.0, 'det_fail_given_acc_2': 21.698, 'hyb_rej1': 51.3, 'hyb_fail_given_acc_1': 0.0, 'hyb_fail_given_acc_2': 1394.855, 'pairs_det': 21.698, 'pairs_hyb': 1394.855, 'n_faults': 2624}}
+  memory R=2: {'V1': {'det_rej1': 267.35, 'det_fail_given_acc_1': 4.95, 'det_fail_given_acc_2': 103.686, 'hyb_rej1': 73.725, 'hyb_fail_given_acc_1': 4.95, 'hyb_fail_given_acc_2': 2716.546, 'pairs_det': 439.993, 'pairs_hyb': 4011.297, 'n_faults': 3960}, 'V2': {'det_rej1': 288.3, 'det_fail_given_acc_1': 0.0, 'det_fail_given_acc_2': 36.667, 'hyb_rej1': 80.075, 'hyb_fail_given_acc_1': 0.0, 'hyb_fail_given_acc_2': 2442.191, 'pairs_det': 36.667, 'pairs_hyb': 2442.191, 'n_faults': 3960}}
+  LRB cliff 0 depth idx 0: {'V1': {'det_rej1': 63.15, 'det_fail_given_acc_1': 4.95, 'det_fail_given_acc_2': 55.789, 'hyb_rej1': 41.875, 'hyb_fail_given_acc_1': 4.95, 'hyb_fail_given_acc_2': 396.203, 'pairs_det': 230.727, 'pairs_hyb': 676.452, 'n_faults': 1288}, 'V2': {'det_rej1': 84.1, 'det_fail_given_acc_1': 0.0, 'det_fail_given_acc_2': 6.729, 'hyb_rej1': 22.525, 'hyb_fail_given_acc_1': 0.0, 'hyb_fail_given_acc_2': 396.705, 'pairs_det': 6.729, 'pairs_hyb': 396.705, 'n_faults': 1288}}
+  LRB cliff 0 depth idx 1: {'V1': {'det_rej1': 280.55, 'det_fail_given_acc_1': 4.95, 'det_fail_given_acc_2': 97.239, 'hyb_rej1': 109.325, 'hyb_fail_given_acc_1': 4.95, 'hyb_fail_given_acc_2': 2172.118, 'pairs_det': 433.547, 'pairs_hyb': 3355.989, 'n_faults': 5016}, 'V2': {'det_rej1': 301.5, 'det_fail_given_acc_1': 0.0, 'det_fail_given_acc_2': 41.858, 'hyb_rej1': 116.85, 'hyb_fail_given_acc_1': 0.0, 'hyb_fail_given_acc_2': 2856.478, 'pairs_det': 41.858, 'pairs_hyb': 2856.478, 'n_faults': 5016}}
+  LRB cliff 1 depth idx 0: {'V1': {'det_rej1': 63.15, 'det_fail_given_acc_1': 4.95, 'det_fail_given_acc_2': 55.789, 'hyb_rej1': 41.875, 'hyb_fail_given_acc_1': 4.95, 'hyb_fail_given_acc_2': 396.203, 'pairs_det': 230.727, 'pairs_hyb': 676.452, 'n_faults': 1288}, 'V2': {'det_rej1': 84.1, 'det_fail_given_acc_1': 0.0, 'det_fail_given_acc_2': 6.729, 'hyb_rej1': 22.525, 'hyb_fail_given_acc_1': 0.0, 'hyb_fail_given_acc_2': 396.705, 'pairs_det': 6.729, 'pairs_hyb': 396.705, 'n_faults': 1288}}
+  LRB cliff 1 depth idx 1: {'V1': {'det_rej1': 283.95, 'det_fail_given_acc_1': 4.95, 'det_fail_given_acc_2': 119.834, 'hyb_rej1': 131.775, 'hyb_fail_given_acc_1': 4.95, 'hyb_fail_given_acc_2': 2103.074, 'pairs_det': 456.141, 'pairs_hyb': 3192.648, 'n_faults': 5288}, 'V2': {'det_rej1': 304.9, 'det_fail_given_acc_1': 0.0, 'det_fail_given_acc_2': 40.266, 'hyb_rej1': 121.4, 'hyb_fail_given_acc_1': 0.0, 'hyb_fail_given_acc_2': 2660.174, 'pairs_det': 40.266, 'pairs_hyb': 2660.174, 'n_faults': 5288}}
+  order-2 sweep took 15.1 s
+  memory per-round increments of the order-2 coefficients: {'V1_det_fail_given_acc_2': [40.43125000000026, 7.465312499999413], 'V1_hyb_fail_given_acc_2': [1515.7146875000017, 804.6287499999974], 'V2_det_fail_given_acc_2': [14.968750000000034, 14.96875], 'V2_hyb_fail_given_acc_2': [998.1503124999995, 1047.3359375000093]}
+  order2_fast vs reference loop on these 7 circuits: max |diff| = 2.46e-11
+==============================================================================
+G4b. Two-fault coefficients for all sequences (group-based routine)
+  30 sequences x 3 depths in 111.2 s
+  V1_det_fail_given_acc_2      mean by m=[0, 2, 4, 6]: [55.79, 121.68, 155.48, 183.56] | per-seq range at m=2: [97.2, 150.4]
+                               slope (m=2..6 fit, per seq): mean 15.47 std 6.03 range [2.4, 26.1] | (m2-m0)/2: mean 32.95 range [20.7, 47.3]
+  V1_hyb_fail_given_acc_2      mean by m=[0, 2, 4, 6]: [396.2, 2686.29, 4879.08, 7062.07] | per-seq range at m=2: [1998.0, 3750.2]
+                               slope (m=2..6 fit, per seq): mean 1093.95 std 136.60 range [844.6, 1370.6] | (m2-m0)/2: mean 1145.04 range [800.9, 1677.0]
+  V1_hyb_rej1                  mean by m=[0, 2, 4, 6]: [41.88, 126.29, 205.69, 280.54] | per-seq range at m=2: [104.2, 146.2]
+                               slope (m=2..6 fit, per seq): mean 38.56 std 4.33 range [30.5, 45.9] | (m2-m0)/2: mean 42.21 range [31.2, 52.2]
+  V1_det_rej1                  mean by m=[0, 2, 4, 6]: [63.15, 284.26, 506.9, 728.99] | per-seq range at m=2: [271.2, 297.8]
+                               slope (m=2..6 fit, per seq): mean 111.18 std 1.75 range [108.0, 115.2] | (m2-m0)/2: mean 110.56 range [104.0, 117.3]
+  V2_det_fail_given_acc_2      mean by m=[0, 2, 4, 6]: [6.73, 42.74, 80.18, 117.14] | per-seq range at m=2: [37.7, 48.5]
+                               slope (m=2..6 fit, per seq): mean 18.60 std 1.07 range [16.7, 21.1] | (m2-m0)/2: mean 18.01 range [15.5, 20.9]
+  V2_hyb_fail_given_acc_2      mean by m=[0, 2, 4, 6]: [396.7, 2869.95, 5558.98, 8160.36] | per-seq range at m=2: [2451.3, 3425.0]
+                               slope (m=2..6 fit, per seq): mean 1322.60 std 100.99 range [1128.9, 1550.5] | (m2-m0)/2: mean 1236.62 range [1027.3, 1514.2]
+  V2_hyb_rej1                  mean by m=[0, 2, 4, 6]: [22.52, 117.71, 214.24, 310.29] | per-seq range at m=2: [98.3, 128.9]
+                               slope (m=2..6 fit, per seq): mean 48.14 std 2.26 range [43.6, 52.6] | (m2-m0)/2: mean 47.59 range [37.9, 53.2]
+  V2_det_rej1                  mean by m=[0, 2, 4, 6]: [84.1, 305.21, 527.85, 749.94] | per-seq range at m=2: [292.1, 318.7]
+                               slope (m=2..6 fit, per seq): mean 111.18 std 1.75 range [108.0, 115.1] | (m2-m0)/2: mean 110.56 range [104.0, 117.3]
+==============================================================================
+G4c. Predicted versus baseline unif-1 fidelity (detection)
+  p=2e-04 m= 0: baseline 0.998505 (SE 6.9e-06) | order-2 prediction 0.998512 (diff -6.39e-06 = -0.9 SE) | order-1 only 0.998515 (diff -9.73e-06)
+  p=2e-04 m= 2: baseline 0.998511 (SE 9.2e-06) | order-2 prediction 0.998508 (diff +3.28e-06 = +0.4 SE) | order-1 only 0.998515 (diff -4.02e-06)
+  p=2e-04 m= 4: baseline 0.998513 (SE 8.8e-06) | order-2 prediction 0.998506 (diff +7.41e-06 = +0.8 SE) | order-1 only 0.998515 (diff -1.92e-06)
+  p=2e-04 m= 6: baseline 0.998505 (SE 1.1e-05) | order-2 prediction 0.998504 (diff +6.87e-07 = +0.1 SE) | order-1 only 0.998515 (diff -1.03e-05)
+  p=5e-04 m= 0: baseline 0.996290 (SE 1.2e-05) | order-2 prediction 0.996267 (diff +2.30e-05 = +1.8 SE) | order-1 only 0.996287 (diff +2.05e-06)
+  p=5e-04 m= 2: baseline 0.996242 (SE 1.6e-05) | order-2 prediction 0.996242 (diff -1.94e-07 = -0.0 SE) | order-1 only 0.996287 (diff -4.58e-05)
+  p=5e-04 m= 4: baseline 0.996252 (SE 1.4e-05) | order-2 prediction 0.996229 (diff +2.31e-05 = +1.6 SE) | order-1 only 0.996287 (diff -3.52e-05)
+  p=5e-04 m= 6: baseline 0.996211 (SE 1.4e-05) | order-2 prediction 0.996219 (diff -7.86e-06 = -0.5 SE) | order-1 only 0.996287 (diff -7.67e-05)
+  p=1e-03 m= 0: baseline 0.992503 (SE 1.6e-05) | order-2 prediction 0.992491 (diff +1.21e-05 = +0.8 SE) | order-1 only 0.992575 (diff -7.16e-05)
+  p=1e-03 m= 2: baseline 0.992367 (SE 2.5e-05) | order-2 prediction 0.992392 (diff -2.52e-05 = -1.0 SE) | order-1 only 0.992575 (diff -2.08e-04)
+  p=1e-03 m= 4: baseline 0.992403 (SE 2.5e-05) | order-2 prediction 0.992342 (diff +6.14e-05 = +2.4 SE) | order-1 only 0.992575 (diff -1.72e-04)
+  p=1e-03 m= 6: baseline 0.992292 (SE 2.8e-05) | order-2 prediction 0.992300 (diff -7.64e-06 = -0.3 SE) | order-1 only 0.992575 (diff -2.83e-04)
+  p=2e-03 m= 0: baseline 0.984825 (SE 2.6e-05) | order-2 prediction 0.984815 (diff +9.61e-06 = +0.4 SE) | order-1 only 0.985150 (diff -3.25e-04)
+  p=2e-03 m= 2: baseline 0.984456 (SE 4.5e-05) | order-2 prediction 0.984420 (diff +3.60e-05 = +0.8 SE) | order-1 only 0.985150 (diff -6.94e-04)
+  p=2e-03 m= 4: baseline 0.984197 (SE 5.8e-05) | order-2 prediction 0.984217 (diff -2.06e-05 = -0.4 SE) | order-1 only 0.985150 (diff -9.53e-04)
+  p=2e-03 m= 6: baseline 0.983938 (SE 5.0e-05) | order-2 prediction 0.984049 (diff -1.11e-04 = -2.2 SE) | order-1 only 0.985150 (diff -1.21e-03)
+  p=5e-03 m= 0: baseline 0.960801 (SE 4.8e-05) | order-2 prediction 0.960783 (diff +1.80e-05 = +0.4 SE) | order-1 only 0.962875 (diff -2.07e-03)
+  p=5e-03 m= 2: baseline 0.957831 (SE 1.3e-04) | order-2 prediction 0.958312 (diff -4.81e-04 = -3.8 SE) | order-1 only 0.962875 (diff -5.04e-03)
+  p=5e-03 m= 4: baseline 0.956542 (SE 1.9e-04) | order-2 prediction 0.957044 (diff -5.02e-04 = -2.6 SE) | order-1 only 0.962875 (diff -6.33e-03)
+  p=5e-03 m= 6: baseline 0.955062 (SE 3.0e-04) | order-2 prediction 0.955991 (diff -9.29e-04 = -3.1 SE) | order-1 only 0.962875 (diff -7.81e-03)
+DEM cross-check: [{'circuit': '/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-slurm/Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000/experiments/LRB/0/4/0.chp', 'components_compared': 136, 'mismatches': 0, 'dem_locations': 56, 'own_locations': 56}, {'circuit': '/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-slurm/Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000/experiments/LRB/0/4/1.chp', 'components_compared': 580, 'mismatches': 0, 'dem_locations': 246, 'own_locations': 246}, {'circuit': '/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-slurm/Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000/experiments/LRB/0/4/3.chp', 'components_compared': 1576, 'mismatches': 0, 'dem_locations': 670, 'own_locations': 670}, {'circuit': '/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-slurm/Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000/experiments/LRB_const0/0/4/1.chp', 'components_compared': 136, 'mismatches': 0, 'dem_locations': 60, 'own_locations': 60}]
+wrote /pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b/docs/correction-decoders/qutrit-512/notes/scripts/A1_results.json; total time 185.1 s
+
+real	3m6.377s
+user	2m38.358s
+sys	0m13.055s

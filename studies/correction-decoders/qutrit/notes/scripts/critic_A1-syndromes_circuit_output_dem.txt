@@ -1,0 +1,6 @@
+======================================================================
+Own propagator vs repository DEM (circuits not used by A1)
+   {'path': '7/4.chp', 'n_loc': 1082, 'n_comp': 2544, 'mismatches': 0, 'seconds': 2.3}
+   {'path': '11/3.chp', 'n_loc': 148, 'n_comp': 340, 'mismatches': 0, 'seconds': 0.0}
+   {'path': 'c38b29f9-4196-47f7-a983-eb1c2c28f5b2/critic_memory_R4.chp', 'n_loc': 316, 'n_comp': 752, 'mismatches': 0, 'seconds': 0.2}
+total 10.2 s

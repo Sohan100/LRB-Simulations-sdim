@@ -1,0 +1,38 @@
+Part A: fault mass per segment (units of p), own segmentation
+  seq 0 m=2: forward Cliffords 6.6 p (min 3.2, max 3.4, mean 3.30); rounds 0..m-1 mean 118.4 p; inverse block 6.6 p (3.30 p per inverse Clifford); final round 100.4 p; ratio round/Clifford 35.9
+  seq 0 m=22: forward Cliffords 103.3 p (min 0.4, max 7.9, mean 4.70); rounds 0..m-1 mean 118.4 p; inverse block 103.3 p (4.70 p per inverse Clifford); final round 100.4 p; ratio round/Clifford 25.2
+  seq 5 m=22: forward Cliffords 106.9 p (min 1.5, max 7.7, mean 4.86); rounds 0..m-1 mean 118.4 p; inverse block 106.9 p (4.86 p per inverse Clifford); final round 100.4 p; ratio round/Clifford 24.4
+
+Part B: exact joint distributions from the repository DEM
+  m=0 seq 0 p=0.001: LRB-D unif1 P_acc=0.938907 F_acc=0.992491 | corrected |E w^R|: none=0.97718 MAP=0.97888 (Re 0.97888) opt|.|=0.97888 | A3-type bound=0.99295 | invisible factor=0.99259  [0.0s]
+  m=0 seq 0 p=0.01: LRB-D unif1 P_acc=0.538529 F_acc=0.917159 | corrected |E w^R|: none=0.79220 MAP=0.79281 (Re 0.79281) opt|.|=0.79281 | A3-type bound=0.95539 | invisible factor=0.92771  [0.0s]
+  m=2 seq 0 p=0.001: LRB-D unif1 P_acc=0.755504 F_acc=0.992427 | corrected |E w^R|: none=0.91478 MAP=0.95073 (Re 0.95073) opt|.|=0.95073 | A3-type bound=0.99428 | invisible factor=0.99259  [238.4s]
+  m=2 seq 0 p=0.01: LRB-D unif1 P_acc=0.062034 F_acc=0.908298 | corrected |E w^R|: none=0.40727 MAP=0.47402 (Re 0.47402) opt|.|=0.47402 | A3-type bound=0.99431 | invisible factor=0.92771  [14.0s]
+  baseline CSV rows (unif_check_data/1.csv; Fidelity / Rejected at each depth):
+   p_idx 4: Fidelity averages,0.992503424907877,0.992367273687002,0.9924031859619448,0.99229 ... | Rejected Runs,0.06108436666666666,0.24728806666666664,0.3975176000000001,0.51767 ...
+   p_idx 8: Fidelity averages,0.9171129322915058,0.9034678740471317,0.8963664436594982,0.891 ... | Rejected Runs,0.4615257,0.9399257666666668,0.9934833666666667,0.9992964999999999 ...
+
+Part C: first-order 1 - Re E[w^R] in units of p (single-fault enumeration)
+  seq 0 m= 2: none   88.99  MAP   46.05  MAP-final-only   51.56  LRB-D unif1(acc)   7.42 (reject mass   280.5)  const1(acc)   7.42   MAP attribution: check-round 20.23, final-round 21.73, fwd-Clifford 1.88, inverse-block 2.21  [0.3s]
+  seq 0 m= 6: none  262.46  MAP  109.57  MAP-final-only  128.66  LRB-D unif1(acc)   7.42 (reject mass   728.8)  const1(acc)   7.42   MAP attribution: check-round 71.35, final-round 22.24, fwd-Clifford 7.29, inverse-block 8.70  [1.1s]
+  seq 0 m=10: none  461.03  MAP  187.31  MAP-final-only  224.03  LRB-D unif1(acc)   7.42 (reject mass  1187.8)  const1(acc)   7.42   MAP attribution: check-round 133.45, final-round 24.71, fwd-Clifford 14.49, inverse-block 14.66  [2.4s]
+  seq 0 m=14: none  620.89  MAP  245.66  MAP-final-only  289.54  LRB-D unif1(acc)   7.42 (reject mass  1637.8)  const1(acc)   7.42   MAP attribution: check-round 181.15, final-round 24.71, fwd-Clifford 19.55, inverse-block 20.25  [4.3s]
+  seq 0 m=22: none  952.76  MAP  367.05  MAP-final-only  431.85  LRB-D unif1(acc)   7.42 (reject mass  2515.9)  const1(acc)   7.42   MAP attribution: check-round 285.25, final-round 25.88, fwd-Clifford 27.80, inverse-block 28.13  [7.9s]
+  seq 0 per-step slopes between m=2 and m=22: none 43.19, MAP 16.05, MAPfinal 19.01, unif1 0.00, const1 0.00 ; MAP slope by segment: fwd-Clifford 1.30, check-round 13.25, inverse-block 1.30, final-round 0.21
+  seq 1 m= 2: none  106.87  MAP   54.71  MAP-final-only   64.35  LRB-D unif1(acc)   7.42 (reject mass   283.9)  const1(acc)   7.42   MAP attribution: check-round 26.66, final-round 23.03, fwd-Clifford 2.21, inverse-block 2.81  [0.3s]
+  seq 1 m= 6: none  272.48  MAP  117.19  MAP-final-only  141.00  LRB-D unif1(acc)   7.42 (reject mass   722.8)  const1(acc)   7.42   MAP attribution: check-round 80.15, final-round 23.48, fwd-Clifford 6.25, inverse-block 7.31  [1.0s]
+  seq 1 m=10: none  448.65  MAP  185.51  MAP-final-only  221.33  LRB-D unif1(acc)   7.42 (reject mass  1174.0)  const1(acc)   7.42   MAP attribution: check-round 135.95, final-round 23.48, fwd-Clifford 12.03, inverse-block 14.06  [2.1s]
+  seq 1 m=14: none  635.51  MAP  258.49  MAP-final-only  303.83  LRB-D unif1(acc)   7.42 (reject mass  1620.4)  const1(acc)   7.42   MAP attribution: check-round 197.89, final-round 24.71, fwd-Clifford 17.33, inverse-block 18.56  [3.7s]
+  seq 1 m=22: none  950.29  MAP  368.70  MAP-final-only  431.63  LRB-D unif1(acc)   7.42 (reject mass  2514.1)  const1(acc)   7.42   MAP attribution: check-round 287.18, final-round 24.71, fwd-Clifford 27.67, inverse-block 29.14  [8.0s]
+  seq 1 per-step slopes between m=2 and m=22: none 42.17, MAP 15.70, MAPfinal 18.36, unif1 0.00, const1 0.00 ; MAP slope by segment: fwd-Clifford 1.27, check-round 13.03, inverse-block 1.32, final-round 0.08
+  seq 2 m= 2: none  115.87  MAP   59.55  MAP-final-only   71.02  LRB-D unif1(acc)   7.42 (reject mass   293.9)  const1(acc)   7.42   MAP attribution: check-round 29.33, final-round 21.79, fwd-Clifford 3.49, inverse-block 4.95  [0.4s]
+  seq 2 m= 6: none  281.25  MAP  119.96  MAP-final-only  147.45  LRB-D unif1(acc)   7.42 (reject mass   733.6)  const1(acc)   7.42   MAP attribution: check-round 79.95, final-round 23.48, fwd-Clifford 7.65, inverse-block 8.89  [1.2s]
+  seq 2 m=10: none  445.39  MAP  180.30  MAP-final-only  216.04  LRB-D unif1(acc)   7.42 (reject mass  1187.4)  const1(acc)   7.42   MAP attribution: check-round 127.09, final-round 24.71, fwd-Clifford 13.95, inverse-block 14.55  [2.8s]
+  seq 2 m=14: none  641.70  MAP  256.61  MAP-final-only  301.50  LRB-D unif1(acc)   7.42 (reject mass  1644.6)  const1(acc)   7.42   MAP attribution: check-round 189.58, final-round 24.71, fwd-Clifford 20.42, inverse-block 21.90  [4.4s]
+  seq 2 m=22: none  975.04  MAP  374.40  MAP-final-only  439.01  LRB-D unif1(acc)   7.42 (reject mass  2542.7)  const1(acc)   7.42   MAP attribution: check-round 285.34, final-round 24.71, fwd-Clifford 31.42, inverse-block 32.93  [8.5s]
+  seq 2 per-step slopes between m=2 and m=22: none 42.96, MAP 15.74, MAPfinal 18.40, unif1 0.00, const1 0.00 ; MAP slope by segment: fwd-Clifford 1.40, check-round 12.80, inverse-block 1.40, final-round 0.15
+elapsed 314.3 s
+
+real	5m19.273s
+user	3m7.122s
+sys	1m35.477s

@@ -1,0 +1,10 @@
+model,eps,no_error,physical,frame_naive,frame_fixup,leak,seep_to,basis,frame
+nonclifford_T_then_Y_readout,0.01,0.8535533906,0.8535533906,0.8464823228,0.8535533906,,,,
+nonclifford_T_then_Y_readout,0.05,0.8535533906,0.8535533906,0.8181980515,0.8535533906,,,,
+nonclifford_T_then_Y_readout,0.1,0.8535533906,0.8535533906,0.7828427125,0.8535533906,,,,
+leakage_Z_basis_return_to_1,0.1,,0.001,,,0.01,1,Z,0
+leakage_Z_basis_return_to_1,0.1,,0.01,,,0.1,1,Z,0
+leakage_Z_basis_return_to_0,0.1,,0,,,0.01,0,Z,0.001
+leakage_Z_basis_return_to_0,0.1,,0,,,0.1,0,Z,0.01
+leakage_X_basis_coherent,0.1,,0.001,,,0.01,0,X,3.330669074e-17
+leakage_X_basis_coherent,0.1,,0.01,,,0.1,0,X,3.330669074e-17

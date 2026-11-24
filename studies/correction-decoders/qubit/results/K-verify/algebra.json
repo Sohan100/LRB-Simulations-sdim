@@ -1,0 +1,198 @@
+{
+ "binary": {
+  "weight3_logical_support": [
+   0,
+   1,
+   2
+  ],
+  "gates": {
+   "X^7/Z^7 H^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Z",
+     1
+    ],
+    "Z_L ->": [
+     "X",
+     1
+    ]
+   },
+   "X^7/Z^7 S^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Y",
+     -1
+    ],
+    "Z_L ->": [
+     "Z",
+     1
+    ]
+   },
+   "X^7/Z^7 S_DAG^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Y",
+     1
+    ],
+    "Z_L ->": [
+     "Z",
+     1
+    ]
+   },
+   "weight-3 H^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Z",
+     1
+    ],
+    "Z_L ->": [
+     "X",
+     1
+    ]
+   },
+   "weight-3 S^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Y",
+     -1
+    ],
+    "Z_L ->": [
+     "Z",
+     1
+    ]
+   },
+   "weight-3 S_DAG^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Y",
+     1
+    ],
+    "Z_L ->": [
+     "Z",
+     1
+    ]
+   }
+  },
+  "weight2_is_weight1_times_nontrivial_logical": {
+   "same_pauli": {
+    "yes": 63,
+    "no": 0
+   },
+   "mixed_pauli": {
+    "yes": 0,
+    "no": 126
+   }
+  },
+  "weight2_counterexamples": [
+   "+XY_____",
+   "+XZ_____",
+   "+YX_____",
+   "+YZ_____",
+   "+ZX_____",
+   "+ZY_____"
+  ],
+  "undetectable_logicals_by_weight": {
+   "1": 0,
+   "2": 0,
+   "3": 21
+  }
+ },
+ "cyclic": {
+  "weight3_logical_support": [
+   0,
+   1,
+   5
+  ],
+  "gates": {
+   "X^7/Z^7 H^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Z",
+     1
+    ],
+    "Z_L ->": [
+     "X",
+     1
+    ]
+   },
+   "X^7/Z^7 S^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Y",
+     -1
+    ],
+    "Z_L ->": [
+     "Z",
+     1
+    ]
+   },
+   "X^7/Z^7 S_DAG^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Y",
+     1
+    ],
+    "Z_L ->": [
+     "Z",
+     1
+    ]
+   },
+   "weight-3 H^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Z",
+     1
+    ],
+    "Z_L ->": [
+     "X",
+     1
+    ]
+   },
+   "weight-3 S^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Y",
+     -1
+    ],
+    "Z_L ->": [
+     "Z",
+     1
+    ]
+   },
+   "weight-3 S_DAG^7": {
+    "stabilizers_preserved_with_plus_sign": true,
+    "X_L ->": [
+     "Y",
+     1
+    ],
+    "Z_L ->": [
+     "Z",
+     1
+    ]
+   }
+  },
+  "weight2_is_weight1_times_nontrivial_logical": {
+   "same_pauli": {
+    "yes": 63,
+    "no": 0
+   },
+   "mixed_pauli": {
+    "yes": 0,
+    "no": 126
+   }
+  },
+  "weight2_counterexamples": [
+   "+XY_____",
+   "+XZ_____",
+   "+YX_____",
+   "+YZ_____",
+   "+ZX_____",
+   "+ZY_____"
+  ],
+  "undetectable_logicals_by_weight": {
+   "1": 0,
+   "2": 0,
+   "3": 21
+  }
+ }
+}

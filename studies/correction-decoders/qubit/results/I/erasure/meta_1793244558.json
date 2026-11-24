@@ -1,0 +1,32 @@
+{
+ "kind": "erasure",
+ "probs": [
+  0.0005,
+  0.002,
+  0.005
+ ],
+ "depths": [
+  0,
+  2,
+  4,
+  6,
+  10,
+  14,
+  18,
+  20,
+  22
+ ],
+ "shots": 30000,
+ "num_seq": 10,
+ "seq_seed": 20261028,
+ "configs": {
+  "r0": "ErasureSpec(two_qubit=0.0, meas_idle=0.0)",
+  "2q_r0.5": "ErasureSpec(two_qubit=0.5, meas_idle=0.0)",
+  "2q_r0.9": "ErasureSpec(two_qubit=0.9, meas_idle=0.0)",
+  "2q_r1": "ErasureSpec(two_qubit=1.0, meas_idle=0.0)",
+  "all_r0.5": "ErasureSpec(two_qubit=0.5, meas_idle=0.5)",
+  "all_r0.9": "ErasureSpec(two_qubit=0.9, meas_idle=0.9)",
+  "all_r1": "ErasureSpec(two_qubit=1.0, meas_idle=1.0)"
+ },
+ "started": "2026-10-28 20:29:18"
+}

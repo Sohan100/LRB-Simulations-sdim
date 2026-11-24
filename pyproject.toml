@@ -23,6 +23,8 @@ dependencies = [
 notebooks = ["nbformat>=5.9", "nbclient>=0.8", "ipykernel>=6.28"]
 # the folded-surface-code memory study (layouts/folded-surface-code/memory)
 memory = ["stim>=1.15", "pymatching>=2.2", "sinter>=1.15"]
+# the qubit correction-decoder study (src/lrb_qubit, studies/correction-decoders/qubit)
+decoders = ["stim>=1.15", "pymatching>=2.3", "ldpc>=2.4"]
 dev = ["pytest>=8", "ruff>=0.6"]
 
 [project.urls]

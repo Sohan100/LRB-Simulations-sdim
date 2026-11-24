@@ -1,0 +1,5 @@
+======================================================================
+C14: one bulk check round + reset, taken from a stripped baseline file
+  total fault weight 118.4000 p; categories: {'meas_only': 41.0, 'no_effect': 16.3, 'w1_ambiguous': 23.825, 'w1_correctable': 35.175, 'w2': 2.1}
+  measurement-only flips per check: [5.925, 7.425, 9.075, 10.575]
+total 0.1 s

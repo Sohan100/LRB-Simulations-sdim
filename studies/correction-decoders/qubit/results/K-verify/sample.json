@@ -1,0 +1,67 @@
+{
+ "ler_depth4_seq0": {
+  "parallel p=0.0001": {
+   "shots": 40000000,
+   "errors": 1834,
+   "LER_over_p2": 4585.0,
+   "LER_over_p2_1sigma": 107.06306552681927,
+   "exact_second_order_E2_over_p2": 4530.397191063828
+  },
+  "parallel p=0.0002": {
+   "shots": 40000000,
+   "errors": 7374,
+   "LER_over_p2": 4608.75,
+   "LER_over_p2_1sigma": 53.66999860257125,
+   "exact_second_order_E2_over_p2": 4530.397191063828
+  },
+  "parallel p=0.0005": {
+   "shots": 40000000,
+   "errors": 46559,
+   "LER_over_p2": 4655.900000000001,
+   "LER_over_p2_1sigma": 21.577534613574368,
+   "exact_second_order_E2_over_p2": 4530.397191063828
+  },
+  "sequential p=5e-05": {
+   "shots": 40000000,
+   "errors": 2733,
+   "LER_over_p2": 27329.999999999996,
+   "LER_over_p2_1sigma": 522.7810249043092,
+   "exact_second_order_E2_over_p2": 27857.850103688103
+  },
+  "sequential p=0.0001": {
+   "shots": 40000000,
+   "errors": 10962,
+   "LER_over_p2": 27405.0,
+   "LER_over_p2_1sigma": 261.7489254992272,
+   "exact_second_order_E2_over_p2": 27857.850103688103
+  },
+  "sequential p=0.0002": {
+   "shots": 40000000,
+   "errors": 44176,
+   "LER_over_p2": 27610.0,
+   "LER_over_p2_1sigma": 131.36304655419653,
+   "exact_second_order_E2_over_p2": 27857.850103688103
+  },
+  "parallel higher-order fit": {
+   "c3_over_E2 (relative change per unit p)": 56.28977278553203,
+   "relative_shift_at_p=5e-4": 0.028144886392766015,
+   "relative_shift_at_p=1e-3": 0.05628977278553203,
+   "chi2_of_E2_plus_c3p_with_E2_fixed": 0.34219893888491865,
+   "points": 3
+  },
+  "sequential higher-order fit": {
+   "c3_over_E2 (relative change per unit p)": -52.69039008346041,
+   "relative_shift_at_p=5e-4": -0.026345195041730204,
+   "relative_shift_at_p=1e-3": -0.05269039008346041,
+   "chi2_of_E2_plus_c3p_with_E2_fixed": 2.2441105470438614,
+   "points": 3
+  }
+ },
+ "llr4_flag_parallel_p1e-3": {
+  "shots_per_circuit": 100000,
+  "eps_over_p": 0.17949623681756677,
+  "eps_over_p_boot_std": 0.0041273365091094505,
+  "acceptance_per_step": 0.9925211641275823,
+  "mld_no_rejection_eps_over_p": 1.0464557295353782
+ }
+}

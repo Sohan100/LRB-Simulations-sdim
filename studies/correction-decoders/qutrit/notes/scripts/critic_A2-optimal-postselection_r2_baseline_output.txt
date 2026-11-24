@@ -1,0 +1,33 @@
+C14: p=0.01 const 1 acceptance vs 3^-4 = 0.0123457
+   m=10  acc=0.0129696  SE=2.7e-05  z=+23.38
+   m=14  acc=0.0124063  SE=1.8e-05  z=+3.45
+   m=18  acc=0.0123442  SE=2.0e-05  z=-0.08
+   m=20  acc=0.0123003  SE=1.5e-05  z=-2.93
+   m=22  acc=0.0123449  SE=2.2e-05  z=-0.03
+C13: legacy floor (Rayleigh) vs CSV, p=0.01 const 1
+   m=10  N_acc=  12970 CSV mean=0.0594 floor=0.0078 z=+69.46; CSV per-seq SD=0.0088 vs Rayleigh SD 0.0041; Rice mean = CSV needs true |lambda| ~ 0.0590
+   m=14  N_acc=  12406 CSV mean=0.0105 floor=0.0080 z=+3.31; CSV per-seq SD=0.0054 vs Rayleigh SD 0.0042; Rice mean = CSV needs true |lambda| ~ 0.0074
+   m=18  N_acc=  12344 CSV mean=0.0071 floor=0.0080 z=-1.11; CSV per-seq SD=0.0034 vs Rayleigh SD 0.0042
+   m=20  N_acc=  12300 CSV mean=0.0085 floor=0.0080 z=+0.69; CSV per-seq SD=0.0033 vs Rayleigh SD 0.0042
+   m=22  N_acc=  12345 CSV mean=0.0082 floor=0.0080 z=+0.27; CSV per-seq SD=0.0042 vs Rayleigh SD 0.0042
+C16: unweighted log-linear fits (depths with >= 1000 accepted)
+   p=0.001 unif1: a=0.89435 (1-a=0.106, -ln a=0.112) max|res| acc 2.3e-03 (max|z| 45.6, chi2/dof 2081/7); f=0.9999727 r_c=1.82e-05 max|res| lam 7.5e-05 (max|z| 2.6, chi2/dof 19/7)
+   p=0.001 unif2: a=0.91278 (1-a=0.087, -ln a=0.091) max|res| acc 3.2e-03 (max|z| 63.3, chi2/dof 4013/7); f=0.9999517 r_c=3.22e-05 max|res| lam 4.9e-05 (max|z| 1.9, chi2/dof 11/7)
+   p=0.001 const1: a=0.93356 (1-a=0.066, -ln a=0.069) max|res| acc 9.2e-03 (max|z| 184.0, chi2/dof 33882/7); f=0.9988360 r_c=7.76e-04 max|res| lam 4.4e-03 (max|z| 222.2, chi2/dof 58758/7)
+   p=0.002 unif1: a=0.79998 (1-a=0.200, -ln a=0.223) max|res| acc 4.4e-03 (max|z| 76.1, chi2/dof 5790/7); f=0.9998854 r_c=7.64e-05 max|res| lam 2.8e-04 (max|z| 4.7, chi2/dof 30/7)
+   p=0.002 unif2: a=0.83335 (1-a=0.167, -ln a=0.182) max|res| acc 6.3e-03 (max|z| 109.6, chi2/dof 12007/7); f=0.9997766 r_c=1.49e-04 max|res| lam 1.9e-04 (max|z| 1.8, chi2/dof 6/7)
+   p=0.002 const1: a=0.87899 (1-a=0.121, -ln a=0.129) max|res| acc 5.6e-02 (max|z| 825.1, chi2/dof 681211/7); f=0.9913873 r_c=5.74e-03 max|res| lam 4.3e-02 (max|z| 1157.4, chi2/dof 1453984/7)
+C16 detail: unif 1, per-depth log-residuals of the acceptance fit and fits on m>=2 only; weighted fit of lam with SE of 1-f
+   p=0.001 all depths: z per depth -45.6 -0.0 +0.4 +0.8 +0.6 -0.0 -0.2 -0.1 -0.1
+   p=0.001 m>=2 only: a=0.89429 max|res|=1.0e-03 chi2/dof=1/6
+   p=0.001 lam weighted fit: 1-f = 3.052e-05 +/- 2.4e-06 (chi2/dof 14.5/7, SE scaled by sqrt(chi2/dof)); r_c = 2.03e-05; unweighted 1-f = 2.726e-05
+   p=0.002 all depths: z per depth -76.1 +0.0 +0.6 +0.9 +0.3 -0.1 -0.3 -0.2 +0.1
+   p=0.002 m>=2 only: a=0.79987 max|res|=2.2e-03 chi2/dof=1/6
+   p=0.002 lam weighted fit: 1-f = 1.290e-04 +/- 8.3e-06 (chi2/dof 17.2/7, SE scaled by sqrt(chi2/dof)); r_c = 8.60e-05; unweighted 1-f = 1.146e-04
+   repository weighted fit (unif 1, p=0.001): lrb_f=0.9999695 lrb_b=0.99249 lrb_error_rate=2.03e-05 (boot SD 1.1e-06)
+   repository weighted fit (unif 1, p=0.002): lrb_f=0.9998711 lrb_b=0.98478 lrb_error_rate=8.59e-05 (boot SD 3.6e-06)
+C19 caveat: per-sequence SD of the legacy fidelity vs shot-noise SD sqrt(V(lam)/N_acc)
+   p=0.001 unif1: ratio m=0:0.79 m=2:1.09 m=4:1.01 m=6:1.00 m=10:1.18 m=14:0.87 m=18:0.82 m=20:1.17 m=22:1.03
+   p=0.001 const1: ratio m=0:0.79 m=2:1.23 m=4:1.26 m=6:1.65 m=10:2.09 m=14:1.67 m=18:2.21 m=20:2.13 m=22:2.69
+   p=0.01 const1: ratio m=0:0.92 m=2:4.22 m=4:5.07 m=6:4.61 m=10:1.39 m=14:0.85 m=18:0.54 m=20:0.51 m=22:0.66
+   p=0.01 unif1: ratio m=0:0.92 m=2:1.95 m=4:1.03

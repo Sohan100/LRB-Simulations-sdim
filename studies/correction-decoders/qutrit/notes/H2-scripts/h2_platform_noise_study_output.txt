@@ -1,0 +1,101 @@
+sequences 6, depths [0, 2, 4, 6, 10], MLD shots 4000, wall 124 s; wrote /pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b/docs/correction-decoders/qutrit-512/notes/H2-scripts/h2_platform_noise_study.csv
+====================================================================================================
+V1  validation of the relabelled-model path
+  max |kernel difference| between structure.at(1e-3) and the SI1000 relabelled model (seq 0, m = 2): 0.00e+00
+  m = 0: SI1000 weight per round (sum of prob_scale / (m+1)) by class: {'1q_check': 0.4, '2q_check': 12.0, 'anc_depol': 4.0, 'idle_meas_anc': 24.0, 'idle_meas_data_last': 10.0, 'idle_meas_data_other': 30.0, 'meas_flip': 20.0}
+  m = 2: SI1000 weight per round (sum of prob_scale / (m+1)) by class: {'1q_H': 1.0, '1q_P': 0.2, '1q_X': 0.13, '1q_Z': 0.4, '1q_check': 0.4, '2q_CZ': 0.67, '2q_SWAP': 2.0, '2q_check': 12.0, 'anc_depol': 4.0, 'idle_meas_anc': 24.0, 'idle_meas_data_last': 10.0, 'idle_meas_data_other': 30.0, 'idle_reset_data': 6.67, 'meas_flip': 20.0, 'reset_flip': 5.33}
+  m = 10: SI1000 weight per round (sum of prob_scale / (m+1)) by class: {'1q_H': 1.55, '1q_P': 0.93, '1q_X': 0.36, '1q_Z': 0.4, '1q_check': 0.4, '2q_CZ': 3.09, '2q_SWAP': 3.09, '2q_check': 12.0, 'anc_depol': 4.0, 'idle_meas_anc': 24.0, 'idle_meas_data_last': 10.0, 'idle_meas_data_other': 30.0, 'idle_reset_data': 9.09, 'meas_flip': 20.0, 'reset_flip': 7.27}
+  SI1000 p = 1e-3, mean over my sequences vs baseline CSV (30 sequences, 1e6 shots):
+    m =  0: unif1 rejection 0.0611 (CSV 0.0611), legacy F 0.99249 (CSV 0.99250); const1 rejection 0.0611 (CSV 0.0611), legacy F 0.99249 (CSV 0.99250)
+    m =  2: unif1 rejection 0.2485 (CSV 0.2473), legacy F 0.99240 (CSV 0.99237); const1 rejection 0.1903 (CSV 0.1892), legacy F 0.99218 (CSV 0.99215)
+    m =  4: unif1 rejection 0.3987 (CSV 0.3975), legacy F 0.99234 (CSV 0.99240); const1 rejection 0.2961 (CSV 0.2947), legacy F 0.99162 (CSV 0.99170)
+    m =  6: unif1 rejection 0.5192 (CSV 0.5177), legacy F 0.99228 (CSV 0.99229); const1 rejection 0.3881 (CSV 0.3860), legacy F 0.99076 (CSV 0.99080)
+    m = 10: unif1 rejection 0.6935 (CSV 0.6914), legacy F 0.99218 (CSV 0.99218); const1 rejection 0.5379 (CSV 0.5349), legacy F 0.98794 (CSV 0.98801)
+  MLD (all rounds) at p = 1e-3 versus the decoder study's saved results for the same circuits:
+    seq 0 m =  2: mine 0.94901 +- 0.00218, decoder study 0.95065 (100000 shots)
+    seq 0 m =  6: mine 0.88134 +- 0.00355, decoder study 0.88616 (100000 shots)
+    seq 0 m = 10: mine 0.81884 +- 0.00424, decoder study 0.81260 (100000 shots)
+    seq 1 m =  2: mine 0.94317 +- 0.00239, decoder study 0.94300 (100000 shots)
+    seq 1 m =  6: mine 0.88355 +- 0.00355, decoder study 0.87883 (100000 shots)
+    seq 1 m = 10: mine 0.80857 +- 0.00439, decoder study 0.81715 (100000 shots)
+    seq 2 m =  2: mine 0.93210 +- 0.00265, decoder study 0.93713 (100000 shots)
+    seq 2 m =  6: mine 0.87914 +- 0.00355, decoder study 0.87572 (100000 shots)
+    seq 2 m = 10: mine 0.82086 +- 0.00424, decoder study 0.81945 (100000 shots)
+====================================================================================================
+R1  per-depth means over sequences (lam = signed fidelity Re E[w^R]; acc = acceptance)
+  model si1000_1e-3
+      m  faults    acc_u1   lam_u1   acc_c1   lam_c1  lam_raw  lam_mld lam_mld_term
+      0   0.100 9.389e-01  0.99249   0.9389  0.99249  0.97718  0.97939      0.97939
+      2   0.356 7.515e-01  0.99240   0.8097  0.99218  0.89709  0.94026      0.93092
+      4   0.611 6.013e-01  0.99234   0.7039  0.99162  0.82119  0.90724      0.88186
+      6   0.868 4.808e-01  0.99228   0.6119  0.99076  0.75332  0.87308      0.83302
+     10   1.383 3.065e-01  0.99218   0.4621  0.98794  0.63204  0.81546      0.73776
+  model si1000_2e-3
+      m  faults    acc_u1   lam_u1   acc_c1   lam_c1  lam_raw  lam_mld lam_mld_term
+      0   0.201 8.817e-01  0.98481   0.8817  0.98481  0.95484  0.95767      0.95767
+      2   0.711 5.651e-01  0.98443   0.6565  0.98351  0.80469  0.88040      0.86171
+      4   1.223 3.617e-01  0.98417   0.4974  0.98093  0.67422  0.80357      0.75205
+      6   1.735 2.313e-01  0.98394   0.3776  0.97668  0.56749  0.74862      0.66318
+     10   2.766 9.399e-02  0.98354   0.2188  0.96089  0.39924  0.63959      0.49224
+  model si1000_5e-3
+      m  faults    acc_u1   lam_u1   acc_c1   lam_c1  lam_raw  lam_mld lam_mld_term
+      0   0.502 7.314e-01  0.96075   0.7314  0.96075  0.89058  0.89425      0.89425
+      2   1.778 2.409e-01  0.95811   0.3537  0.95100  0.58051  0.68412      0.64644
+      4   3.057 7.905e-02  0.95637   0.1818  0.92686  0.37266  0.52147      0.43026
+      6   4.338 2.586e-02  0.95476   0.0968  0.87769  0.24253  0.41185      0.28989
+     10   6.915 2.724e-03  0.95193   0.0335  0.65765  0.10025  0.25524      0.12150
+  model ion_now
+      m  faults    acc_u1   lam_u1   acc_c1   lam_c1  lam_raw  lam_mld lam_mld_term
+      0   0.271 8.501e-01  0.94567   0.8501  0.94567  0.88765  0.91026      0.91026
+      2   1.056 3.926e-01  0.94356   0.4294  0.93848  0.59805  0.71171      0.65711
+      4   1.846 1.800e-01  0.94190   0.2240  0.92030  0.39622  0.55769      0.44969
+      6   2.662 8.032e-02  0.94005   0.1176  0.87977  0.25797  0.43339      0.30174
+     10   4.317 1.568e-02  0.93530   0.0384  0.68476  0.10794  0.26453      0.13008
+  model ion_slowread
+      m  faults    acc_u1   lam_u1   acc_c1   lam_c1  lam_raw  lam_mld lam_mld_term
+      0   0.341 8.501e-01  0.90547   0.8501  0.90547  0.84992  0.87274      0.87274
+      2   1.266 3.412e-01  0.90119   0.3748  0.89390  0.53718  0.63952      0.58970
+      4   2.196 1.358e-01  0.89780   0.1729  0.86435  0.33344  0.46590      0.36764
+      6   3.152 5.265e-02  0.89414   0.0825  0.79720  0.20243  0.34228      0.23235
+     10   5.087 7.756e-03  0.88567   0.0260  0.50446  0.07369  0.18396      0.08522
+  model ion_next
+      m  faults    acc_u1   lam_u1   acc_c1   lam_c1  lam_raw  lam_mld lam_mld_term
+      0   0.078 9.411e-01  0.99319   0.9411  0.99319  0.96928  0.97988      0.97988
+      2   0.303 7.545e-01  0.99310   0.7732  0.99274  0.85866  0.92831      0.90242
+      4   0.530 6.032e-01  0.99302   0.6366  0.99180  0.75618  0.87912      0.82287
+      6   0.766 4.779e-01  0.99293   0.5200  0.99014  0.66219  0.82979      0.74489
+     10   1.244 2.983e-01  0.99269   0.3466  0.98407  0.50682  0.74451      0.60377
+  model qubit_pairs
+      m  faults    acc_u1   lam_u1   acc_c1   lam_c1  lam_raw  lam_mld lam_mld_term
+      0   0.282 8.000e-01  0.97952   0.8000  0.97952  0.89736  0.92750      0.92750
+      2   1.139 3.464e-01  0.97799   0.3814  0.97131  0.57540  0.72332      0.65426
+      4   1.986 1.517e-01  0.97640   0.1891  0.94796  0.36649  0.56942      0.43847
+      6   2.841 6.559e-02  0.97451   0.0964  0.89625  0.23404  0.44314      0.28612
+     10   4.602 1.175e-02  0.96907   0.0310  0.64493  0.09292  0.26287      0.10978
+  model transmon_opt
+      m  faults    acc_u1   lam_u1   acc_c1   lam_c1  lam_raw  lam_mld lam_mld_term
+      0   0.457 6.734e-01  0.97913   0.6734  0.97913  0.87058  0.90139      0.90139
+      2   1.737 1.896e-01  0.97660   0.2723  0.96338  0.49407  0.62728      0.55669
+      4   3.031 5.258e-02  0.97421   0.1179  0.91672  0.27066  0.43551      0.31590
+      6   4.368 1.394e-02  0.97114   0.0536  0.80531  0.14597  0.30119      0.17592
+     10   7.069 9.557e-04  0.96263   0.0186  0.38083  0.04097  0.14232      0.04997
+  model ion_worstidle
+      m  faults    acc_u1   lam_u1   acc_c1   lam_c1  lam_raw  lam_mld lam_mld_term
+      0   0.506 8.501e-01  0.81418   0.8501  0.81418  0.76423  0.78502      0.78502
+      2   1.761 2.442e-01  0.80167   0.2720  0.78813  0.41393  0.48957      0.44534
+      4   3.021 6.946e-02  0.79112   0.0963  0.71880  0.21918  0.30753      0.23594
+      6   4.307 1.923e-02  0.77991   0.0396  0.56587  0.11228  0.19181      0.12192
+     10   6.902 1.448e-03  0.75680   0.0155  0.17192  0.02906  0.07713      0.03082
+====================================================================================================
+R2  fitted decays lam(m) = B f^m (log-linear fit over depths with lam > 0.03); r = 2(1 - f)/3 per
+    depth step (one forward logical Clifford with its check round plus one inverse logical Clifford,
+    the brief's convention); acceptance per depth step a
+  si1000_1e-3  : lam_mld r = 0.0121 (B 0.977); lam_mld_term r = 0.0187 (B 0.984); lam_raw r = 0.0284 (B 0.978); lam_u1 r = 2.02e-05 (B 0.992); lam_c1 r = 0.000309 (B 0.993); a_u1 0.894, a_c1 0.932
+  si1000_2e-3  : lam_mld r = 0.0263 (B 0.953); lam_mld_term r = 0.0432 (B 0.976); lam_raw r = 0.0557 (B 0.956); lam_u1 r = 8.43e-05 (B 0.985); lam_c1 r = 0.00164 (B 0.988); a_u1 0.799, a_c1 0.870
+  si1000_5e-3  : lam_mld r = 0.0784 (B 0.879); lam_mld_term r = 0.121 (B 0.940); lam_raw r = 0.131 (B 0.895); lam_u1 r = 0.000599 (B 0.960); lam_c1 r = 0.0246 (B 1.023); a_u1 0.572, a_c1 0.735
+  ion_now      : lam_mld r = 0.0776 (B 0.912); lam_mld_term r = 0.119 (B 0.953); lam_raw r = 0.127 (B 0.906); lam_u1 r = 0.000724 (B 0.946); lam_c1 r = 0.021 (B 0.999); a_u1 0.671, a_c1 0.734
+  ion_slowread : lam_mld r = 0.0961 (B 0.872); lam_mld_term r = 0.139 (B 0.916); lam_raw r = 0.145 (B 0.870); lam_u1 r = 0.00145 (B 0.905); lam_c1 r = 0.0375 (B 1.001); a_u1 0.625, a_c1 0.706
+  ion_next     : lam_mld r = 0.0181 (B 0.980); lam_mld_term r = 0.0317 (B 0.991); lam_raw r = 0.042 (B 0.976); lam_u1 r = 3.29e-05 (B 0.993); lam_c1 r = 0.000618 (B 0.994); a_u1 0.891, a_c1 0.905
+  qubit_pairs  : lam_mld r = 0.0788 (B 0.934); lam_mld_term r = 0.129 (B 0.987); lam_raw r = 0.135 (B 0.904); lam_u1 r = 0.000712 (B 0.980); lam_c1 r = 0.027 (B 1.053); a_u1 0.656, a_c1 0.723
+  transmon_opt : lam_mld r = 0.112 (B 0.907); lam_mld_term r = 0.168 (B 0.966); lam_raw r = 0.176 (B 0.900); lam_u1 r = 0.00113 (B 0.980); lam_c1 r = 0.0595 (B 1.157); a_u1 0.519, a_c1 0.698
+  ion_worstidle: lam_mld r = 0.138 (B 0.780); lam_mld_term r = 0.185 (B 0.832); lam_raw r = 0.182 (B 0.775); lam_u1 r = 0.00482 (B 0.814); lam_c1 r = 0.0956 (B 1.062); a_u1 0.528, a_c1 0.670

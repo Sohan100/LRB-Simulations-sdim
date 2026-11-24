@@ -1,0 +1,137 @@
+
+== extract: independent row extraction from the repository DEM
+  LRB seq 0 depth_idx 1: 246 locations, gates ['N1', 'N2'], channels ['d', 'f'], prob != p*scale: 0, duplicate detector terms: 0, rows identical to A4 cache: True (0.1s)
+  LRB seq 3 depth_idx 8: 2418 locations, gates ['N1', 'N2'], channels ['d', 'f'], prob != p*scale: 0, duplicate detector terms: 0, rows identical to A4 cache: True (5.8s)
+  LRB_const0 seq 1 depth_idx 8: 860 locations, gates ['N1', 'N2'], channels ['d'], prob != p*scale: 0, duplicate detector terms: 0, rows identical to A4 cache: True (0.5s)
+
+== first: exact first-order coefficients (single-fault enumeration), mean over seqs 0-5
+  a1 contributors (seq 0, m=4): (op index, qudit, target, scale, kappa, P(flip & undetected), contribution to a1)
+     op   696 q7 t 0 s=1.0 k=1.0125 P=0.2250 -> 0.3375
+     op   703 q0 t-1 s=2.0 k=1.1250 P=0.7500 -> 2.2500
+     op   717 q8 t 3 s=1.0 k=1.0125 P=0.2250 -> 0.3375
+     op   724 q0 t-1 s=2.0 k=1.1250 P=0.7500 -> 2.2500
+     op   727 q3 t-1 s=2.0 k=1.1250 P=0.7500 -> 2.2500
+     total a1 = 7.4250 (rate r0 = 4.9500)
+  policy   a1 range over (seq, m)       c1(m=0)  c1 line (m>=2): intercept + slope m
+  unif1   [7.425000, 7.425000]    63.150    61.169 + 112.0693 m   (slope - const1 slope = +41.0000; 41/k = 41.0000)
+  unif2   [7.425000, 7.425000]    63.150    69.169 +  91.5693 m   (slope - const1 slope = +20.5000; 41/k = 20.5000)
+  unif3   [7.425000, 7.425000]    63.150    53.794 +  84.7359 m   (slope - const1 slope = +13.6667; 41/k = 13.6667)
+  unif4   [7.425000, 7.425000]    63.150    53.794 +  81.3193 m   (slope - const1 slope = +10.2500; 41/k = 10.2500)
+  unif6   [7.425000, 7.425000]    63.150    53.794 +  77.9026 m   (slope - const1 slope = +6.8333; 41/k = 6.8333)
+  const1   [7.425000, 7.425000]    63.150    69.169 +  71.0693 m   (slope - const1 slope = +0.0000; 41/k = nan)
+  const2   [7.425000, 7.425000]    63.150   106.816 +  71.2654 m   (slope - const1 slope = +0.1961; 41/k = nan)
+  const3   [7.425000, 7.425000]    63.150   113.919 +  73.2359 m   (slope - const1 slope = +2.1667; 41/k = nan)
+  const4   [7.425000, 7.425000]    63.150   135.323 +  74.3585 m   (slope - const1 slope = +3.2892; 41/k = nan)
+  notes' formula 63.2 + 71.1 m + 41.0 n_used(m) vs exact c1 (mean of seqs), m >= 2: max |difference| per policy
+     unif1  n_used=[0, 2, 4, 6, 10, 14, 18, 20, 22]  exact-formula = [-1.6, -2.7, -3.3, -1.5, -2.1, -1.0, -4.1, -3.0]
+     unif2  n_used=[0, 1, 2, 3, 5, 7, 9, 10, 11]  exact-formula = [6.4, 5.3, 4.7, 6.5, 5.9, 7.0, 3.9, 5.0]
+     unif3  n_used=[0, 0, 1, 2, 3, 4, 6, 6, 7]  exact-formula = [6.4, 5.3, 4.7, 6.5, 5.9, 7.0, 3.9, 5.0]
+     unif4  n_used=[0, 0, 1, 1, 2, 3, 4, 5, 5]  exact-formula = [6.4, 5.3, 4.7, 6.5, 5.9, 7.0, 4.0, 5.0]
+     unif6  n_used=[0, 0, 0, 1, 1, 2, 3, 3, 3]  exact-formula = [6.4, 5.3, 4.7, 6.5, 5.9, 7.0, 3.9, 5.0]
+     const1  n_used=[0, 0, 0, 0, 0, 0, 0, 0, 0]  exact-formula = [6.4, 5.3, 4.7, 6.5, 5.9, 7.0, 3.9, 5.0]
+     const2  n_used=[0, 1, 1, 1, 1, 1, 1, 1, 1]  exact-formula = [-1.6, 5.3, 4.7, 6.5, 5.9, 7.0, 3.9, 5.0]
+     const3  n_used=[0, 0, 2, 2, 2, 2, 2, 2, 2]  exact-formula = [6.4, -2.7, 4.7, 6.5, 5.9, 7.0, 3.9, 5.0]
+     const4  n_used=[0, 0, 3, 3, 3, 3, 3, 3, 3]  exact-formula = [6.4, -2.7, -3.3, 6.5, 5.9, 7.0, 3.9, 5.0]
+  per-round transient rate c1(unif1)-c1(const1), divided by m, by fault category (mean over seqs, m >= 2; units of p):
+     meas shift f (5p)            mean  20.0000  range [20.0000, 20.0000]
+     reset shift f (2p)           mean   6.7609  range [4.0000, 7.6364]
+     measured-ancilla depol (p)   mean   3.0000  range [3.0000, 3.0000]
+     ancilla idle depol (2p)      mean   9.0000  range [9.0000, 9.0000]
+     ancilla 1q gate (0.1p)       mean   0.3000  range [0.3000, 0.3000]
+     N2 (CNOT)                    mean   0.7000  range [0.7000, 0.7000]
+     data 1q / idle               mean   0.0000  range [0.0000, 0.0000]
+     total                        mean  39.7609
+
+== hybrid: shape of detection vs hybrid (intermediate postselected, final round ML-decoded), mean of seqs 0-5
+  p = 0.001:  policy | det: eta, max|rel misfit| of best exp, curvature d, per-step 1-f, rises? | hybrid: same
+    unif1   |    +0.55  2.6e-05 +1.88e-07  2.8e-05 False |    -0.04  2.2e-03 -1.66e-06  1.7e-03 False
+    unif2   |    +0.31  2.6e-05 +1.56e-07  5.2e-05 False |    -0.05  2.2e-03 -1.88e-06  1.7e-03 False
+    unif3   |    -0.73  1.9e-04 +3.30e-07  8.2e-05 True  |    +4.40  2.7e-02 +2.38e-05  2.2e-03 True 
+    unif4   |    +9.21  2.3e-04 -4.70e-07  1.1e-04 True  |    -2.86  3.6e-02 -1.99e-04  2.2e-03 True 
+    unif6   |    +0.52  3.7e-04 +1.73e-06  1.7e-04 True  |    +0.02  5.5e-02 +1.44e-04  2.8e-03 True 
+    const1  |    +9.13  3.9e-03 +6.94e-05  1.3e-03 False |    +0.44  1.7e-02 +3.24e-04  3.3e-02 False
+    const2  |    +6.19  1.2e-03 +2.22e-05  4.9e-04 False |    +0.26  5.9e-03 +1.19e-04  1.6e-02 False
+    const3  |    +3.90  6.4e-04 +1.24e-05  3.1e-04 False |    -0.85  2.2e-02 +5.65e-05  1.1e-02 False
+    const4  |  -172.35  6.0e-04 +7.18e-06  2.2e-04 True  |   -13.57  3.2e-02 -1.43e-04  9.0e-03 True 
+    const0  |    +7.78  1.3e-04 +2.52e-06  5.9e-05 False |    +0.09  3.2e-04 -1.46e-06  2.6e-03 False
+  p = 0.005:  policy | det: eta, max|rel misfit| of best exp, curvature d, per-step 1-f, rises? | hybrid: same
+    unif1   |    +0.64  8.7e-04 +8.02e-06  8.6e-04 False |    -0.03  1.2e-02 -3.96e-05  1.1e-02 False
+    unif2   |    +0.36  8.7e-04 +7.11e-06  1.6e-03 False |    -0.08  1.3e-02 -4.87e-05  1.2e-02 False
+    unif3   |    -2.34  8.8e-03 +1.15e-05  3.0e-03 True  |    +4.51  1.8e-01 +1.04e-04  1.7e-02 True 
+    unif4   |   +10.65  1.1e-02 -1.53e-05  4.4e-03 True  |    -3.17  2.4e-01 -1.45e-03  1.8e-02 True 
+    unif6   |    +1.08  2.6e-02 +1.44e-04  8.4e-03 False |    +0.05  4.1e-01 +8.54e-04  2.6e-02 True 
+    const1  |   +20.40  5.2e-01 +8.70e-03  1.4e-01 False |    +0.15  4.9e-02 +5.94e-04  2.0e-01 False
+    const2  |   +24.07  2.1e-01 +3.33e-03  4.5e-02 False |    +0.53  8.6e-02 +1.58e-03  1.2e-01 False
+    const3  |    +8.51  6.7e-02 +1.32e-03  2.2e-02 False |    -0.52  1.3e-01 +7.37e-04  8.5e-02 False
+    const4  |  -178.84  6.4e-02 +6.58e-04  1.3e-02 True  |   -12.97  2.0e-01 -7.76e-04  6.7e-02 True 
+    const0  |   +10.96  5.0e-03 +9.49e-05  1.9e-03 False |    +0.09  1.6e-03 -7.08e-06  1.3e-02 False
+
+real	0m30.278s
+user	0m26.963s
+sys	0m1.104s
+
+== brute: brute-force character sums vs A4 Prepared.evaluate
+  const 0/1/2, seqs 0-2, all depths, p in [0.0001, 0.001, 0.005, 0.02]: max relative difference (A and F) = 1.8e-15
+  unif1 m=2 seq 0 rounds [0, 1, 2] (12 detectors): max rel diff 5.6e-16; A(1e-3)=0.755504 F(1e-3)=0.99242671 (17s)
+  unif1 m=2 seq 1 rounds [0, 1, 2] (12 detectors): max rel diff 4.4e-16; A(1e-3)=0.752947 F(1e-3)=0.99239198 (17s)
+  unif2 m=4 seq 0 rounds [1, 3, 4] (12 detectors): max rel diff 5.6e-16; A(1e-3)=0.649376 F(1e-3)=0.99224211 (32s)
+  unif2 m=4 seq 1 rounds [1, 3, 4] (12 detectors): max rel diff 4.4e-16; A(1e-3)=0.652464 F(1e-3)=0.99228069 (32s)
+  unif3 m=6 seq 0 rounds [2, 5, 6] (12 detectors): max rel diff 6.7e-16; A(1e-3)=0.564421 F(1e-3)=0.99206056 (44s)
+  unif3 m=6 seq 1 rounds [2, 5, 6] (12 detectors): max rel diff 3.3e-16; A(1e-3)=0.567796 F(1e-3)=0.99204765 (50s)
+
+== second: a2, c2 at p = 1e-6..4e-6 (cubic fits)
+  const1: a2(m) = [  111.2   401.6   900.7  1604.8  3643.6  6611.5 10333.6 12518.5 15044.4]
+          a2 fit 138.3 + 81.55 m + 27.002 m^2; a2/m^2 (m>=2) = [100.41  56.3   44.58  36.44  33.73  31.89  31.3   31.08]
+          c2(m) = [  -109.7   -628.5  -1581.4  -3050.8  -7447.5 -13862.1 -22261.3 -27128.7
+ -32669. ]
+          c2 fit -171.0 + -104.81 m + -62.307 m^2  (ln A convex in m at O(p^2) iff the m^2 coefficient < 0)
+  const0: a2(m) = [   0.     8.3   33.6   76.   226.9  444.2  746.5  895.6 1098.8]
+          a2 fit -4.8 + 0.72 m + 2.243 m^2; a2/m^2 (m>=2) = [2.07 2.1  2.11 2.27 2.27 2.3  2.24 2.27]
+          c2(m) = [    0.    -11.5   -57.1  -138.   -434.2  -870.2 -1478.7 -1774.9 -2186.4]
+          c2 fit 10.2 + 1.35 m + -4.592 m^2  (ln A convex in m at O(p^2) iff the m^2 coefficient < 0)
+  unif1: a2(m) = [111.2 201.2 262.  318.  409.9 516.2 622.8 668.6 762.2]
+          a2 fit 164.8 + 22.74 m + 0.166 m^2; a2/m^2 (m>=2) = [50.29 16.37  8.83  4.1   2.63  1.92  1.67  1.57]
+          c2(m) = [-109.7 -182.3 -191.6 -211.  -186.9 -213.  -217.3 -219.9 -268.7]
+          c2 fit -197.3 + 2.45 m + -0.223 m^2  (ln A convex in m at O(p^2) iff the m^2 coefficient < 0)
+          per-sequence a2 m^2 coefficient: [ 0.047 -0.076  0.187  0.297  0.28   0.261]
+
+== attr: A4 attribution (unif 1) on sequences 3, 4, 5
+   seqs 3-5 fit full      : a2 =   170.1 +  21.18 m +  0.280 m^2
+   seqs 3-5 fit no-inverse: a2 =   167.8 +  16.20 m +  0.175 m^2
+   seqs 3-5 fit no-forward: a2 =   112.4 +   3.48 m +  0.082 m^2
+
+== const4: all 30 sequences, exact const 4 at m = 2, 4 and unif 1 at m = 0
+  p=5e-04: exact F(4)-F(2) mean over 30 seqs +4.48e-06 (6-seq mean +1.51e-06; range [-2.8e-05, +2.8e-05]); F(0) unif1 = 0.9962665
+  p=1e-03: exact F(4)-F(2) mean over 30 seqs +1.97e-05 (6-seq mean +7.93e-06; range [-1.1e-04, +1.1e-04]); F(0) unif1 = 0.9924910
+  p=2e-03: exact F(4)-F(2) mean over 30 seqs +9.46e-05 (6-seq mean +4.81e-05; range [-4.5e-04, +4.8e-04]); F(0) unif1 = 0.9848129
+  p=5e-03: exact F(4)-F(2) mean over 30 seqs +9.50e-04 (6-seq mean +6.82e-04; range [-2.8e-03, +3.5e-03]); F(0) unif1 = 0.9607496
+  (21s)
+
+real	4m23.850s
+user	2m52.816s
+sys	0m51.961s
+
+== misc
+  C16 const1 p=2e-03: F(m) = [0.9848 0.9835 0.9809 0.9767 0.9609 0.9304 0.8789 0.8438 0.7999]; -dlnF/dm per window = [0.001 0.001 0.002 0.004 0.008 0.014 0.02  0.027]; A(22) = 0.05134
+  C16 const1 p=5e-03: F(m) = [0.9607 0.951  0.9269 0.8777 0.6577 0.3399 0.1286 0.0759 0.0438]; -dlnF/dm per window = [0.005 0.013 0.027 0.072 0.165 0.243 0.263 0.275]; A(22) = 0.01276
+  C16 const1 p=1e-02: F(m) = [9.1716e-01 8.6441e-01 6.9530e-01 4.0185e-01 5.5184e-02 6.4503e-03
+ 8.9305e-04 3.5229e-04 1.3843e-04]; -dlnF/dm per window = [0.03  0.109 0.274 0.496 0.537 0.494 0.465 0.467]; A(22) = 0.01235
+  C16 const1 p=2e-02: F(m) = [8.1710e-01 5.0355e-01 9.0265e-02 1.0929e-02 2.0558e-04 5.0171e-06
+ 1.4691e-07 2.6135e-08 4.5470e-09]; -dlnF/dm per window = [0.242 0.859 1.056 0.993 0.928 0.883 0.863 0.874]; A(22) = 0.01235
+  C20 p=1e-03 unif1  det: eta(mean curve) = +0.55 (jackknife SE 0.45); per-sequence eta [-0.02 -0.73  0.15  0.48  2.6   4.27]
+  C20 p=1e-03 unif1  hyb: eta(mean curve) = -0.04 (jackknife SE 0.95); per-sequence eta [ 0.1  -0.65 -1.71 -0.46 -0.83  0.63]
+  C20 p=1e-03 unif3  det: eta(mean curve) = -0.73 (jackknife SE 0.62); per-sequence eta [-0.65 -2.29 -1.35 -0.57 -2.42 -5.13]
+  C20 p=1e-03 unif3  hyb: eta(mean curve) = +4.40 (jackknife SE 7.97); per-sequence eta [-2.82e+00  2.50e+00 -6.90e-03  1.43e+00 -1.66e+01  1.05e+01]
+  C20 p=1e-03 const1 det: eta(mean curve) = +9.13 (jackknife SE 0.73); per-sequence eta [ 7.57  7.54 10.6   7.95 10.63 11.7 ]
+  C20 p=1e-03 const1 hyb: eta(mean curve) = +0.44 (jackknife SE 0.07); per-sequence eta [0.21 0.45 0.78 0.44 0.39 0.49]
+  C20 p=5e-03 unif1  det: eta(mean curve) = +0.64 (jackknife SE 0.46); per-sequence eta [ 0.03 -0.61  0.33  0.51  2.56  4.52]
+  C20 p=5e-03 unif1  hyb: eta(mean curve) = -0.03 (jackknife SE 0.53); per-sequence eta [-0.07 -0.47 -2.6  -0.22 -0.68  0.7 ]
+  C20 p=5e-03 unif3  det: eta(mean curve) = -2.34 (jackknife SE 0.74); per-sequence eta [-1.35 -3.4  -2.63 -1.72  2.95 -2.1 ]
+  C20 p=5e-03 unif3  hyb: eta(mean curve) = +4.51 (jackknife SE 4.66); per-sequence eta [-3.31  2.95  0.5   1.73 15.45  3.82]
+  C20 p=5e-03 const1 det: eta(mean curve) = +20.40 (jackknife SE 1.01); per-sequence eta [18.22 18.97 21.55 18.3  22.53 24.1 ]
+  C20 p=5e-03 const1 hyb: eta(mean curve) = +0.15 (jackknife SE 0.06); per-sequence eta [-0.05  0.03  0.35  0.22  0.18  0.26]
+  C7 unif1 only, p=1e-3, 54 circuits: acceptance z mean -0.22 sd 1.01; fidelity z mean -0.11 sd 1.14; SE of a mean of n=54 unit-variance z's = 0.14
+
+real	0m0.668s
+user	0m0.423s
+sys	0m0.229s

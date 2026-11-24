@@ -1,0 +1,1730 @@
+{
+ "A": {
+  "fits_units_of_p": {
+   "detect_rej": {
+    "slope_mean": 111.96036036036035,
+    "slope_sd": 0.5465892799186773,
+    "intercept_mean": 61.99774774774776
+   },
+   "undetected": {
+    "slope_mean": -1.6144846124045241e-16,
+    "slope_sd": 2.465190328815662e-32,
+    "intercept_mean": 4.95
+   },
+   "mld_fail": {
+    "slope_mean": 11.120579954954954,
+    "slope_sd": 0.6430125679438413,
+    "intercept_mean": 14.700281531531529
+   },
+   "hybrid_rej": {
+    "slope_mean": 40.09946509009007,
+    "slope_sd": 1.647386553587112,
+    "intercept_mean": 46.601520270270306
+   },
+   "terminal_rej": {
+    "slope_mean": 71.55495495495494,
+    "slope_sd": 0.5465892799186659,
+    "intercept_mean": 65.7815315315315
+   },
+   "total_mass": {
+    "slope_mean": 128.26036036036035,
+    "slope_sd": 0.5465892799186709,
+    "intercept_mean": 99.24774774774767
+   }
+  },
+  "by_category_per_step": {
+   "ancilla H/H_INV (0.1p)": {
+    "mld_fail_per_step": 0.0,
+    "mass_per_step": 0.3999999999999999,
+    "detected_mass_per_step": 0.2999999999999999
+   },
+   "ancilla idle while others are measured (2p)": {
+    "mld_fail_per_step": 0.0,
+    "mass_per_step": 23.999999999999996,
+    "detected_mass_per_step": 9.0
+   },
+   "check CNOT": {
+    "mld_fail_per_step": 1.5283361486486495,
+    "mass_per_step": 12.000000000000007,
+    "detected_mass_per_step": 11.800000000000006
+   },
+   "data idle in measurement/reset layers (2p)": {
+    "mld_fail_per_step": 7.731418918918917,
+    "mass_per_step": 49.99999999999999,
+    "detected_mass_per_step": 49.99999999999999
+   },
+   "logical two-qutrit gate (SWAP/CZ)": {
+    "mld_fail_per_step": 1.3501266891891903,
+    "mass_per_step": 6.468468468468473,
+    "detected_mass_per_step": 6.468468468468473
+   },
+   "measured-ancilla depolarizing (p)": {
+    "mld_fail_per_step": 0.0,
+    "mass_per_step": 3.9999999999999996,
+    "detected_mass_per_step": 2.9999999999999996
+   },
+   "measurement flip (5p)": {
+    "mld_fail_per_step": 0.0,
+    "mass_per_step": 19.999999999999996,
+    "detected_mass_per_step": 19.999999999999996
+   },
+   "reset error (2p)": {
+    "mld_fail_per_step": 0.0,
+    "mass_per_step": 7.999999999999997,
+    "detected_mass_per_step": 7.999999999999997
+   },
+   "single-qutrit logical gate (0.1p)": {
+    "mld_fail_per_step": 0.5106981981981981,
+    "mass_per_step": 3.3918918918918908,
+    "detected_mass_per_step": 3.3918918918918908
+   }
+  },
+  "per_circuit": {
+   "0_0": {
+    "detect_rej": 63.15000000000004,
+    "undetected": 4.949999999999999,
+    "mld_fail": 14.025,
+    "hybrid_rej": 41.87500000000006,
+    "terminal_rej": 63.15,
+    "total_mass": 100.4,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 2.0250000000000017,
+     "data idle in measurement/reset layers (2p)": 12.0,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.4,
+     "ancilla idle while others are measured (2p)": 24.0,
+     "check CNOT": 12.00000000000001,
+     "data idle in measurement/reset layers (2p)": 40.0,
+     "measured-ancilla depolarizing (p)": 4.0,
+     "measurement flip (5p)": 20.0
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.30000000000000004,
+     "ancilla idle while others are measured (2p)": 9.0,
+     "check CNOT": 9.850000000000009,
+     "data idle in measurement/reset layers (2p)": 21.0,
+     "measured-ancilla depolarizing (p)": 3.0,
+     "measurement flip (5p)": 20.0
+    }
+   },
+   "0_2": {
+    "detect_rej": 280.5500000000001,
+    "undetected": 4.949999999999999,
+    "mld_fail": 30.700000000000003,
+    "hybrid_rej": 109.32500000000005,
+    "terminal_rej": 206.55,
+    "total_mass": 350.40000000000003,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 4.275000000000004,
+     "data idle in measurement/reset layers (2p)": 23.5,
+     "logical two-qutrit gate (SWAP/CZ)": 2.350000000000002,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 0.5749999999999997
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.2,
+     "ancilla idle while others are measured (2p)": 72.0,
+     "check CNOT": 36.00000000000003,
+     "data idle in measurement/reset layers (2p)": 140.0,
+     "logical two-qutrit gate (SWAP/CZ)": 8.000000000000007,
+     "measured-ancilla depolarizing (p)": 12.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 5.2
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.8999999999999999,
+     "ancilla idle while others are measured (2p)": 27.0,
+     "check CNOT": 33.45000000000003,
+     "data idle in measurement/reset layers (2p)": 121.0,
+     "logical two-qutrit gate (SWAP/CZ)": 8.000000000000007,
+     "measured-ancilla depolarizing (p)": 9.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 5.2
+    }
+   },
+   "0_4": {
+    "detect_rej": 506.15000000000003,
+    "undetected": 4.949999999999999,
+    "mld_fail": 57.975,
+    "hybrid_rej": 205.475,
+    "terminal_rej": 350.1500000000001,
+    "total_mass": 608.6000000000001,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 8.100000000000007,
+     "data idle in measurement/reset layers (2p)": 42.5,
+     "logical two-qutrit gate (SWAP/CZ)": 5.400000000000005,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 1.9749999999999996
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.9999999999999998,
+     "ancilla idle while others are measured (2p)": 120.0,
+     "check CNOT": 60.00000000000006,
+     "data idle in measurement/reset layers (2p)": 240.0,
+     "logical two-qutrit gate (SWAP/CZ)": 22.00000000000002,
+     "measured-ancilla depolarizing (p)": 20.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 12.600000000000001
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.5000000000000002,
+     "ancilla idle while others are measured (2p)": 45.0,
+     "check CNOT": 57.050000000000054,
+     "data idle in measurement/reset layers (2p)": 221.0,
+     "logical two-qutrit gate (SWAP/CZ)": 22.00000000000002,
+     "measured-ancilla depolarizing (p)": 15.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 12.600000000000001
+    }
+   },
+   "0_6": {
+    "detect_rej": 728.7500000000001,
+    "undetected": 4.949999999999999,
+    "mld_fail": 73.05,
+    "hybrid_rej": 264.65,
+    "terminal_rej": 490.75000000000006,
+    "total_mass": 863.8000000000002,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 10.175000000000008,
+     "data idle in measurement/reset layers (2p)": 52.0,
+     "logical two-qutrit gate (SWAP/CZ)": 8.100000000000007,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 2.775
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.8000000000000003,
+     "ancilla idle while others are measured (2p)": 168.0,
+     "check CNOT": 84.00000000000007,
+     "data idle in measurement/reset layers (2p)": 340.0,
+     "logical two-qutrit gate (SWAP/CZ)": 34.00000000000003,
+     "measured-ancilla depolarizing (p)": 28.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 19.0
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.0999999999999996,
+     "ancilla idle while others are measured (2p)": 63.0,
+     "check CNOT": 80.65000000000006,
+     "data idle in measurement/reset layers (2p)": 321.0,
+     "logical two-qutrit gate (SWAP/CZ)": 34.00000000000003,
+     "measured-ancilla depolarizing (p)": 21.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 19.0
+    }
+   },
+   "0_10": {
+    "detect_rej": 1187.7500000000002,
+    "undetected": 4.949999999999999,
+    "mld_fail": 124.875,
+    "hybrid_rej": 450.95,
+    "terminal_rej": 785.7500000000001,
+    "total_mass": 1388.0000000000005,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 17.225000000000016,
+     "data idle in measurement/reset layers (2p)": 88.0,
+     "logical two-qutrit gate (SWAP/CZ)": 14.375000000000012,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 5.275
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 4.3999999999999995,
+     "ancilla idle while others are measured (2p)": 264.0,
+     "check CNOT": 132.0000000000001,
+     "data idle in measurement/reset layers (2p)": 540.0,
+     "logical two-qutrit gate (SWAP/CZ)": 68.00000000000006,
+     "measured-ancilla depolarizing (p)": 44.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 35.599999999999994
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 3.3,
+     "ancilla idle while others are measured (2p)": 99.0,
+     "check CNOT": 127.85000000000011,
+     "data idle in measurement/reset layers (2p)": 521.0,
+     "logical two-qutrit gate (SWAP/CZ)": 68.00000000000006,
+     "measured-ancilla depolarizing (p)": 33.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 35.599999999999994
+    }
+   },
+   "1_0": {
+    "detect_rej": 63.15000000000004,
+    "undetected": 4.949999999999999,
+    "mld_fail": 14.025,
+    "hybrid_rej": 41.87500000000006,
+    "terminal_rej": 63.15,
+    "total_mass": 100.4,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 2.0250000000000017,
+     "data idle in measurement/reset layers (2p)": 12.0,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.4,
+     "ancilla idle while others are measured (2p)": 24.0,
+     "check CNOT": 12.00000000000001,
+     "data idle in measurement/reset layers (2p)": 40.0,
+     "measured-ancilla depolarizing (p)": 4.0,
+     "measurement flip (5p)": 20.0
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.30000000000000004,
+     "ancilla idle while others are measured (2p)": 9.0,
+     "check CNOT": 9.850000000000009,
+     "data idle in measurement/reset layers (2p)": 21.0,
+     "measured-ancilla depolarizing (p)": 3.0,
+     "measurement flip (5p)": 20.0
+    }
+   },
+   "1_2": {
+    "detect_rej": 283.95000000000005,
+    "undetected": 4.949999999999999,
+    "mld_fail": 36.475,
+    "hybrid_rej": 131.77500000000003,
+    "terminal_rej": 209.95000000000002,
+    "total_mass": 353.80000000000007,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 5.600000000000005,
+     "data idle in measurement/reset layers (2p)": 27.5,
+     "logical two-qutrit gate (SWAP/CZ)": 2.2500000000000018,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 1.1249999999999998
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.2,
+     "ancilla idle while others are measured (2p)": 72.0,
+     "check CNOT": 36.00000000000003,
+     "data idle in measurement/reset layers (2p)": 140.0,
+     "logical two-qutrit gate (SWAP/CZ)": 10.000000000000009,
+     "measured-ancilla depolarizing (p)": 12.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 6.6
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.8999999999999999,
+     "ancilla idle while others are measured (2p)": 27.0,
+     "check CNOT": 33.45000000000003,
+     "data idle in measurement/reset layers (2p)": 121.0,
+     "logical two-qutrit gate (SWAP/CZ)": 10.000000000000009,
+     "measured-ancilla depolarizing (p)": 9.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 6.6
+    }
+   },
+   "1_4": {
+    "detect_rej": 501.35000000000014,
+    "undetected": 4.949999999999999,
+    "mld_fail": 56.925000000000004,
+    "hybrid_rej": 208.45000000000002,
+    "terminal_rej": 345.35,
+    "total_mass": 603.8000000000001,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 8.475000000000009,
+     "data idle in measurement/reset layers (2p)": 42.5,
+     "logical two-qutrit gate (SWAP/CZ)": 4.150000000000004,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 1.7999999999999998
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.9999999999999998,
+     "ancilla idle while others are measured (2p)": 120.0,
+     "check CNOT": 60.00000000000006,
+     "data idle in measurement/reset layers (2p)": 240.0,
+     "logical two-qutrit gate (SWAP/CZ)": 18.000000000000014,
+     "measured-ancilla depolarizing (p)": 20.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 11.8
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.5000000000000002,
+     "ancilla idle while others are measured (2p)": 45.0,
+     "check CNOT": 57.050000000000054,
+     "data idle in measurement/reset layers (2p)": 221.0,
+     "logical two-qutrit gate (SWAP/CZ)": 18.000000000000014,
+     "measured-ancilla depolarizing (p)": 15.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 11.8
+    }
+   },
+   "1_6": {
+    "detect_rej": 722.75,
+    "undetected": 4.949999999999999,
+    "mld_fail": 78.125,
+    "hybrid_rej": 286.475,
+    "terminal_rej": 484.75,
+    "total_mass": 857.8000000000002,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 11.52500000000001,
+     "data idle in measurement/reset layers (2p)": 57.5,
+     "logical two-qutrit gate (SWAP/CZ)": 6.625000000000005,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 2.4749999999999996
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.8000000000000003,
+     "ancilla idle while others are measured (2p)": 168.0,
+     "check CNOT": 84.00000000000007,
+     "data idle in measurement/reset layers (2p)": 340.0,
+     "logical two-qutrit gate (SWAP/CZ)": 30.00000000000003,
+     "measured-ancilla depolarizing (p)": 28.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 16.999999999999996
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.0999999999999996,
+     "ancilla idle while others are measured (2p)": 63.0,
+     "check CNOT": 80.65000000000006,
+     "data idle in measurement/reset layers (2p)": 321.0,
+     "logical two-qutrit gate (SWAP/CZ)": 30.00000000000003,
+     "measured-ancilla depolarizing (p)": 21.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 16.999999999999996
+    }
+   },
+   "1_10": {
+    "detect_rej": 1173.95,
+    "undetected": 4.949999999999999,
+    "mld_fail": 123.675,
+    "hybrid_rej": 449.825,
+    "terminal_rej": 771.95,
+    "total_mass": 1374.2000000000003,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 17.225000000000016,
+     "data idle in measurement/reset layers (2p)": 89.0,
+     "logical two-qutrit gate (SWAP/CZ)": 12.675000000000011,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 4.7749999999999995
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 4.3999999999999995,
+     "ancilla idle while others are measured (2p)": 264.0,
+     "check CNOT": 132.0000000000001,
+     "data idle in measurement/reset layers (2p)": 540.0,
+     "logical two-qutrit gate (SWAP/CZ)": 58.00000000000005,
+     "measured-ancilla depolarizing (p)": 44.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 31.799999999999997
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 3.3,
+     "ancilla idle while others are measured (2p)": 99.0,
+     "check CNOT": 127.85000000000011,
+     "data idle in measurement/reset layers (2p)": 521.0,
+     "logical two-qutrit gate (SWAP/CZ)": 58.00000000000005,
+     "measured-ancilla depolarizing (p)": 33.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 31.799999999999997
+    }
+   },
+   "2_0": {
+    "detect_rej": 63.15000000000004,
+    "undetected": 4.949999999999999,
+    "mld_fail": 14.025,
+    "hybrid_rej": 41.87500000000006,
+    "terminal_rej": 63.15,
+    "total_mass": 100.4,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 2.0250000000000017,
+     "data idle in measurement/reset layers (2p)": 12.0,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.4,
+     "ancilla idle while others are measured (2p)": 24.0,
+     "check CNOT": 12.00000000000001,
+     "data idle in measurement/reset layers (2p)": 40.0,
+     "measured-ancilla depolarizing (p)": 4.0,
+     "measurement flip (5p)": 20.0
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.30000000000000004,
+     "ancilla idle while others are measured (2p)": 9.0,
+     "check CNOT": 9.850000000000009,
+     "data idle in measurement/reset layers (2p)": 21.0,
+     "measured-ancilla depolarizing (p)": 3.0,
+     "measurement flip (5p)": 20.0
+    }
+   },
+   "2_2": {
+    "detect_rej": 293.9500000000001,
+    "undetected": 4.949999999999999,
+    "mld_fail": 39.7,
+    "hybrid_rej": 137.72500000000005,
+    "terminal_rej": 219.95000000000002,
+    "total_mass": 363.80000000000007,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 5.525000000000005,
+     "data idle in measurement/reset layers (2p)": 28.5,
+     "logical two-qutrit gate (SWAP/CZ)": 4.175000000000003,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 1.5000000000000002
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.2,
+     "ancilla idle while others are measured (2p)": 72.0,
+     "check CNOT": 36.00000000000003,
+     "data idle in measurement/reset layers (2p)": 140.0,
+     "logical two-qutrit gate (SWAP/CZ)": 18.000000000000014,
+     "measured-ancilla depolarizing (p)": 12.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 8.599999999999998
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.8999999999999999,
+     "ancilla idle while others are measured (2p)": 27.0,
+     "check CNOT": 33.45000000000003,
+     "data idle in measurement/reset layers (2p)": 121.0,
+     "logical two-qutrit gate (SWAP/CZ)": 18.000000000000014,
+     "measured-ancilla depolarizing (p)": 9.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 8.599999999999998
+    }
+   },
+   "2_4": {
+    "detect_rej": 519.95,
+    "undetected": 4.949999999999999,
+    "mld_fail": 54.375,
+    "hybrid_rej": 200.425,
+    "terminal_rej": 363.9500000000001,
+    "total_mass": 622.4000000000001,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 7.775000000000007,
+     "data idle in measurement/reset layers (2p)": 37.0,
+     "logical two-qutrit gate (SWAP/CZ)": 7.200000000000006,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 2.4
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.9999999999999998,
+     "ancilla idle while others are measured (2p)": 120.0,
+     "check CNOT": 60.00000000000006,
+     "data idle in measurement/reset layers (2p)": 240.0,
+     "logical two-qutrit gate (SWAP/CZ)": 32.00000000000003,
+     "measured-ancilla depolarizing (p)": 20.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 16.4
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.5000000000000002,
+     "ancilla idle while others are measured (2p)": 45.0,
+     "check CNOT": 57.050000000000054,
+     "data idle in measurement/reset layers (2p)": 221.0,
+     "logical two-qutrit gate (SWAP/CZ)": 32.00000000000003,
+     "measured-ancilla depolarizing (p)": 15.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 16.4
+    }
+   },
+   "2_6": {
+    "detect_rej": 733.5500000000001,
+    "undetected": 4.949999999999999,
+    "mld_fail": 79.975,
+    "hybrid_rej": 280.625,
+    "terminal_rej": 495.55000000000007,
+    "total_mass": 868.6000000000001,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 11.40000000000001,
+     "data idle in measurement/reset layers (2p)": 57.5,
+     "logical two-qutrit gate (SWAP/CZ)": 8.075000000000006,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 3.0000000000000004
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.8000000000000003,
+     "ancilla idle while others are measured (2p)": 168.0,
+     "check CNOT": 84.00000000000007,
+     "data idle in measurement/reset layers (2p)": 340.0,
+     "logical two-qutrit gate (SWAP/CZ)": 38.000000000000036,
+     "measured-ancilla depolarizing (p)": 28.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 19.8
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.0999999999999996,
+     "ancilla idle while others are measured (2p)": 63.0,
+     "check CNOT": 80.65000000000006,
+     "data idle in measurement/reset layers (2p)": 321.0,
+     "logical two-qutrit gate (SWAP/CZ)": 38.000000000000036,
+     "measured-ancilla depolarizing (p)": 21.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 19.8
+    }
+   },
+   "2_10": {
+    "detect_rej": 1187.3500000000001,
+    "undetected": 4.949999999999999,
+    "mld_fail": 120.20000000000002,
+    "hybrid_rej": 421.07500000000005,
+    "terminal_rej": 785.3500000000001,
+    "total_mass": 1387.6000000000004,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 16.625000000000014,
+     "data idle in measurement/reset layers (2p)": 84.5,
+     "logical two-qutrit gate (SWAP/CZ)": 13.975000000000012,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 5.1
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 4.3999999999999995,
+     "ancilla idle while others are measured (2p)": 264.0,
+     "check CNOT": 132.0000000000001,
+     "data idle in measurement/reset layers (2p)": 540.0,
+     "logical two-qutrit gate (SWAP/CZ)": 68.00000000000006,
+     "measured-ancilla depolarizing (p)": 44.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 35.199999999999996
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 3.3,
+     "ancilla idle while others are measured (2p)": 99.0,
+     "check CNOT": 127.85000000000011,
+     "data idle in measurement/reset layers (2p)": 521.0,
+     "logical two-qutrit gate (SWAP/CZ)": 68.00000000000006,
+     "measured-ancilla depolarizing (p)": 33.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 35.199999999999996
+    }
+   },
+   "3_0": {
+    "detect_rej": 63.15000000000004,
+    "undetected": 4.949999999999999,
+    "mld_fail": 14.025,
+    "hybrid_rej": 41.87500000000006,
+    "terminal_rej": 63.15,
+    "total_mass": 100.4,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 2.0250000000000017,
+     "data idle in measurement/reset layers (2p)": 12.0,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.4,
+     "ancilla idle while others are measured (2p)": 24.0,
+     "check CNOT": 12.00000000000001,
+     "data idle in measurement/reset layers (2p)": 40.0,
+     "measured-ancilla depolarizing (p)": 4.0,
+     "measurement flip (5p)": 20.0
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.30000000000000004,
+     "ancilla idle while others are measured (2p)": 9.0,
+     "check CNOT": 9.850000000000009,
+     "data idle in measurement/reset layers (2p)": 21.0,
+     "measured-ancilla depolarizing (p)": 3.0,
+     "measurement flip (5p)": 20.0
+    }
+   },
+   "3_2": {
+    "detect_rej": 286.1500000000001,
+    "undetected": 4.949999999999999,
+    "mld_fail": 43.925,
+    "hybrid_rej": 142.92500000000004,
+    "terminal_rej": 212.15,
+    "total_mass": 356.00000000000006,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 6.2000000000000055,
+     "data idle in measurement/reset layers (2p)": 33.5,
+     "logical two-qutrit gate (SWAP/CZ)": 2.8000000000000025,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 1.425
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.2,
+     "ancilla idle while others are measured (2p)": 72.0,
+     "check CNOT": 36.00000000000003,
+     "data idle in measurement/reset layers (2p)": 140.0,
+     "logical two-qutrit gate (SWAP/CZ)": 12.00000000000001,
+     "measured-ancilla depolarizing (p)": 12.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 6.799999999999999
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.8999999999999999,
+     "ancilla idle while others are measured (2p)": 27.0,
+     "check CNOT": 33.45000000000003,
+     "data idle in measurement/reset layers (2p)": 121.0,
+     "logical two-qutrit gate (SWAP/CZ)": 12.00000000000001,
+     "measured-ancilla depolarizing (p)": 9.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 6.799999999999999
+    }
+   },
+   "3_4": {
+    "detect_rej": 507.35,
+    "undetected": 4.949999999999999,
+    "mld_fail": 70.35,
+    "hybrid_rej": 229.925,
+    "terminal_rej": 351.35,
+    "total_mass": 609.8000000000002,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 10.000000000000009,
+     "data idle in measurement/reset layers (2p)": 52.5,
+     "logical two-qutrit gate (SWAP/CZ)": 4.850000000000004,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 3.0000000000000004
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.9999999999999998,
+     "ancilla idle while others are measured (2p)": 120.0,
+     "check CNOT": 60.00000000000006,
+     "data idle in measurement/reset layers (2p)": 240.0,
+     "logical two-qutrit gate (SWAP/CZ)": 22.00000000000002,
+     "measured-ancilla depolarizing (p)": 20.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 13.799999999999997
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.5000000000000002,
+     "ancilla idle while others are measured (2p)": 45.0,
+     "check CNOT": 57.050000000000054,
+     "data idle in measurement/reset layers (2p)": 221.0,
+     "logical two-qutrit gate (SWAP/CZ)": 22.00000000000002,
+     "measured-ancilla depolarizing (p)": 15.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 13.799999999999997
+    }
+   },
+   "3_6": {
+    "detect_rej": 738.95,
+    "undetected": 4.949999999999999,
+    "mld_fail": 99.80000000000001,
+    "hybrid_rej": 326.42499999999995,
+    "terminal_rej": 500.9500000000001,
+    "total_mass": 874.0000000000002,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 13.900000000000013,
+     "data idle in measurement/reset layers (2p)": 72.5,
+     "logical two-qutrit gate (SWAP/CZ)": 8.400000000000007,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 5.0
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.8000000000000003,
+     "ancilla idle while others are measured (2p)": 168.0,
+     "check CNOT": 84.00000000000007,
+     "data idle in measurement/reset layers (2p)": 340.0,
+     "logical two-qutrit gate (SWAP/CZ)": 40.000000000000036,
+     "measured-ancilla depolarizing (p)": 28.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 23.200000000000003
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.0999999999999996,
+     "ancilla idle while others are measured (2p)": 63.0,
+     "check CNOT": 80.65000000000006,
+     "data idle in measurement/reset layers (2p)": 321.0,
+     "logical two-qutrit gate (SWAP/CZ)": 40.000000000000036,
+     "measured-ancilla depolarizing (p)": 21.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 23.200000000000003
+    }
+   },
+   "3_10": {
+    "detect_rej": 1186.7500000000002,
+    "undetected": 4.949999999999999,
+    "mld_fail": 138.4,
+    "hybrid_rej": 466.7999999999999,
+    "terminal_rej": 784.75,
+    "total_mass": 1387.0000000000005,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 18.975000000000016,
+     "data idle in measurement/reset layers (2p)": 99.5,
+     "logical two-qutrit gate (SWAP/CZ)": 13.425000000000011,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 6.5
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 4.3999999999999995,
+     "ancilla idle while others are measured (2p)": 264.0,
+     "check CNOT": 132.0000000000001,
+     "data idle in measurement/reset layers (2p)": 540.0,
+     "logical two-qutrit gate (SWAP/CZ)": 66.00000000000006,
+     "measured-ancilla depolarizing (p)": 44.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 36.599999999999994
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 3.3,
+     "ancilla idle while others are measured (2p)": 99.0,
+     "check CNOT": 127.85000000000011,
+     "data idle in measurement/reset layers (2p)": 521.0,
+     "logical two-qutrit gate (SWAP/CZ)": 66.00000000000006,
+     "measured-ancilla depolarizing (p)": 33.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 36.599999999999994
+    }
+   },
+   "4_0": {
+    "detect_rej": 63.15000000000004,
+    "undetected": 4.949999999999999,
+    "mld_fail": 14.025,
+    "hybrid_rej": 41.87500000000006,
+    "terminal_rej": 63.15,
+    "total_mass": 100.4,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 2.0250000000000017,
+     "data idle in measurement/reset layers (2p)": 12.0,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.4,
+     "ancilla idle while others are measured (2p)": 24.0,
+     "check CNOT": 12.00000000000001,
+     "data idle in measurement/reset layers (2p)": 40.0,
+     "measured-ancilla depolarizing (p)": 4.0,
+     "measurement flip (5p)": 20.0
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.30000000000000004,
+     "ancilla idle while others are measured (2p)": 9.0,
+     "check CNOT": 9.850000000000009,
+     "data idle in measurement/reset layers (2p)": 21.0,
+     "measured-ancilla depolarizing (p)": 3.0,
+     "measurement flip (5p)": 20.0
+    }
+   },
+   "4_2": {
+    "detect_rej": 287.9500000000001,
+    "undetected": 4.949999999999999,
+    "mld_fail": 36.475,
+    "hybrid_rej": 128.37500000000006,
+    "terminal_rej": 213.95000000000002,
+    "total_mass": 357.80000000000007,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 5.275000000000004,
+     "data idle in measurement/reset layers (2p)": 27.0,
+     "logical two-qutrit gate (SWAP/CZ)": 3.1250000000000027,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 1.0749999999999997
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.2,
+     "ancilla idle while others are measured (2p)": 72.0,
+     "check CNOT": 36.00000000000003,
+     "data idle in measurement/reset layers (2p)": 140.0,
+     "logical two-qutrit gate (SWAP/CZ)": 14.000000000000012,
+     "measured-ancilla depolarizing (p)": 12.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 6.6
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.8999999999999999,
+     "ancilla idle while others are measured (2p)": 27.0,
+     "check CNOT": 33.45000000000003,
+     "data idle in measurement/reset layers (2p)": 121.0,
+     "logical two-qutrit gate (SWAP/CZ)": 14.000000000000012,
+     "measured-ancilla depolarizing (p)": 9.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 6.6
+    }
+   },
+   "4_4": {
+    "detect_rej": 514.3500000000001,
+    "undetected": 4.949999999999999,
+    "mld_fail": 60.575,
+    "hybrid_rej": 208.97500000000002,
+    "terminal_rej": 358.35,
+    "total_mass": 616.8000000000001,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 8.575000000000006,
+     "data idle in measurement/reset layers (2p)": 43.5,
+     "logical two-qutrit gate (SWAP/CZ)": 6.275000000000006,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 2.2249999999999996
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.9999999999999998,
+     "ancilla idle while others are measured (2p)": 120.0,
+     "check CNOT": 60.00000000000006,
+     "data idle in measurement/reset layers (2p)": 240.0,
+     "logical two-qutrit gate (SWAP/CZ)": 28.000000000000025,
+     "measured-ancilla depolarizing (p)": 20.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 14.799999999999999
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.5000000000000002,
+     "ancilla idle while others are measured (2p)": 45.0,
+     "check CNOT": 57.050000000000054,
+     "data idle in measurement/reset layers (2p)": 221.0,
+     "logical two-qutrit gate (SWAP/CZ)": 28.000000000000025,
+     "measured-ancilla depolarizing (p)": 15.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 14.799999999999999
+    }
+   },
+   "4_6": {
+    "detect_rej": 739.1500000000001,
+    "undetected": 4.949999999999999,
+    "mld_fail": 76.7,
+    "hybrid_rej": 271.35,
+    "terminal_rej": 501.15000000000003,
+    "total_mass": 874.2000000000002,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 10.600000000000009,
+     "data idle in measurement/reset layers (2p)": 53.5,
+     "logical two-qutrit gate (SWAP/CZ)": 9.52500000000001,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 3.075
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.8000000000000003,
+     "ancilla idle while others are measured (2p)": 168.0,
+     "check CNOT": 84.00000000000007,
+     "data idle in measurement/reset layers (2p)": 340.0,
+     "logical two-qutrit gate (SWAP/CZ)": 42.000000000000036,
+     "measured-ancilla depolarizing (p)": 28.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 21.400000000000002
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.0999999999999996,
+     "ancilla idle while others are measured (2p)": 63.0,
+     "check CNOT": 80.65000000000006,
+     "data idle in measurement/reset layers (2p)": 321.0,
+     "logical two-qutrit gate (SWAP/CZ)": 42.000000000000036,
+     "measured-ancilla depolarizing (p)": 21.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 21.400000000000002
+    }
+   },
+   "4_10": {
+    "detect_rej": 1177.95,
+    "undetected": 4.949999999999999,
+    "mld_fail": 122.225,
+    "hybrid_rej": 434.65000000000003,
+    "terminal_rej": 775.95,
+    "total_mass": 1378.2000000000003,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 17.062500000000014,
+     "data idle in measurement/reset layers (2p)": 88.0,
+     "logical two-qutrit gate (SWAP/CZ)": 12.787500000000012,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 4.374999999999999
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 4.3999999999999995,
+     "ancilla idle while others are measured (2p)": 264.0,
+     "check CNOT": 132.0000000000001,
+     "data idle in measurement/reset layers (2p)": 540.0,
+     "logical two-qutrit gate (SWAP/CZ)": 62.00000000000006,
+     "measured-ancilla depolarizing (p)": 44.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 31.799999999999997
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 3.3,
+     "ancilla idle while others are measured (2p)": 99.0,
+     "check CNOT": 127.85000000000011,
+     "data idle in measurement/reset layers (2p)": 521.0,
+     "logical two-qutrit gate (SWAP/CZ)": 62.00000000000006,
+     "measured-ancilla depolarizing (p)": 33.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 31.799999999999997
+    }
+   },
+   "5_0": {
+    "detect_rej": 63.15000000000004,
+    "undetected": 4.949999999999999,
+    "mld_fail": 14.025,
+    "hybrid_rej": 41.87500000000006,
+    "terminal_rej": 63.15,
+    "total_mass": 100.4,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 2.0250000000000017,
+     "data idle in measurement/reset layers (2p)": 12.0,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.4,
+     "ancilla idle while others are measured (2p)": 24.0,
+     "check CNOT": 12.00000000000001,
+     "data idle in measurement/reset layers (2p)": 40.0,
+     "measured-ancilla depolarizing (p)": 4.0,
+     "measurement flip (5p)": 20.0
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.30000000000000004,
+     "ancilla idle while others are measured (2p)": 9.0,
+     "check CNOT": 9.850000000000009,
+     "data idle in measurement/reset layers (2p)": 21.0,
+     "measured-ancilla depolarizing (p)": 3.0,
+     "measurement flip (5p)": 20.0
+    }
+   },
+   "5_2": {
+    "detect_rej": 282.35,
+    "undetected": 4.949999999999999,
+    "mld_fail": 36.25,
+    "hybrid_rej": 131.17500000000004,
+    "terminal_rej": 208.35000000000002,
+    "total_mass": 352.20000000000005,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 5.575000000000005,
+     "data idle in measurement/reset layers (2p)": 27.5,
+     "logical two-qutrit gate (SWAP/CZ)": 2.500000000000002,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 0.6749999999999997
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.2,
+     "ancilla idle while others are measured (2p)": 72.0,
+     "check CNOT": 36.00000000000003,
+     "data idle in measurement/reset layers (2p)": 140.0,
+     "logical two-qutrit gate (SWAP/CZ)": 10.000000000000009,
+     "measured-ancilla depolarizing (p)": 12.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 5.0
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.8999999999999999,
+     "ancilla idle while others are measured (2p)": 27.0,
+     "check CNOT": 33.45000000000003,
+     "data idle in measurement/reset layers (2p)": 121.0,
+     "logical two-qutrit gate (SWAP/CZ)": 10.000000000000009,
+     "measured-ancilla depolarizing (p)": 9.0,
+     "measurement flip (5p)": 60.0,
+     "reset error (2p)": 16.0,
+     "single-qutrit logical gate (0.1p)": 5.0
+    }
+   },
+   "5_4": {
+    "detect_rej": 504.15000000000003,
+    "undetected": 4.949999999999999,
+    "mld_fail": 58.825,
+    "hybrid_rej": 211.97500000000002,
+    "terminal_rej": 348.15000000000003,
+    "total_mass": 606.6000000000001,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 7.912500000000007,
+     "data idle in measurement/reset layers (2p)": 43.5,
+     "logical two-qutrit gate (SWAP/CZ)": 5.762500000000005,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 1.6499999999999997
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.9999999999999998,
+     "ancilla idle while others are measured (2p)": 120.0,
+     "check CNOT": 60.00000000000006,
+     "data idle in measurement/reset layers (2p)": 240.0,
+     "logical two-qutrit gate (SWAP/CZ)": 22.00000000000002,
+     "measured-ancilla depolarizing (p)": 20.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 10.600000000000001
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 1.5000000000000002,
+     "ancilla idle while others are measured (2p)": 45.0,
+     "check CNOT": 57.050000000000054,
+     "data idle in measurement/reset layers (2p)": 221.0,
+     "logical two-qutrit gate (SWAP/CZ)": 22.00000000000002,
+     "measured-ancilla depolarizing (p)": 15.0,
+     "measurement flip (5p)": 100.0,
+     "reset error (2p)": 32.0,
+     "single-qutrit logical gate (0.1p)": 10.600000000000001
+    }
+   },
+   "5_6": {
+    "detect_rej": 731.95,
+    "undetected": 4.949999999999999,
+    "mld_fail": 81.375,
+    "hybrid_rej": 288.725,
+    "terminal_rej": 493.95000000000005,
+    "total_mass": 867.0000000000002,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 10.912500000000009,
+     "data idle in measurement/reset layers (2p)": 58.5,
+     "logical two-qutrit gate (SWAP/CZ)": 9.187500000000007,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 2.775
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.8000000000000003,
+     "ancilla idle while others are measured (2p)": 168.0,
+     "check CNOT": 84.00000000000007,
+     "data idle in measurement/reset layers (2p)": 340.0,
+     "logical two-qutrit gate (SWAP/CZ)": 38.000000000000036,
+     "measured-ancilla depolarizing (p)": 28.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 18.2
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 2.0999999999999996,
+     "ancilla idle while others are measured (2p)": 63.0,
+     "check CNOT": 80.65000000000006,
+     "data idle in measurement/reset layers (2p)": 321.0,
+     "logical two-qutrit gate (SWAP/CZ)": 38.000000000000036,
+     "measured-ancilla depolarizing (p)": 21.0,
+     "measurement flip (5p)": 140.0,
+     "reset error (2p)": 48.0,
+     "single-qutrit logical gate (0.1p)": 18.2
+    }
+   },
+   "5_10": {
+    "detect_rej": 1182.75,
+    "undetected": 4.949999999999999,
+    "mld_fail": 123.82500000000002,
+    "hybrid_rej": 451.8499999999999,
+    "terminal_rej": 780.75,
+    "total_mass": 1383.0000000000002,
+    "mld_fail_by_cat": {
+     "ancilla H/H_INV (0.1p)": 0.0,
+     "ancilla idle while others are measured (2p)": 0.0,
+     "check CNOT": 17.337500000000016,
+     "data idle in measurement/reset layers (2p)": 88.0,
+     "logical two-qutrit gate (SWAP/CZ)": 13.912500000000012,
+     "measured-ancilla depolarizing (p)": 0.0,
+     "measurement flip (5p)": 0.0,
+     "reset error (2p)": 0.0,
+     "single-qutrit logical gate (0.1p)": 4.574999999999999
+    },
+    "mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 4.3999999999999995,
+     "ancilla idle while others are measured (2p)": 264.0,
+     "check CNOT": 132.0000000000001,
+     "data idle in measurement/reset layers (2p)": 540.0,
+     "logical two-qutrit gate (SWAP/CZ)": 66.00000000000006,
+     "measured-ancilla depolarizing (p)": 44.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 32.599999999999994
+    },
+    "detected_mass_by_cat": {
+     "ancilla H/H_INV (0.1p)": 3.3,
+     "ancilla idle while others are measured (2p)": 99.0,
+     "check CNOT": 127.85000000000011,
+     "data idle in measurement/reset layers (2p)": 521.0,
+     "logical two-qutrit gate (SWAP/CZ)": 66.00000000000006,
+     "measured-ancilla depolarizing (p)": 33.0,
+     "measurement flip (5p)": 220.0,
+     "reset error (2p)": 80.0,
+     "single-qutrit logical gate (0.1p)": 32.599999999999994
+    }
+   }
+  },
+  "summary": {
+   "correction_1_minus_f_per_step": 16.68086993243243,
+   "correction_eps_per_step": 14.827439939939936,
+   "physical_RB_1_minus_f_per_step": 5.6349511736504265,
+   "physical_RB_eps_per_step": 5.008845487689268,
+   "ratio": 2.9602510152055586
+  }
+ },
+ "B_catalog_tokens_per_clifford": {
+  "H": 1.6527777777777777,
+  "P": 1.462962962962963,
+  "X": 1.0046296296296295,
+  "Z": 1.0046296296296295
+ },
+ "B_d2": {
+  "q_per_qutrit_per_step": {
+   "0": 12.825000000000001,
+   "1": 14.223148148148148,
+   "2": 17.939814814814817,
+   "3": 17.939814814814817,
+   "4": 12.42314814814815
+  },
+  "eps_tie_rule": 12.624074074074075
+ },
+ "C_validation": [
+  {
+   "circuit": "cliff 0 depth 4",
+   "engine": {
+    "detect_rej": 506.15000000000003,
+    "mld_fail": 57.974999999999994
+   },
+   "dem": {
+    "detect_rej": 506.15000000000003,
+    "mld_fail": 57.975
+   }
+  },
+  {
+   "circuit": "cliff 1 depth 6",
+   "engine": {
+    "detect_rej": 722.7500000000001,
+    "mld_fail": 78.12499999999997
+   },
+   "dem": {
+    "detect_rej": 722.75,
+    "mld_fail": 78.125
+   }
+  }
+ ],
+ "C": {
+  "[[13,1,3]]_3 folded readout=phen gates/round=none": {
+   "per_round": {
+    "F1": 0.0,
+    "F2": 6.6875,
+    "detect_rej1": 25.0,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 18.1875,
+    "hybrid_fail2": 0.5625
+   },
+   "T2": {
+    "F1": 0.0,
+    "F2": 12.25,
+    "detect_rej1": 50.0,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 29.25,
+    "hybrid_fail2": 1.125,
+    "effects": 256,
+    "signatures": 29909,
+    "faults": 256
+   },
+   "T3": {
+    "F1": 0.0,
+    "F2": 18.9375,
+    "detect_rej1": 75.0,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 47.4375,
+    "hybrid_fail2": 1.6875,
+    "effects": 384,
+    "signatures": 69053,
+    "faults": 384
+   }
+  },
+  "[[9,1,3]]_3 readout=phen gates/round=none": {
+   "per_round": {
+    "F1": 0.0,
+    "F2": 15.875,
+    "detect_rej1": 17.0,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 36.125,
+    "hybrid_fail2": 2.375
+   },
+   "T2": {
+    "F1": 0.0,
+    "F2": 27.5,
+    "detect_rej1": 34.0,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 56.0,
+    "hybrid_fail2": 4.75,
+    "effects": 160,
+    "signatures": 10429,
+    "faults": 176
+   },
+   "T3": {
+    "F1": 0.0,
+    "F2": 43.375,
+    "detect_rej1": 51.0,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 92.125,
+    "hybrid_fail2": 7.125,
+    "effects": 240,
+    "signatures": 24933,
+    "faults": 264
+   }
+  },
+  "[[5,1,2]]_3 readout=seq gates/round=none": {
+   "per_round": {
+    "F1": 11.2,
+    "F2": 7223.745000000002,
+    "detect_rej1": 102.0999999999998,
+    "undetected1": 0.0,
+    "hybrid_rej1": 28.45000000000004,
+    "hybrid_rej2": 14421.52625000001,
+    "hybrid_fail2": 1141.1037500000002
+   },
+   "T2": {
+    "F1": 22.399999999999995,
+    "F2": 6513.464374999995,
+    "detect_rej1": 196.19999999999993,
+    "undetected1": 0.0,
+    "hybrid_rej1": 56.899999999999984,
+    "hybrid_rej2": 11168.940312499999,
+    "hybrid_fail2": 1698.3465624999994,
+    "effects": 765,
+    "signatures": 71649,
+    "faults": 2672
+   },
+   "T3": {
+    "F1": 33.599999999999994,
+    "F2": 13737.209374999997,
+    "detect_rej1": 298.2999999999997,
+    "undetected1": 0.0,
+    "hybrid_rej1": 85.35000000000002,
+    "hybrid_rej2": 25590.46656250001,
+    "hybrid_fail2": 2839.4503124999997,
+    "effects": 1125,
+    "signatures": 236557,
+    "faults": 4008
+   }
+  },
+  "[[5,1,2]]_3 readout=seq gates/round=HPHXZ": {
+   "per_round": {
+    "F1": 12.79999999999999,
+    "F2": 8909.990937499999,
+    "detect_rej1": 106.79999999999967,
+    "undetected1": 0.0,
+    "hybrid_rej1": 45.07499999999992,
+    "hybrid_rej2": 17834.967187499995,
+    "hybrid_fail2": 1178.1928124999988
+   },
+   "T2": {
+    "F1": 25.424999999999997,
+    "F2": 7947.318437499991,
+    "detect_rej1": 205.60000000000008,
+    "undetected1": 0.0,
+    "hybrid_rej1": 78.32499999999996,
+    "hybrid_rej2": 12671.949375,
+    "hybrid_fail2": 1780.1856249999998,
+    "effects": 897,
+    "signatures": 79449,
+    "faults": 3424
+   },
+   "T3": {
+    "F1": 38.22499999999999,
+    "F2": 16857.30937499999,
+    "detect_rej1": 312.39999999999975,
+    "undetected1": 0.0,
+    "hybrid_rej1": 123.39999999999988,
+    "hybrid_rej2": 30506.916562499995,
+    "hybrid_fail2": 2958.3784374999987,
+    "effects": 1325,
+    "signatures": 264773,
+    "faults": 5136
+   }
+  },
+  "[[13,1,3]]_3 folded readout=seq gates/round=none": {
+   "per_round": {
+    "F1": 0.0,
+    "F2": 6107.218437499991,
+    "detect_rej1": 570.2999999999377,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 54281.78875000002,
+    "hybrid_fail2": 842.5506250000003
+   },
+   "T2": {
+    "F1": 0.0,
+    "F2": 9109.981249999997,
+    "detect_rej1": 1116.6000000000156,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 73666.4,
+    "hybrid_fail2": 1261.4303124999979,
+    "effects": 2777,
+    "signatures": 3045873,
+    "faults": 11696
+   },
+   "T3": {
+    "F1": 0.0,
+    "F2": 15217.199687499988,
+    "detect_rej1": 1686.8999999999533,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 127948.18875000002,
+    "hybrid_fail2": 2103.980937499998,
+    "effects": 4105,
+    "signatures": 7124297,
+    "faults": 17544
+   }
+  },
+  "[[13,1,3]]_3 folded readout=par gates/round=none": {
+   "per_round": {
+    "F1": 0.0,
+    "F2": 338.463124999998,
+    "detect_rej1": 185.3000000000195,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 3523.401250000001,
+    "hybrid_fail2": 32.263125000000294
+   },
+   "T2": {
+    "F1": 0.0,
+    "F2": 506.03937499999967,
+    "detect_rej1": 346.59999999999616,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 4502.30625,
+    "hybrid_fail2": 50.56781250000004,
+    "effects": 2777,
+    "signatures": 3045873,
+    "faults": 7296
+   },
+   "T3": {
+    "F1": 0.0,
+    "F2": 844.5024999999977,
+    "detect_rej1": 531.9000000000157,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 8025.7075,
+    "hybrid_fail2": 82.83093750000033,
+    "effects": 4105,
+    "signatures": 7124297,
+    "faults": 10944
+   }
+  },
+  "[[13,1,3]]_3 folded readout=par gates/round=HPHXZ": {
+   "per_round": {
+    "F1": 0.0,
+    "F2": 487.283124999999,
+    "detect_rej1": 201.00000000003052,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 5095.029375000003,
+    "hybrid_fail2": 42.83937499999996
+   },
+   "T2": {
+    "F1": 0.0,
+    "F2": 708.8012499999998,
+    "detect_rej1": 378.0000000000004,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 6384.396874999998,
+    "hybrid_fail2": 63.108125,
+    "effects": 3301,
+    "signatures": 4331177,
+    "faults": 9808
+   },
+   "T3": {
+    "F1": 0.0,
+    "F2": 1196.0843749999988,
+    "detect_rej1": 579.0000000000309,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 11479.42625,
+    "hybrid_fail2": 105.94749999999996,
+    "effects": 4897,
+    "signatures": 10200465,
+    "faults": 14712
+   }
+  },
+  "[[13,1,3]]_3 folded readout=seq gates/round=HPHXZ": {
+   "per_round": {
+    "F1": 0.0,
+    "F2": 6349.924687500012,
+    "detect_rej1": 585.9999999999143,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 67781.08562500004,
+    "hybrid_fail2": 859.170624999995
+   },
+   "T2": {
+    "F1": 0.0,
+    "F2": 9741.2903125,
+    "detect_rej1": 1148.0000000000002,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 92050.734375,
+    "hybrid_fail2": 1322.5331249999988,
+    "effects": 3301,
+    "signatures": 4331177,
+    "faults": 14208
+   },
+   "T3": {
+    "F1": 0.0,
+    "F2": 16091.215000000011,
+    "detect_rej1": 1733.9999999999145,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 159831.82000000004,
+    "hybrid_fail2": 2181.7037499999938,
+    "effects": 4897,
+    "signatures": 10200465,
+    "faults": 21312
+   }
+  },
+  "[[9,1,3]]_3 readout=seq gates/round=none": {
+   "per_round": {
+    "F1": 0.0,
+    "F2": 7425.460312500007,
+    "detect_rej1": 290.19999999999834,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 44478.60593750005,
+    "hybrid_fail2": 1560.5962500000019
+   },
+   "T2": {
+    "F1": 0.0,
+    "F2": 10839.064062500001,
+    "detect_rej1": 564.4000000000011,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 55537.593125,
+    "hybrid_fail2": 2379.174375,
+    "effects": 1521,
+    "signatures": 681865,
+    "faults": 6352
+   },
+   "T3": {
+    "F1": 0.0,
+    "F2": 18264.524375000008,
+    "detect_rej1": 854.5999999999995,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 100016.19906250005,
+    "hybrid_fail2": 3939.770625000002,
+    "effects": 2249,
+    "signatures": 1764877,
+    "faults": 9528
+   }
+  },
+  "[[9,1,3]]_3 readout=par gates/round=none": {
+   "per_round": {
+    "F1": 0.0,
+    "F2": 723.1140624999998,
+    "detect_rej1": 122.2000000000007,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 5508.4621874999875,
+    "hybrid_fail2": 116.39624999999995
+   },
+   "T2": {
+    "F1": 0.0,
+    "F2": 1074.9712500000003,
+    "detect_rej1": 228.39999999999978,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 6614.8493750000025,
+    "hybrid_fail2": 179.936875,
+    "effects": 1521,
+    "signatures": 681865,
+    "faults": 4448
+   },
+   "T3": {
+    "F1": 0.0,
+    "F2": 1798.0853125,
+    "detect_rej1": 350.6000000000005,
+    "undetected1": 0.0,
+    "hybrid_rej1": 0.0,
+    "hybrid_rej2": 12123.31156249999,
+    "hybrid_fail2": 296.33312499999994,
+    "effects": 2249,
+    "signatures": 1764877,
+    "faults": 6672
+   }
+  },
+  "[[5,1,3]]_3 readout=par gates/round=none": {
+   "per_round": {
+    "F1": 2.0499999999999985,
+    "F2": 1449.6853124999989,
+    "detect_rej1": 67.39999999999925,
+    "undetected1": 0.0,
+    "hybrid_rej1": 19.974999999999945,
+    "hybrid_rej2": 6553.1540624999925,
+    "hybrid_fail2": 270.2462499999998
+   },
+   "T2": {
+    "F1": 3.9999999999999987,
+    "F2": 1632.6931249999993,
+    "detect_rej1": 126.8,
+    "undetected1": 0.0,
+    "hybrid_rej1": 34.175,
+    "hybrid_rej2": 5151.4028125,
+    "hybrid_fail2": 431.5871874999999,
+    "effects": 1245,
+    "signatures": 122785,
+    "faults": 2944
+   },
+   "T3": {
+    "F1": 6.049999999999997,
+    "F2": 3082.378437499998,
+    "detect_rej1": 194.19999999999925,
+    "undetected1": 0.0,
+    "hybrid_rej1": 54.14999999999994,
+    "hybrid_rej2": 11704.556874999993,
+    "hybrid_fail2": 701.8334374999997,
+    "effects": 1843,
+    "signatures": 444705,
+    "faults": 4416
+   }
+  },
+  "[[7,1,3]]_3 readout=par gates/round=none": {
+   "per_round": {
+    "F1": 0.6499999999999977,
+    "F2": 1252.717500000001,
+    "detect_rej1": 98.64999999999912,
+    "undetected1": 0.0,
+    "hybrid_rej1": 6.000000000000016,
+    "hybrid_rej2": 7786.480624999987,
+    "hybrid_fail2": 250.12250000000012
+   },
+   "T2": {
+    "F1": 1.3000000000000007,
+    "F2": 1654.539374999999,
+    "detect_rej1": 185.2999999999995,
+    "undetected1": 0.0,
+    "hybrid_rej1": 9.700000000000003,
+    "hybrid_rej2": 8365.810000000005,
+    "hybrid_fail2": 378.57812499999994,
+    "effects": 1865,
+    "signatures": 814837,
+    "faults": 4304
+   },
+   "T3": {
+    "F1": 1.9499999999999984,
+    "F2": 2907.256875,
+    "detect_rej1": 283.9499999999986,
+    "undetected1": 0.0,
+    "hybrid_rej1": 15.700000000000019,
+    "hybrid_rej2": 16152.290624999992,
+    "hybrid_fail2": 628.7006250000001,
+    "effects": 2769,
+    "signatures": 2265021,
+    "faults": 6456
+   }
+  }
+ }
+}

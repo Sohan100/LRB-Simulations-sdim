@@ -1,0 +1,98 @@
+{
+ "0.002|perfect-every-round": {
+  "r_checks_over_p": 0.7600277223997198,
+  "r_const0_over_p": 0.771063142289391,
+  "dr_over_p_fit": -0.01103541988967116,
+  "dr_over_p_fit_boot_std": 0.0018877865340367367,
+  "d_err_slope_over_p": {
+   "mean": -0.011594941956882255,
+   "sem": 0.0024659247059539767,
+   "n": 10
+  },
+  "d_err_at_22": {
+   "mean": -0.000528,
+   "sem": 9.945431360090501e-05,
+   "n": 10
+  }
+ },
+ "0.002|perfect-terminal-only": {
+  "r_checks_over_p": 0.7676486923235137,
+  "r_const0_over_p": 0.7676486923235137,
+  "dr_over_p_fit": 0.0,
+  "dr_over_p_fit_boot_std": 0.0,
+  "d_err_slope_over_p": {
+   "mean": 0.0,
+   "sem": 0.0,
+   "n": 10
+  },
+  "d_err_at_22": {
+   "mean": 0.0,
+   "sem": 0.0,
+   "n": 10
+  }
+ },
+ "0.005|perfect-every-round": {
+  "r_checks_over_p": 0.757673859923258,
+  "r_const0_over_p": 0.768975979810238,
+  "dr_over_p_fit": -0.011302119886980044,
+  "dr_over_p_fit_boot_std": 0.002045839016036774,
+  "d_err_slope_over_p": {
+   "mean": -0.011079021558872304,
+   "sem": 0.0023274372194839158,
+   "n": 10
+  },
+  "d_err_at_22": {
+   "mean": -0.001176,
+   "sem": 0.00022712904908503358,
+   "n": 10
+  }
+ },
+ "0.005|perfect-terminal-only": {
+  "r_checks_over_p": 0.7692340873076575,
+  "r_const0_over_p": 0.7692340873076575,
+  "dr_over_p_fit": 0.0,
+  "dr_over_p_fit_boot_std": 0.0,
+  "d_err_slope_over_p": {
+   "mean": 0.0,
+   "sem": 0.0,
+   "n": 10
+  },
+  "d_err_at_22": {
+   "mean": 0.0,
+   "sem": 0.0,
+   "n": 10
+  }
+ },
+ "0.01|perfect-every-round": {
+  "r_checks_over_p": 0.7552279924477212,
+  "r_const0_over_p": 0.7660190923398091,
+  "dr_over_p_fit": -0.01079109989208793,
+  "dr_over_p_fit_boot_std": 0.0018309688515045343,
+  "d_err_slope_over_p": {
+   "mean": -0.009012852404643449,
+   "sem": 0.0020259075865001305,
+   "n": 10
+  },
+  "d_err_at_22": {
+   "mean": -0.0020183333333333334,
+   "sem": 0.0003935122788176334,
+   "n": 10
+  }
+ },
+ "0.01|perfect-terminal-only": {
+  "r_checks_over_p": 0.7653953923460466,
+  "r_const0_over_p": 0.7653953923460466,
+  "dr_over_p_fit": 0.0,
+  "dr_over_p_fit_boot_std": 0.0,
+  "d_err_slope_over_p": {
+   "mean": 0.0,
+   "sem": 0.0,
+   "n": 10
+  },
+  "d_err_at_22": {
+   "mean": 0.0,
+   "sem": 0.0,
+   "n": 10
+  }
+ }
+}

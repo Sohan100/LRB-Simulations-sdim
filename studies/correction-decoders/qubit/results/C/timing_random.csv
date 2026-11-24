@@ -1,0 +1,25 @@
+p,depth,n_shots,nonzero_frac,n_unique_nonzero,decoder,single_shot_latency_us_median,per_call_us_random_shots,per_call_us_random_distinct,throughput_us_per_shot,throughput_mode
+0.005,6,50000,0.9669,33550,mld,533.2,,,5.505,vectorized batch
+0.005,6,50000,0.9669,33550,lut_w3_joint,205.1,,,0.1748,vectorized batch
+0.005,6,50000,0.9669,33550,bposd_cs7,,1067,1254,841.3,per-call x distinct / shots
+0.005,6,50000,0.9669,33550,bposd_cs7_serial,,5676,6141,4121,per-call x distinct / shots
+0.005,6,50000,0.9669,33550,bplsd_cs7_always,,600.3,721.3,484,per-call x distinct / shots
+0.005,6,50000,0.9669,33550,uf_dn,,803.7,910.6,611,per-call x distinct / shots
+0.005,22,50000,1,49998,mld,1231,,,14.22,vectorized batch
+0.005,22,50000,1,49998,lut_w3_joint,1140,,,0.7191,vectorized batch
+0.005,22,50000,1,49998,bposd_cs7,,8641,7056,7056,per-call x distinct / shots
+0.005,22,50000,1,49998,bposd_cs7_serial,,2.038e+04,1.879e+04,1.879e+04,per-call x distinct / shots
+0.005,22,50000,1,49998,bplsd_cs7_always,,1930,1406,1406,per-call x distinct / shots
+0.005,22,50000,1,49998,uf_dn,,1368,1376,1376,per-call x distinct / shots
+0.0005,6,50000,0.2899,1948,mld,230.1,,,3.196,vectorized batch
+0.0005,6,50000,0.2899,1948,lut_w3_joint,133,,,0.1075,vectorized batch
+0.0005,6,50000,0.2899,1948,bposd_cs7,,317.8,473.9,18.46,per-call x distinct / shots
+0.0005,6,50000,0.2899,1948,bposd_cs7_serial,,2492,2554,99.52,per-call x distinct / shots
+0.0005,6,50000,0.2899,1948,bplsd_cs7_always,,207.3,281.5,10.97,per-call x distinct / shots
+0.0005,6,50000,0.2899,1948,uf_dn,,271,353.3,13.76,per-call x distinct / shots
+0.0005,22,50000,0.692,15892,mld,659.9,,,11.78,vectorized batch
+0.0005,22,50000,0.692,15892,lut_w3_joint,464.1,,,0.45,vectorized batch
+0.0005,22,50000,0.692,15892,bposd_cs7,,2476,3714,1181,per-call x distinct / shots
+0.0005,22,50000,0.692,15892,bposd_cs7_serial,,8025,1.033e+04,3285,per-call x distinct / shots
+0.0005,22,50000,0.692,15892,bplsd_cs7_always,,686.1,870.3,276.6,per-call x distinct / shots
+0.0005,22,50000,0.692,15892,uf_dn,,628.9,688,218.7,per-call x distinct / shots

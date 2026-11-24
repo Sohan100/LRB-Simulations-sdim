@@ -1,0 +1,26 @@
+{
+ "kind": "flags",
+ "probs": [
+  0.0005,
+  0.002,
+  0.005
+ ],
+ "depths": [
+  0,
+  2,
+  4,
+  6,
+  10
+ ],
+ "shots": 10000,
+ "num_seq": 6,
+ "seq_seed": 20261028,
+ "configs": {
+  "none": "(None, 'standard')",
+  "ideal_standard": "('ideal', 'standard')",
+  "ideal_wrap": "('ideal', 'wrap')",
+  "noisy_standard": "('noisy', 'standard')",
+  "noisy_wrap": "('noisy', 'wrap')"
+ },
+ "started": "2026-10-28 20:48:33"
+}

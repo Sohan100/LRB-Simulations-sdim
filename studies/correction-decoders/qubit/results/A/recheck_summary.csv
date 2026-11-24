@@ -1,0 +1,2 @@
+kind,seq,depth,p,sdim_shots,marginals,max_abs_z,argmax,min_p_holm,ks_p,mean_z,sd_z,stim_null_replicates,stim_null_max_abs_z_median,stim_null_max_abs_z_95pct,p_max_abs_z_vs_stim_null
+lrb,0,22,0.005,1000000,185,2.94876,raw_r5_s1,0.5902456,0.1881984,-0.08614336,0.9652924,40,2.878922,3.808902,0.4634146

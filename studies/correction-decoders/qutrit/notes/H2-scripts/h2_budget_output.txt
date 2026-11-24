@@ -1,0 +1,88 @@
+====================================================================================================
+T1  durations (inputs: literature where cited in PLATFORM, otherwise labelled estimates)
+  ion (40Ca+ qutrits)
+    check round     9.5600 ms (round / T2 = 0.0956); logical Clifford    1.4244 ms
+    shot: m=0 19.56 ms, m=2 44.38 ms, m=6 94.01 ms, m=10 143.6 ms, m=22 292.6 ms; coherent part of an m=22 shot / T2 = 2.83
+  qubit pairs on QCCD ions
+    check round   134.0000 ms (round / T2 = 0.134); logical Clifford   34.0920 ms
+    shot: m=0 154 ms, m=2 558.4 ms, m=6 1367 ms, m=10 2176 ms, m=22 4602 ms; coherent part of an m=22 shot / T2 = 4.58
+  transmon qutrits
+    check round     0.0063 ms (round / T2 = 0.372); logical Clifford    0.0024 ms
+    shot: m=0 0.1063 ms, m=2 0.1286 ms, m=6 0.1733 ms, m=10 0.2179 ms, m=22 0.3517 ms; coherent part of an m=22 shot / T2 = 14.8
+  neutral atoms (qubit timings; no qudit gate exists)
+    check round     1.5070 ms (round / T2 = 0.00151); logical Clifford    0.0112 ms
+    shot: m=0 101.5 ms, m=2 104.6 ms, m=6 110.7 ms, m=10 116.8 ms, m=22 135.2 ms; coherent part of an m=22 shot / T2 = 0.0352
+====================================================================================================
+T2  wall clock for 30 sequences x 9 depths x N shots per circuit
+  ion (40Ca+ qutrits)                                 : one shot of every circuit        41 s; N=1e3      11.4 h; N=1e4      4.75 d; N=1e6       475 d
+  qubit pairs on QCCD ions                            : one shot of every circuit       624 s; N=1e3       173 h; N=1e4      72.2 d; N=1e6  7.22e+03 d
+  transmon qutrits                                    : one shot of every circuit    0.0608 s; N=1e3    0.0169 h; N=1e4   0.00704 d; N=1e6     0.704 d
+  neutral atoms (qubit timings; no qudit gate exists) : one shot of every circuit      31.8 s; N=1e3      8.84 h; N=1e4      3.68 d; N=1e6       368 d
+====================================================================================================
+T3  shots per circuit for +-10% (1 s.e.) on r = 2(1 - f)/3 from depths {0, M}, shot noise only,
+    30 sequences per depth; variance of the signed estimate (1 - lam)(1 + 2 lam)/(2 N_acc) (A8)
+  model si1000_1e-3
+    MLD correction : r = 0.0121 (depths 0 and 10); acceptance at M 1; shots per circuit 38.7; between-sequence sd of lam at M 0.00934 -> relative floor on r with 30 sequences 0.011
+    LRB-D unif 1   : r = 2.07e-05 (depths 0 and 10); acceptance at M 0.307; shots per circuit 1.75e+06; between-sequence sd of lam at M 2.4e-05 -> relative floor on r with 30 sequences 0.014
+    LRB-D const 1  : r = 0.000307 (depths 0 and 10); acceptance at M 0.462; shots per circuit 8.18e+03; between-sequence sd of lam at M 0.000213 -> relative floor on r with 30 sequences 0.0086
+  model si1000_2e-3
+    MLD correction : r = 0.0264 (depths 0 and 10); acceptance at M 1; shots per circuit 21; between-sequence sd of lam at M 0.0127 -> relative floor on r with 30 sequences 0.0088
+    LRB-D unif 1   : r = 9.89e-05 (depths 0 and 6); acceptance at M 0.231; shots per circuit 5.58e+05; between-sequence sd of lam at M 0.000142 -> relative floor on r with 30 sequences 0.03
+    LRB-D const 1  : r = 0.00164 (depths 0 and 10); acceptance at M 0.219; shots per circuit 1.7e+03; between-sequence sd of lam at M 0.001 -> relative floor on r with 30 sequences 0.0077
+  model si1000_5e-3
+    MLD correction : r = 0.0808 (depths 0 and 6); acceptance at M 1; shots per circuit 16.3; between-sequence sd of lam at M 0.0254 -> relative floor on r with 30 sequences 0.014
+    LRB-D unif 1   : r = 0.000762 (depths 0 and 4); acceptance at M 0.079; shots per circuit 1.53e+05; between-sequence sd of lam at M 0.000629 -> relative floor on r with 30 sequences 0.026
+    LRB-D const 1  : r = 0.0248 (depths 0 and 10); acceptance at M 0.0335; shots per circuit 613; between-sequence sd of lam at M 0.00845 -> relative floor on r with 30 sequences 0.0061
+  model ion_now
+    MLD correction : r = 0.0775 (depths 0 and 10); acceptance at M 1; shots per circuit 15.8; wall clock for both depths 0.0215 h; between-sequence sd of lam at M 0.0113 -> relative floor on r with 30 sequences 0.0059
+    LRB-D unif 1   : r = 0.000663 (depths 0 and 6); acceptance at M 0.0803; shots per circuit 1.23e+05; wall clock for both depths 117 h; between-sequence sd of lam at M 0.000984 -> relative floor on r with 30 sequences 0.032
+    LRB-D const 1  : r = 0.0212 (depths 0 and 10); acceptance at M 0.0384; shots per circuit 645; wall clock for both depths 0.877 h; between-sequence sd of lam at M 0.0117 -> relative floor on r with 30 sequences 0.0095
+  model ion_slowread
+    MLD correction : r = 0.0963 (depths 0 and 6); acceptance at M 1; shots per circuit 16.1; wall clock for both depths 0.0152 h; between-sequence sd of lam at M 0.0367 -> relative floor on r with 30 sequences 0.019
+    LRB-D unif 1   : r = 0.00142 (depths 0 and 4); acceptance at M 0.136; shots per circuit 6.86e+04; wall clock for both depths 50.8 h; between-sequence sd of lam at M 0.00135 -> relative floor on r with 30 sequences 0.032
+    LRB-D const 1  : r = 0.0379 (depths 0 and 10); acceptance at M 0.026; shots per circuit 692; wall clock for both depths 0.941 h; between-sequence sd of lam at M 0.0138 -> relative floor on r with 30 sequences 0.0083
+  model ion_worstidle
+    MLD correction : r = 0.139 (depths 0 and 4); acceptance at M 1; shots per circuit 19; wall clock for both depths 0.0141 h; between-sequence sd of lam at M 0.034 -> relative floor on r with 30 sequences 0.019
+    LRB-D unif 1   : r = 0.00477 (depths 0 and 4); acceptance at M 0.0695; shots per circuit 2.66e+04; wall clock for both depths 19.7 h; between-sequence sd of lam at M 0.00419 -> relative floor on r with 30 sequences 0.034
+    LRB-D const 1  : r = 0.0392 (depths 0 and 6); acceptance at M 0.0396; shots per circuit 874; wall clock for both depths 0.827 h; between-sequence sd of lam at M 0.0323 -> relative floor on r with 30 sequences 0.028
+  model ion_next
+    MLD correction : r = 0.0181 (depths 0 and 10); acceptance at M 1; shots per circuit 26; wall clock for both depths 0.0353 h; between-sequence sd of lam at M 0.00547 -> relative floor on r with 30 sequences 0.0048
+    LRB-D unif 1   : r = 3.32e-05 (depths 0 and 10); acceptance at M 0.298; shots per circuit 6.45e+05; wall clock for both depths 877 h; between-sequence sd of lam at M 4.16e-05 -> relative floor on r with 30 sequences 0.015
+    LRB-D const 1  : r = 0.000614 (depths 0 and 10); acceptance at M 0.347; shots per circuit 3.19e+03; wall clock for both depths 4.34 h; between-sequence sd of lam at M 0.000403 -> relative floor on r with 30 sequences 0.0081
+  model qubit_pairs
+    MLD correction : r = 0.0772 (depths 0 and 6); acceptance at M 1; shots per circuit 15.1; wall clock for both depths 0.191 h; between-sequence sd of lam at M 0.0394 -> relative floor on r with 30 sequences 0.021
+    LRB-D unif 1   : r = 0.000569 (depths 0 and 6); acceptance at M 0.0656; shots per circuit 8.15e+04; wall clock for both depths 1.03e+03 h; between-sequence sd of lam at M 0.00105 -> relative floor on r with 30 sequences 0.038
+    LRB-D const 1  : r = 0.0273 (depths 0 and 10); acceptance at M 0.031; shots per circuit 578; wall clock for both depths 11.2 h; between-sequence sd of lam at M 0.0315 -> relative floor on r with 30 sequences 0.021
+  model transmon_opt
+    MLD correction : r = 0.111 (depths 0 and 6); acceptance at M 1; shots per circuit 14.6; wall clock for both depths 3.4e-05 h; between-sequence sd of lam at M 0.0274 -> relative floor on r with 30 sequences 0.014
+    LRB-D unif 1   : r = 0.000839 (depths 0 and 4); acceptance at M 0.0526; shots per circuit 1.06e+05; wall clock for both depths 0.228 h; between-sequence sd of lam at M 0.000629 -> relative floor on r with 30 sequences 0.023
+    LRB-D const 1  : r = 0.0214 (depths 0 and 6); acceptance at M 0.0536; shots per circuit 621; wall clock for both depths 0.00145 h; between-sequence sd of lam at M 0.0199 -> relative floor on r with 30 sequences 0.023
+====================================================================================================
+T4  literature latencies relative to one check round of each platform
+    latency                                                                ion (40Ca+ qutrits   transmon qutrits
+    QICK branch on a measured value (42 ns) [St21]                                   4.39e-06            0.00663
+    QICK readout-to-next-pulse total (184-211 ns) [St21]                             2.21e-05             0.0333
+    OPX-family readout-to-conditional pulse (428 ns) [Cao26]                         4.48e-05             0.0676
+    ZI PQSC global feedback (< 550 ns) [ZI-PQSC]                                     5.75e-05             0.0869
+    Qblox LINQ multi-cast thresholded bits (472 ns, no I/O) [QB]                     4.94e-05             0.0745
+    Riverlane FPGA decoder response, 9 rounds (9.6 us) [Ca24]                           0.001               1.52
+    GPU link round trip (3.84 us mean) [NV25b]                                       0.000402              0.606
+    Google workstation decoder latency (63 us) [A25]                                  0.00659               9.95
+    GPU BP+OSD median decode, Helios (67 us) [NV25b]                                  0.00701               10.6
+    Neutral-atom readout + FPGA feedforward cycle (< 1 ms) [Bl24]                       0.105                158
+    AQT ion controller real-time feedback (~5 us) [P21]                              0.000523               0.79
+    Quantinuum conditional-information distribution (< 250 us) [RA21]                  0.0262               39.5
+====================================================================================================
+T5  probabilistic two-qudit gates with success 1/d per gate (Chi et al. 2022 scheme at d = 3)
+  one check round (12 gates): 1.882e-06; a depth-22 shot (~413 gates): 10^-197.1
+====================================================================================================
+T6  baseline LRB-D at large p (read-only CSVs, 1000000 shots per circuit): accepted-shot fidelity versus
+    the Rayleigh floor sqrt(pi/(4 N_acc)) of the legacy metric |mean(w^k)| for uniformly random outcomes
+  p = 0.0125  const 1: m=6: F 0.1895, rej 0.98490, floor 0.0072; m=10: F 0.0157, rej 0.98755, floor 0.0079; m=22: F 0.0070, rej 0.98767, floor 0.0080  (1 - 1/81 = 0.98765)
+  p = 0.0125  unif 1: m=6: F 0.8458, rej 0.99988, floor 0.0813; m=10: F nan, rej 1.00000, floor 1.1136; m=22: F nan, rej 1.00000, floor nan  (1 - 1/81 = 0.98765)
+  p = 0.015   const 1: m=6: F 0.0781, rej 0.98669, floor 0.0077; m=10: F 0.0082, rej 0.98766, floor 0.0080; m=22: F 0.0086, rej 0.98767, floor 0.0080  (1 - 1/81 = 0.98765)
+  p = 0.015   unif 1: m=6: F 0.8380, rej 0.99998, floor 0.1965; m=10: F nan, rej 1.00000, floor 4.8541; m=22: F nan, rej 1.00000, floor nan  (1 - 1/81 = 0.98765)
+  p = 0.03    const 1: m=6: F 0.0075, rej 0.98765, floor 0.0080; m=10: F 0.0084, rej 0.98769, floor 0.0080; m=22: F 0.0080, rej 0.98766, floor 0.0080  (1 - 1/81 = 0.98765)
+  p = 0.03    unif 1: m=6: F nan, rej 1.00000, floor nan; m=10: F nan, rej 1.00000, floor nan; m=22: F nan, rej 1.00000, floor nan  (1 - 1/81 = 0.98765)
+  p = 0.05    const 1: m=6: F 0.0075, rej 0.98765, floor 0.0080; m=10: F 0.0070, rej 0.98766, floor 0.0080; m=22: F 0.0094, rej 0.98764, floor 0.0080  (1 - 1/81 = 0.98765)
+  p = 0.05    unif 1: m=6: F nan, rej 1.00000, floor nan; m=10: F nan, rej 1.00000, floor nan; m=22: F nan, rej 1.00000, floor nan  (1 - 1/81 = 0.98765)

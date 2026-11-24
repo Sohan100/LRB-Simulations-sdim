@@ -1,0 +1,17 @@
+q,noise,compile,k,p_star,method
+5,sd6,production,1,0.08,no_permanent_regime_min_tail_violations
+5,sd6,production,2,0.06,no_permanent_regime_min_tail_violations
+5,sd6,production,3,0.12,no_permanent_regime_min_tail_violations
+5,sd6,production,4,0.12,no_permanent_regime_min_tail_violations
+5,si1000,production,1,0.057481818537390414,permanent_regime_interp
+5,si1000,production,2,0.050773075242917964,permanent_regime_interp
+5,si1000,production,3,0.045,permanent_regime_no_interp
+5,si1000,production,4,0.045,permanent_regime_no_interp
+7,sd6,production,1,0.055,no_permanent_regime_min_tail_violations
+7,sd6,production,2,,insufficient_points
+7,sd6,production,3,0.12,no_permanent_regime_min_tail_violations
+7,sd6,production,4,0.12,no_permanent_regime_min_tail_violations
+7,si1000,production,1,0.07484351534254197,permanent_regime_no_consecutive_interp
+7,si1000,production,2,0.06,no_permanent_regime_min_tail_violations
+7,si1000,production,3,0.045,permanent_regime_no_interp
+7,si1000,production,4,0.045,permanent_regime_no_interp

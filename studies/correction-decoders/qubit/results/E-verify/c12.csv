@@ -1,0 +1,7 @@
+test,qubit1,fold_pair,syndrome_qubit1,syndrome_pair,same_syndrome,product,product_commutes_with_stabilizers,product_in_stabilizer_group,product_anticommutes_XL,product_anticommutes_ZL,equals_up_to_sign,fault_locations,pair_faults,with_unique_qubit1_twin,differ_in_observable,qubit1_faults_flipping_observable,per_gate_flip_fraction
+algebra,_X___,__XX_,"(1, 1, 0, 0)","(1, 1, 0, 0)",True,+_XXX_,True,False,False,True,,,,,,,
+algebra,_Z___,__ZZ_,"(0, 0, 1, 1)","(0, 0, 1, 1)",True,+_ZZZ_,True,False,True,False,,,,,,,
+algebra,_Y___,__YY_,"(1, 1, 1, 1)","(1, 1, 1, 1)",True,+_YYY_,True,False,True,True,,,,,,,
+decomposition,,__XX_,,,,+__XX_,,,,,True,,,,,,
+decomposition,,__ZZ_,,,,+__ZZ_,,,,,True,,,,,,
+injection,,,,,,,,,,,,306,918,918,612,0,"{'CZ': 0.6666666666666666, 'SWAP': 0.6666666666666666}"

@@ -1,0 +1,7 @@
+I1: True True
+I2: True True
+I3: P diagonal True ; P = [ 1. +0.j     1. +0.j    -0.5+0.866j]
+I4: single-qutrit part of logical H maps the stabilizer group onto its 2<->3 relabelling: True
+    images of X_L, Z_L under the layer: ([0, 0, 0, 0, 0], [1, 0, 0, 1, 0]) ([2, 0, 2, 0, 0], [0, 0, 0, 0, 0])
+I5: F_pro of 2-qutrit SI1000 depolarizing (p=0.05), computed: 0.95
+I6: IQM Reset_F0G1_Composite (prx_12 then f0g1) on |0>,|1>,|2> -> [0, 0, 1] ; f0g1, prx_12, f0g1 -> [0, 0, 0]
