@@ -34,6 +34,10 @@ free and a logical S for about half a round.
 
 ## What is where
 
+Project notes, meetings and the to-do list are in [`notes/`](notes/); open questions are discussed in
+[`notes/discussions/`](notes/discussions/).
+
+
 | folder | what |
 |---|---|
 | [`src/lrb/`](src/lrb/) | the package: codes and layouts, circuit generation, simulation, fits and plots |
@@ -44,6 +48,7 @@ free and a logical S for about half a round.
 | [`layouts/`](layouts/) | one page per hardware layout, and the folded surface code at any distance |
 | [`studies/`](studies/) | side studies, each with its own report |
 | [`manuscript/`](manuscript/) | the paper: the current simulation and hardware versions and the Overleaf history |
+| [`notes/`](notes/) | meeting notes (`notes/meetings/`), the to-do list (`notes/TODO.md`) and discussion threads (`notes/discussions/`) |
 | [`LRB-experiment-data-slurm/`](LRB-experiment-data-slurm/) | run results and the cross-run comparisons |
 | [`docs/`](docs/) | the simulation model and how to run a campaign |
 
