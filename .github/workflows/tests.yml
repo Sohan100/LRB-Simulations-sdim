@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          lfs: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -27,5 +25,18 @@ jobs:
           python-version: "3.11"
           cache: pip
       - run: pip install -e ".[dev,memory,decoders]"
-      # tests that need the gitignored production circuit files skip themselves
-      - run: pytest
+      - run: pip freeze
+      # tests that need the gitignored production circuit files skip themselves;
+      # on failure the end of the pytest output is attached to the run as an annotation
+      - name: pytest
+        shell: bash
+        run: |
+          set +e
+          pytest 2>&1 | tee pytest.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            msg=$(grep -E "^(ERROR|FAILED|E  )|Error|error|Interrupted" pytest.log | tail -60 | sed -e 's/%/%25/g' -e 's/\r//g' | awk 'BEGIN{ORS="%0A"} {print}')
+            echo "::error title=pytest failed (exit $status)::$msg"
+            tail -40 pytest.log | sed -e 's/%/%25/g' -e 's/\r//g' | awk 'BEGIN{ORS="%0A"} {print}' | sed 's/^/::error title=pytest tail::/'
+          fi
+          exit $status
