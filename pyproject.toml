@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lrb-sdim"
+version = "1.0.0"
+description = "Logical randomized benchmarking with error detection (LRB-D) for small qudit codes, simulated with sdim"
+readme = "README.md"
+license = { text = "GPL-3.0-or-later" }
+authors = [{ name = "Sohan Ghosh" }]
+requires-python = ">=3.11"
+dependencies = [
+    "sdim==1.4.0",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pandas>=2.1",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+# running the result notebooks headless (scripts/execute_notebook.py)
+notebooks = ["nbformat>=5.9", "nbclient>=0.8", "ipykernel>=6.28"]
+# the folded-surface-code memory study (layouts/folded-surface-code/memory)
+memory = ["stim>=1.15", "pymatching>=2.2", "sinter>=1.15"]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.urls]
+Repository = "https://github.com/Sohan100/LRB-Simulations-sdim"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "scripts"]
+addopts = "-ra -p no:cacheprovider"
+markers = [
+    "production_data: needs the local (gitignored) circuit files of a production run",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["manuscript", "LRB-experiment-data-slurm", "notebooks"]
+
+[tool.ruff.lint]
+# pyflakes and the syntax-error checks: real bugs only, no style churn on the simulation code
+select = ["E9", "F63", "F7", "F82", "F401", "F811", "F841"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+# lrb_simulation.py is part of the run-checkpoint fingerprint; leave its source untouched
+"src/lrb/lrb_simulation.py" = ["F401", "F841"]

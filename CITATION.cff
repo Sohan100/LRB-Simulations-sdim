@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use this code or its results, please cite the repository and the sdim paper."
+title: "LRB-Simulations-sdim: logical randomized benchmarking with error detection for qudit codes"
+type: software
+authors:
+  - family-names: Ghosh
+    given-names: Sohan
+    affiliation: "University of California, Davis"
+license: GPL-3.0-or-later
+repository-code: "https://github.com/Sohan100/LRB-Simulations-sdim"
+keywords:
+  - logical randomized benchmarking
+  - qudits
+  - quantum error detection
+  - folded surface code
+  - stabilizer simulation
+references:
+  - type: article
+    title: "Sdim: A Qudit Stabilizer Simulator"
+    authors:
+      - family-names: Kabir
+        given-names: Adeeb
+      - family-names: Nguyen
+        given-names: Steven
+      - family-names: Ghosh
+        given-names: Sohan
+      - family-names: Keppens
+        given-names: James
+      - family-names: Kiran
+        given-names: Tijil
+      - family-names: Kim
+        given-names: Isaac H.
+      - family-names: Huang
+        given-names: Yipeng
+      - family-names: Sorée
+        given-names: Bart
+    year: 2025
+    identifiers:
+      - type: other
+        value: "arXiv:2511.12777"

@@ -34,8 +34,9 @@ GOLDEN_DEFAULT_TREE = {
     ("folded_qutrit", "sd6"): "6230bd42cdea03577adabf73f048ff59c2dbf1de15a3509e037a0e7048835dad",
     ("folded_qutrit_split_unif", "si1000"): "6da2dd2bd14a5ced40d07ffc883996444b553870b7c695ed1b946dea80ab7b84",
 }
-PRODUCTION_RUN = os.path.join(
-    REPO, "LRB-experiment-data-slurm", "Run-2026-10-28-10-24-46-folded_qutrit-single-ancilla-sd6-sdim140")
+# The .chp circuit files are gitignored; LRB_RUNS_ROOT can point at a checkout that has them.
+RUNS_ROOT = os.environ.get("LRB_RUNS_ROOT", os.path.join(REPO, "LRB-experiment-data-slurm"))
+PRODUCTION_RUN = os.path.join(RUNS_ROOT, "Run-2026-10-28-10-24-46-folded_qutrit-single-ancilla-sd6-sdim140")
 
 
 def make_generator(code: str, noise: str, **kwargs) -> LRBCircuitGenerator:
@@ -88,7 +89,9 @@ def test_unknown_inverse_mode_is_rejected():
         make_generator("folded_qutrit", "sd6", inverse_mode="reverse")
 
 
-@pytest.mark.skipif(not os.path.isdir(PRODUCTION_RUN), reason="production run folder not present")
+@pytest.mark.production_data
+@pytest.mark.skipif(not os.path.isdir(os.path.join(PRODUCTION_RUN, "experiments")),
+                    reason="production circuit files not present (set LRB_RUNS_ROOT)")
 def test_default_generator_reproduces_production_chp_files():
     spec = importlib.util.spec_from_file_location(
         "verify_default_circuits_unchanged", os.path.join(REPO, "scripts", "verify_default_circuits_unchanged.py"))

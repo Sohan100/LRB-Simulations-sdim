@@ -73,7 +73,7 @@ QUBIT_LAYOUT_B_CURRENT_SUMMARY = (
 PROD5B_CURRENT_SUMMARY = COMPARISONS / "pseudo-thresholds-prod5b-current"
 QUBIT_PROD5B_CURRENT_SUMMARY = COMPARISONS / "pseudo-thresholds-qubit-prod5b-current"
 CHECK_MIN, CHECK_MAX = 1, 4
-# Same settings as `Visualize LRB DEM SI1000 SD6 Results.ipynb`.
+# Same settings as `notebooks/04-qutrit-one-and-relay-two-ancilla-si1000-sd6.ipynb`.
 FIT_CONFIG = LRBPlotFitConfig(
     a_fixed=0.0,
     y_ceiling=1.0,

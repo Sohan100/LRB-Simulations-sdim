@@ -3037,6 +3037,7 @@ class LRBResultsPlotter:
         threshold: dict[str, float | str | int | None],
         cfg: LRBThresholdConfig,
         show: bool,
+        rb_p: np.ndarray | None = None,
     ) -> str:
         """
         Plot LRB(lambda) and RB(p) error curves with threshold-focused zoom.

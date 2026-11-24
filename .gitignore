@@ -29,3 +29,43 @@ artifacts/
 
 # Local search index
 ._dbindex_/
+
+# Local working folders (drafts, figure work, reviews); the curated copy is manuscript/
+paper-rework/
+
+# Collaborator hardware data, not cleared for the public repository
+hardware-noise/
+LRB-experiment-data-slurm/comparisons/hardware-noise-s13/
+LRB-experiment-data-slurm/*hwS13*/
+LRB-experiment-data-slurm/*dep2ctl*/
+
+# Job logs, locks and caches
+/*.out
+/*.err
+slurm-*.out
+slurm-*.err
+LRB-experiment-data-slurm/**/logs_local/
+LRB-experiment-data-slurm/**/*.lock
+LRB-experiment-data-slurm/local-runner/status*
+LRB-experiment-data-slurm/local-runner/STOP*
+LRB-experiment-data-slurm/local-runner/*.pid
+LRB-experiment-data-slurm/local-runner/*.log
+*.pkl
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# LaTeX build products
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+manuscript/**/*.log
+layouts/**/*.log
+manuscript/**/*.out
+layouts/**/*.out

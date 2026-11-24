@@ -118,7 +118,7 @@ SD6 0.37-0.41. The one-ancilla values are 0.30-0.38 and 0.47-0.56.
 ## Figures and tables
 
 - **Per-run fit plots and threshold grids.** In each run's `results/plots/`, made by
-  `Visualize LRB DEM Layout B SI1000 SD6 Results.ipynb` in the worktree (internal file name). These are the
+  `notebooks/07-two-ancilla-layout-si1000-sd6.ipynb` in the worktree (internal file name). These are the
   counterparts of the paper's `figures/sdim140/*-conv-*.pdf`. The merged threshold grids are in
   `comparisons/sdim140-layout-b-{sd6,si1000}-highp-merged/` and
   `comparisons/sdim140-qubit-layout-b-*-refine-merged/`.

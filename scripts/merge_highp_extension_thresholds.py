@@ -4,7 +4,7 @@ At high p with frequent checks almost every shot is rejected after depth 2, so
 the production depth grid (0, 2, 4, ...) leaves two-point LRB fits there. An
 extension run with odd depths and more shots replaces the production rows at
 p >= --split-p; production rows below it are kept. Fit and threshold settings
-match ``Visualize LRB DEM SI1000 SD6 Results.ipynb``. Outputs go to a separate
+match ``notebooks/04-qutrit-one-and-relay-two-ancilla-si1000-sd6.ipynb``. Outputs go to a separate
 folder, so the production run's plots and tables are untouched.
 
 Usage (from the repository root):

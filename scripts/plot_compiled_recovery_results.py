@@ -60,7 +60,7 @@ RUNS = {
     ),
 }
 
-# Same settings as `Visualize LRB DEM SI1000 SD6 Results.ipynb`.
+# Same settings as `notebooks/04-qutrit-one-and-relay-two-ancilla-si1000-sd6.ipynb`.
 PAPER_CONFIG = LRBPaperPlotConfig(
     enabled=True,
     column_layout="double",
