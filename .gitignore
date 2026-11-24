@@ -69,3 +69,6 @@ manuscript/**/*.log
 layouts/**/*.log
 manuscript/**/*.out
 layouts/**/*.out
+
+# Raw sinter statistics of the memory study (per-task counts are in results/stats.csv)
+layouts/folded-surface-code/memory/results/raw/

@@ -1,0 +1,308 @@
+% ============================================================
+% garnet-connectivity.tex
+% Which LRB-D circuits fit IQM Garnet's square-lattice coupler graph.
+% Ground truth: FACTS.md in this folder. Drawn at final printed size (scale 1).
+% ============================================================
+\documentclass[tikz,border=2pt]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{pifont}            % \ding{51} check mark, \ding{55} cross
+\usetikzlibrary{calc}
+
+% 8 pt and 9 pt labels get 7 pt subscripts (LaTeX default would be 6 pt).
+\DeclareMathSizes{8}{8}{7}{5}
+\DeclareMathSizes{9}{9}{7}{5}
+
+% ---------- palette (paper: tikz preamble.tex) ----------
+\definecolor{Zcol}{HTML}{FF1744}
+\definecolor{Xcol}{HTML}{00B7FF}
+\definecolor{HCol}{HTML}{D35400}
+\definecolor{SwapCol}{HTML}{8E44AD}   % logical-gate coupling q2-q3, as in the paper
+\colorlet{GateCol}{SwapCol!80!black}   % SwapCol darkened so q2-q3 stays dark in grayscale
+\definecolor{FitCol}{HTML}{009E73}    % Okabe-Ito bluish green: "fits"
+\colorlet{ClashCol}{Zcol!85!black}     % "does not fit", coupling joining equal shades
+\colorlet{SubLight}{white}             % sublattice (x+y) even; ancillas in (d), (e)
+\colorlet{SubDark}{black!25}           % sublattice (x+y) odd;  data qutrits in (d), (e)
+\colorlet{IdxLight}{black!60}          % QB index on a light site
+\colorlet{IdxDark}{black!78}           % QB index on a dark site (about 5.5:1 contrast)
+\colorlet{CouplerGray}{black!25}       % Garnet coupler that the circuit does not use
+\colorlet{ContextGray}{black!35}       % (d), (e): needed coupling that is not on a loop
+\colorlet{OffLoopText}{black!72}       % (d), (e): label of a qutrit off the loops
+\colorlet{PathTint}{SwapCol!22}        % (b), (c): shortest q2...q3 path
+
+% ---------- sizes ----------
+\def\s{1.00}          % lattice constant (cm)
+\def\Rp{0.95}         % pentagon circumradius (cm): side 1.12 cm, 0.72 cm of line between rims
+\def\wThin{0.6pt}     % unused coupler
+\def\wUsed{1.5pt}     % coupling needed by the circuit
+\def\wCtx{1.0pt}      % needed coupling, not on a loop
+\def\wRim{0.8pt}      % rim of a placed qutrit / loop node
+\def\wRimFaint{0.5pt} % rim of an empty site / off-loop node
+\def\wMiss{1.2pt}     % needed coupling that Garnet lacks (dashed)
+
+\tikzset{
+  every node/.style={font=\footnotesize},
+  site/.style={circle,inner sep=0pt,minimum size=0.40cm,line width=\wRimFaint,
+               draw=black!45,font=\scriptsize},
+  qudit/.style={circle,inner sep=0pt,minimum size=0.40cm,line width=\wRim,
+               draw=black,text=black,font=\footnotesize},
+  offloop/.style={circle,inner sep=0pt,minimum size=0.40cm,line width=\wRimFaint,
+               draw=black!45,text=OffLoopText,font=\footnotesize},
+  unused/.style={line width=\wThin,draw=CouplerGray},
+  used/.style={line width=\wUsed,draw=black},
+  gate/.style={line width=\wUsed,draw=GateCol},
+  context/.style={line width=\wCtx,draw=ContextGray},
+  missing/.style={line width=\wMiss,draw=ClashCol,line cap=butt,dash pattern=on 2.6pt off 1.9pt},
+  path/.style={line width=6.5pt,draw=PathTint},
+  paneltitle/.style={font=\footnotesize,anchor=base west,inner sep=0pt},
+  verdict/.style={font=\footnotesize,anchor=base,inner sep=0pt},
+  count/.style={font=\scriptsize,inner sep=0pt},
+}
+
+% ============================================================
+% Garnet: site QB<n> at lattice point (x,y)   [FACTS.md table]
+% Drawn with y pointing down, so QB1 is at the top (IQM's numbering order).
+% ============================================================
+\def\GarnetSites{%
+  1/0/-1, 2/1/-1,
+  3/-1/0, 4/0/0, 5/1/0, 6/2/0, 7/3/0,
+  8/-1/1, 9/0/1, 10/1/1, 11/2/1, 12/3/1,
+  13/-1/2, 14/0/2, 15/1/2, 16/2/2, 17/3/2,
+  18/0/3, 19/1/3, 20/2/3}
+% Garnet couplers: qubit_connectivity of IQM's fake_garnet.py, 30 pairs [FACTS.md]
+\def\GarnetCouplers{%
+  1/2, 1/4, 2/5, 3/4, 8/3, 4/5, 9/4, 5/6, 10/5, 6/7,
+  11/6, 12/7, 8/9, 8/13, 9/10, 9/14, 10/11, 10/15, 11/12,
+  16/11, 17/12, 13/14, 14/15, 18/14, 16/15, 19/15, 16/17,
+  16/20, 18/19, 19/20}
+
+% ---------- placements drawn in (a) and (b): role/QB/label ----------
+% (a) terminal postselection (const-0)   [FACTS.md result 1]
+\def\PlaceTerminal{q0/14/q_0, q1/9/q_1, q2/10/q_2, q3/15/q_3, q4/11/q_4}
+% (b) one-ancilla check round             [FACTS.md result 2]
+\def\PlaceOneAnc{q1/9/q_1, q0/5/q_0, q2/15/q_2, q3/3/q_3, q4/13/q_4,
+                 a1/4/a_1, a2/14/a_2, a3/10/a_3, a4/8/a_4}
+% (c) intended two-ancilla layout: conventional grid, q2 at the centre  [FACTS.md item 7]
+%     ancilla sites N, W, E, S between the data
+\def\PlaceGrid{q2/9/q_2, q0/3/q_0, q1/5/q_1, q3/13/q_3, q4/15/q_4,
+               N/4/\mathrm{N}, W/8/\mathrm{W}, E/10/\mathrm{E}, S/14/\mathrm{S}}
+
+% ---------- couplings each experiment needs (roles)   [FACTS.md] ----------
+% a<j> = syndrome ancilla of G_j (aG<j> in FACTS.md), r<j> = relay ancilla (rG<j>)
+\def\EncoderCouplings{q2/q1, q1/q0, q3/q0, q4/q2}
+\def\GateCoupling{q2/q3}  % CZ_{2->3} in S-bar, SWAP_{2,3} in H-bar
+\def\OneAncCouplings{a1/q0, a1/q1, a1/q3,  a2/q1, a2/q2, a2/q4,
+                     a3/q0, a3/q1, a3/q2,  a4/q1, a4/q3, a4/q4}
+\def\TwoAncCouplings{a1/q0, a1/q1, r1/q3, a1/r1,  a2/q1, a2/q2, a2/q4,
+                     a3/q0, a3/q1, a3/q2,  a4/q1, a4/q3, r4/q4, a4/r4}
+% (b): one shortest q3...q2 path on the lattice (4 couplers)
+\def\PathOneAnc{q3/a4, a4/q4, q4/a2, a2/q2}
+% (c): G3 on N, G2 on E; G1 = N (q0, q1) + W (q3); G4 = E (q1, q4) + S (q3)  [FACTS.md 7]
+\def\GridCouplings{N/q0, N/q1, N/q2,  E/q1, E/q2, E/q4,  W/q3,  S/q3}
+\def\GridMissing{N/W/G_1, E/S/G_4}   % ancilla pairs a relay would join; no coupler
+\def\PathGrid{q2/S, S/q3}            % one shortest q2...q3 path (2 couplers)
+% (d), (e): the five-coupler loops [FACTS.md results 3 and 4]. Each loop is drawn as
+% its four alternating couplings plus the closing coupling that joins equal shades.
+% (d) a1 - q0 - a3 - q2 - q3, closed by q2-q3 (data meets data)
+\def\PathOneAncLoop{q3/a1, a1/q0, q0/a3, a3/q2}
+% (e) a1 - q1 - a4 - q3 - r1, closed by a1-r1, and
+%     a4 - q1 - a2 - q4 - r4, closed by a4-r4 (ancilla meets ancilla); shared: q1-a4
+\def\PathTwoAncLoops{r1/q3, q3/a4, a4/q1, q1/a1,  r4/q4, q4/a2, a2/q1}
+\def\CloseTwoAnc{a1/r1, a4/r4}
+% node lists: name/label/shade, D (dark) = data qutrit, L (light) = ancilla
+\def\NodesOneAncLoop{q0/q_0/D, q2/q_2/D, q3/q_3/D, a1/a_1/L, a3/a_3/L}
+\def\NodesOneAncOff{q1/q_1/D, q4/q_4/D, a2/a_2/L, a4/a_4/L}
+\def\NodesTwoAncLoop{q1/q_1/D, q3/q_3/D, q4/q_4/D, a1/a_1/L, a2/a_2/L, a4/a_4/L,
+                     r1/r_1/L, r4/r_4/L}
+\def\NodesTwoAncOff{q0/q_0/D, q2/q_2/D, a3/a_3/L}
+
+% ---------- helpers ----------
+% lattice coordinates of every site: \QBx<n>, \QBy<n>
+\foreach \n/\x/\y in \GarnetSites {%
+  \expandafter\xdef\csname QBx\n\endcsname{\x}%
+  \expandafter\xdef\csname QBy\n\endcsname{\y}}
+% shade of a site from its sublattice (x+y) mod 2, and the colour of its QB index
+\newcommand{\SetShade}[2]{%
+  \pgfmathtruncatemacro{\parity}{mod(#1+#2+10,2)}%
+  \ifnum\parity=1 \def\sh{SubDark}\def\idx{IdxDark}\else\def\sh{SubLight}\def\idx{IdxLight}\fi}
+% Garnet couplers (drawn first) and sites (drawn last, with QB numbers)
+\newcommand{\GarnetCouplersDraw}{%
+  \foreach \n/\x/\y in \GarnetSites \coordinate (QB\n) at (\x*\s,-\y*\s);
+  \foreach \a/\b in \GarnetCouplers \draw[unused] (QB\a) -- (QB\b);}
+\newcommand{\GarnetSitesDraw}{%
+  \foreach \n/\x/\y in \GarnetSites {\SetShade{\x}{\y}\node[site,fill=\sh,text=\idx] at (QB\n) {\n};}}
+% placed qutrits: coordinate (role) at its site, then drawn on top of the site
+\newcommand{\PlaceRoles}[1]{\foreach \r/\n/\l in #1 \coordinate (\r) at (QB\n);}
+\newcommand{\DrawPlaced}[1]{%
+  \foreach \r/\n/\l in #1 {%
+    \SetShade{\csname QBx\n\endcsname}{\csname QBy\n\endcsname}%
+    \node[qudit,fill=\sh] at (\r) {$\l$};}}
+% graph nodes in (d), (e): shade by role, style qudit (on a loop) or offloop
+\newcommand{\DrawNodes}[2]{%
+  \foreach \v/\l/\t in #2 {%
+    \if D\t \def\sh{SubDark}\else\def\sh{SubLight}\fi
+    \node[#1,fill=\sh] at (\v) {$\l$};}}
+% clash mark over the midpoint of a coupling that joins two equal shades: a red disc
+% with an upright white x, the same on every coupling whatever its direction
+\def\xc{0.05}
+\newcommand{\ClashCross}[2]{%
+  \coordinate (cm) at ($(#1)!0.5!(#2)$);
+  \fill[ClashCol] (cm) circle (0.105);
+  \draw[white,line width=0.9pt,line cap=round]
+    ($(cm)+(-\xc,-\xc)$) -- ($(cm)+(\xc,\xc)$) ($(cm)+(-\xc,\xc)$) -- ($(cm)+(\xc,-\xc)$);}
+% legend glyphs (inline pictures, 0.68 cm wide; y = 0 sits 0.5ex above the baseline)
+\newcommand{\LegLine}[1]{\tikz[baseline=-0.5ex]\draw[#1] (0,0) -- (0.68,0);}
+\newcommand{\LegSites}{\tikz[baseline=-0.5ex]{%
+  \node[site,fill=SubLight,minimum size=0.30cm] at (0.15,0) {};
+  \node[site,fill=SubDark,minimum size=0.30cm] at (0.53,0) {};}}
+\newcommand{\LegClash}{\tikz[baseline=-0.5ex]{\draw[used] (0,0) -- (0.68,0);
+  \ClashCross{0,0}{0.68,0}}}
+\newcommand{\LegPath}{\tikz[baseline=-0.5ex]\draw[path] (0.12,0) -- (0.56,0);}
+\newcommand{\Yes}{\textcolor{FitCol}{\ding{51}}}
+\newcommand{\No}{\textcolor{ClashCol}{\ding{55}}}
+\newcommand{\Panel}[1]{{\small\bfseries(#1)}\hspace{0.35em}}  % 9 pt bold panel label
+\newcommand{\SH}{\bar S,\bar H}   % same spacing in every panel and in the caption
+% verdict block: two left-aligned lines (marks in one column), centred under a drawing;
+% first baseline at #2, baselines 0.36 cm apart (9.5 pt \baselineskip x 1.078)
+\newcommand{\Verdict}[5]{\node[verdict] (#1) at (#2,#3)
+  {\renewcommand{\arraystretch}{1.078}\begin{tabular}[t]{@{}l@{}}#4\\#5\end{tabular}};}
+% bottom-row verdict block whose marks line up with those of the named block above
+\newcommand{\VerdictBelow}[4]{\node[verdict,anchor=base west] at (#1.base west |- 0,#2)
+  {\renewcommand{\arraystretch}{1.078}\begin{tabular}[t]{@{}l@{}}#3\\#4\end{tabular}};}
+
+\begin{document}
+\begin{tikzpicture}[line cap=round,line join=round]
+
+% ---------- grid ----------
+% Three columns. Top row: placements on Garnet, lattices 4*\s+0.40 = 4.40 cm wide;
+% (b) adds 0.115 cm (\dB) for the coupler numbers 1, 2 left of its lattice.
+% Bottom row: coupling graphs (d) 3.90 cm and (e) 3.84 cm wide, centred under (a) and
+% (b) with their verdict marks aligned on those above, then the legend.
+% Gaps of 0.90 cm between top-row drawings; every panel label sits at its column's
+% left edge (the leftmost ink of the top-row drawings).
+\def\dB{0.115}
+\def\colA{0}  \def\colB{5.30}  \def\colC{10.715}
+% rows: title baseline, common drawing top and bottom, first verdict baseline
+\def\yTitleA{0}     \def\yTopA{-0.50}  \def\yBotA{-4.90}   \def\yVA{-5.30}
+\def\yTitleB{-6.42} \def\yTopB{-6.92}  \def\yBotB{-10.44}  \def\yVB{-10.84}
+
+% ==================== (a) terminal postselection ====================
+\node[paneltitle] at (\colA,\yTitleA) {\Panel{a}Terminal postselection};
+\begin{scope}[shift={(\colA+0.20+1*\s,\yBotA+0.20+3*\s)}]   % site (0,0) = QB4; row y = 3 at the bottom
+  \GarnetCouplersDraw
+  \PlaceRoles{\PlaceTerminal}
+  \foreach \u/\v in \EncoderCouplings \draw[used] (\u) -- (\v);
+  \foreach \u/\v in \GateCoupling     \draw[gate] (\u) -- (\v);
+  \GarnetSitesDraw
+  \DrawPlaced{\PlaceTerminal}
+  % label centred in the plaquette to the right of the q2-q3 coupler
+  \node[text=GateCol,inner sep=0pt] at ($(q2)!0.5!(q3)+(0.5*\s,0)$) {$\SH$};
+\end{scope}
+\Verdict{vA}{\colA+2.20}{\yVA}{\Yes\ fits (128 placements)}{\Yes\ $q_2$, $q_3$ coupled}
+
+% ==================== (b) one-ancilla check round ====================
+\node[paneltitle] at (\colB,\yTitleA) {\Panel{b}One-ancilla checks};
+\begin{scope}[shift={(\colB+\dB+0.20+1*\s,\yBotA+0.20+3*\s)}]
+  \GarnetCouplersDraw
+  \PlaceRoles{\PlaceOneAnc}
+  \foreach \u/\v in \PathOneAnc \draw[path] (\u) -- (\v);
+  \foreach \u/\v in \OneAncCouplings \draw[used] (\u) -- (\v);
+  \GarnetSitesDraw
+  \DrawPlaced{\PlaceOneAnc}
+  % the four couplers between q3 and q2
+  \begin{scope}[every node/.style={count,text=GateCol}]
+    \node[left=0.19cm]  at ($(q3)!0.5!(a4)$) {1};
+    \node[left=0.19cm]  at ($(a4)!0.5!(q4)$) {2};
+    \node[below=0.17cm] at ($(q4)!0.5!(a2)$) {3};
+    \node[below=0.17cm] at ($(a2)!0.5!(q2)$) {4};
+  \end{scope}
+\end{scope}
+\Verdict{vB}{\colB+\dB+2.20}{\yVA}{\Yes\ fits (32 placements)}{\No\ $q_2$, $q_3$ four couplers apart}
+
+% ==================== (c) intended two-ancilla grid ====================
+\node[paneltitle] at (\colC,\yTitleA) {\Panel{c}Two-ancilla, intended grid};
+\begin{scope}[shift={(\colC+0.20+1*\s,\yBotA+0.20+3*\s)}]
+  \GarnetCouplersDraw
+  \PlaceRoles{\PlaceGrid}
+  \foreach \u/\v in \PathGrid \draw[path] (\u) -- (\v);
+  \foreach \u/\v in \GridCouplings \draw[used] (\u) -- (\v);
+  \GarnetSitesDraw
+  \DrawPlaced{\PlaceGrid}
+  % ancilla pairs that a relay would join by a direct gate: no coupler on Garnet
+  \foreach \u/\v/\g in \GridMissing {%
+    \draw[missing] ($(\u)!0.2cm!(\v)$) -- ($(\v)!0.2cm!(\u)$);
+    \node[fill=white,inner sep=0.6pt,text=ClashCol] at ($(\u)!0.5!(\v)$) {$\g$};}
+  % the two couplers between q2 and q3
+  \begin{scope}[every node/.style={count,text=GateCol}]
+    \node[left=0.19cm]  at ($(q2)!0.5!(S)$) {1};
+    \node[below=0.17cm] at ($(S)!0.5!(q3)$) {2};
+  \end{scope}
+\end{scope}
+\Verdict{vC}{\colC+2.20}{\yVA}{\No\ relay gates have no coupler}{\No\ $q_2$, $q_3$ two couplers apart}
+
+% ==================== (d) one-ancilla checks + logical gates ====================
+\node[paneltitle] at (\colA,\yTitleB) {\Panel{d}One-ancilla checks $+\,\SH$};
+\begin{scope}[shift={(\colA+2.20,\yBotB+1.25)}]   % pentagon centre under (a); label bottom at \yBotB
+  % loop as a regular pentagon, q2-q3 at the bottom
+  \coordinate (q0) at (90:\Rp);   \coordinate (a3) at (18:\Rp);
+  \coordinate (q2) at (-54:\Rp);  \coordinate (q3) at (-126:\Rp);
+  \coordinate (a1) at (162:\Rp);
+  % rest of the coupling graph
+  \coordinate (q1) at (0,1.55);     \coordinate (q4) at (0,2.07);
+  \coordinate (a4) at (-1.75,0.55); \coordinate (a2) at (1.75,0.55);
+  \foreach \u/\v in \OneAncCouplings \draw[context] (\u) -- (\v);
+  \foreach \u/\v in \PathOneAncLoop  \draw[used] (\u) -- (\v);
+  \draw[gate] (q2) -- (q3);
+  \ClashCross{q2}{q3}
+  \DrawNodes{offloop}{\NodesOneAncOff}
+  \DrawNodes{qudit}{\NodesOneAncLoop}
+  \foreach \i/\ang in {1/198,2/126,3/54,4/-18,5/-90}
+    \node[count,text=black!70] at (\ang:0.45) {\i};
+  \node[text=GateCol,inner sep=0pt,anchor=north] at (0,-0.94) {$\SH$};
+\end{scope}
+\VerdictBelow{vA}{\yVB}{\No\ fits no square lattice}{\No\ five-coupler loop}
+
+% ==================== (e) simulated two-ancilla check round ====================
+\node[paneltitle] at (\colB,\yTitleB) {\Panel{e}Two-ancilla, as simulated};
+% two regular pentagons sharing the coupling q1-a4 (vertical, centred at the origin)
+\begin{scope}[shift={(\colB+\dB+2.20,\yBotB+1.1035)}]   % centred under (b)
+  \coordinate (cR) at ({\Rp*cos(36)},0);   \coordinate (cL) at ({-\Rp*cos(36)},0);
+  % right pentagon: a1 - q1 - a4 - q3 - r1
+  \coordinate (q1) at ($(cR)+(144:\Rp)$);  \coordinate (a1) at ($(cR)+(72:\Rp)$);
+  \coordinate (r1) at ($(cR)+(0:\Rp)$);    \coordinate (q3) at ($(cR)+(-72:\Rp)$);
+  \coordinate (a4) at ($(cR)+(216:\Rp)$);
+  % left pentagon: a4 - q1 - a2 - q4 - r4
+  \coordinate (a2) at ($(cL)+(108:\Rp)$);  \coordinate (q4) at ($(cL)+(180:\Rp)$);
+  \coordinate (r4) at ($(cL)+(252:\Rp)$);
+  % rest of the coupling graph
+  \coordinate (a3) at (0,2.217);     % q0 above a1, q2 above a2
+  \coordinate (q0) at ({\Rp*cos(36)+\Rp*cos(72)},2.217);
+  \coordinate (q2) at ({-\Rp*cos(36)-\Rp*cos(72)},2.217);
+  \foreach \u/\v in \TwoAncCouplings \draw[context] (\u) -- (\v);
+  \foreach \u/\v in \PathTwoAncLoops \draw[used] (\u) -- (\v);
+  \foreach \u/\v in \CloseTwoAnc     \draw[used] (\u) -- (\v);
+  \foreach \u/\v in \CloseTwoAnc     {\ClashCross{\u}{\v}}
+  \DrawNodes{offloop}{\NodesTwoAncOff}
+  \DrawNodes{qudit}{\NodesTwoAncLoop}
+  % couplers numbered along each loop, closing coupling = 5
+  \begin{scope}[every node/.style={count,text=black!70}]
+    \foreach \i/\ang in {1/-36,2/252,3/180,4/108,5/36} \node at ($(cR)+(\ang:0.43)$) {\i};
+    \foreach \i/\ang in {1/216,2/144,3/72,4/0,5/-72}   \node at ($(cL)+(\ang:0.43)$) {\i};
+  \end{scope}
+\end{scope}
+\VerdictBelow{vB}{\yVB}{\No\ fits no square lattice}{\No\ two five-coupler loops}
+
+% ==================== legend (shared), bottom right ====================
+\node[font=\footnotesize,inner sep=0pt,anchor=west] at (\colC,{(\yTopB+\yBotB)/2}) {%
+  \renewcommand{\arraystretch}{1.55}%
+  \begin{tabular}{@{}c@{\hspace{0.6em}}l@{}}
+    \LegSites          & two sublattices\\
+    \LegLine{unused}   & unused coupler\\
+    \LegLine{used}     & coupling used\\
+    \LegLine{context}  & used, off the loops\\
+    \LegPath           & shortest $q_2$, $q_3$ path\\
+    \LegClash          & joins equal shades\\
+    \LegLine{missing}  & relay gate, no coupler
+  \end{tabular}};
+
+\end{tikzpicture}
+\end{document}
