@@ -35,7 +35,7 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src", "scripts"]
+pythonpath = ["src", "scripts", "."]
 addopts = "-ra -p no:cacheprovider"
 markers = [
     "production_data: needs the local (gitignored) circuit files of a production run",

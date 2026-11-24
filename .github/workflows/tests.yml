@@ -25,7 +25,6 @@ jobs:
           python-version: "3.11"
           cache: pip
       - run: pip install -e ".[dev,memory,decoders]"
-      - run: pip freeze
       # tests that need the gitignored production circuit files skip themselves;
       # on failure the end of the pytest output is attached to the run as an annotation
       - name: pytest
