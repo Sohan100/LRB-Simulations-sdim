@@ -6,7 +6,7 @@ Independent of A1_syndrome_classification.py:
     built with the repository's own LRBCircuitGenerator (memory windows and
     one check round), never with A1's generator;
   * the as-run view (V1) is validated against the repository's
-    CompactDetectorErrorModel (src/lrb/dem_simulation.py);
+    CompactDetectorErrorModel (src/lrb/correction/compact_dem.py);
   * my own Pauli-frame propagator (sdim/program.py rules) supplies the
     perfect-final-syndrome / full-class view (V2) and the one-round table.
 Leading-order coefficients are coefficients of p (prob_scale weights).
@@ -29,8 +29,8 @@ REPO = ("/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7
 RUN = ("/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-slurm/"
        "Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000")
 sys.path.insert(0, REPO + "/src")
-from sdim.circuit_io import read_circuit                        # noqa: E402
-from lrb.dem_simulation import build_compact_detector_error_model  # noqa: E402
+from lrb.correction.compact_dem import read_run_circuit as read_circuit                        # noqa: E402
+from lrb.correction.compact_dem import build_compact_detector_error_model  # noqa: E402
 from lrb.code_simulation_profiles import CodeSimulationProfileRegistry  # noqa: E402
 from lrb.circuit_generator import LRBCircuitGenerator, SI1000_NOISE_MODEL  # noqa: E402
 

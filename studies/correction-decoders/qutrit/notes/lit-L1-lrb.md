@@ -1099,7 +1099,7 @@ boundaries (conjecture).
 
 ## Appendix A: numerical checks (all on a login node, under a minute each)
 
-Scripts are in `docs/correction-decoders/qutrit-512/notes/lit-L1-lrb-checks/`. Run them with
+Scripts are in `studies/correction-decoders/qutrit/notes/lit-L1-lrb-checks/`. Run them with
 `module load python/3.11`. The DEM check needs the user's site-packages for sdim, so do not
 run it with `-I`.
 

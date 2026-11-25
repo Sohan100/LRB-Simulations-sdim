@@ -1,6 +1,6 @@
 import sys
-from sdim.circuit_io import read_circuit
-from lrb.dem_simulation import build_compact_detector_error_model
+from lrb.correction.compact_dem import read_run_circuit as read_circuit
+from lrb.correction.compact_dem import build_compact_detector_error_model
 circ = read_circuit(sys.argv[1])
 dem = build_compact_detector_error_model(circ)
 nops = len(circ.operations)

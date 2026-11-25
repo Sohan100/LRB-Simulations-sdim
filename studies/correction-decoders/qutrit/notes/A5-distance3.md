@@ -634,7 +634,7 @@ This is reported as "not found", not as "does not exist".
 
 ```bash
 module load python/3.11
-cd docs/correction-decoders/qutrit-512/notes/scripts
+cd studies/correction-decoders/qutrit/notes/scripts
 OMP_NUM_THREADS=2 python A5_code_capacity_compare.py                 # about 2 min
 OMP_NUM_THREADS=2 python A5_code_capacity_compare.py --phen1313 --joint-check  # about 5.5 min, used for A5_out/
 OMP_NUM_THREADS=2 python A5_code_capacity_compare.py --validate      # adds the transfer-matrix MC check (~20 s)

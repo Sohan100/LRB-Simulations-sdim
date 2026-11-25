@@ -7,8 +7,8 @@ detectors it shifts.  Raw detectors = raw ancilla outcome of each round.
 import re, sys, time
 from collections import Counter
 import numpy as np
-from sdim.circuit_io import read_circuit
-from lrb.dem_simulation import build_compact_detector_error_model
+from lrb.correction.compact_dem import read_run_circuit as read_circuit
+from lrb.correction.compact_dem import build_compact_detector_error_model
 
 path = sys.argv[1]
 t0 = time.time()

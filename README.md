@@ -50,6 +50,7 @@ Project notes, meetings and the to-do list are in [`notes/`](notes/); open quest
 | [`manuscript/`](manuscript/) | the paper: the current simulation and hardware versions and the Overleaf history |
 | [`notes/`](notes/) | meeting notes (`notes/meetings/`), the to-do list (`notes/TODO.md`) and discussion threads (`notes/discussions/`) |
 | [`LRB-experiment-data-slurm/`](LRB-experiment-data-slurm/) | run results and the cross-run comparisons |
+| [`archive/`](archive/) | each run's raw data (circuits and checkpoints) as one xz file, and what we threw away |
 | [`docs/`](docs/) | the simulation model and how to run a campaign |
 
 ## Getting started
@@ -86,6 +87,7 @@ simulated.
 | `lrb_simulation.py`, `dem_simulation.py`, `detector_events.py` | simulation, postselection and checkpointing |
 | `lrb_plotting.py`, `lrb_gif_plotting.py`, `pooled_lrb_fits.py` | fits, pseudo-thresholds, plots |
 | `clifford_recovery.py` | the compiled recovery Clifford |
+| `correction/` | exact correction decoders for the distance-2 qutrit code (the correction-decoder study) |
 
 ## Citing
 

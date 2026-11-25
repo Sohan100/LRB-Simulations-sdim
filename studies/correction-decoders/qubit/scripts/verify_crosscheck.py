@@ -297,12 +297,16 @@ def translate(circuit: Circuit) -> tuple[stim.Circuit, dict]:
                 out.append(gate, [q], prob)
         elif name == "N2":
             prob = float(op.params["prob"])
-            dist = np.asarray(op.params["prob_dist"], dtype=float)
-            expected = np.asarray(
-                NoiseModelUtils.two_qudit_depol_prob_dist(2, prob))
-            if dist.shape != (16,) or not np.array_equal(dist, expected):
-                raise ValueError("N2 is not the uniform expansion of its prob")
-            n2_dev = max(n2_dev, abs(dist[1:].sum() - prob))
+            # sdim 1.4.0 reads an N2 with only ``prob`` as uniform two-qubit
+            # depolarizing; an explicit ``prob_dist`` must be that law.
+            if "prob_dist" in op.params:
+                dist = np.asarray(op.params["prob_dist"], dtype=float)
+                expected = np.asarray(
+                    NoiseModelUtils.two_qudit_depol_prob_dist(2, prob))
+                if dist.shape != (16,) or not np.array_equal(dist, expected):
+                    raise ValueError(
+                        "N2 is not the uniform expansion of its prob")
+                n2_dev = max(n2_dev, abs(dist[1:].sum() - prob))
             if prob > 0:
                 out.append("DEPOLARIZE2", [q, t], prob)
         elif name in ("DETECTOR", "LOGICAL_OBSERVABLE"):
@@ -897,8 +901,10 @@ def cmd_hazards(args) -> None:
                      "logical_values_default_dimension":
                          f"{v3} (default = {spec_default.dimension})"})
 
-    # (c) Reuse hazard: sdim gate aliases bypass the SI1000 insertion, which
-    # matches on the alias-sensitive ``gate_name``.
+    # (c) Reuse hazard: sdim gate aliases could bypass the SI1000 insertion,
+    # which matches on the alias-sensitive ``gate_name``. Under sdim 1.4.0 the
+    # generator's moment scheduler rejects a gate name it does not know, so an
+    # alias now raises instead of going through silently.
     for alias, canonical in (("S", "P"), ("MZ", "M"), ("CX", "CNOT"),
                              ("MR", "RESET")):
         counts = {}
@@ -908,7 +914,12 @@ def cmd_hazards(args) -> None:
                 src.add_gate(name, 0, 1)
             else:
                 src.add_gate(name, 0)
-            noisy = gen.apply_si1000_noise_to_circuit(src, noisy_measurements=True)
+            try:
+                noisy = gen.apply_circuit_level_noise(
+                    src, noisy_measurements=True)
+            except ValueError as error:
+                counts[name] = f"rejected: {error}"
+                continue
             counts[name] = sum(op.gate_name in ("N1", "N2") for op in noisy.operations)
         rows.append({"hazard": "sdim alias bypasses SI1000 insertion",
                      "kind": "-", "case": f"{alias} (alias of {canonical})",

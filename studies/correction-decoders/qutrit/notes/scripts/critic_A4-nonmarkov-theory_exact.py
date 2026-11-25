@@ -8,7 +8,7 @@ evaluators below do not use A4's round maps, banding or transfer matrices.
 
 Sections (pass names on the command line; default: all):
   extract  re-extract the fault rows directly from the repository DEM
-           (lrb.dem_simulation.build_compact_detector_error_model) for a few
+           (lrb.correction.compact_dem.build_compact_detector_error_model) for a few
            circuits; compare with A4's cached rows; check that every
            location's probability equals p * prob_scale and that only the
            channels d/f/p and gates N1/N2 occur.
@@ -154,8 +154,8 @@ def single_fault_coeffs(dem, U):
 def sec_extract():
     print("\n== extract: independent row extraction from the repository DEM")
     sys.path.insert(0, os.path.join(X.WORKTREE, "src"))
-    from sdim.circuit_io import read_circuit
-    from lrb.dem_simulation import build_compact_detector_error_model
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
+    from lrb.correction.compact_dem import build_compact_detector_error_model
     p_circ = X.PROBS[4]
     for kind, seq, di in (("LRB", 0, 1), ("LRB", 3, 8), ("LRB_const0", 1, 8)):
         path = f"{X.RUN}/experiments/{kind}/{seq}/4/{di}.chp"

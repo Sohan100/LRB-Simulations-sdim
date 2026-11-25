@@ -20,7 +20,7 @@ All computations are exact linear algebra except (d), which is Monte Carlo
 over random sequences (seeded).  Runtime: ~1 minute on one core.
 
     module load python/3.11
-    python docs/correction-decoders/qutrit-512/notes/scripts/A4_lossy_markov.py
+    python studies/correction-decoders/qutrit/notes/scripts/A4_lossy_markov.py
 """
 from __future__ import annotations
 

@@ -11,7 +11,7 @@
 # Submit from this folder (studies/qudit-scaling) after `mkdir -p logs`.
 cd "$SLURM_SUBMIT_DIR"
 export NUMBA_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONNOUSERSITE=1
-PY=../../.venv-sdim140/bin/python
+PY=${LRB_PYTHON:-../../.venv-sdim140/bin/python}
 while read -r line; do
   [ -z "$line" ] && continue
   case "$line" in \#*) continue;; esac

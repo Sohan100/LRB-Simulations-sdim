@@ -1,0 +1,7 @@
+# The scripts under notes/ are one-off checks, kept as they ran for the notes that cite them
+# (only their imports were moved to the sdim 1.4.0 package layout). Unused names stay, so the
+# unused-name checks are off here. Every other rule of the root configuration applies.
+extend = "../../../../pyproject.toml"
+
+[lint]
+ignore = ["F401", "F841"]

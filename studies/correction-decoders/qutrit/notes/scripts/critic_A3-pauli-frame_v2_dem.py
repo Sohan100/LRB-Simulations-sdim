@@ -2,7 +2,7 @@
 """Critic (v2) of A3-boundary-C1/C4/C6/C7 using the repository's own DEM.
 
 Read-only on the baseline run folder.  Circuits are read with sdim's reader and
-compiled with the repository's `src/lrb/dem_simulation.py`
+compiled with the repository's `src/lrb/correction/compact_dem.py`
 (`build_compact_detector_error_model`), i.e. the exact linear responses the
 production runs sampled from.  Nothing is written outside stdout.
 
@@ -33,7 +33,7 @@ import sys
 import time
 
 import numpy as np
-from sdim.circuit_io import read_circuit
+from lrb.correction.compact_dem import read_run_circuit as read_circuit
 
 ROOT = ("/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/"
         "correction-decoders-qutrit-2c455b")
@@ -44,7 +44,7 @@ P_CIRC = 0.01                                   # p of the p_idx = 8 circuit fil
 w = np.exp(2j * np.pi / 3)
 
 _spec = importlib.util.spec_from_file_location(
-    "dem_simulation", os.path.join(ROOT, "src/lrb/dem_simulation.py"))
+    "dem_simulation", os.path.join(ROOT, "src/lrb/correction/compact_dem.py"))
 dem = importlib.util.module_from_spec(_spec)
 sys.modules["dem_simulation"] = dem
 _spec.loader.exec_module(dem)

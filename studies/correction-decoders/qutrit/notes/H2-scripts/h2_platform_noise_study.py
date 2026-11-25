@@ -143,7 +143,7 @@ MODEL_NAMES = list(MODELS)
 # --------------------------------------------------------------------------- labelling
 def label_locations(circuit_path, mechanisms):
     """Label each mechanism by the operation it belongs to (circuit order = model order)."""
-    from sdim.circuit_io import read_circuit
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
     ops = read_circuit(circuit_path).operations
     noise = []
 

@@ -14,7 +14,7 @@ What it does (read-only on the baseline run folder):
      baseline circuits with an independent linear frame propagator (written
      here from the table, not copied from A3) and compares the detector and
      logical responses with the repository's compiled DEM
-     (`src/lrb/dem_simulation.py`, which calls sdim's frame simulator).
+     (`src/lrb/correction/compact_dem.py`, which calls sdim's frame simulator).
 
 Usage: module load python/3.11; python critic_A3-pauli-frame_gates_dem_check.py
 """
@@ -175,8 +175,8 @@ def main():
     print(f"All A3 frame-table entries reproduced from sdim matrices: {ok_all}")
 
     # ---------------------------------------------------------------- DEM check
-    from sdim.circuit_io import read_circuit
-    from lrb.dem_simulation import build_compact_detector_error_model
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
+    from lrb.correction.compact_dem import build_compact_detector_error_model
 
     RULE1 = {"H": lambda a, b: (-b, a), "H_INV": lambda a, b: (b, -a),
              "P": lambda a, b: (a, a + b), "P_INV": lambda a, b: (a, b - a)}

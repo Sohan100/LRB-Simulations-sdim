@@ -1,7 +1,7 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 export NUMBA_NUM_THREADS=1 PYTHONNOUSERSITE=1
-PY=../../.venv-sdim140/bin/python
+PY=${LRB_PYTHON:-../../.venv-sdim140/bin/python}
 PP=0.0001,0.0002,0.0005,0.001,0.002,0.005,0.0075,0.01,0.0125,0.015,0.02,0.025
 D=0,2,4,6,10,14,18,20,22
 for q in 5 7; do for n in si1000 sd6; do

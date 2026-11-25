@@ -501,7 +501,7 @@ def section_V3():
 # ======================================================================= V4
 def location_law(loc):
     """Fault-vector law of one DEM location as implemented by the sampler
-    (dem_simulation.sample_location_fault_vectors)."""
+    (compact_dem.sample_location_fault_vectors)."""
     w, p = loc.vector_width, loc.probability
     law = np.zeros((3,) * w)
     if loc.gate == "N1":
@@ -593,8 +593,8 @@ def exact_joint_general(model, perturb=None, override=None):
 
 def load_model(p_idx, d_idx, cl):
     sys.path.insert(0, os.path.join(WORKTREE, "src"))
-    from sdim.circuit_io import read_circuit
-    from lrb.dem_simulation import build_compact_detector_error_model
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
+    from lrb.correction.compact_dem import build_compact_detector_error_model
     circ = read_circuit(f"{RUN}/experiments/LRB/{cl}/{p_idx}/{d_idx}.chp")
     return build_compact_detector_error_model(circ)
 
@@ -627,7 +627,7 @@ def threshold_beta(J_true, post_dec, alpha):
 def section_V4(quick):
     print("\n[V4] circuit level, m=2 baseline circuits (read-only)")
     sys.path.insert(0, os.path.join(WORKTREE, "src"))
-    from lrb.dem_simulation import sample_detector_error_model
+    from lrb.correction.compact_dem import sample_detector_error_model
     for p_idx, cl in ((4, 0), (8, 3)):
         t0 = time.time()
         model = load_model(p_idx, 1, cl)

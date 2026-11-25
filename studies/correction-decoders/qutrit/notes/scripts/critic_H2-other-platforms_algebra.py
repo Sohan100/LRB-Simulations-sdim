@@ -42,7 +42,7 @@ import numpy as np
 from networkx.algorithms import isomorphism
 
 import sdim.unitary as su
-from sdim.circuit_io import read_circuit
+from lrb.correction.compact_dem import read_run_circuit as read_circuit
 
 WT = "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b"
 BASE = ("/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-slurm/"

@@ -20,12 +20,24 @@ The study's code runs against the consolidated package:
 - `tests/test_lrb_qubit_model.py` and `tests/test_qubit512_*.py` hold its 538 tests. A few of them compare with `lrb` itself, for example the postselection policies and the plotter's fit.
 - `scripts/` in this folder holds the study's drivers and verifiers. They find the repository root from their own location and put `src/` on `sys.path`.
 
-The code needs three packages that are not in the base dependencies: stim (1.15), PyMatching (2.3) and ldpc (2.4). Each test module skips cleanly when one is missing. On 2026-11-24, with all three installed next to the repository's sdim 1.4.0 environment, the 538 tests passed in about 2 minutes. With stim alone, 404 pass and the matching, ldpc and distance-3 modules skip. The CI job installs the `memory` extra (stim and PyMatching), so there only the ldpc and distance-3 modules skip.
+The code needs three packages that are not in the base dependencies: stim (1.15), PyMatching (2.3) and ldpc (2.4), the `decoders` extra. Each test module skips cleanly when one is missing. With all three installed next to sdim 1.4.0, the 538 tests pass in about 2 minutes. The CI job installs the extra, so none of them skip there.
 
 ```bash
-pip install "stim>=1.15" "pymatching>=2.3" "ldpc>=2.4"
+pip install -e ".[dev,decoders]"
 OPENBLAS_NUM_THREADS=1 python -m pytest -q tests/test_lrb_qubit_model.py tests/test_qubit512_*.py
 ```
+
+### sdim 1.4.0
+
+`lrb_qubit` builds its circuits in stim and does not call sdim. It reproduces the repository's SI1000 schedule from before the sdim 1.4.0 port: noise after every logical gate, a check round, then a separate ancilla reset. The current generator schedules each segment into moments, with idle noise on every untouched wire, and resets the ancillas inside each check round. The study's numbers are therefore for the earlier schedule.
+
+Work package A compares `lrb_qubit` with the sdim pipeline. We ported its two scripts to sdim 1.4.0 on 2026-11-24 (the frame sampler's noiseless reference shot, N2 gates without `prob_dist`, the renamed noise insertion) and reran the quick checks:
+
+- `crosscheck_sdim.py selftest`: 9 of 9 pass, including the equality of the script's fast frame path with `Program.simulate`.
+- `verify_crosscheck.py semantics`: all pass. `hazards` runs. Two sdim hazards it recorded are gone in sdim 1.4.0: the generator rejects gate aliases such as `S` or `CX`, and `DETECTOR` record placeholders no longer collide.
+- `crosscheck_sdim.py dem`: only 6 of 108 detector error models now match exactly, the noiseless depth-0 ones. The mechanisms agree and the probabilities differ, which is the schedule change above. The results in `results/A/` are from the earlier pipeline, where all matched.
+
+Moving `lrb_qubit` to the current schedule would change every number in the study, so we left it as it is.
 
 ## How to run the study
 

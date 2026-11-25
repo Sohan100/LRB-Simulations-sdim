@@ -587,8 +587,8 @@ def section_D(quick):
         print("  run folder not found; skipped")
         return
     sys.path.insert(0, os.path.join(WORKTREE, "src"))
-    from sdim.circuit_io import read_circuit
-    from lrb.dem_simulation import build_compact_detector_error_model
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
+    from lrb.correction.compact_dem import build_compact_detector_error_model
     probs = [float(x) for x in open(f"{RUN}/probs.txt").read().split(",")]
     policies = [("unif", 1), ("unif", 2), ("const", 1), ("const", 2)]
     shots = 1_000_000

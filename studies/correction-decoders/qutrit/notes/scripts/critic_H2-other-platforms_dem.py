@@ -4,7 +4,7 @@ Run:  module load python/3.11 && python3 critic_H2-other-platforms_dem.py
 Runtime: about 3-4 min on one core. Writes nothing. Read-only use of the
 baseline run folder (stored circuits of Clifford sequences 0-3).
 
-The compact DEM of the repository (src/lrb/dem_simulation.py) is used only
+The compact DEM of the repository (src/lrb/correction/compact_dem.py) is used only
 to obtain each noise location's linear detector/logical response. Sampling
 is done here with location probabilities chosen per noise model, so the
 same circuits can be run under SI1000 at any p, under a parallel-readout
@@ -43,12 +43,12 @@ import sys
 import time
 
 import numpy as np
-from sdim.circuit_io import read_circuit
+from lrb.correction.compact_dem import read_run_circuit as read_circuit
 
 WT = "/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b"
 BASE = ("/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-slurm/"
         "Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000")
-_spec = importlib.util.spec_from_file_location("crit_dem", os.path.join(WT, "src", "lrb", "dem_simulation.py"))
+_spec = importlib.util.spec_from_file_location("crit_dem", os.path.join(WT, "src", "lrb", "compact_dem.py"))
 dem = importlib.util.module_from_spec(_spec)
 sys.modules[_spec.name] = dem
 _spec.loader.exec_module(dem)

@@ -51,8 +51,8 @@ WT = ("/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-"
 RUN = ("/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-"
        "slurm/Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000")
 sys.path.insert(0, os.path.join(WT, "src"))
-from sdim.circuit_io import read_circuit  # noqa: E402
-from lrb.dem_simulation import build_compact_detector_error_model  # noqa
+from lrb.correction.compact_dem import read_run_circuit as read_circuit  # noqa: E402
+from lrb.correction.compact_dem import build_compact_detector_error_model  # noqa
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEPTHS = [0, 2, 4, 6, 10, 14, 18, 20, 22]

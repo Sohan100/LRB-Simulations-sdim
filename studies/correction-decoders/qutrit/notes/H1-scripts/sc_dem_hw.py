@@ -2,7 +2,7 @@
 
 Three check-round schedules, all built with the repo generator
 (LRBCircuitGenerator, SI1000 insertion) and compiled with the repo compact
-DEM (lrb.dem_simulation):
+DEM (lrb.correction.compact_dem):
 
   seq9    the production schedule (folded_qutrit profile): four ancilla
           readout layers per round, any-to-any couplings assumed;
@@ -63,7 +63,7 @@ from sdim.program import Program  # noqa: E402
 from lrb import code_definitions as defns  # noqa: E402
 from lrb.circuit_generator import LRBCircuitGenerator  # noqa: E402
 from lrb.code_simulation_profiles import CodeSimulationProfileRegistry  # noqa: E402
-from lrb.dem_simulation import (build_compact_detector_error_model,  # noqa: E402
+from lrb.correction.compact_dem import (build_compact_detector_error_model,  # noqa: E402
                                 sample_detector_error_model,
                                 two_qudit_depol_prob_dist)
 from sc_idle import COH, e_idle  # noqa: E402

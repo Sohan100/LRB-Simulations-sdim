@@ -41,7 +41,7 @@ from sdim.circuit import Circuit  # noqa: E402
 
 from lrb.circuit_generator import LRBCircuitGenerator  # noqa: E402
 from lrb.code_simulation_profiles import CodeSimulationProfileRegistry  # noqa
-from lrb.dem_simulation import (build_compact_detector_error_model,  # noqa
+from lrb.correction.compact_dem import (build_compact_detector_error_model,  # noqa
                                 sample_detector_error_model,
                                 two_qudit_depol_prob_dist)
 

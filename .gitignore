@@ -16,6 +16,7 @@ XPS17/
 # Local-only generated LRB-D working material
 LRB-experiment-data-slurm/**/experiments/
 LRB-experiment-data-slurm/**/progress/
+LRB-experiment-data-slurm/**/progress_rb_comparison/
 LRB-experiment-data-slurm/**/logs_job_*/
 LRB-experiment-data-slurm/working-folder*.txt
 
@@ -39,6 +40,9 @@ LRB-experiment-data-slurm/comparisons/hardware-noise-s13/
 LRB-experiment-data-slurm/*hwS13*/
 LRB-experiment-data-slurm/*dep2ctl*/
 
+# Animated plots: the notebooks regenerate them from results/ (LRBGifAnimator)
+LRB-experiment-data-slurm/**/results/plots/gifs/
+
 # Job logs, locks and caches
 /*.out
 /*.err
@@ -51,6 +55,8 @@ LRB-experiment-data-slurm/local-runner/STOP*
 LRB-experiment-data-slurm/local-runner/*.pid
 LRB-experiment-data-slurm/local-runner/*.log
 *.pkl
+# raw per-circuit outputs of the correction-decoder studies
+.cache_correction/
 .pytest_cache/
 .ruff_cache/
 *.egg-info/

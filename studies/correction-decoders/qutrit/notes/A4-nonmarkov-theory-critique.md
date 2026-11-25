@@ -444,7 +444,7 @@ and does not use the word "non-Markovian". Verdict: confirmed.
 ```
 module load python/3.11
 export OMP_NUM_THREADS=1 A4_SCRATCH=<dir>
-S=docs/correction-decoders/qutrit-512/notes/scripts
+S=studies/correction-decoders/qutrit/notes/scripts
 python $S/A4_exact_lrbd.py --seqs 0 1 2 3 4 5            # builds the DEM cache (~2.5 min)
 python $S/critic_A4-nonmarkov-theory_exact.py            # ~5 min (compiles 48 small circuits)
 python $S/critic_A4-nonmarkov-theory_data.py             # ~5 s

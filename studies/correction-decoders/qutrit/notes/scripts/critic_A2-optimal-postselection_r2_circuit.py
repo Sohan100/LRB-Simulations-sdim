@@ -9,7 +9,7 @@ Mode "conv" (C5, C9, C10, C24 cross-check):
   * the q-ranking of the all-trivial history over ALL histories (no mass
     cutoff), conjugation symmetry, policy and frontier numbers;
   * Monte Carlo with the repository's own DEM sampler
-    (lrb.dem_simulation.sample_detector_error_model) vs the exact law.
+    (lrb.correction.compact_dem.sample_detector_error_model) vs the exact law.
 Mode "dft" (C5 generality): A2's fast DFT function (validated in mode conv)
   on all 30 sequences at p=0.01, m=2 and on p=0.02, 0.05 at m=0, 2.
 
@@ -39,8 +39,8 @@ WT = ("/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-"
 RUN = ("/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-"
        "slurm/Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000")
 sys.path.insert(0, os.path.join(WT, "src"))
-from sdim.circuit_io import read_circuit  # noqa: E402
-from lrb.dem_simulation import (build_compact_detector_error_model,  # noqa
+from lrb.correction.compact_dem import read_run_circuit as read_circuit  # noqa: E402
+from lrb.correction.compact_dem import (build_compact_detector_error_model,  # noqa
                                 sample_detector_error_model)
 
 HERE = os.path.dirname(os.path.abspath(__file__))

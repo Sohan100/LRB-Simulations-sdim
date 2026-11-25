@@ -23,11 +23,17 @@ PYTHONNOUSERSITE=1 .venv-sdim140/bin/python -m ipykernel install --user \
 ```
 
 The test that regenerates a production run's circuits byte for byte needs that run's `experiments/`
-folder, which is not in git. Point `LRB_RUNS_ROOT` at a checkout that has it:
+folder. Unpack it from the archive first (CI does the same), or point `LRB_RUNS_ROOT` at a folder of
+runs that has it:
 
 ```bash
-LRB_RUNS_ROOT=/path/to/LRB-experiment-data-slurm pytest tests/test_compiled_recovery.py
+tar -xJf archive/runs/Run-2026-10-28-10-24-46-folded_qutrit-single-ancilla-sd6-sdim140.tar.xz \
+  -C LRB-experiment-data-slurm/
+pytest tests/test_compiled_recovery.py
 ```
+
+Every run's circuits and checkpoints are archived the same way ([`archive/`](../archive/)). After a
+new campaign, pack it with `python scripts/archive_runs.py pack LRB-experiment-data-slurm/Run-...`.
 
 ## A campaign, start to finish
 

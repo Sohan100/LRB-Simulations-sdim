@@ -235,7 +235,7 @@ Sources: `v2_sampler_depth0.log`, `v2_zcond_many_c16_p0.01_300.log`,
 |---|---|---|
 | `src/lrb/correction/aggregate.py` | 32, 55-63 | `SOFT_THRESHOLDS`, `_soft_point` |
 | `src/lrb/correction/study.py` | 31 | `CONF_EDGES` |
-| `scripts/correction/make_tables.py` | 21-23 | labels |
+| `studies/correction-decoders/qutrit/scripts/make_tables.py` | 21-23 | labels |
 | `REPORT.md` | 59-60, 220, 344, 346, 402, 773 | statements using the labels |
 | `results/decoder_tables.md` | rows "reject if confidence < 0.97" and "< 0.5" | tables |
 | `results/variant_summary.md` | `soft:0.97` rows | tables |

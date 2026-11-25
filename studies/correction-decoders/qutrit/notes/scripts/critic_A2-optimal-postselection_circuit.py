@@ -7,7 +7,7 @@ its exact_joint_from_dem only to compare outputs.
   [V] validation of the exact law P(D, L) of baseline circuits:
       (i)  my own characteristic-function code, which reads each location's
            fault law from the DEM (N2: the actual prob_dist, NOT assumed
-           uniform; N1: channel d/f/p as sampled by dem_simulation.py);
+           uniform; N1: channel d/f/p as sampled by compact_dem.py);
       (ii) a direct probability-space convolution (no Fourier transform) for a
            few circuits;
       (iii) A2's exact_joint_from_dem;
@@ -41,9 +41,9 @@ WT = ("/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/"
 RUN = ("/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-slurm/"
        "Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000")
 sys.path.insert(0, os.path.join(WT, "src"))
-sys.path.insert(0, os.path.join(WT, "docs/correction-decoders/qutrit-512/notes/scripts"))
-from sdim.circuit_io import read_circuit                      # noqa: E402
-from lrb.dem_simulation import (build_compact_detector_error_model,  # noqa: E402
+sys.path.insert(0, os.path.join(WT, "studies/correction-decoders/qutrit/notes/scripts"))
+from lrb.correction.compact_dem import read_run_circuit as read_circuit                      # noqa: E402
+from lrb.correction.compact_dem import (build_compact_detector_error_model,  # noqa: E402
                                 sample_detector_error_model)
 
 W = np.exp(2j * np.pi / 3)
@@ -51,7 +51,7 @@ W = np.exp(2j * np.pi / 3)
 
 def location_law(loc, nd, n):
     """Return (R, vs, probs): response matrix R (n x w) and the fault law
-    {v: prob} of this location exactly as dem_simulation.py samples it."""
+    {v: prob} of this location exactly as compact_dem.py samples it."""
     R = np.zeros((n, loc.vector_width), dtype=np.int64)
     for c, t in enumerate(loc.component_terms):
         for i, v in t.detector:

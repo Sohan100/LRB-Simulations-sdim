@@ -313,8 +313,8 @@ def header_of(path):
 # ------------------------------------------------------------------ DEM
 def dem_compare(path):
     sys.path.insert(0, os.path.join(WT, "src"))
-    from sdim.circuit_io import read_circuit
-    from lrb.dem_simulation import build_compact_detector_error_model
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
+    from lrb.correction.compact_dem import build_compact_detector_error_model
     t = time.time()
     model = build_compact_detector_error_model(read_circuit(path))
     ops = read_ops(path)
@@ -343,8 +343,8 @@ def dem_conventions():
     """C2 with the repository DEM: insert unit noise on each data qutrit right
     after the encoder of the depth-0 circuits, read the DEM responses."""
     sys.path.insert(0, os.path.join(WT, "src"))
-    from sdim.circuit_io import read_circuit
-    from lrb.dem_simulation import build_compact_detector_error_model
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
+    from lrb.correction.compact_dem import build_compact_detector_error_model
     res = {}
     for sub in ("LRB", "LRB_const0"):
         src = os.path.join(RUN, "experiments", sub, "0", "4", "0.chp")

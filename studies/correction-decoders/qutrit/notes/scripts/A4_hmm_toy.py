@@ -26,7 +26,7 @@ Also prints the spectrum of the one-step transfer operator of the forward
 block, which sets the memory time (A4 notes, section 4.2).
 
     module load python/3.11
-    python docs/correction-decoders/qutrit-512/notes/scripts/A4_hmm_toy.py
+    python studies/correction-decoders/qutrit/notes/scripts/A4_hmm_toy.py
 """
 from __future__ import annotations
 

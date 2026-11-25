@@ -1,7 +1,0 @@
-# Archived study: the code and the note scripts stay as they ran at commit
-# c21386f6, so the unused-name checks are off here. Every other rule of the
-# root configuration still applies.
-extend = "../../../pyproject.toml"
-
-[lint]
-ignore = ["F401", "F841"]

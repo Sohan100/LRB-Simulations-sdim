@@ -40,7 +40,7 @@ and for physical RB (RB and RB_comparison):
      cost, const c curvature), windows in which the fidelity rises.
  (6) The same windowed analysis for physical RB as a Markovian reference.
 
-Outputs go to docs/correction-decoders/qutrit-512/results/baseline_nonmarkov/:
+Outputs go to studies/correction-decoders/qutrit/results/baseline_nonmarkov/:
   pipeline_fits.csv, pipeline_table_check.csv   (1) pipeline f, b, F, chi2
   model_fits.csv, deviation_summary.csv,
   deviation_by_policy.csv, points.csv           (2) models A-E, tests, forms

@@ -21,7 +21,7 @@ import types
 import numpy as np
 
 HERE = ("/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/"
-        "correction-decoders-qutrit-2c455b/docs/correction-decoders/qutrit-512/notes/scripts/")
+        "correction-decoders-qutrit-2c455b/studies/correction-decoders/qutrit/notes/scripts/")
 # load only the function definitions of the circuit script (skip its main body)
 src = open(HERE + "critic_A1-syndromes_r2_circuit.py").read()
 cut = src.index("# ============================================================ 1. DEM validation")

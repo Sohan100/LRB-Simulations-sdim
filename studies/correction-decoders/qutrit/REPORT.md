@@ -241,7 +241,7 @@ all 14 non-zero p, for 30 sequences x 9 depths.
 | Policy masks vs the pipeline's `postselect_uniform_interval` / `postselect_constant_number` | identical for depths 0 to 22, policies 1 to 22 | `tests/test_correction_chain.py` **[VN]** |
 | Variant builder with every flag off vs the production generator | operation-for-operation identical | `tests/test_correction_variants.py` **[VN]** |
 | Exact LRB-D vs the 1M-shot production CSVs, 5,670 (p, policy, depth) rows | rejection: max abs difference 2.8e-4. Fidelity, where production kept at least 1,000 shots per circuit (4,210 rows): median abs z 0.43, 95th percentile 3.7. The z tail sits at low acceptance, where the pipeline's `abs(E[omega^k])` estimator is biased up by about `0.89/sqrt(N_acc)` | `results/baseline_reproduction.csv.gz` **[VN]** |
-| Independent single-fault enumeration, p = 1e-4 | m = 0 rejection 6.315e-3 (first order) vs 6.294e-3 (exact); MLD failure 1.402e-3 vs 1.407e-3 (sampled); the m = 22 rejection matches `1 - exp(-first order)` | `results/first_order_check.json`, `scripts/correction/verify_first_order.py` **[VN]** |
+| Independent single-fault enumeration, p = 1e-4 | m = 0 rejection 6.315e-3 (first order) vs 6.294e-3 (exact); MLD failure 1.402e-3 vs 1.407e-3 (sampled); the m = 22 rejection matches `1 - exp(-first order)` | `results/first_order_check.json`, `studies/correction-decoders/qutrit/scripts/verify_first_order.py` **[VN]** |
 | Paired variant study, new seeded sequences, baseline structure | reproduces the production fits (r = 1.99e-5 vs 2.0e-5, a = 0.894 vs 0.894 at p = 1e-3) | `results/variant_summary.md` **[VN]** |
 | Independent reviewers (round 2): exactness, independent MLD reimplementation, sampler statistics, decoder logic, physics model | see Section 13 | `notes/review/` |
 
@@ -471,7 +471,7 @@ p = 2e-3, in `results/decoder_tables.md`):
 
 Shots were sampled at the true p. The decoder used the same DEM structure with rates
 scaled by 1/4 to 4. Every rule was scored with the true model's exact posterior
-(`scripts/correction/mismatch_check.py`, `results/mismatch_check.csv`; 3 sequences,
+(`studies/correction-decoders/qutrit/scripts/mismatch_check.py`, `results/mismatch_check.csv`; 3 sequences,
 m = 10 and 22, p = 1e-3 and 2e-3, 4e4 shots).
 
 | Rule | Effect of a 4x rate error in the decoder |
@@ -631,7 +631,7 @@ joint `P(L, accept)` is linear in the mixture weights
 ## 6. Protocol variants: a paired study
 
 Thirty seeded sequences, identical across variants, 5e4 shots per circuit for sampled
-rules, exact LRB-D and BFD (`results/variant_summary.md`, `scripts/correction/run_variant_study.py`).
+rules, exact LRB-D and BFD (`results/variant_summary.md`, `studies/correction-decoders/qutrit/scripts/run_variant_study.py`).
 At p = 1e-3 (physical RB r = 3.76e-3):
 
 | Protocol | LRB-D r, a | BFD r, a | Soft MLD t = 0.9: r, a | Full MLD r | P(correct) at m = 0, LRB-D |
@@ -874,29 +874,32 @@ et al. 2015; Hutter et al. 2015].
 
 ## 12. Reproduction
 
-Everything below runs from the worktree after `module load python/3.11`. Raw
-per-circuit outputs (about 1,800 `.npz` files) are kept outside git in
-`.cache_correction/`; the committed CSVs, tables and figures are under `results/`.
+Everything below runs from the repository root with the package installed
+(`pip install -e ".[dev]"`, sdim 1.4.0). The study first ran on the pipeline before
+sdim 1.4.0; the README of this folder says what the port changed. Raw per-circuit
+outputs (about 1,800 `.npz` files) are kept outside git in `.cache_correction/`; the
+committed CSVs, tables and figures are under `results/`. The drivers read the baseline
+run from `LRB_BASELINE_RUN` (default: the August run this report used).
 
 ```bash
-# exactness and consistency tests (about 3.5 min)
-python -m pytest -q tests/test_correction_chain.py tests/test_correction_variants.py
+# exactness and consistency tests (about 2 min)
+python -m pytest -q tests/test_correction_chain.py tests/test_correction_variants.py tests/test_correction_io.py
 # full studies on one CPU node (each stage resumable; about 20 min each on a debug node)
-salloc -N 1 -C cpu -q debug -t 00:30:00 srun -n 1 -c 256 bash scripts/correction/run_all_on_node.sh baseline
-salloc -N 1 -C cpu -q debug -t 00:30:00 srun -n 1 -c 256 bash scripts/correction/run_all_on_node.sh variants
-salloc -N 1 -C cpu -q debug -t 00:30:00 srun -n 1 -c 256 bash scripts/correction/run_all_on_node.sh dense
+salloc -N 1 -C cpu -q debug -t 00:30:00 srun -n 1 -c 256 bash studies/correction-decoders/qutrit/scripts/run_all_on_node.sh baseline
+salloc -N 1 -C cpu -q debug -t 00:30:00 srun -n 1 -c 256 bash studies/correction-decoders/qutrit/scripts/run_all_on_node.sh variants
+salloc -N 1 -C cpu -q debug -t 00:30:00 srun -n 1 -c 256 bash studies/correction-decoders/qutrit/scripts/run_all_on_node.sh dense
 # aggregation, tables and figures (login node, a few minutes)
-python scripts/correction/analyze_study.py
-python scripts/correction/extra_analyses.py
-python scripts/correction/make_tables.py
-python scripts/correction/make_figures.py
-python scripts/correction/verify_first_order.py --cliffords 0,7 --depth-indices 0,2,5,8
+python studies/correction-decoders/qutrit/scripts/analyze_study.py
+python studies/correction-decoders/qutrit/scripts/extra_analyses.py
+python studies/correction-decoders/qutrit/scripts/make_tables.py
+python studies/correction-decoders/qutrit/scripts/make_figures.py
+python studies/correction-decoders/qutrit/scripts/verify_first_order.py --cliffords 0,7 --depth-indices 0,2,5,8
 ```
 
 | Path | Contents |
 |---|---|
 | `src/lrb/correction/` | `chain_dem.py` (chain DEM), `forward.py` (exact filter), `decoders.py` (rules), `sampler.py`, `study.py` (per-circuit evaluation), `variants.py` (protocol variants), `metrics.py`, `aggregate.py`, `zmod3.py` |
-| `scripts/correction/` | drivers, aggregation, tables, figures, first-order check |
+| `studies/correction-decoders/qutrit/scripts/` | drivers, aggregation, tables, figures, first-order check |
 | `results/` | `decoder_tables.md`, `variant_summary.md`, `key_summary.md`, `curves_*.csv.gz`, `fits_*.csv.gz`, `baseline_reproduction.csv.gz`, `rb_reference.csv`, `mixture_*.csv`, `pareto_frontier.csv`, `first_order_check.json`, `figures/` |
 | `notes/` | agent research notes: literature L1 to L8 with citation checks, analyses A1 to A5, hardware H1 and H2, baseline analysis N1, critiques, code reviews |
 | `bibliography_raw.csv` | every citation with its independent verification status |

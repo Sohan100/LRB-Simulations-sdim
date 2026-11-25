@@ -162,7 +162,7 @@ Line 401: "Never accepts a first-order logical error."
   order.
 - The supporting field `bfd_accepted_logical = 0.0` in
   `results/first_order_check.json` counts only detected (blip) faults.
-  `scripts/correction/verify_first_order.py` skips undetected faults with
+  `studies/correction-decoders/qutrit/scripts/verify_first_order.py` skips undetected faults with
   `continue` before the BFD check.
 - In the same JSON, `exact_bfd_logical` = 4.92e-4 at p = 1e-4 (m = 0), that
   is 4.9 p.
@@ -247,7 +247,7 @@ single exponential within statistics on the 9 production depths." Line 400
     the first to the second window is 1.91 to 1.95 for every p up to 1e-2.
   - BFD: 1.20e-4 [1.13e-4, 1.26e-4] against at most 8.0e-5 (ratio 1.6 to 1.7).
 - The c2 test hides this. `aggregate.curvature(..., min_depth=2)`
-  (`scripts/correction/analyze_study.py` line 106) drops m = 0.
+  (`studies/correction-decoders/qutrit/scripts/analyze_study.py` line 106) drops m = 0.
 - The fit keeps m = 0 and effectively pins it. That point has zero
   across-sequence std, and `_safe_weights` gives it about 1e6 times the
   weight of any other depth.

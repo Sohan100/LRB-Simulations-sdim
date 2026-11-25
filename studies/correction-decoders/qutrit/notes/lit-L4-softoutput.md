@@ -640,7 +640,7 @@ Findings:
 
 ## Appendix A. First-order enumeration script
 
-Run on the login node with `module load python/3.11`, from the scratchpad, reading circuits from the read-only baseline folder. Runtime: m = 22 build about 60 s; everything else a few seconds.
+Run on the login node with `module load python/3.11`, from a scratch folder, reading circuits from the read-only baseline folder. Runtime: m = 22 build about 60 s; everything else a few seconds.
 
 ```python
 """First-order (p -> 0) error/reject trade-off of decision rules on one LRB circuit DEM.
@@ -651,8 +651,8 @@ from collections import defaultdict
 src, p = sys.argv[1], float(sys.argv[2]); paths = sys.argv[3:]
 sys.path.insert(0, src)
 import numpy as np
-from sdim.circuit_io import read_circuit
-from lrb.dem_simulation import build_compact_detector_error_model
+from lrb.correction.compact_dem import read_run_circuit as read_circuit
+from lrb.correction.compact_dem import build_compact_detector_error_model
 
 def items_for(loc, base):
     if loc.gate == "N1":

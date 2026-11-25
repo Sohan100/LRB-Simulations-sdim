@@ -175,8 +175,8 @@ def first_order(model, circuit, p):
 def part_A(args):
     log("=== Part A: baseline [[5,1,2]]_3 LRB circuits, exact first order in p (repository DEM) ===")
     sys.path.insert(0, os.path.join(WORKTREE, "src"))
-    from sdim.circuit_io import read_circuit
-    from lrb.dem_simulation import build_compact_detector_error_model
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
+    from lrb.correction.compact_dem import build_compact_detector_error_model
     cliffs = list(range(args.cliffs))
     didx = [0, 1, 2, 3, 4] if not args.quick else [0, 2, 4]
     per = {}

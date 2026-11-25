@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 import re
 
+import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation, PillowWriter
@@ -184,10 +185,12 @@ class LRBGifAnimator:
             "color",
             [],
         )
+        # the cycle may hold RGB tuples (str() of a tuple is not a color)
+        palette = [mcolors.to_hex(color) for color in palette]
         if len(palette) >= 2:
-            return str(palette[0]), str(palette[1])
+            return palette[0], palette[1]
         if len(palette) == 1:
-            return str(palette[0]), "#ff7f0e"
+            return palette[0], "#ff7f0e"
         return "#1f77b4", "#ff7f0e"
 
     @staticmethod

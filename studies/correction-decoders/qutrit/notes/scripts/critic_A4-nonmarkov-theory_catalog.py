@@ -261,7 +261,7 @@ def provenance():
     catalog they come from: the committed (defective) one in this worktree or
     the corrected one in the main checkout (9 Pauli words x 24 symplectic
     words, uncommitted, modified 2026-10-28)."""
-    from sdim.circuit_io import read_circuit
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
     run = ("/pscratch/sd/s/sohan100/LRB-Simulations-sdim/LRB-experiment-data-"
            "slurm/Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000")
     old = set(STRINGS)

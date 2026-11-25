@@ -744,7 +744,7 @@ above only as standard formulas.
 ```
 module load python/3.11
 export OMP_NUM_THREADS=1 A4_SCRATCH=<a scratch dir>
-S=docs/correction-decoders/qutrit-512/notes/scripts
+S=studies/correction-decoders/qutrit/notes/scripts
 python $S/A4_lossy_markov.py                       # section 2   (~20 s)
 python $S/A4_exact_lrbd.py --seqs 0 1 2 3 4 5      # section 3   (~8 min, caches DEMs in $A4_SCRATCH)
 python $S/A4_analyze_exact.py $A4_SCRATCH/A4_exact.npz

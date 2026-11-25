@@ -1,7 +1,12 @@
 """Stim circuit builders for qubit ``[[5,1,2]]`` LRB and matched physical RB.
 
 The encoded circuits follow ``LRBCircuitGenerator.generate_lrb_clifford_sequence``
-in ``src/lrb/circuit_generator.py``:
+as it was before the sdim 1.4.0 port (commit ``c21386f6``), which the qubit
+correction-decoder study was built on. The current generator schedules every
+segment into moments with idle noise on untouched wires and resets the ancillas
+inside each check round, so its DEMs differ from these (same mechanisms,
+different probabilities); ``studies/correction-decoders/qubit/scripts/
+crosscheck_sdim.py dem`` shows the difference. The earlier schedule:
 
 1. ideal encoding of |+>_L;
 2. for each forward Clifford ``C_j``: the logical gates, one full noisy check
@@ -11,8 +16,8 @@ in ``src/lrb/circuit_generator.py``:
 4. one final noisy check round;
 5. an ideal terminal X-basis readout.
 
-Noise follows ``LRBCircuitGenerator.apply_si1000_noise_to_circuit`` with qubit
-channels: ``DEPOLARIZE1(0.1p)`` after one-qubit gates, ``DEPOLARIZE2(p)`` after
+Noise follows the earlier ``LRBCircuitGenerator.apply_si1000_noise_to_circuit``
+(since replaced by ``apply_circuit_level_noise``) with qubit channels: ``DEPOLARIZE1(0.1p)`` after one-qubit gates, ``DEPOLARIZE2(p)`` after
 two-qubit gates, and for every measurement layer ``DEPOLARIZE1(2p)`` on all
 other wires plus ``DEPOLARIZE1(p)`` and ``X_ERROR(5p)`` on each measured wire.
 Reset layers put ``DEPOLARIZE1(2p)`` on all other wires and ``X_ERROR(2p)``

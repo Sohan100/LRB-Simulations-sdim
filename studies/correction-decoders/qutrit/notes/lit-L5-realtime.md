@@ -222,7 +222,7 @@ or the Clifford fix-up after T, before continuing. That is feedforward.
 ### 1.4 Raw-outcome detectors in the baseline circuits [numeric]
 
 Script: `L5-scripts/raw_detector_persistence.py`. It compiles the repository's compact DEM
-(`lrb.dem_simulation.build_compact_detector_error_model`) for baseline circuits. The
+(`lrb.correction.compact_dem.build_compact_detector_error_model`) for baseline circuits. The
 circuits are read read-only from
 `.../Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000/experiments/LRB/<cliff>/4/<depth_idx>.chp`.
 For every unit Weyl component of every noise location, it records which check rounds' raw

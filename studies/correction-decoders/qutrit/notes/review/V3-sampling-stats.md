@@ -25,7 +25,7 @@ Findings: 1 critical, 3 major and 4 minor.
 
 - **Where:**
   - `src/lrb/correction/aggregate.py:55-63` (`_soft_point`), with `study.py:31` (`CONF_EDGES = linspace(-12, 0, 241)`) and `study.py:174` / `decoders.py:313` (`searchsorted(..., side="right")`).
-  - The labels appear in `scripts/correction/make_tables.py:21-23`, `REPORT.md:220`, `REPORT.md:344-346` and `results/decoder_tables.md`.
+  - The labels appear in `studies/correction-decoders/qutrit/scripts/make_tables.py:21-23`, `REPORT.md:220`, `REPORT.md:344-346` and `results/decoder_tables.md`.
 - **What is wrong:**
   - `_soft_point` keeps whole bins whose upper edge is `<= log10(1 - t)`. The grid step is 0.05 in `log10(1 - c)`, so the rule actually applied is `confidence > t_eff`.
   - `t_eff` equals `t` only for 0.9, 0.99, 0.999 and 0.9999. Otherwise: 0.5 -> **0.5533**, 0.8 -> 0.80047, 0.95 -> 0.95533, 0.97 -> 0.97182, 0.98 -> 0.98005, 0.993 -> 0.99369, 0.995 -> 0.99553, 0.997 -> 0.99718, 0.998 -> 0.998005, 0.9995 -> 0.99955.
@@ -51,7 +51,7 @@ Findings: 1 critical, 3 major and 4 minor.
 
 ### F2 (major): `baseline_reproduction.csv.gz` does not test what it claims, although the claim is true
 
-- **Where:** `scripts/correction/analyze_study.py:146-157`; quoted at `REPORT.md:243`.
+- **Where:** `studies/correction-decoders/qutrit/scripts/analyze_study.py:146-157`; quoted at `REPORT.md:243`.
 - **What is wrong:**
   1. **Unpaired standard error.** Study and production use the *same* 30 circuits, so the comparison is paired and the across-sequence spread cancels. Yet `rej_se` and `fid_se` add `rej_std**2` and `fid_std**2` to the shot variance.
      - Rejection SE: inflated by a median 2.7x (range up to 265x).
@@ -110,7 +110,7 @@ Findings: 1 critical, 3 major and 4 minor.
 ### F5 (minor): the quasi-static mixture is "exact" only for p-independent rules
 
 - **Where:**
-  - `scripts/correction/analyze_study.py:167-177` (docstring "the mixed curve of every strategy is exact"; `MIXTURE_STRATEGIES` includes `soft:0.99` and `mld:all`);
+  - `studies/correction-decoders/qutrit/scripts/analyze_study.py:167-177` (docstring "the mixed curve of every strategy is exact"; `MIXTURE_STRATEGIES` includes `soft:0.99` and `mld:all`);
   - `extra_analyses.mixture_curve_rows` (`mld:all`);
   - `REPORT.md:584-586`.
 - **What is wrong:** mixing the per-p results of MLD or soft MLD models a decoder that knows each shot's p, that is, an oracle.

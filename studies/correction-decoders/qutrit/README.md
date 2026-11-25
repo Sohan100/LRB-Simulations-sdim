@@ -12,14 +12,23 @@
 
 Scope: the study used the pre-sdim-1.4.0 pipeline. The baseline is the one-ancilla SI1000 run `Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000`, and physical RB is compared at p_RB = 5p. The newer runs use same-p RB and a different SI1000 schedule. Section 5 of the [non-Markovian study](../../non-markovian/REPORT.md) rechecks some of these claims and says which ratios we expect to change.
 
-## Status: archived
+## Status: runs on sdim 1.4.0
 
-This code targets commit `c21386f6` and does not run against the current `src/lrb`. We tried it:
+The code is part of the package and runs on sdim 1.4.0:
 
-- `lrb.dem_simulation.build_compact_detector_error_model` no longer exists. The DEM backend now wraps `sdim.dem.DetectorErrorModel` from sdim 1.4.0. Its mechanisms have a different form (each fires with some probability and then adds a uniform combination of its generators, zero included), and they do not carry the per-location gate data that `chain_dem.extract_mechanisms` reads.
-- `LRBCircuitGenerator.apply_si1000_noise_to_circuit` no longer exists. More importantly, `variants.py` rebuilds the old circuit schedule (noise per logical gate, a separate ancilla reset round after each check). The current generator schedules each Clifford as one noisy segment and resets the ancillas inside each check round.
+- `src/lrb/correction/`: the chain DEM, the exact forward filter, the decision rules, the sampler, the per-circuit study and the protocol variants. `compact_dem.py` there is the per-fault DEM builder the chain model reads. It was the repository's DEM backend before sdim 1.4.0; the production backend now wraps `sdim.dem.DetectorErrorModel`, whose merged mechanisms do not keep per-location data.
+- `scripts/` in this folder: the drivers, aggregation, tables, figures and the first-order check. They read the baseline run from `LRB_BASELINE_RUN` (default: the August run the report used).
+- `tests/test_correction_chain.py`, `tests/test_correction_variants.py` and `tests/test_correction_io.py` run in CI.
 
-With a private copy of the old DEM builder, the five chain-model tests pass on the current package. The six variant tests still fail, because the rebuilt circuits differ from the generator's (the first difference is the reset placement). Making them pass would mean writing a new variant builder, and its circuits would no longer be the ones behind the report. So we keep the code as an archive.
+The port changed three things:
+
+- **Circuit files.** sdim 1.4.0 run files do not store each noise gate's `prob_scale`, which the chain DEM needs to rescale the noise to other values of p, and sdim 1.4.0's reader rejects the field in older files. `compact_dem.read_run_circuit` restores it: from `prob / p` for new files, from the stored field for old ones. The note scripts under `notes/` read through it too.
+- **Reference shot.** sdim 1.4.0 applies N1/N2 noise in the tableau reference shot unless told not to. The DEM builder now switches it off, as `Program.simulate` does.
+- **Variant circuits.** `variants.build_variant_circuit` builds the generator's current schedule: each Clifford is one noisy, moment-scheduled segment and the ancilla reset sits inside each check round. With every flag off it equals `generate_lrb_clifford_sequence` gate for gate (tested). The generator already reads all ancillas in one moment, so `parallel_measurement` now only reorders the entangling gates.
+
+We checked the port end to end on 2026-11-24: the baseline stage on the sdim 1.4.0 SI1000 one-ancilla run reproduces the production LRB-D rejection and fidelity as closely as the original study reproduced its own run ([results/sdim140-port-check](results/sdim140-port-check/README.md)).
+
+The numbers in REPORT.md still come from the earlier pipeline: sdim 1.3.x, the one-ancilla SI1000 run `Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000` (old schedule, its circuit files read through `read_run_circuit`), and physical RB at p_RB = 5p. Pointing `LRB_BASELINE_RUN` at a sdim 1.4.0 run gives the current-schedule numbers. We have not redone the report with them.
 
 ## Contents
 
@@ -27,31 +36,24 @@ With a private copy of the old DEM builder, the five chain-model tests pass on t
 |---|---|
 | `REPORT.md` | the study; Section 12 gives the commands |
 | `bibliography_raw.csv` | every citation and its independent verification status |
-| `notes/` | analysis notes A1 to A5, hardware notes H1 and H2, the baseline analysis N1, literature notes L1 to L8 with citation checks, the critiques, the code-review summaries, and the small scripts these notes cite |
-| `results/` | decoder and variant tables (Markdown), curves and fits (`*.csv.gz`), RB reference, Pareto frontier, the first-order check, the baseline non-Markovianity tables, and the figures the report shows |
-| `code/src/lrb/correction/` | the chain DEM, the exact forward filter, the decision rules, the sampler, the per-circuit study, the protocol variants |
-| `code/scripts/correction/` | drivers, aggregation, tables, figures, the first-order check |
-| `code/tests/` | `test_correction_chain.py`, `test_correction_variants.py` |
-| `ruff.toml` | turns off the unused-name lint checks for this archive, so the code stays as it ran |
+| `notes/` | analysis notes A1 to A5, hardware notes H1 and H2, the baseline analysis N1, literature notes L1 to L8 with citation checks, the critiques, the code-review summaries, and the small scripts these notes cite (kept as they ran, so `notes/ruff.toml` turns off the unused-name checks) |
+| `results/` | decoder and variant tables (Markdown), curves and fits (`*.csv.gz`), RB reference, Pareto frontier, the first-order check, the baseline non-Markovianity tables, the figures the report shows, and the sdim 1.4.0 port check |
+| `scripts/` | drivers, aggregation, tables, figures, the first-order check |
 
-Paths in the report such as `src/lrb/correction/` and `scripts/correction/` refer to the original worktree. Here they sit under `code/`.
+The package code is in `src/lrb/correction/` and the tests in `tests/test_correction_*.py`.
 
 ## How to run it
 
-We rebuild the original layout at `c21386f6` and use Python 3.11 with sdim 1.3.4 (on Perlmutter, `module load python/3.11` provides it in the user site):
+From the repository root, with the package installed (`pip install -e ".[dev]"`):
 
 ```bash
-git worktree add ../lrb-c21386f6 c21386f6
-cd ../lrb-c21386f6
-STUDY=<this repository>/studies/correction-decoders/qutrit
-cp -r "$STUDY/code/src/lrb/correction" src/lrb/
-mkdir -p scripts && cp -r "$STUDY/code/scripts/correction" scripts/
-cp "$STUDY"/code/tests/*.py tests/
-module load python/3.11
-python -m pytest -q tests/test_correction_chain.py tests/test_correction_variants.py
+python -m pytest -q tests/test_correction_chain.py tests/test_correction_variants.py tests/test_correction_io.py
+export LRB_BASELINE_RUN=$PWD/LRB-experiment-data-slurm/Run-2026-10-28-10-23-30-folded_qutrit-single-ancilla-si1000-sdim140
+salloc -N 1 -C cpu -q debug -t 00:30:00 srun -n 1 -c 256 \
+    bash studies/correction-decoders/qutrit/scripts/run_all_on_node.sh baseline
 ```
 
-We checked this recipe on 2026-11-24: all 11 tests pass in about 45 s. The full studies then follow Section 12 of the report. They need the baseline run's circuit files, which are not in git. `run_all_on_node.sh` reads the run folder from `LRB_BASELINE_RUN`.
+The tests take about 2 minutes. Section 12 of the report lists the other stages and the analysis. They need the baseline run's circuit files, which are not in git. `run_all_on_node.sh` takes the interpreter from `LRB_PYTHON`.
 
 ## What we left out
 

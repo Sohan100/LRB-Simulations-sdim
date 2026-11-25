@@ -30,8 +30,10 @@ instead of the mirror inverse.
 | `results/LRB/<index>/{const,unif}_check_data/<k>.csv`, `results/RB/<index>.csv` | fidelities and rejection rates (format in `docs/simulation-model.md`) |
 | `results/plots/` | fits, threshold plots, GIFs |
 
-The circuits (`experiments/`), checkpoints (`progress/`) and job logs stay on the cluster and are
-not in git.
+The circuits (`experiments/`) and checkpoints (`progress/`) are not in this folder. Each run's
+copy is compressed in [`archive/runs/`](../archive/runs/); `tar -xJf
+archive/runs/<run>.tar.xz -C LRB-experiment-data-slurm/` puts them back. Job logs are not kept.
+The animated plots (`results/plots/gifs/`) are not in git either; the notebooks regenerate them.
 
 ## comparisons/
 

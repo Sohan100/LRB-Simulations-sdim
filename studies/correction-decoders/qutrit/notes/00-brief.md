@@ -26,7 +26,7 @@ numerically**, **from literature** (with a citation you actually fetched), or
 ## Worktree and rules
 
 - Worktree root: `/pscratch/sd/s/sohan100/worktrees/LRB-Simulations-sdim-2bc490701489f8e7/correction-decoders-qutrit-2c455b`
-- Notes folder (write your output here): `docs/correction-decoders/qutrit-512/notes/`
+- Notes folder (write your output here): `studies/correction-decoders/qutrit/notes/`
 - Python: run `module load python/3.11` first (Python 3.11.7 with sdim, stim,
   pymatching, ldpc, sinter, numpy, scipy, networkx). Plain `python3` is 3.6
   and has none of them. Never `pip install` into the user's site-packages; if

@@ -7,7 +7,7 @@ Reviewer V5-physics-model, 2026-10-28.
 **Where things are.**
 - Scripts: `notes/review/V5/`. Run them from that folder after `module load python/3.11`.
 - Outputs: `notes/review/V5/out/`.
-- `lite_dem.py` caches compiled DEMs of the 270 + 270 baseline circuits under the session scratchpad. Each check script rebuilds the cache if it is missing.
+- `lite_dem.py` caches compiled DEMs of the 270 + 270 baseline circuits in a scratch folder. Each check script rebuilds the cache if it is missing.
 - Nothing under `src/`, `scripts/` or `tests/` was edited.
 
 Labels used below: [VA] verified analytically, [VN] verified numerically, [LIT] from a source I fetched, [CONJ] conjecture.
@@ -239,7 +239,7 @@ So MLD barely depends on knowing the exact model at d = 2. Its failures come fro
 
 ```bash
 module load python/3.11
-cd docs/correction-decoders/qutrit-512/notes/review/V5
+cd studies/correction-decoders/qutrit/notes/review/V5
 OMP_NUM_THREADS=3 python lite_dem.py --workers 3 --kinds lrb,const0   # ~5 min, DEM cache
 python check1_noise_locations.py --all          # (1)  ~3 min
 python check2_logical_observable.py             # (2)  ~10 min (recompiles 270 DEMs)

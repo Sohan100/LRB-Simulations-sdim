@@ -1836,8 +1836,8 @@ def gate_noise_per_token():
 def dem_crosscheck(path, worktree_src):
     """Compare own unit responses with the repository DEM (needs sdim)."""
     sys.path.insert(0, worktree_src)
-    from sdim.circuit_io import read_circuit
-    from lrb.dem_simulation import build_compact_detector_error_model
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit
+    from lrb.correction.compact_dem import build_compact_detector_error_model
     circ = read_circuit(path)
     model = build_compact_detector_error_model(circ)
     ops = parse_chp(path)

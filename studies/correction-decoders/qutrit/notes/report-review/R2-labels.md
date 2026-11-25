@@ -15,11 +15,11 @@ All in `notes/report-review/R2-labels/` (run after `module load python/3.11`):
 | script | output | what it checks | time |
 |---|---|---|---|
 | `label_checks.py` | `label_checks_output.txt` | B1 Section 14 against `bibliography_raw.csv`; B2/B3 full and soft MLD against offset-0 physical RB at every simulated p; B4 rule points against the sampled Chow frontier (`pareto_frontier.csv` against `curves_baseline.csv.gz`); B5 curvature of MLD restricted to fewer rounds; B6 curvature of the quasi-static mixture curves; B7 `const 22` windows; B8 where the reproduction z-tail sits; B9 single-exponential fits of `const c` at p = 1e-4 | seconds |
-| `mismatch_vs_frontier.py` | `mismatch_vs_frontier_output.txt` | true-model frontier for the Section 4.8 mismatch shots (same seeds as `scripts/correction/mismatch_check.py`) and the excess infidelity of rate-mis-scaled soft-MLD points | 2 min |
+| `mismatch_vs_frontier.py` | `mismatch_vs_frontier_output.txt` | true-model frontier for the Section 4.8 mismatch shots (same seeds as `studies/correction-decoders/qutrit/scripts/mismatch_check.py`) and the excess infidelity of rate-mis-scaled soft-MLD points | 2 min |
 
 I also read `decoder_tables.md`, `variant_summary.md`, `key_summary.md`, `first_order_check.json`,
 `mismatch_check.csv`, `mixture_*.csv`, `fits_*.csv.gz`, the `baseline_nonmarkov/` tables,
-`scripts/correction/*.py`, the tests, the `.cache_correction` logs, and the notes the report
+`studies/correction-decoders/qutrit/scripts/*.py`, the tests, the `.cache_correction` logs, and the notes the report
 cites. Three cited notes were revised after the report (H2 at 21:07, H1 at 21:12; A1, A2 and
 A4 critiques at 20:56 to 21:07). Where I cite them, I say so, and I rely on result files or
 logs where possible.
@@ -109,7 +109,7 @@ missing item, misleading statement; minor = clarity.
   - The cited check excludes undetected faults by construction, and it covers 8 circuits at one p.
   - "Which at first order is always a measurement or reset fault" is loose: BFD-forgiven faults also include ancilla idle and ancilla-only components of data-ancilla gate faults.
 - **Evidence:**
-  - `scripts/correction/verify_first_order.py`: `if not nontrivial[v].any(): ... continue` runs before the BFD branch, so `bfd_accepted_logical` counts detected faults only.
+  - `studies/correction-decoders/qutrit/scripts/verify_first_order.py`: `if not nontrivial[v].any(): ... continue` runs before the BFD branch, so `bfd_accepted_logical` counts detected faults only.
   - `results/first_order_check.json`: undetected_logical = 4.95e-4 at p = 1e-4, and exact_bfd_logical = 4.92e-4 at m = 0. Only Cliffords 0 and 7, depths 0, 4, 14 and 22 were checked.
   - Table 4.1: BFD accepted P(correct) at m = 0 is 0.99499, an error of 5p.
   - `notes/review/V4/check_first_order_bfd.out`: forgiven faults include ancilla idle (72 p) and data-ancilla gate faults (4.2 p) as well as measurement flips (160 p). The logical shift of all of them is 0.

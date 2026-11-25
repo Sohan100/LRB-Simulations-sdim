@@ -374,23 +374,30 @@ def sdim_circuits(sequence: Sequence[str], depths: Sequence[int], p: float,
 def sdim_frame_sample(circuit: Circuit, extra_shots: int, seed: int):
     """sdim Pauli-frame sampling with one noiseless reference shot.
 
-    Same calls, in the same order, as ``Program.simulate(shots=extra + 1)``
-    without ``_combine_results`` (which only wraps every frame shot in a
-    Python object). Returns ``((reference_results, detector_payload), frame)``
-    where the first element has the shape ``Program.simulate`` returns to the
-    repo's detector-backed unpackers.
+    Same calls, in the same order, as ``Program.simulate(shots=extra + 1)`` in
+    sdim 1.4.0, without the step that wraps every frame shot in a Python
+    object: a noiseless tableau reference shot, then the frame run, which
+    draws the noise gate by gate. Returns ``((reference_results,
+    detector_payload), frame)`` where the first element has the shape
+    ``Program.simulate`` returns to the repo's detector-backed unpackers.
     """
     np.random.seed(seed % (2 ** 32))
     random.seed(seed)
     program = Program(circuit)
-    program._simulate_tableau(SimulationOptions(shots=1))
+    program._tableau_noise_enabled = False
+    try:
+        program._simulate_tableau(SimulationOptions(shots=1))
+    finally:
+        program._tableau_noise_enabled = True
     reference = program.measurement_results
     reference_array = program._results_to_array(reference)
-    ir_array, noise, info = program._build_ir(program.circuits, extra_shots)
     tableau = program.stabilizer_tableau
+    ir_array, noise, info, noise_model = program._build_ir(
+        program.circuits, extra_shots, sample_noise=False,
+        num_qudits=tableau.num_qudits)
     frame, events = simulate_frame(ir_array, reference_array,
                                    tableau.num_qudits, tableau.dimension,
-                                   extra_shots, noise, info)
+                                   extra_shots, noise, info, noise_model)
     payload = program._combine_detector_results(info, events)
     return (reference, payload), frame
 
@@ -1096,12 +1103,25 @@ def cmd_analyze(args) -> None:
 _REC = re.compile(r"([+-]?)\s*(?:(\d+)\s*\*\s*)?rec\[(-?\d+)\]")
 
 
+def n2_depolarizing_probability(params: dict) -> float:
+    """The DEPOLARIZE2 strength of a d = 2 N2 gate (``prob``, or ``prob_dist``)."""
+    if "prob_dist" not in params:
+        return float(params["prob"])
+    dist = np.asarray(params["prob_dist"], dtype=float)
+    prob = 1.0 - dist[0]
+    if not np.allclose(dist[1:], prob / 15, rtol=1e-12, atol=0):
+        raise ValueError("N2 distribution is not uniform depolarizing.")
+    return float(prob)
+
+
 def sdim_to_stim(circuit: Circuit) -> stim.Circuit:
     """Translate a d = 2 sdim circuit into an equivalent Stim circuit.
 
     Gates map one to one (P -> S, P_INV -> S_DAG, CNOT -> CX, RESET -> R).
-    N1 channels map to DEPOLARIZE1 ('d'), X_ERROR ('f') or Z_ERROR ('p');
-    N2 must carry the uniform 15-Pauli ``prob_dist`` and maps to DEPOLARIZE2.
+    N1 channels map to DEPOLARIZE1 ('d'), X_ERROR ('f') or Z_ERROR ('p').
+    N2 maps to DEPOLARIZE2: the generator leaves only ``prob`` on it, which
+    sdim 1.4.0 reads as uniform two-qubit depolarizing; an explicit
+    ``prob_dist`` must be that uniform 15-Pauli law.
     DETECTOR / LOGICAL_OBSERVABLE expressions are parsed (mod 2).
     """
     if circuit.dimension != 2:
@@ -1129,10 +1149,7 @@ def sdim_to_stim(circuit: Circuit) -> stim.Circuit:
             if prob > 0:
                 out.append(gate, [op.qudit_index], prob)
         elif name == "N2":
-            dist = np.asarray(op.params["prob_dist"], dtype=float)
-            prob = 1.0 - dist[0]
-            if not np.allclose(dist[1:], prob / 15, rtol=1e-12, atol=0):
-                raise ValueError("N2 distribution is not uniform depolarizing.")
+            prob = n2_depolarizing_probability(op.params)
             if prob > 0:
                 out.append("DEPOLARIZE2", [op.qudit_index, op.target_index],
                            prob)
@@ -1596,13 +1613,11 @@ def cmd_selftest(args) -> None:
                    round(float(op.params["prob"]) / 0.02, 9))
             n1[key] = n1.get(key, 0) + 1
         elif op.name == "N2":
-            dist = np.asarray(op.params["prob_dist"])
-            n2_ok &= (len(dist) == 16 and abs(dist[0] - 0.98) < 1e-15
-                      and np.allclose(dist[1:], 0.02 / 15, rtol=1e-12))
+            n2_ok &= abs(n2_depolarizing_probability(op.params) - 0.02) < 1e-15
     record("sdim_noise_parameters_d2", n2_ok and set(n1) == {
         ("d", 0.1), ("d", 1.0), ("d", 2.0), ("f", 5.0), ("f", 2.0)},
         f"N1 (channel, prob/p) counts {sorted(n1.items())}; every N2 has "
-        "prob_dist [1-p] + 15 x [p/15] (DEPOLARIZE2(p)). sdim's 'd' channel "
+        "strength p (DEPOLARIZE2(p)). sdim's 'd' channel "
         "draws X, Z, XZ uniformly (DEPOLARIZE1), 'f' draws X (X_ERROR)")
 
     # (h) Latent generator hazard: a pre-sampled list longer than max(depths).

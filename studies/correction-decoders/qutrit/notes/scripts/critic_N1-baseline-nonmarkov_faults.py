@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Critic check for N1, part 3: exact low-order fault analysis of the stored circuits.
 
-Independent of src/lrb/dem_simulation.py.  For each stored LRB circuit
+Independent of src/lrb/correction/compact_dem.py.  For each stored LRB circuit
 (experiments/LRB/<seq>/<p_idx>/<d>.chp and experiments/LRB_const0/...):
 
   1. parse gates, noise locations (N1 d: 8 Weyl ops; N1 f: X^a, a = 1, 2;

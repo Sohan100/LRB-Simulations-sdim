@@ -33,7 +33,7 @@ is a product of 81 x 81 transfer matrices.  The script
 
 Run (login node, one core with OMP_NUM_THREADS=1; ~8 minutes for 6 sequences):
     module load python/3.11
-    python docs/correction-decoders/qutrit-512/notes/scripts/A4_exact_lrbd.py \
+    python studies/correction-decoders/qutrit/notes/scripts/A4_exact_lrbd.py \
         --seqs 0 1 2 3 4 5 --out <scratch>/A4_exact.npz
 
 Reads only; writes the cache and the output file to the paths given
@@ -65,8 +65,8 @@ OMEGA = np.exp(2j * np.pi / 3)
 def compile_circuit(path: str) -> dict:
     """Compile one .chp circuit into dense integer response arrays."""
     sys.path.insert(0, os.path.join(WORKTREE, "src"))
-    from sdim.circuit_io import read_circuit  # noqa: E402
-    from lrb.dem_simulation import build_compact_detector_error_model
+    from lrb.correction.compact_dem import read_run_circuit as read_circuit  # noqa: E402
+    from lrb.correction.compact_dem import build_compact_detector_error_model
 
     circuit = read_circuit(path)
     model = build_compact_detector_error_model(circuit)

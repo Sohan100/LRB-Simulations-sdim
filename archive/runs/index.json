@@ -1,0 +1,552 @@
+{
+ "Run-2026-06-05-20-34-54-folded_qutrit_split_unif-split-unif-si1000": {
+  "run": "Run-2026-06-05-20-34-54-folded_qutrit_split_unif-split-unif-si1000",
+  "archive": "archive/runs/Run-2026-06-05-20-34-54-folded_qutrit_split_unif-split-unif-si1000.tar.xz",
+  "members": 13558,
+  "circuit_files": 12150,
+  "raw_bytes": 457710694,
+  "archive_bytes": 1175332,
+  "code_name": "folded_qutrit_split_unif",
+  "noise_model": "si1000"
+ },
+ "Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000": {
+  "run": "Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000",
+  "archive": "archive/runs/Run-2026-08-04-23-58-49-folded_qutrit-single-ancilla-si1000.tar.xz",
+  "members": 13741,
+  "circuit_files": 12150,
+  "raw_bytes": 400057073,
+  "archive_bytes": 1227572,
+  "code_name": "folded_qutrit",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-28-10-23-30-folded_qutrit-single-ancilla-si1000-sdim140": {
+  "run": "Run-2026-10-28-10-23-30-folded_qutrit-single-ancilla-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-10-28-10-23-30-folded_qutrit-single-ancilla-si1000-sdim140.tar.xz",
+  "members": 13629,
+  "circuit_files": 12150,
+  "raw_bytes": 508389109,
+  "archive_bytes": 1372268,
+  "code_name": "folded_qutrit",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-28-10-24-46-folded_qutrit-single-ancilla-sd6-sdim140": {
+  "run": "Run-2026-10-28-10-24-46-folded_qutrit-single-ancilla-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-10-28-10-24-46-folded_qutrit-single-ancilla-sd6-sdim140.tar.xz",
+  "members": 13629,
+  "circuit_files": 12150,
+  "raw_bytes": 473991738,
+  "archive_bytes": 1334280,
+  "code_name": "folded_qutrit",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-28-10-26-06-folded_qutrit_split_unif-split-ancilla-si1000-sdim140": {
+  "run": "Run-2026-10-28-10-26-06-folded_qutrit_split_unif-split-ancilla-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-10-28-10-26-06-folded_qutrit_split_unif-split-ancilla-si1000-sdim140.tar.xz",
+  "members": 13629,
+  "circuit_files": 12150,
+  "raw_bytes": 674268559,
+  "archive_bytes": 1442424,
+  "code_name": "folded_qutrit_split_unif",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-28-10-27-37-folded_qutrit_split_unif-split-ancilla-sd6-sdim140": {
+  "run": "Run-2026-10-28-10-27-37-folded_qutrit_split_unif-split-ancilla-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-10-28-10-27-37-folded_qutrit_split_unif-split-ancilla-sd6-sdim140.tar.xz",
+  "members": 13629,
+  "circuit_files": 12150,
+  "raw_bytes": 620578450,
+  "archive_bytes": 1350672,
+  "code_name": "folded_qutrit_split_unif",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-30-05-58-58-folded_qutrit-single-ancilla-sd6-sdim140-highp-ext": {
+  "run": "Run-2026-10-30-05-58-58-folded_qutrit-single-ancilla-sd6-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-10-30-05-58-58-folded_qutrit-single-ancilla-sd6-sdim140-highp-ext.tar.xz",
+  "members": 4601,
+  "circuit_files": 4320,
+  "raw_bytes": 45476190,
+  "archive_bytes": 237560,
+  "code_name": "folded_qutrit",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-30-05-59-13-folded_qutrit_split_unif-split-ancilla-sd6-sdim140-highp-ext": {
+  "run": "Run-2026-10-30-05-59-13-folded_qutrit_split_unif-split-ancilla-sd6-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-10-30-05-59-13-folded_qutrit_split_unif-split-ancilla-sd6-sdim140-highp-ext.tar.xz",
+  "members": 4601,
+  "circuit_files": 4320,
+  "raw_bytes": 59497305,
+  "archive_bytes": 226776,
+  "code_name": "folded_qutrit_split_unif",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-30-10-01-06-folded_qutrit-single-ancilla-si1000-sdim140-highp-ext": {
+  "run": "Run-2026-10-30-10-01-06-folded_qutrit-single-ancilla-si1000-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-10-30-10-01-06-folded_qutrit-single-ancilla-si1000-sdim140-highp-ext.tar.xz",
+  "members": 6897,
+  "circuit_files": 6480,
+  "raw_bytes": 81268229,
+  "archive_bytes": 412776,
+  "code_name": "folded_qutrit",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-30-10-01-28-folded_qutrit_split_unif-split-ancilla-si1000-sdim140-highp-ext": {
+  "run": "Run-2026-10-30-10-01-28-folded_qutrit_split_unif-split-ancilla-si1000-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-10-30-10-01-28-folded_qutrit_split_unif-split-ancilla-si1000-sdim140-highp-ext.tar.xz",
+  "members": 6897,
+  "circuit_files": 6480,
+  "raw_bytes": 105867148,
+  "archive_bytes": 397028,
+  "code_name": "folded_qutrit_split_unif",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery": {
+  "run": "Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery",
+  "archive": "archive/runs/Run-2026-10-31-00-39-01-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery.tar.xz",
+  "members": 14980,
+  "circuit_files": 13500,
+  "raw_bytes": 289600725,
+  "archive_bytes": 997928,
+  "code_name": "folded_qutrit",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-00-40-37-folded_qutrit-single-ancilla-sd6-sdim140-compiled-recovery": {
+  "run": "Run-2026-10-31-00-40-37-folded_qutrit-single-ancilla-sd6-sdim140-compiled-recovery",
+  "archive": "archive/runs/Run-2026-10-31-00-40-37-folded_qutrit-single-ancilla-sd6-sdim140-compiled-recovery.tar.xz",
+  "members": 14980,
+  "circuit_files": 13500,
+  "raw_bytes": 277315407,
+  "archive_bytes": 971072,
+  "code_name": "folded_qutrit",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-31-00-41-58-folded_qutrit_split_unif-split-ancilla-si1000-sdim140-compiled-recovery": {
+  "run": "Run-2026-10-31-00-41-58-folded_qutrit_split_unif-split-ancilla-si1000-sdim140-compiled-recovery",
+  "archive": "archive/runs/Run-2026-10-31-00-41-58-folded_qutrit_split_unif-split-ancilla-si1000-sdim140-compiled-recovery.tar.xz",
+  "members": 14980,
+  "circuit_files": 13500,
+  "raw_bytes": 387385222,
+  "archive_bytes": 1034888,
+  "code_name": "folded_qutrit_split_unif",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-00-43-31-folded_qutrit_split_unif-split-ancilla-sd6-sdim140-compiled-recovery": {
+  "run": "Run-2026-10-31-00-43-31-folded_qutrit_split_unif-split-ancilla-sd6-sdim140-compiled-recovery",
+  "archive": "archive/runs/Run-2026-10-31-00-43-31-folded_qutrit_split_unif-split-ancilla-sd6-sdim140-compiled-recovery.tar.xz",
+  "members": 14980,
+  "circuit_files": 13500,
+  "raw_bytes": 365076387,
+  "archive_bytes": 964136,
+  "code_name": "folded_qutrit_split_unif",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp": {
+  "run": "Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp",
+  "archive": "archive/runs/Run-2026-10-31-00-45-00-folded_qutrit-single-ancilla-si1000-sdim140-compiled-recovery-highp.tar.xz",
+  "members": 5722,
+  "circuit_files": 5400,
+  "raw_bytes": 43280716,
+  "archive_bytes": 266712,
+  "code_name": "folded_qutrit",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-00-45-27-folded_qutrit_split_unif-split-ancilla-si1000-sdim140-compiled-recovery-highp": {
+  "run": "Run-2026-10-31-00-45-27-folded_qutrit_split_unif-split-ancilla-si1000-sdim140-compiled-recovery-highp",
+  "archive": "archive/runs/Run-2026-10-31-00-45-27-folded_qutrit_split_unif-split-ancilla-si1000-sdim140-compiled-recovery-highp.tar.xz",
+  "members": 5722,
+  "circuit_files": 5400,
+  "raw_bytes": 57369024,
+  "archive_bytes": 266320,
+  "code_name": "folded_qutrit_split_unif",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-00-45-57-folded_qutrit-single-ancilla-sd6-sdim140-compiled-recovery-highp": {
+  "run": "Run-2026-10-31-00-45-57-folded_qutrit-single-ancilla-sd6-sdim140-compiled-recovery-highp",
+  "archive": "archive/runs/Run-2026-10-31-00-45-57-folded_qutrit-single-ancilla-sd6-sdim140-compiled-recovery-highp.tar.xz",
+  "members": 4770,
+  "circuit_files": 4500,
+  "raw_bytes": 29899984,
+  "archive_bytes": 193008,
+  "code_name": "folded_qutrit",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-31-00-46-19-folded_qutrit_split_unif-split-ancilla-sd6-sdim140-compiled-recovery-highp": {
+  "run": "Run-2026-10-31-00-46-19-folded_qutrit_split_unif-split-ancilla-sd6-sdim140-compiled-recovery-highp",
+  "archive": "archive/runs/Run-2026-10-31-00-46-19-folded_qutrit_split_unif-split-ancilla-sd6-sdim140-compiled-recovery-highp.tar.xz",
+  "members": 4770,
+  "circuit_files": 4500,
+  "raw_bytes": 39970555,
+  "archive_bytes": 191064,
+  "code_name": "folded_qutrit_split_unif",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-31-10-12-55-folded_qubit-single-ancilla-si1000-sdim140": {
+  "run": "Run-2026-10-31-10-12-55-folded_qubit-single-ancilla-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-10-31-10-12-55-folded_qubit-single-ancilla-si1000-sdim140.tar.xz",
+  "members": 13631,
+  "circuit_files": 12150,
+  "raw_bytes": 321371412,
+  "archive_bytes": 1013064,
+  "code_name": "folded_qubit",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-10-12-57-folded_qubit-single-ancilla-si1000-sdim140-highp-ext": {
+  "run": "Run-2026-10-31-10-12-57-folded_qubit-single-ancilla-si1000-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-10-31-10-12-57-folded_qubit-single-ancilla-si1000-sdim140-highp-ext.tar.xz",
+  "members": 6899,
+  "circuit_files": 6480,
+  "raw_bytes": 53056031,
+  "archive_bytes": 315736,
+  "code_name": "folded_qubit",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-10-12-58-folded_qubit_split_unif-split-ancilla-si1000-sdim140": {
+  "run": "Run-2026-10-31-10-12-58-folded_qubit_split_unif-split-ancilla-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-10-31-10-12-58-folded_qubit_split_unif-split-ancilla-si1000-sdim140.tar.xz",
+  "members": 13631,
+  "circuit_files": 12150,
+  "raw_bytes": 434303847,
+  "archive_bytes": 1013592,
+  "code_name": "folded_qubit_split_unif",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-10-13-01-folded_qubit_split_unif-split-ancilla-si1000-sdim140-highp-ext": {
+  "run": "Run-2026-10-31-10-13-01-folded_qubit_split_unif-split-ancilla-si1000-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-10-31-10-13-01-folded_qubit_split_unif-split-ancilla-si1000-sdim140-highp-ext.tar.xz",
+  "members": 6899,
+  "circuit_files": 6480,
+  "raw_bytes": 74688413,
+  "archive_bytes": 302960,
+  "code_name": "folded_qubit_split_unif",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-10-13-03-folded_qubit-single-ancilla-sd6-sdim140": {
+  "run": "Run-2026-10-31-10-13-03-folded_qubit-single-ancilla-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-10-31-10-13-03-folded_qubit-single-ancilla-sd6-sdim140.tar.xz",
+  "members": 13631,
+  "circuit_files": 12150,
+  "raw_bytes": 303105922,
+  "archive_bytes": 999852,
+  "code_name": "folded_qubit",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-31-10-13-05-folded_qubit-single-ancilla-sd6-sdim140-highp-ext": {
+  "run": "Run-2026-10-31-10-13-05-folded_qubit-single-ancilla-sd6-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-10-31-10-13-05-folded_qubit-single-ancilla-sd6-sdim140-highp-ext.tar.xz",
+  "members": 4603,
+  "circuit_files": 4320,
+  "raw_bytes": 29475284,
+  "archive_bytes": 188196,
+  "code_name": "folded_qubit",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-31-10-13-07-folded_qubit_split_unif-split-ancilla-sd6-sdim140": {
+  "run": "Run-2026-10-31-10-13-07-folded_qubit_split_unif-split-ancilla-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-10-31-10-13-07-folded_qubit_split_unif-split-ancilla-sd6-sdim140.tar.xz",
+  "members": 13631,
+  "circuit_files": 12150,
+  "raw_bytes": 416642413,
+  "archive_bytes": 975872,
+  "code_name": "folded_qubit_split_unif",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-31-10-13-09-folded_qubit_split_unif-split-ancilla-sd6-sdim140-highp-ext": {
+  "run": "Run-2026-10-31-10-13-09-folded_qubit_split_unif-split-ancilla-sd6-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-10-31-10-13-09-folded_qubit_split_unif-split-ancilla-sd6-sdim140-highp-ext.tar.xz",
+  "members": 4603,
+  "circuit_files": 4320,
+  "raw_bytes": 41419958,
+  "archive_bytes": 179244,
+  "code_name": "folded_qubit_split_unif",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-31-11-09-27-folded_qubit-single-ancilla-si1000-sdim140-threshold-refine": {
+  "run": "Run-2026-10-31-11-09-27-folded_qubit-single-ancilla-si1000-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-10-31-11-09-27-folded_qubit-single-ancilla-si1000-sdim140-threshold-refine.tar.xz",
+  "members": 20895,
+  "circuit_files": 18630,
+  "raw_bytes": 548394193,
+  "archive_bytes": 1661672,
+  "code_name": "folded_qubit",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-11-09-29-folded_qubit_split_unif-split-ancilla-si1000-sdim140-threshold-refine": {
+  "run": "Run-2026-10-31-11-09-29-folded_qubit_split_unif-split-ancilla-si1000-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-10-31-11-09-29-folded_qubit_split_unif-split-ancilla-si1000-sdim140-threshold-refine.tar.xz",
+  "members": 20895,
+  "circuit_files": 18630,
+  "raw_bytes": 730870316,
+  "archive_bytes": 1690756,
+  "code_name": "folded_qubit_split_unif",
+  "noise_model": "si1000"
+ },
+ "Run-2026-10-31-11-09-31-folded_qubit-single-ancilla-sd6-sdim140-threshold-refine": {
+  "run": "Run-2026-10-31-11-09-31-folded_qubit-single-ancilla-sd6-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-10-31-11-09-31-folded_qubit-single-ancilla-sd6-sdim140-threshold-refine.tar.xz",
+  "members": 19079,
+  "circuit_files": 17010,
+  "raw_bytes": 438469005,
+  "archive_bytes": 1229788,
+  "code_name": "folded_qubit",
+  "noise_model": "sd6"
+ },
+ "Run-2026-10-31-11-09-33-folded_qubit_split_unif-split-ancilla-sd6-sdim140-threshold-refine": {
+  "run": "Run-2026-10-31-11-09-33-folded_qubit_split_unif-split-ancilla-sd6-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-10-31-11-09-33-folded_qubit_split_unif-split-ancilla-sd6-sdim140-threshold-refine.tar.xz",
+  "members": 19079,
+  "circuit_files": 17010,
+  "raw_bytes": 574133346,
+  "archive_bytes": 1210692,
+  "code_name": "folded_qubit_split_unif",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-01-09-22-32-folded_qutrit_conv_sites-conv-sites-si1000-sdim140": {
+  "run": "Run-2026-11-01-09-22-32-folded_qutrit_conv_sites-conv-sites-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-11-01-09-22-32-folded_qutrit_conv_sites-conv-sites-si1000-sdim140.tar.xz",
+  "members": 13630,
+  "circuit_files": 12150,
+  "raw_bytes": 555591671,
+  "archive_bytes": 1348380,
+  "code_name": "folded_qutrit_conv_sites",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-01-09-24-10-folded_qutrit_conv_sites-conv-sites-sd6-sdim140": {
+  "run": "Run-2026-11-01-09-24-10-folded_qutrit_conv_sites-conv-sites-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-11-01-09-24-10-folded_qutrit_conv_sites-conv-sites-sd6-sdim140.tar.xz",
+  "members": 13630,
+  "circuit_files": 12150,
+  "raw_bytes": 523091171,
+  "archive_bytes": 1292940,
+  "code_name": "folded_qutrit_conv_sites",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-01-09-25-50-folded_qutrit_conv_sites-conv-sites-si1000-sdim140-highp-ext": {
+  "run": "Run-2026-11-01-09-25-50-folded_qutrit_conv_sites-conv-sites-si1000-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-11-01-09-25-50-folded_qutrit_conv_sites-conv-sites-si1000-sdim140-highp-ext.tar.xz",
+  "members": 6898,
+  "circuit_files": 6480,
+  "raw_bytes": 89134868,
+  "archive_bytes": 393980,
+  "code_name": "folded_qutrit_conv_sites",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-01-09-26-20-folded_qutrit_conv_sites-conv-sites-sd6-sdim140-highp-ext": {
+  "run": "Run-2026-11-01-09-26-20-folded_qutrit_conv_sites-conv-sites-sd6-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-11-01-09-26-20-folded_qutrit_conv_sites-conv-sites-sd6-sdim140-highp-ext.tar.xz",
+  "members": 4602,
+  "circuit_files": 4320,
+  "raw_bytes": 51382435,
+  "archive_bytes": 230240,
+  "code_name": "folded_qutrit_conv_sites",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-01-09-26-44-folded_qubit_conv_sites-conv-sites-si1000-sdim140": {
+  "run": "Run-2026-11-01-09-26-44-folded_qubit_conv_sites-conv-sites-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-11-01-09-26-44-folded_qubit_conv_sites-conv-sites-si1000-sdim140.tar.xz",
+  "members": 13631,
+  "circuit_files": 12150,
+  "raw_bytes": 369768209,
+  "archive_bytes": 985196,
+  "code_name": "folded_qubit_conv_sites",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-01-09-28-00-folded_qubit_conv_sites-conv-sites-sd6-sdim140": {
+  "run": "Run-2026-11-01-09-28-00-folded_qubit_conv_sites-conv-sites-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-11-01-09-28-00-folded_qubit_conv_sites-conv-sites-sd6-sdim140.tar.xz",
+  "members": 13631,
+  "circuit_files": 12150,
+  "raw_bytes": 359259899,
+  "archive_bytes": 966596,
+  "code_name": "folded_qubit_conv_sites",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-01-09-29-15-folded_qubit_conv_sites-conv-sites-si1000-sdim140-threshold-refine": {
+  "run": "Run-2026-11-01-09-29-15-folded_qubit_conv_sites-conv-sites-si1000-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-11-01-09-29-15-folded_qubit_conv_sites-conv-sites-si1000-sdim140-threshold-refine.tar.xz",
+  "members": 20895,
+  "circuit_files": 18630,
+  "raw_bytes": 630668718,
+  "archive_bytes": 1640204,
+  "code_name": "folded_qubit_conv_sites",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-01-09-31-12-folded_qubit_conv_sites-conv-sites-sd6-sdim140-threshold-refine": {
+  "run": "Run-2026-11-01-09-31-12-folded_qubit_conv_sites-conv-sites-sd6-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-11-01-09-31-12-folded_qubit_conv_sites-conv-sites-sd6-sdim140-threshold-refine.tar.xz",
+  "members": 19079,
+  "circuit_files": 17010,
+  "raw_bytes": 493415076,
+  "archive_bytes": 1173340,
+  "code_name": "folded_qubit_conv_sites",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-02-01-15-57-folded_qubit_conv_sites-conv-sites-sd6-sdim140-threshold-refine-wide": {
+  "run": "Run-2026-11-02-01-15-57-folded_qubit_conv_sites-conv-sites-sd6-sdim140-threshold-refine-wide",
+  "archive": "archive/runs/Run-2026-11-02-01-15-57-folded_qubit_conv_sites-conv-sites-sd6-sdim140-threshold-refine-wide.tar.xz",
+  "members": 24527,
+  "circuit_files": 21870,
+  "raw_bytes": 641542914,
+  "archive_bytes": 1589204,
+  "code_name": "folded_qubit_conv_sites",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-17-14-38-05-folded_qutrit_layout_b-layout-b-si1000-sdim140": {
+  "run": "Run-2026-11-17-14-38-05-folded_qutrit_layout_b-layout-b-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-11-17-14-38-05-folded_qutrit_layout_b-layout-b-si1000-sdim140.tar.xz",
+  "members": 13634,
+  "circuit_files": 12150,
+  "raw_bytes": 525569361,
+  "archive_bytes": 1269896,
+  "code_name": "folded_qutrit_layout_b",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-17-14-39-18-folded_qutrit_layout_b-layout-b-sd6-sdim140": {
+  "run": "Run-2026-11-17-14-39-18-folded_qutrit_layout_b-layout-b-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-11-17-14-39-18-folded_qutrit_layout_b-layout-b-sd6-sdim140.tar.xz",
+  "members": 13634,
+  "circuit_files": 12150,
+  "raw_bytes": 496439291,
+  "archive_bytes": 1228064,
+  "code_name": "folded_qutrit_layout_b",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-17-14-40-29-folded_qubit_layout_b-layout-b-si1000-sdim140": {
+  "run": "Run-2026-11-17-14-40-29-folded_qubit_layout_b-layout-b-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-11-17-14-40-29-folded_qubit_layout_b-layout-b-si1000-sdim140.tar.xz",
+  "members": 13635,
+  "circuit_files": 12150,
+  "raw_bytes": 384060093,
+  "archive_bytes": 964160,
+  "code_name": "folded_qubit_layout_b",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-17-14-41-29-folded_qubit_layout_b-layout-b-sd6-sdim140": {
+  "run": "Run-2026-11-17-14-41-29-folded_qubit_layout_b-layout-b-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-11-17-14-41-29-folded_qubit_layout_b-layout-b-sd6-sdim140.tar.xz",
+  "members": 13631,
+  "circuit_files": 12150,
+  "raw_bytes": 363739623,
+  "archive_bytes": 958756,
+  "code_name": "folded_qubit_layout_b",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-17-15-12-56-folded_qutrit_layout_b-layout-b-sd6-sdim140-highp-ext": {
+  "run": "Run-2026-11-17-15-12-56-folded_qutrit_layout_b-layout-b-sd6-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-11-17-15-12-56-folded_qutrit_layout_b-layout-b-sd6-sdim140-highp-ext.tar.xz",
+  "members": 4602,
+  "circuit_files": 4320,
+  "raw_bytes": 49880225,
+  "archive_bytes": 244416,
+  "code_name": "folded_qutrit_layout_b",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-17-15-25-58-folded_qutrit_layout_b-layout-b-si1000-sdim140-highp-ext": {
+  "run": "Run-2026-11-17-15-25-58-folded_qutrit_layout_b-layout-b-si1000-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-11-17-15-25-58-folded_qutrit_layout_b-layout-b-si1000-sdim140-highp-ext.tar.xz",
+  "members": 4602,
+  "circuit_files": 4320,
+  "raw_bytes": 59506645,
+  "archive_bytes": 268836,
+  "code_name": "folded_qutrit_layout_b",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-17-15-26-16-folded_qubit_layout_b-layout-b-si1000-sdim140-threshold-refine": {
+  "run": "Run-2026-11-17-15-26-16-folded_qubit_layout_b-layout-b-si1000-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-11-17-15-26-16-folded_qubit_layout_b-layout-b-si1000-sdim140-threshold-refine.tar.xz",
+  "members": 22711,
+  "circuit_files": 20250,
+  "raw_bytes": 715194806,
+  "archive_bytes": 1861488,
+  "code_name": "folded_qubit_layout_b",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-17-15-42-03-folded_qubit_layout_b-layout-b-sd6-sdim140-threshold-refine": {
+  "run": "Run-2026-11-17-15-42-03-folded_qubit_layout_b-layout-b-sd6-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-11-17-15-42-03-folded_qubit_layout_b-layout-b-sd6-sdim140-threshold-refine.tar.xz",
+  "members": 28159,
+  "circuit_files": 25110,
+  "raw_bytes": 779185654,
+  "archive_bytes": 2021304,
+  "code_name": "folded_qubit_layout_b",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-19-12-51-34-folded_qutrit_prod5b-single-ancilla-si1000-sdim140": {
+  "run": "Run-2026-11-19-12-51-34-folded_qutrit_prod5b-single-ancilla-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-11-19-12-51-34-folded_qutrit_prod5b-single-ancilla-si1000-sdim140.tar.xz",
+  "members": 13631,
+  "circuit_files": 12150,
+  "raw_bytes": 477501260,
+  "archive_bytes": 1344048,
+  "code_name": "folded_qutrit_prod5b",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-19-12-51-50-folded_qutrit_prod5b-single-ancilla-sd6-sdim140": {
+  "run": "Run-2026-11-19-12-51-50-folded_qutrit_prod5b-single-ancilla-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-11-19-12-51-50-folded_qutrit_prod5b-single-ancilla-sd6-sdim140.tar.xz",
+  "members": 13631,
+  "circuit_files": 12150,
+  "raw_bytes": 445201726,
+  "archive_bytes": 1295728,
+  "code_name": "folded_qutrit_prod5b",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-19-12-52-10-folded_qutrit_prod5b-single-ancilla-si1000-sdim140-highp-ext": {
+  "run": "Run-2026-11-19-12-52-10-folded_qutrit_prod5b-single-ancilla-si1000-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-11-19-12-52-10-folded_qutrit_prod5b-single-ancilla-si1000-sdim140-highp-ext.tar.xz",
+  "members": 6899,
+  "circuit_files": 6480,
+  "raw_bytes": 75252147,
+  "archive_bytes": 391104,
+  "code_name": "folded_qutrit_prod5b",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-19-12-52-21-folded_qutrit_prod5b-single-ancilla-sd6-sdim140-highp-ext": {
+  "run": "Run-2026-11-19-12-52-21-folded_qutrit_prod5b-single-ancilla-sd6-sdim140-highp-ext",
+  "archive": "archive/runs/Run-2026-11-19-12-52-21-folded_qutrit_prod5b-single-ancilla-sd6-sdim140-highp-ext.tar.xz",
+  "members": 4603,
+  "circuit_files": 4320,
+  "raw_bytes": 42298411,
+  "archive_bytes": 232436,
+  "code_name": "folded_qutrit_prod5b",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-19-23-39-09-folded_qubit_prod5b-single-ancilla-si1000-sdim140": {
+  "run": "Run-2026-11-19-23-39-09-folded_qubit_prod5b-single-ancilla-si1000-sdim140",
+  "archive": "archive/runs/Run-2026-11-19-23-39-09-folded_qubit_prod5b-single-ancilla-si1000-sdim140.tar.xz",
+  "members": 13632,
+  "circuit_files": 12150,
+  "raw_bytes": 290477464,
+  "archive_bytes": 970640,
+  "code_name": "folded_qubit_prod5b",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-19-23-39-27-folded_qubit_prod5b-single-ancilla-sd6-sdim140": {
+  "run": "Run-2026-11-19-23-39-27-folded_qubit_prod5b-single-ancilla-sd6-sdim140",
+  "archive": "archive/runs/Run-2026-11-19-23-39-27-folded_qubit_prod5b-single-ancilla-sd6-sdim140.tar.xz",
+  "members": 13632,
+  "circuit_files": 12150,
+  "raw_bytes": 274309869,
+  "archive_bytes": 976380,
+  "code_name": "folded_qubit_prod5b",
+  "noise_model": "sd6"
+ },
+ "Run-2026-11-19-23-39-41-folded_qubit_prod5b-single-ancilla-si1000-sdim140-threshold-refine": {
+  "run": "Run-2026-11-19-23-39-41-folded_qubit_prod5b-single-ancilla-si1000-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-11-19-23-39-41-folded_qubit_prod5b-single-ancilla-si1000-sdim140-threshold-refine.tar.xz",
+  "members": 20896,
+  "circuit_files": 18630,
+  "raw_bytes": 495500764,
+  "archive_bytes": 1640472,
+  "code_name": "folded_qubit_prod5b",
+  "noise_model": "si1000"
+ },
+ "Run-2026-11-19-23-39-59-folded_qubit_prod5b-single-ancilla-sd6-sdim140-threshold-refine": {
+  "run": "Run-2026-11-19-23-39-59-folded_qubit_prod5b-single-ancilla-sd6-sdim140-threshold-refine",
+  "archive": "archive/runs/Run-2026-11-19-23-39-59-folded_qubit_prod5b-single-ancilla-sd6-sdim140-threshold-refine.tar.xz",
+  "members": 19080,
+  "circuit_files": 17010,
+  "raw_bytes": 398106285,
+  "archive_bytes": 1247224,
+  "code_name": "folded_qubit_prod5b",
+  "noise_model": "sd6"
+ }
+}

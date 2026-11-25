@@ -8,8 +8,8 @@ import numpy as np
 
 root, cpath, shots = sys.argv[1], sys.argv[2], int(sys.argv[3])
 sys.path.insert(0, root + "/src")
-from sdim.circuit_io import read_circuit                      # noqa: E402
-from lrb.dem_simulation import build_compact_detector_error_model, sample_detector_error_model  # noqa: E402
+from lrb.correction.compact_dem import read_run_circuit as read_circuit                      # noqa: E402
+from lrb.correction.compact_dem import build_compact_detector_error_model, sample_detector_error_model  # noqa: E402
 
 t0 = time.time()
 c = read_circuit(cpath)

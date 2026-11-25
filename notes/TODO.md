@@ -10,5 +10,6 @@
 | [ ] | Rewrite the circuit-level results section on the five-moment round and the two-ancilla layout | Sohan | `manuscript/simulation/` |
 | [ ] | Decide whether the hardware version of the paper stays alive | Sohan, Chuanhong | `manuscript/hardware/` |
 | [ ] | Qutrit stabilizer states as qubit magic states (speculative) | open | [discussions/qutrit-stabilizers-as-magic-states.md](discussions/qutrit-stabilizers-as-magic-states.md) |
+| [ ] | Redo the correction-decoder numbers on the sdim 1.4.0 schedule (qutrit: rerun on a sdim 1.4.0 baseline run; qubit: move `lrb_qubit` to the current schedule) | Sohan | `studies/correction-decoders/` |
 | [x] | Set up the repo with meeting notes, code and LaTeX | Sohan | this repository |
 | [x] | Regenerate the Dorito chip layout | Sohan | `layouts/folded-surface-code/` |
