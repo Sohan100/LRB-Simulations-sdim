@@ -48,6 +48,7 @@ LRB-experiment-data-slurm/**/results/plots/gifs/
 /*.err
 slurm-*.out
 slurm-*.err
+slurm-*.whitelist-failure
 LRB-experiment-data-slurm/**/logs_local/
 LRB-experiment-data-slurm/**/*.lock
 LRB-experiment-data-slurm/local-runner/status*
